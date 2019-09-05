@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29215.179
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteController.Service", "RemoteController.Service\RemoteController.Service.csproj", "{37D73095-C548-4169-8E70-8D6F55B05344}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RemoteController.Service", "RemoteController.Service\RemoteController.Service.csproj", "{37D73095-C548-4169-8E70-8D6F55B05344}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteController.WebSocket", "RemoteController.WebSocket\RemoteController.WebSocket.csproj", "{FFF1CBE4-5E55-4B52-9F80-FD397CD4E251}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RemoteController.WebSocket", "RemoteController.WebSocket\RemoteController.WebSocket.csproj", "{FFF1CBE4-5E55-4B52-9F80-FD397CD4E251}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteController.Manipulator", "RemoteController.Manipulator\RemoteController.Manipulator.csproj", "{1F5737B5-647A-453B-BF71-59B08EFBC25F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{FFF1CBE4-5E55-4B52-9F80-FD397CD4E251}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FFF1CBE4-5E55-4B52-9F80-FD397CD4E251}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FFF1CBE4-5E55-4B52-9F80-FD397CD4E251}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F5737B5-647A-453B-BF71-59B08EFBC25F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F5737B5-647A-453B-BF71-59B08EFBC25F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F5737B5-647A-453B-BF71-59B08EFBC25F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F5737B5-647A-453B-BF71-59B08EFBC25F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
