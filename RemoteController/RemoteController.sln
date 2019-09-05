@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29215.179
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteController.Service", "RemoteController.Service\RemoteController.Service.csproj", "{37D73095-C548-4169-8E70-8D6F55B05344}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteController.WebSocket", "RemoteController.WebSocket\RemoteController.WebSocket.csproj", "{FFF1CBE4-5E55-4B52-9F80-FD397CD4E251}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{37D73095-C548-4169-8E70-8D6F55B05344}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37D73095-C548-4169-8E70-8D6F55B05344}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37D73095-C548-4169-8E70-8D6F55B05344}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37D73095-C548-4169-8E70-8D6F55B05344}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FFF1CBE4-5E55-4B52-9F80-FD397CD4E251}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFF1CBE4-5E55-4B52-9F80-FD397CD4E251}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFF1CBE4-5E55-4B52-9F80-FD397CD4E251}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFF1CBE4-5E55-4B52-9F80-FD397CD4E251}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {83FA6212-DC07-44E2-A96F-1B917481B3F7}
+	EndGlobalSection
+EndGlobal
