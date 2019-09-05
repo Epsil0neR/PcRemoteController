@@ -51,7 +51,7 @@ namespace RemoteController.WebSocket
 
         public bool IsStarted
         {
-            get { return _isStarted; }
+            get => _isStarted;
             private set
             {
                 var old = _isStarted;
@@ -91,7 +91,6 @@ namespace RemoteController.WebSocket
         {
             if (port < 0 || port > 65535) // Max allowed port is: 2^16-1
                 throw new ArgumentNullException(nameof(port),"Port must be between 0 and 65535");
-
 
             Server = new WebSocketServer($"ws://{url}:{port}");
             FullPath = $"ws://{url}:{port}{path}";
@@ -248,7 +247,7 @@ namespace RemoteController.WebSocket
             }
             else
             {
-                Server.AddWebSocketService(Path, CreateBehavior);
+                Server.AddWebSocketService<WsSocket>(Path, InitSocket);
                 IsStarted = true;
             }
 
@@ -272,9 +271,9 @@ namespace RemoteController.WebSocket
             //https://stackoverflow.com/questions/570098/in-c-how-to-check-if-a-tcp-port-is-available
             var ipGlobalProperties = IPGlobalProperties.GetIPGlobalProperties();
             var tcpConnInfoArray = ipGlobalProperties.GetActiveTcpConnections();
-            var ipInUse = tcpConnInfoArray.Any(tcpi =>
-                (tcpi.LocalEndPoint.Port == Server.Port && tcpi.LocalEndPoint.Address.Equals(Server.Address)) ||
-                (tcpi.RemoteEndPoint.Port == Server.Port && tcpi.RemoteEndPoint.Address.Equals(Server.Address)));
+            var ipInUse = tcpConnInfoArray.Any(info =>
+                (info.LocalEndPoint.Port == Server.Port && info.LocalEndPoint.Address.Equals(Server.Address)) ||
+                (info.RemoteEndPoint.Port == Server.Port && info.RemoteEndPoint.Address.Equals(Server.Address)));
 
             if (ipInUse)
                 AddressInUse?.Invoke(this, EventArgs.Empty);
@@ -282,13 +281,11 @@ namespace RemoteController.WebSocket
             return ipInUse;
         }
 
-        private WsSocket CreateBehavior()
+        private void InitSocket(WsSocket socket)
         {
-            var rv = new WsSocket();
-            rv.Opened += BehaviorOnOpened;
-            rv.Closed += BehaviorOnClosed;
-            rv.Message += BehaviorOnMessage;
-            return rv;
+            socket.Opened += BehaviorOnOpened;
+            socket.Closed += BehaviorOnClosed;
+            socket.Message += BehaviorOnMessage;
         }
 
         private void BehaviorOnOpened(object sender, EventArgs eventArgs)
