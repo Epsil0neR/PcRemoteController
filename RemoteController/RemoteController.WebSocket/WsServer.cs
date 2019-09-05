@@ -94,7 +94,7 @@ namespace RemoteController.WebSocket
 
 
             Server = new WebSocketServer($"ws://{url}:{port}");
-            FullPath = $"ws://{url}:{port}/{path}";
+            FullPath = $"ws://{url}:{port}{path}";
             Init();
         }
 
