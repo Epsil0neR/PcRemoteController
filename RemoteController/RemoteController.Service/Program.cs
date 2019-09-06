@@ -22,6 +22,10 @@ namespace RemoteController.Service
 
             mm.Add(new CmdManipulation("cmd.git.stage", "git add -A"));
             mm.Add(new CmdManipulation("cmd.git.unstage", "git reset"));
+            mm.Add(new CmdManipulation("cmd.git", "git", true));
+            mm.Add(new CmdManipulation("cmd.git.2", "git", true, false, true));
+            mm.Add(new CmdManipulation("cmd.git.3", "git", true, true, true));
+
             mm.Add(new KeyboardManipulation("Key"));
             mm.Add(new KeyboardManipulation("Key.Media.Play", VirtualKeyCode.MEDIA_PLAY_PAUSE));
             mm.Add(new KeyboardManipulation("Key.Media.Next", VirtualKeyCode.MEDIA_NEXT_TRACK));
@@ -29,6 +33,7 @@ namespace RemoteController.Service
             mm.Add(new KeyboardManipulation("Key.Volume.-", VirtualKeyCode.VOLUME_DOWN));
             mm.Add(new KeyboardManipulation("Key.Volume.+", VirtualKeyCode.VOLUME_UP));
             mm.Add(new KeyboardManipulation("Key.Volume.Mute", VirtualKeyCode.VOLUME_MUTE));
+
             mm.Add(new MouseManipulation("Mouse.Move.X", (simulator, param) =>
             {
                 if (!int.TryParse(param, out var x))

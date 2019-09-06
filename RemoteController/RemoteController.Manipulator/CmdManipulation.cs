@@ -21,7 +21,7 @@ namespace RemoteController.Manipulator
         /// <param name="supportParam">Indicates if CMD command supports params</param>
         /// <param name="hidden">Indicates if CMD window will be hidden or shown.</param>
         /// <param name="wait">Indicates if CMD command execution should be waited.</param>
-        public CmdManipulation(string name, string cmdArgument, bool supportParam = false, bool hidden = false, bool wait = false)
+        public CmdManipulation(string name, string cmdArgument, bool supportParam = false, bool hidden = true, bool wait = false)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
             _command = cmdArgument ?? throw new ArgumentNullException(nameof(cmdArgument));
