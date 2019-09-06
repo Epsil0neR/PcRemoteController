@@ -22,12 +22,13 @@ namespace RemoteController.Service
 
             mm.Add(new CmdManipulation("cmd.git.stage", "git add -A"));
             mm.Add(new CmdManipulation("cmd.git.unstage", "git reset"));
-            mm.Add(new KeyboardManipulation("Key.Media.Play", simulator => simulator.KeyPress(VirtualKeyCode.MEDIA_PLAY_PAUSE)));
-            mm.Add(new KeyboardManipulation("Key.Media.Next", simulator => simulator.KeyPress(VirtualKeyCode.MEDIA_NEXT_TRACK)));
-            mm.Add(new KeyboardManipulation("Key.Media.Prev", simulator => simulator.KeyPress(VirtualKeyCode.MEDIA_PREV_TRACK)));
-            mm.Add(new KeyboardManipulation("Key.Volume.-", simulator => simulator.KeyPress(VirtualKeyCode.VOLUME_DOWN)));
-            mm.Add(new KeyboardManipulation("Key.Volume.+", simulator => simulator.KeyPress(VirtualKeyCode.VOLUME_UP)));
-            mm.Add(new KeyboardManipulation("Key.Volume.Mute", simulator => simulator.KeyPress(VirtualKeyCode.VOLUME_MUTE)));
+            mm.Add(new KeyboardManipulation("Key"));
+            mm.Add(new KeyboardManipulation("Key.Media.Play", VirtualKeyCode.MEDIA_PLAY_PAUSE));
+            mm.Add(new KeyboardManipulation("Key.Media.Next", VirtualKeyCode.MEDIA_NEXT_TRACK));
+            mm.Add(new KeyboardManipulation("Key.Media.Prev", VirtualKeyCode.MEDIA_PREV_TRACK));
+            mm.Add(new KeyboardManipulation("Key.Volume.-", VirtualKeyCode.VOLUME_DOWN));
+            mm.Add(new KeyboardManipulation("Key.Volume.+", VirtualKeyCode.VOLUME_UP));
+            mm.Add(new KeyboardManipulation("Key.Volume.Mute", VirtualKeyCode.VOLUME_MUTE));
             mm.Add(new MouseManipulation("Mouse.Move.X", (simulator, param) =>
             {
                 if (!int.TryParse(param, out var x))
