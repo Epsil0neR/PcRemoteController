@@ -9,6 +9,7 @@ namespace RemoteController.Manipulator
             : base(name, action)
         {
         }
+
         public KeyboardManipulation(string name, Action<IKeyboardSimulator> action)
             : base(name, action)
         {

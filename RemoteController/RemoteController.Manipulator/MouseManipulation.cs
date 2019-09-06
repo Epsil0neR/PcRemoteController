@@ -9,6 +9,7 @@ namespace RemoteController.Manipulator
             : base(name, action)
         {
         }
+
         public MouseManipulation(string name, Action<IMouseSimulator> action)
             : base(name, action)
         {
