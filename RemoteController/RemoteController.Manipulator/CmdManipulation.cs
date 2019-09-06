@@ -9,6 +9,7 @@ namespace RemoteController.Manipulator
     public class CmdManipulation : IManipulation
     {
         private readonly string _command;
+        private readonly bool _supportParam;
         private readonly bool _hidden;
         private readonly bool _wait;
 
@@ -17,12 +18,14 @@ namespace RemoteController.Manipulator
         /// </summary>
         /// <param name="name">Name of manipulation. Must be unique in list of used.</param>
         /// <param name="cmdArgument">CMD command to execute</param>
+        /// <param name="supportParam">Indicates if CMD command supports params</param>
         /// <param name="hidden">Indicates if CMD window will be hidden or shown.</param>
         /// <param name="wait">Indicates if CMD command execution should be waited.</param>
-        public CmdManipulation(string name, string cmdArgument, bool hidden = false, bool wait = false)
+        public CmdManipulation(string name, string cmdArgument, bool supportParam = false, bool hidden = false, bool wait = false)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
             _command = cmdArgument ?? throw new ArgumentNullException(nameof(cmdArgument));
+            _supportParam = supportParam;
             _hidden = hidden;
             _wait = wait;
         }
@@ -31,14 +34,17 @@ namespace RemoteController.Manipulator
         public string Name { get; }
 
         /// <inheritdoc />
-        public bool Execute(IManipulatorsManager manager)
+        public bool Execute(IManipulatorsManager manager, string param)
         {
+            var arguments = $@"/C {_command}";
+            if (_supportParam)
+                arguments = $"{arguments} {param}";
             Process proc = new Process
             {
                 StartInfo =
                 {
                     FileName = "CMD.exe",
-                    Arguments = $@"/C {_command}",
+                    Arguments = arguments
                 }
             };
 

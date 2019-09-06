@@ -28,7 +28,18 @@ namespace RemoteController.Service
             mm.Add(new KeyboardManipulation("Key.Volume.-", simulator => simulator.KeyPress(VirtualKeyCode.VOLUME_DOWN)));
             mm.Add(new KeyboardManipulation("Key.Volume.+", simulator => simulator.KeyPress(VirtualKeyCode.VOLUME_UP)));
             mm.Add(new KeyboardManipulation("Key.Volume.Mute", simulator => simulator.KeyPress(VirtualKeyCode.VOLUME_MUTE)));
-            mm.Add(new MouseManipulation("Mouse.Move", simulator => simulator.MoveMouseBy(100, 50)));
+            mm.Add(new MouseManipulation("Mouse.Move.X", (simulator, param) =>
+            {
+                if (!int.TryParse(param, out var x))
+                    x = 100;
+                simulator.MoveMouseBy(x, 0);
+            }));
+            mm.Add(new MouseManipulation("Mouse.Move.Y", (simulator, param) =>
+            {
+                if (!int.TryParse(param, out var y))
+                    y = 100;
+                simulator.MoveMouseBy(0, y);
+            }));
 
             while (true)
             {
@@ -38,7 +49,11 @@ namespace RemoteController.Service
                 if (string.IsNullOrWhiteSpace(name))
                     break;
 
-                Console.WriteLine($"Executed: {mm.TryExecute(name)}");
+                Console.Write("Parameter:    ");
+                var param = Console.ReadLine();
+
+                Console.WriteLine($"Executed: {mm.TryExecute(name, param)}");
+                Console.WriteLine();
             }
 
             RunWebSocketServer();

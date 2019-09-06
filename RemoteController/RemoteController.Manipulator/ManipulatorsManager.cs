@@ -19,6 +19,26 @@ namespace RemoteController.Manipulator
         /// <typeparam name="T"></typeparam>
         /// <param name="context"></param>
         void SetContext<T>(T context);
+
+        /// <summary>
+        /// Tries to execute manipulation.
+        /// </summary>
+        /// <param name="name">Name of manipulation.</param>
+        /// <param name="param">Optional parameter for manipulation.</param>
+        /// <returns></returns>
+        bool TryExecute(string name, string param = null);
+
+        /// <summary>
+        /// Adds manipulation for managing.
+        /// </summary>
+        /// <param name="manipulation"></param>
+        void Add(IManipulation manipulation);
+
+        /// <summary>
+        /// Removes manipulation from managing.
+        /// </summary>
+        /// <param name="manipulation"></param>
+        bool Remove(IManipulation manipulation);
     }
 
     public class ManipulatorsManager : IManipulatorsManager
@@ -43,6 +63,7 @@ namespace RemoteController.Manipulator
             _contexts[t] = context;
         }
 
+        /// <inheritdoc />
         public void Add(IManipulation manipulation)
         {
             if (manipulation == null)
@@ -55,12 +76,14 @@ namespace RemoteController.Manipulator
             _manipulations.Add(manipulation);
         }
 
+        /// <inheritdoc />
         public bool Remove(IManipulation manipulation)
         {
             return _manipulations.Remove(manipulation);
         }
 
-        public bool TryExecute(string name)
+        /// <inheritdoc />
+        public bool TryExecute(string name, string param = null)
         {
             var m = _manipulations.FirstOrDefault(x => string.Equals(x.Name, name, StringComparison.InvariantCultureIgnoreCase));
             if (m == null)
@@ -68,13 +91,15 @@ namespace RemoteController.Manipulator
 
             try
             {
-                return m.Execute(this);
+                return m.Execute(this, param);
             }
             catch
             {
                 //TODO: Add logger here.
                 return false;
             }
+
+            //TODO: Log request + result.
         }
 
     }
