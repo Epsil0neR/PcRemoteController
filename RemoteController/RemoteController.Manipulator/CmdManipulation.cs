@@ -30,10 +30,8 @@ namespace RemoteController.Manipulator
         /// <inheritdoc />
         public string Name { get; }
 
-        /// <summary>
-        /// Executes CMD command.
-        /// </summary>
-        public void Execute()
+        /// <inheritdoc />
+        public bool Execute(IManipulatorsManager manager)
         {
             Process proc = new Process
             {
@@ -50,6 +48,8 @@ namespace RemoteController.Manipulator
             proc.Start();
             if (_wait)
                 proc.WaitForExit();
+
+            return true;
         }
     }
 }

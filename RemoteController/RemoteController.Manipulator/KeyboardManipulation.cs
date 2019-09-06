@@ -3,21 +3,11 @@ using WindowsInput;
 
 namespace RemoteController.Manipulator
 {
-    public class KeyboardManipulation : IManipulation
+    public class KeyboardManipulation : TypedManipulation<IKeyboardSimulator>
     {
-        private readonly Action<IKeyboardSimulator> _action;
-
-        public KeyboardManipulation(string name, Action<IKeyboardSimulator> action)
+        public KeyboardManipulation(string name, Action<IKeyboardSimulator> action) 
+            : base(name, action)
         {
-            _action = action ?? throw new ArgumentNullException(nameof(action));
-            Name = name ?? throw new ArgumentNullException(nameof(name));
-        }
-
-        public string Name { get; }
-
-        public void Execute(IKeyboardSimulator keyboardSimulator)
-        {
-            _action.Invoke(keyboardSimulator);
         }
     }
 }
