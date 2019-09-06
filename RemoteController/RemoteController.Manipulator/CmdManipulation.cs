@@ -38,7 +38,7 @@ namespace RemoteController.Manipulator
                 StartInfo =
                 {
                     FileName = "CMD.exe",
-                    Arguments = _command,
+                    Arguments = $@"/C {_command}",
                 }
             };
 

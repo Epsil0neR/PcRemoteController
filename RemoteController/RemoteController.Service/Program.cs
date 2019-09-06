@@ -19,6 +19,9 @@ namespace RemoteController.Service
             mm.SetContext(inputSimulator.Keyboard);
             mm.SetContext(inputSimulator.Mouse);
 
+
+            mm.Add(new CmdManipulation("cmd.git.stage", "git add -A"));
+            mm.Add(new CmdManipulation("cmd.git.unstage", "git reset"));
             mm.Add(new KeyboardManipulation("Key.Media.Play", simulator => simulator.KeyPress(VirtualKeyCode.MEDIA_PLAY_PAUSE)));
             mm.Add(new KeyboardManipulation("Key.Media.Next", simulator => simulator.KeyPress(VirtualKeyCode.MEDIA_NEXT_TRACK)));
             mm.Add(new KeyboardManipulation("Key.Media.Prev", simulator => simulator.KeyPress(VirtualKeyCode.MEDIA_PREV_TRACK)));
