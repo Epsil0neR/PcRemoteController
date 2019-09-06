@@ -7,6 +7,7 @@
   <ItemGroup>
     <PackageReference Include="Epsiloner.Core" Version="1.0.11" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="NLog" Version="4.6.7" />
     <PackageReference Include="WebSocketSharp-netstandard" Version="1.0.1" />
   </ItemGroup>
 

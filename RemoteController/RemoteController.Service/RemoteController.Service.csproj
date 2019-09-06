@@ -7,6 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="NLog" Version="4.6.7" />
+    <PackageReference Include="NLog.Config" Version="4.6.7" />
+    <PackageReference Include="NLog.Schema" Version="4.6.7" />
+    <PackageReference Include="Topshelf" Version="4.2.1" />
+    <PackageReference Include="Topshelf.NLog" Version="4.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\RemoteController.Manipulator\RemoteController.Manipulator.csproj" />
     <ProjectReference Include="..\RemoteController.WebSocket\RemoteController.WebSocket.csproj" />
   </ItemGroup>
