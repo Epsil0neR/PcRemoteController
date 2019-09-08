@@ -43,11 +43,10 @@ namespace RemoteController.WebSocket
 
         public string FullPath { get; }
 
-        //TODO: Review usage of this property. Maybe reduce visibility to internal or even private.
         /// <summary>
-        /// Web socket server.
+        /// Parent HTTP server.
         /// </summary>
-        public WebSocketServer Server { get; }
+        public HttpServer Http { get; }
 
         public bool IsStarted
         {
@@ -81,34 +80,18 @@ namespace RemoteController.WebSocket
         }
 
         /// <summary>
-        /// Initializes web socket and creates new server to listen <paramref name="url"/>.
+        /// Initializes web socket on specified http server.
         /// </summary>
-        /// <param name="url">Address of server</param>
-        /// <param name="port">Server port</param>
-        /// <param name="path">Path for web socket.</param>
-        public WsServer(string url, int port, string path)
+        /// <param name="server"></param>
+        /// <param name="path"></param>
+        public WsServer(HttpServer server, string path)
             : this(path)
         {
-            if (port < 0 || port > 65535) // Max allowed port is: 2^16-1
-                throw new ArgumentNullException(nameof(port), "Port must be between 0 and 65535");
-
-            Server = new WebSocketServer($"ws://{url}:{port}"); // Server must be running without path. Path is added for web socket explicitly in Start method.
-            FullPath = $"ws://{url}:{port}{path}";
+            Http = server;
             Init();
         }
 
-        /// <summary>
-        /// Initializes web socket and attaches to existing web socket server
-        /// </summary>
-        /// <param name="server">Existing web socket server.</param>
-        /// <param name="path">Path for neptune web socket.</param>
-        public WsServer(WebSocketServer server, string path)
-            : this(path)
-        {
-            Server = server ?? throw new ArgumentNullException(nameof(server));
-            FullPath = $"ws://localhost:{server.Port}{path}";
-            Init();
-        }
+
         #endregion
 
         #region Public methods
@@ -203,7 +186,7 @@ namespace RemoteController.WebSocket
         //TODO: Add documentation
         public void StopServer()
         {
-            Server.Stop(CloseStatusCode.Normal, "Requested to stop server.");
+            Http.Stop(CloseStatusCode.Normal, "Requested to stop server.");
             IsStarted = false;
         }
         #endregion
@@ -212,7 +195,7 @@ namespace RemoteController.WebSocket
 
         private WebSocketServiceHost GetHost()
         {
-            return Server.WebSocketServices.Hosts.FirstOrDefault(x => x.Path == Path); //TODO: Review that part: it was in  && x.Type == typeof(WsSocket));
+            return Http.WebSocketServices.Hosts.FirstOrDefault(x => x.Path == Path); //TODO: Review that part: it was in  && x.Type == typeof(WsSocket));
         }
 
         private void Init()
@@ -225,7 +208,7 @@ namespace RemoteController.WebSocket
             if (IsStarted)
                 return true;
 
-            if (!Server.IsListening)
+            if (!Http.IsListening)
             {
                 //Check address usage only if server is not listening.
                 if (IsIpAddressInUse())
@@ -233,7 +216,7 @@ namespace RemoteController.WebSocket
 
                 try
                 {
-                    Server.Start();
+                    Http.Start();
                 }
                 catch (Exception)
                 {
@@ -241,13 +224,13 @@ namespace RemoteController.WebSocket
                 }
             }
 
-            if (Server.WebSocketServices.Paths.Contains(Path, StringComparer.InvariantCultureIgnoreCase))
+            if (Http.WebSocketServices.Paths.Contains(Path, StringComparer.InvariantCultureIgnoreCase))
             {
                 //TODO: Path already in use. What shall we do in that case?
             }
             else
             {
-                Server.AddWebSocketService<WsSocket>(Path, InitSocket);
+                Http.AddWebSocketService<WsSocket>(Path, InitSocket);
                 IsStarted = true;
             }
 
@@ -272,8 +255,8 @@ namespace RemoteController.WebSocket
             var ipGlobalProperties = IPGlobalProperties.GetIPGlobalProperties();
             var tcpConnInfoArray = ipGlobalProperties.GetActiveTcpConnections();
             var ipInUse = tcpConnInfoArray.Any(info =>
-                (info.LocalEndPoint.Port == Server.Port && info.LocalEndPoint.Address.Equals(Server.Address)) ||
-                (info.RemoteEndPoint.Port == Server.Port && info.RemoteEndPoint.Address.Equals(Server.Address)));
+                (info.LocalEndPoint.Port == Http.Port && info.LocalEndPoint.Address.Equals(Http.Address)) ||
+                (info.RemoteEndPoint.Port == Http.Port && info.RemoteEndPoint.Address.Equals(Http.Address)));
 
             if (ipInUse)
                 AddressInUse?.Invoke(this, EventArgs.Empty);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Text;
 using WindowsInput;
 using WindowsInput.Native;
 using RemoteController.Manipulator;
@@ -7,6 +8,8 @@ using RemoteController.WebSocket;
 using Topshelf;
 using Topshelf.Logging;
 using WebSocketSharp;
+using WebSocketSharp.Net;
+using WebSocketSharp.Server;
 
 namespace RemoteController.Service
 {
@@ -76,7 +79,9 @@ namespace RemoteController.Service
 
         private static void RunWebSocketServer()
         {
-            var server = new WsServer("localhost", 6431, "/Testing");
+            throw new NotImplementedException();
+
+            WsServer server = null;
             var service = new WsService(server);
 
             server.Started += ServerOnStarted;
@@ -142,25 +147,30 @@ namespace RemoteController.Service
 
             Logger = logger ?? HostLogger.Get<MyService>();
             Manipulators = new ManipulatorsManager();
-            Server = new WsServer("localhost", 6431, "/Testing");
+            Http = new HttpServer(6431);
+            Server = new WsServer(Http, "/Testing");
             Service = new WsService(Server);
 
             Configurator.Configure(Manipulators);
-            Configurator.Configure(Service);
+            Configurator.Configure(Service, Manipulators);
+            Configurator.Web(Http);
         }
 
+        public HttpServer Http { get; }
 
 
         public bool Start(HostControl hostControl)
         {
             Configurator.SetContexts(Manipulators);
             Server.StartServer();
+            Console.WriteLine($"Starting WS server: {Server.IsStarted}");
             return true;
         }
 
         public bool Stop(HostControl hostControl)
         {
             Server.StopServer();
+            Console.WriteLine($"Stopping WS server: {!Server.IsStarted}");
             Configurator.ClearContexts(Manipulators);
             return true;
         }
@@ -214,9 +224,42 @@ namespace RemoteController.Service
             manipulators.SetContext<IMouseSimulator>(null);
         }
 
-        public static void Configure(WsService service)
+        public static void Configure(WsService service, ManipulatorsManager manipulators)
         {
-            throw new NotImplementedException();
+            service.UnhandledMessage += (sender, message) => manipulators.TryExecute(message.ActionName, message.Data?.ToString());
+        }
+
+        public static void Web(HttpServer http)
+        {
+            http.DocumentRootPath = "../../../Web";
+            http.OnGet += (sender, e) => {
+                var req = e.Request;
+                var res = e.Response;
+
+                var path = req.RawUrl;
+                if (path == "/")
+                    path += "index.html";
+
+                byte[] contents;
+                if (!e.TryReadFile(path, out contents))
+                {
+                    res.StatusCode = (int)HttpStatusCode.NotFound;
+                    return;
+                }
+
+                if (path.EndsWith(".html"))
+                {
+                    res.ContentType = "text/html";
+                    res.ContentEncoding = Encoding.UTF8;
+                }
+                else if (path.EndsWith(".js"))
+                {
+                    res.ContentType = "application/javascript";
+                    res.ContentEncoding = Encoding.UTF8;
+                }
+
+                res.WriteContent(contents);
+            };
         }
     }
 }

@@ -13,6 +13,8 @@ namespace RemoteController.WebSocket
         private readonly List<Func<Message, bool>> _actionFilters = new List<Func<Message, bool>>();
         private readonly Dictionary<string, List<Action<Message>>> _handlers = new Dictionary<string, List<Action<Message>>>();
 
+        public event EventHandler<Message> UnhandledMessage;
+
         public WsServer Server { get; }
 
         public WsService(WsServer server)
@@ -139,18 +141,18 @@ namespace RemoteController.WebSocket
             var socket = (WsSocket)sender;
             try
             {
-                var msg1 = JsonConvert.DeserializeObject<Message>(evt.Data);
-                var actionName = msg1.ActionName?.ToLowerInvariant();
+                var msgOrig = JsonConvert.DeserializeObject<Message>(evt.Data);
+                var actionName = msgOrig.ActionName?.ToLowerInvariant();
 
-                var msg = msg1;
+                var msg = msgOrig;
                 if (_actionNameToDataType.ContainsKey(actionName))
                 {
                     var type = _actionNameToDataType[actionName];
-                    var data = JsonConvert.DeserializeObject(msg1.Data.ToString(), type);
+                    var data = JsonConvert.DeserializeObject(msgOrig.Data.ToString(), type);
                     msg = new Message(socket)
                     {
-                        ActionName = msg1.ActionName,
-                        Type = msg1.Type,
+                        ActionName = msgOrig.ActionName,
+                        Type = msgOrig.Type,
                         Data = data
                     };
                 }
@@ -167,7 +169,8 @@ namespace RemoteController.WebSocket
                     }
                 }
 
-                InvokeHandlers(actionName, msg);
+                if (!InvokeHandlers(actionName, msg))
+                    UnhandledMessage?.Invoke(this, msg);
             }
             catch (Exception e)
             {
@@ -181,23 +184,27 @@ namespace RemoteController.WebSocket
             }
         }
 
-        private void InvokeHandlers(string actionName, Message msg)
+        private bool InvokeHandlers(string actionName, Message msg)
         {
             var k = actionName.ToLowerInvariant();
             if (!_handlers.TryGetValue(k, out var handlers))
-                return;
+                return false;
 
+            var rv = false;
             foreach (var handler in handlers)
             {
                 try
                 {
                     handler.Invoke(msg);
+                    rv = true;
                 }
                 catch
                 {
                     // ignored
                 }
             }
+
+            return rv;
         }
     }
 }
