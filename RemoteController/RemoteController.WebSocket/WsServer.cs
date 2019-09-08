@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Net.NetworkInformation;
-using System.Runtime.CompilerServices;
 using Epsiloner.Cooldowns;
 using Newtonsoft.Json;
+using System.Runtime.CompilerServices;
 using WebSocketSharp;
 using WebSocketSharp.Server;
 
@@ -90,9 +90,9 @@ namespace RemoteController.WebSocket
             : this(path)
         {
             if (port < 0 || port > 65535) // Max allowed port is: 2^16-1
-                throw new ArgumentNullException(nameof(port),"Port must be between 0 and 65535");
+                throw new ArgumentNullException(nameof(port), "Port must be between 0 and 65535");
 
-            Server = new WebSocketServer($"ws://{url}:{port}");
+            Server = new WebSocketServer($"ws://{url}:{port}"); // Server must be running without path. Path is added for web socket explicitly in Start method.
             FullPath = $"ws://{url}:{port}{path}";
             Init();
         }
