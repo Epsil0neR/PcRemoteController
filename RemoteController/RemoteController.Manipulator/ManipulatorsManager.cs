@@ -9,6 +9,8 @@ namespace RemoteController.Manipulator
         private readonly Dictionary<Type, object> _contexts = new Dictionary<Type, object>();
         private readonly List<IManipulation> _manipulations = new List<IManipulation>();
 
+        public event EventHandler<ManipulatorsItemEventArgs> ItemStateChanged;
+
         /// <inheritdoc />
         public T GetContext<T>()
         {
@@ -37,12 +39,17 @@ namespace RemoteController.Manipulator
                 throw new ArgumentException("Manipulation name already registered.", nameof(manipulation));
 
             _manipulations.Add(manipulation);
+            RaiseItemStateChanged(manipulation, true);
         }
 
         /// <inheritdoc />
         public bool Remove(IManipulation manipulation)
         {
-            return _manipulations.Remove(manipulation);
+            var rv = _manipulations.Remove(manipulation);
+            if (rv)
+                RaiseItemStateChanged(manipulation, false);
+
+            return rv;
         }
 
         /// <inheritdoc />
@@ -65,5 +72,23 @@ namespace RemoteController.Manipulator
             //TODO: Log request + result.
         }
 
+
+        private void RaiseItemStateChanged(IManipulation manipulation, bool inserted)
+        {
+            var args = new ManipulatorsItemEventArgs(manipulation, inserted);
+            ItemStateChanged?.Invoke(this, args);
+        }
+    }
+
+    public class ManipulatorsItemEventArgs : EventArgs
+    {
+        public ManipulatorsItemEventArgs(IManipulation manipulation, bool inserted)
+        {
+            Manipulation = manipulation;
+            Inserted = inserted;
+        }
+
+        public IManipulation Manipulation { get; }
+        public bool Inserted { get; }
     }
 }

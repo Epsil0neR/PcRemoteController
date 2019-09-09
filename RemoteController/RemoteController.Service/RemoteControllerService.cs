@@ -15,6 +15,7 @@ namespace RemoteController.Service
         public WsServer Server { get; }
         public WsService Service { get; }
         public HttpServer Http { get; }
+        public ServiceBinding ServiceBinding { get; }
 
         public RemoteControllerService(LogWriter logger)
         {
@@ -23,9 +24,9 @@ namespace RemoteController.Service
             Http = new HttpServer(6431);
             Server = new WsServer(Http, "/Testing");
             Service = new WsService(Server);
+            ServiceBinding = new ServiceBinding(Service, Manipulators);
 
-            Configurator.Configure(Manipulators);
-            Configurator.Configure(Service, Manipulators);
+            Configurator.Configure(Manipulators, Service);
             Configurator.Web(Http);
         }
 

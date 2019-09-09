@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System;
+using System.Linq;
+using System.Text;
 using WindowsInput;
 using WindowsInput.Native;
 using RemoteController.Manipulator;
@@ -11,7 +13,7 @@ namespace RemoteController.Service
 {
     internal static class Configurator
     {
-        public static void Configure(ManipulatorsManager manipulatorsManager)
+        public static void Configure(ManipulatorsManager manipulatorsManager, WsService service)
         {
             SetContexts(manipulatorsManager);
 
@@ -29,19 +31,29 @@ namespace RemoteController.Service
             manipulatorsManager.Add(new KeyboardManipulation("Key.Volume.+", VirtualKeyCode.VOLUME_UP));
             manipulatorsManager.Add(new KeyboardManipulation("Key.Volume.Mute", VirtualKeyCode.VOLUME_MUTE));
 
-            manipulatorsManager.Add(new MouseManipulation("Mouse.Move.X", (simulator, param) =>
+            (int x, int y) GetMouseParam(string param)
             {
-                if (!int.TryParse(param, out var x))
-                    x = 100;
-                simulator.MoveMouseBy(x, 0);
-            }));
-            manipulatorsManager.Add(new MouseManipulation("Mouse.Move.Y", (simulator, param) =>
-            {
-                if (!int.TryParse(param, out var y))
-                    y = 100;
-                simulator.MoveMouseBy(0, y);
-            }));
+                var values = param?
+                    .Replace(',', ' ')
+                    .Replace('.', ' ')
+                    .Split(" ")
+                    .Select(v => int.TryParse(v.Trim(), out var r) ? r : (int?)null)
+                    .Where(v => v.HasValue)
+                    .Take(2)
+                    .ToList();
 
+                var x = values?.FirstOrDefault() ?? 0;
+                var y = values?.LastOrDefault() ?? 0;
+
+                return (x, y);
+            }
+            manipulatorsManager.Add(new MouseManipulation("Mouse.Move", (simulator, param) =>
+            {
+                var (x, y) = GetMouseParam(param);
+
+                if (x != 0 || y != 0)
+                    simulator.MoveMouseBy(x, y);
+            }));
         }
 
         public static void SetContexts(ManipulatorsManager manipulatorsManager)
@@ -57,15 +69,11 @@ namespace RemoteController.Service
             manipulators.SetContext<IMouseSimulator>(null);
         }
 
-        public static void Configure(WsService service, ManipulatorsManager manipulators)
-        {
-            service.UnhandledMessage += (sender, message) => manipulators.TryExecute(message.ActionName, message.Data?.ToString());
-        }
-
         public static void Web(HttpServer http)
         {
-            http.DocumentRootPath = "../../../Web";
-            http.OnGet += (sender, e) => {
+            http.DocumentRootPath = "../../../Web"; //TODO: Move to settings.
+            http.OnGet += (sender, e) =>
+            {
                 var req = e.Request;
                 var res = e.Response;
 
@@ -73,8 +81,7 @@ namespace RemoteController.Service
                 if (path == "/")
                     path += "index.html";
 
-                byte[] contents;
-                if (!e.TryReadFile(path, out contents))
+                if (!e.TryReadFile(path, out var contents))
                 {
                     res.StatusCode = (int)HttpStatusCode.NotFound;
                     return;
@@ -93,6 +100,38 @@ namespace RemoteController.Service
 
                 res.WriteContent(contents);
             };
+        }
+    }
+
+    public class ServiceBinding : IDisposable
+    {
+        private readonly WsService _service;
+        private readonly ManipulatorsManager _manipulators;
+
+        public ServiceBinding(WsService service, ManipulatorsManager manipulators)
+        {
+            _service = service;
+            _manipulators = manipulators;
+
+            _manipulators.ItemStateChanged += ManipulatorsOnItemStateChanged;
+        }
+
+        public void Dispose()
+        {
+            _manipulators.ItemStateChanged -= ManipulatorsOnItemStateChanged;
+        }
+
+        private void ManipulatorsOnItemStateChanged(object sender, ManipulatorsItemEventArgs e)
+        {
+            if (e.Inserted)
+                _service.RegisterHandlerForAction(e.Manipulation.Name, Handler);
+            else
+                _service.UnregisterHandlerForAction(e.Manipulation.Name, Handler);
+        }
+
+        private void Handler(Message msg)
+        {
+            _manipulators.TryExecute(msg.ActionName, msg.Data?.ToString());
         }
     }
 }

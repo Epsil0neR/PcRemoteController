@@ -6,6 +6,16 @@ var btn;
 var cmdName;
 var cmdParam;
 
+function makeid() {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for (var i = 0; i < 5; i++)
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    return text;
+}
+
 function init() {
     output = document.getElementById("output");
     btn = document.getElementById("btnPing");
@@ -23,6 +33,7 @@ function doWebSocket() {
             m.ActionName = cmdName.value;
             m.Data = cmdParam.value;
             m.Type = WebSocketMessageType.Request;
+            m.Hash = makeid();
             client.Send(m);
             console.log('btnPing clicked', this);
             writeToScreen("Request: " + JSON.stringify(m));
@@ -31,6 +42,7 @@ function doWebSocket() {
 
 
     client.onConnectionStatusChange = onConnectionStatusChange;
+    
     onConnectionStatusChange();
 
     function onConnectionStatusChange() {
