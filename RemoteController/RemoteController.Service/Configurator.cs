@@ -131,7 +131,27 @@ namespace RemoteController.Service
 
         private void Handler(Message msg)
         {
-            _manipulators.TryExecute(msg.ActionName, msg.Data?.ToString());
+            if (msg.Type != MessageType.Request)
+            {
+                msg.Sender.Send(new Message
+                {
+                    ActionName = msg.ActionName,
+                    Hash = msg.Hash,
+                    Data = "Only Request message type support for messages from clients",
+                    Type = MessageType.Error
+                });
+                return;
+            }
+
+            var rv = _manipulators.TryExecute(msg.ActionName, msg.Data?.ToString());
+
+            msg.Sender.Send(new Message
+            {
+                ActionName = msg.ActionName,
+                Hash = msg.Hash,
+                Data = rv,
+                Type = MessageType.Response
+            });
         }
     }
 }
