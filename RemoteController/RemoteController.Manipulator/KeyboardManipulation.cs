@@ -19,6 +19,12 @@ namespace RemoteController.Manipulator
         public KeyboardManipulation(string name, Action<IKeyboardSimulator> action)
             : base(name, action) { }
 
+        public KeyboardManipulation(string name, Func<IKeyboardSimulator, string, bool> action)
+            : base(name, action) { }
+
+        public KeyboardManipulation(string name, Func<IKeyboardSimulator, bool> action)
+            : base(name, action) { }
+
         public KeyboardManipulation(string name, VirtualKeyCode key, VirtualKeyCode[] modifiers = null)
             : base(name, GenerateAction(key, modifiers)) { }
 

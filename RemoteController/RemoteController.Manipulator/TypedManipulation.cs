@@ -4,19 +4,45 @@ namespace RemoteController.Manipulator
 {
     public class TypedManipulation<T> : IManipulation
     {
-        private readonly Action<T, string> _action;
+        private readonly Func<T, string, bool> _action;
+
+        public TypedManipulation(string name, Func<T, string, bool> func)
+        {
+            _action = func ?? throw new ArgumentNullException(nameof(func));
+            Name = name ?? throw new ArgumentNullException(nameof(name));
+        }
 
         public TypedManipulation(string name, Action<T, string> action)
         {
-            _action = action ?? throw new ArgumentNullException(nameof(action));
+            if (action == null) throw new ArgumentNullException(nameof(action));
+
+            _action = (arg, s) =>
+            {
+                action(arg, s);
+                return true;
+            };
             Name = name ?? throw new ArgumentNullException(nameof(name));
         }
+
+        public TypedManipulation(string name, Func<T, bool> func)
+        {
+            if (func == null)
+                throw new ArgumentNullException(nameof(func));
+
+            _action = (arg, s) => func(arg);
+            Name = name ?? throw new ArgumentNullException(nameof(name));
+        }
+
         public TypedManipulation(string name, Action<T> action)
         {
             if (action == null)
                 throw new ArgumentNullException(nameof(action));
 
-            _action = (arg, s) => action(arg);
+            _action = (arg, s) =>
+            {
+                action(arg);
+                return true;
+            };
             Name = name ?? throw new ArgumentNullException(nameof(name));
         }
 
@@ -27,11 +53,8 @@ namespace RemoteController.Manipulator
         public bool Execute(IManipulatorsManager manager, string param)
         {
             var context = manager.GetContext<T>();
-            if (context == null)
-                return false;
-
-            _action.Invoke(context, param);
-            return true;
+            return context != null &&
+                   _action.Invoke(context, param);
         }
     }
 }

@@ -26,7 +26,7 @@ function init() {
 
 function doWebSocket() {
     client = new NeptuneSocketClient(url, 5000);
-
+    var handlers = [];
     btn.addEventListener('click',
         () => {
             var m = new WebSocketMessage();
@@ -34,16 +34,27 @@ function doWebSocket() {
             m.Data = cmdParam.value;
             m.Type = WebSocketMessageType.Request;
             m.Hash = makeid();
+
+            var action = m.ActionName.toLowerCase();
+            if (handlers.indexOf(action) < 0) {
+                client.AddHandler(action, clientHandler);
+                handlers.push(action);
+            }
             client.Send(m);
             console.log('btnPing clicked', this);
             writeToScreen("Request: " + JSON.stringify(m));
         });
 
-
-
     client.onConnectionStatusChange = onConnectionStatusChange;
-    
+
     onConnectionStatusChange();
+
+    /**
+     * @param {WebSocketMessage} msg Message
+     */
+    function clientHandler(msg) {
+        writeToScreen("Response: " + JSON.stringify(msg));
+    }
 
     function onConnectionStatusChange() {
         if (client.readyState === WebSocket.OPEN)
