@@ -1,9 +1,6 @@
 ﻿using System;
-using System.ComponentModel;
-using RemoteController.WebSocket;
 using Topshelf;
 using Topshelf.Logging;
-using WebSocketSharp;
 
 namespace RemoteController.Service
 {
@@ -13,7 +10,6 @@ namespace RemoteController.Service
         {
             var rv = HostFactory.Run(x =>
             {
-
                 x.Service<RemoteControllerService>(c =>
                 {
                     x.UseNLog();

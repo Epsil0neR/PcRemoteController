@@ -11,15 +11,13 @@ namespace RemoteController.Service
     {
         //THIS LINE IS IMPORTANT - this is how we get logger.
         public LogWriter Logger { get; }
-
         public ManipulatorsManager Manipulators { get; }
         public WsServer Server { get; }
         public WsService Service { get; }
-
+        public HttpServer Http { get; }
 
         public RemoteControllerService(LogWriter logger)
         {
-
             Logger = logger ?? HostLogger.Get<RemoteControllerService>();
             Manipulators = new ManipulatorsManager();
             Http = new HttpServer(6431);
@@ -31,22 +29,23 @@ namespace RemoteController.Service
             Configurator.Web(Http);
         }
 
-        public HttpServer Http { get; }
-
-
         public bool Start(HostControl hostControl)
         {
+            Console.WriteLine("Starting service...");
             Configurator.SetContexts(Manipulators);
             Server.StartServer();
-            Console.WriteLine($"Starting WS server: {Server.IsStarted}");
+            Console.WriteLine($"Started WS server? {Server.IsStarted}");
+
             return true;
         }
 
         public bool Stop(HostControl hostControl)
         {
+            Console.WriteLine("Stopping service...");
             Server.StopServer();
-            Console.WriteLine($"Stopping WS server: {!Server.IsStarted}");
             Configurator.ClearContexts(Manipulators);
+            Console.WriteLine($"Stopped WS server: {!Server.IsStarted}");
+
             return true;
         }
     }
