@@ -75,7 +75,11 @@ namespace RemoteController.Service
 
         public static void Web(HttpServer http)
         {
-            http.DocumentRootPath = "../../../Web"; //TODO: Move to settings.
+#if DEBUG
+            http.DocumentRootPath = "../../../Web";
+#else
+            http.DocumentRootPath = "./Web";
+#endif
             http.OnGet += (sender, e) =>
             {
                 var req = e.Request;

@@ -19,4 +19,10 @@
     <ProjectReference Include="..\RemoteController.WebSocket\RemoteController.WebSocket.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="Web\**\*.*">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>
