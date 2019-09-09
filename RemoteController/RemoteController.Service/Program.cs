@@ -20,10 +20,10 @@ namespace RemoteController.Service
             var rv = HostFactory.Run(x =>
             {
 
-                x.Service<MyService>(c =>
+                x.Service<RemoteControllerService>(c =>
                 {
                     x.UseNLog();
-                    c.ConstructUsing(name => new MyService(HostLogger.Current.Get(string.Empty)));
+                    c.ConstructUsing(name => new RemoteControllerService(HostLogger.Current.Get(string.Empty)));
                     c.WhenStarted((s, host) => s.Start(host));
                     c.WhenStopped((s, host) => s.Stop(host));
                 });
@@ -132,7 +132,7 @@ namespace RemoteController.Service
         }
     }
 
-    public class MyService : ServiceControl
+    public class RemoteControllerService : ServiceControl
     {
         //THIS LINE IS IMPORTANT - this is how we get logger.
         public LogWriter Logger { get; }
@@ -142,10 +142,10 @@ namespace RemoteController.Service
         public WsService Service { get; }
 
 
-        public MyService(LogWriter logger)
+        public RemoteControllerService(LogWriter logger)
         {
 
-            Logger = logger ?? HostLogger.Get<MyService>();
+            Logger = logger ?? HostLogger.Get<RemoteControllerService>();
             Manipulators = new ManipulatorsManager();
             Http = new HttpServer(6431);
             Server = new WsServer(Http, "/Testing");
