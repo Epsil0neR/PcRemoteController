@@ -25,4 +25,8 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Web\movie.html" />
+  </ItemGroup>
+
 </Project>

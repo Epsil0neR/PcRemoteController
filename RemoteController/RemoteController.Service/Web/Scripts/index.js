@@ -27,23 +27,25 @@ function init() {
 function doWebSocket() {
     client = new NeptuneSocketClient(url, 5000);
     var handlers = [];
-    btn.addEventListener('click',
-        () => {
-            var m = new WebSocketMessage();
-            m.ActionName = cmdName.value;
-            m.Data = cmdParam.value;
-            m.Type = WebSocketMessageType.Request;
-            m.Hash = makeid();
 
-            var action = m.ActionName.toLowerCase();
-            if (handlers.indexOf(action) < 0) {
-                client.AddHandler(action, clientHandler);
-                handlers.push(action);
-            }
-            client.Send(m);
-            console.log('btnPing clicked', this);
-            writeToScreen("Request: " + JSON.stringify(m));
-        });
+    if (btn !== null)
+        btn.addEventListener('click',
+            () => {
+                var m = new WebSocketMessage();
+                m.ActionName = cmdName.value;
+                m.Data = cmdParam.value;
+                m.Type = WebSocketMessageType.Request;
+                m.Hash = makeid();
+
+                var action = m.ActionName.toLowerCase();
+                if (handlers.indexOf(action) < 0) {
+                    client.AddHandler(action, clientHandler);
+                    handlers.push(action);
+                }
+                client.Send(m);
+                console.log('btnPing clicked', this);
+                writeToScreen("Request: " + JSON.stringify(m));
+            });
 
     client.onConnectionStatusChange = onConnectionStatusChange;
 
@@ -73,3 +75,14 @@ function writeToScreen(message) {
 }
 
 window.addEventListener("load", init, false);
+
+function message(action) {
+    if (client.readyState !== WebSocket.OPEN)
+        return;
+
+    var m = new WebSocketMessage();
+    m.ActionName = action;
+    m.Type = WebSocketMessageType.Request;
+    m.Hash = makeid();
+    client.Send(m);
+}

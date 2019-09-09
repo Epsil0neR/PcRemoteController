@@ -24,6 +24,11 @@ namespace RemoteController.Service
             manipulatorsManager.Add(new CmdManipulation("cmd.git.3", "git", true, true, true));
 
             manipulatorsManager.Add(new KeyboardManipulation("Key"));
+            manipulatorsManager.Add(new KeyboardManipulation("Key.Left", VirtualKeyCode.LEFT));
+            manipulatorsManager.Add(new KeyboardManipulation("Key.Right", VirtualKeyCode.RIGHT));
+            manipulatorsManager.Add(new KeyboardManipulation("Key.F", VirtualKeyCode.VK_F));
+            manipulatorsManager.Add(new KeyboardManipulation("Key.Space", VirtualKeyCode.SPACE));
+
             manipulatorsManager.Add(new KeyboardManipulation("Key.Media.Play", VirtualKeyCode.MEDIA_PLAY_PAUSE));
             manipulatorsManager.Add(new KeyboardManipulation("Key.Media.Next", VirtualKeyCode.MEDIA_NEXT_TRACK));
             manipulatorsManager.Add(new KeyboardManipulation("Key.Media.Prev", VirtualKeyCode.MEDIA_PREV_TRACK));

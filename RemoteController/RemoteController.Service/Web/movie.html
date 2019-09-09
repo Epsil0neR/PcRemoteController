@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket Echo Test</title>
+    <meta name="viewport" content= "width=device-width, user-scalable=no">
+    <script type="text/javascript" src="/Scripts/WebSocket.js"></script>
+    <script type="text/javascript" src="/Scripts/index.js"></script>
+
+    <style>
+        .span {
+            width: 100px;
+            display: inline-block;
+        }
+
+        button {
+            width: 150px;
+            height: 150px;
+            display: inline-block;
+            font-size: 50px;
+        }
+
+        .container {
+            display: block;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button onclick="message('key.volume.+')" type="submit">Vol +</button>
+        <button onclick="message('key.volume.-')" type="submit">Vol -</button>
+        <button onclick="message('key.left')" type="submit">&lt;-</button>
+        <button onclick="message('key.right')" type="submit">-&gt;</button>
+        <button onclick="message('key.space')" type="submit">Space</button>
+        <button onclick="message('key.f')" type="submit">F</button>
+    </div>
+
+    <div id="output"></div>
+</body>
+</html>
