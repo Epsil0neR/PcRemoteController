@@ -4,26 +4,29 @@
     <title>WebSocket Echo Test</title>
     <script type="text/javascript" src="/Scripts/WebSocket.js"></script>
     <script type="text/javascript" src="/Scripts/index.js"></script>
-    
+
     <style>
         .span {
             width: 100px;
+            display: inline-block;
         }
     </style>
 </head>
 <body>
     <h2>WebSocket Echo Test</h2>
 
-    <div>
-        <span class="span">Action name:</span>
-        <input id="cmdName" />
-    </div>
-    <div>
-        <span class="span">Parameter:  </span>
-        <input id="cmdParam" />
-    </div>
+    <form action="javascript:void(0);">
+        <div>
+            <span class="span">Action name:</span>
+            <input id="cmdName" />
+        </div>
+        <div>
+            <span class="span">Parameter:  </span>
+            <input id="cmdParam" />
+        </div>
 
-    <button id="btnPing">Execute</button>
+        <button id="btnPing" type="submit">Execute</button>
+    </form>
 
     <div id="output"></div>
 </body>

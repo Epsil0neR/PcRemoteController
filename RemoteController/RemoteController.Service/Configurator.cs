@@ -53,6 +53,10 @@ namespace RemoteController.Service
 
                 if (x != 0 || y != 0)
                     simulator.MoveMouseBy(x, y);
+                else
+                    return false;
+
+                return true;
             }));
         }
 

@@ -67,8 +67,9 @@ function doWebSocket() {
 function writeToScreen(message) {
     var pre = document.createElement("p");
     pre.style.wordWrap = "break-word";
-    pre.innerHTML = message;
-    output.appendChild(pre);
+    pre.innerHTML = '[' + new Date().toISOString() + '] ' + message;
+    //output.appendChild(pre);
+    output.prepend(pre);
 }
 
 window.addEventListener("load", init, false);
