@@ -5,7 +5,10 @@ namespace RemoteController.Manipulator.Contexts
 {
     public class FolderContexts
     {
-        public List<string> Roots { get; set; }
+        /// <summary>
+        /// Dictionary of folder name to root.
+        /// </summary>
+        public Dictionary<string, string> Roots { get; set; }
 
         public Func<string, bool> FolderFilter { get; set; }
 

@@ -18,7 +18,7 @@ namespace RemoteController.Manipulator
         public object Execute(IManipulatorsManager manager, string param)
         {
             var c = manager.GetContext<FolderContexts>();
-            var rv = new List<string>();
+            var rv = new Dictionary<string, IEnumerable<string>>();
             if (c?.Roots?.Any() != true)
                 return null;
 
@@ -27,35 +27,56 @@ namespace RemoteController.Manipulator
 
                 if (c.Roots.Count == 1)
                 {
-                    rv.AddRange(GetFolderContent(c, c.Roots[0]));
+                    PopulateContent(rv, c, c.Roots.ElementAt(0).Key);
                 }
                 else
                 {
-                    rv.AddRange(c.Roots);
+                    rv["d"] = c.Roots.Keys;
                 }
 
                 return rv;
             }
 
-            if (!c.Roots.Any(x => param.StartsWith(x, StringComparison.InvariantCultureIgnoreCase)))
-                return null;
-
-
-            rv.AddRange(GetFolderContent(c, param));
+            PopulateContent(rv, c, param);
 
             return rv.Any() ? rv : null;
         }
 
-        private IEnumerable<string> GetFolderContent(FolderContexts contexts, params string[] paths)
+        private void PopulateContent(Dictionary<string, IEnumerable<string>> rv, FolderContexts contexts, params string[] paths)
         {
-            var rv = new List<string>();
             var path = Path.Combine(paths);
-            var di = new DirectoryInfo(path);
+            var root = GetRoot(path);
+            var rootKey = contexts.Roots.Keys.FirstOrDefault(x => string.Equals(root, x, StringComparison.InvariantCultureIgnoreCase));
 
-            if (di.Exists)
+            if (!string.IsNullOrEmpty(rootKey) && contexts.Roots.TryGetValue(rootKey, out var rootOrig))
             {
-                rv.AddRange(di.GetDirectories().Select(x => x.FullName));
-                rv.AddRange(di.GetFiles().Select(x => x.FullName));
+                var di = new DirectoryInfo(rootOrig);
+                if (di.Exists)
+                {
+                    var folders = di.GetDirectories()
+                        .Select(x => x.FullName.Replace(rootOrig, rootKey))
+                        .ToList();
+                    if (folders.Any())
+                        rv["d"] = folders;
+                    var files = di.GetFiles()
+                        .Select(x => x.FullName.Replace(rootOrig, rootKey))
+                        .ToList();
+                    if (files.Any())
+                        rv["f"] = files.ToList();
+                }
+            }
+        }
+
+        private string GetRoot(string path)
+        {
+            var rv = path;
+            while (!string.IsNullOrEmpty(rv))
+            {
+                var p = Path.GetDirectoryName(rv);
+                if (string.IsNullOrEmpty(p))
+                    return rv;
+
+                rv = p;
             }
 
             return rv;

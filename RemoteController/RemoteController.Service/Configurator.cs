@@ -77,7 +77,11 @@ namespace RemoteController.Service
             {
                 var fc = new FolderContexts
                 {
-                    Roots = new List<string> {@"E:\Download", @"C:\Users\Epsil0neR\Downloads"}
+                    Roots = new Dictionary<string, string>()
+                    {
+                        { "Download",  @"E:\Download"},
+                        { "Downloads", @"C:\Users\Epsil0neR\Downloads"}
+                    }
                 };
                 manipulatorsManager.SetContext(fc);
             }
