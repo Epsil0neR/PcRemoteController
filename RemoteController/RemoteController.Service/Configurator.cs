@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using WindowsInput;
 using WindowsInput.Native;
 using RemoteController.Manipulator;
+using RemoteController.Manipulator.Contexts;
 using RemoteController.WebSocket;
 using WebSocketSharp;
 using WebSocketSharp.Net;
@@ -16,7 +18,7 @@ namespace RemoteController.Service
         public static void Configure(ManipulatorsManager manipulatorsManager, WsService service)
         {
             SetContexts(manipulatorsManager);
-            
+            manipulatorsManager.Add(new FolderManipulation("folder"));
             manipulatorsManager.Add(new CmdManipulation("cmd.git.stage", "git add -A"));
             manipulatorsManager.Add(new CmdManipulation("cmd.git.unstage", "git reset"));
             manipulatorsManager.Add(new CmdManipulation("cmd.git", "git", true));
@@ -70,6 +72,15 @@ namespace RemoteController.Service
             var inputSimulator = new InputSimulator();
             manipulatorsManager.SetContext(inputSimulator.Keyboard);
             manipulatorsManager.SetContext(inputSimulator.Mouse);
+
+            if (manipulatorsManager.GetContext<FolderContexts>() == null)
+            {
+                var fc = new FolderContexts
+                {
+                    Roots = new List<string> {@"E:\Download", @"C:\Users\Epsil0neR\Downloads"}
+                };
+                manipulatorsManager.SetContext(fc);
+            }
         }
 
         public static void ClearContexts(ManipulatorsManager manipulators)
@@ -156,12 +167,13 @@ namespace RemoteController.Service
                 return;
             }
 
-            var rv = _manipulators.TryExecute(msg.ActionName, msg.Data?.ToString());
+            var data = _manipulators.TryExecute(msg.ActionName, msg.Data?.ToString());
+
             msg.Sender.Send(new Message
             {
                 ActionName = msg.ActionName,
                 Hash = msg.Hash,
-                Data = rv,
+                Data = data,
                 Type = MessageType.Response
             });
         }

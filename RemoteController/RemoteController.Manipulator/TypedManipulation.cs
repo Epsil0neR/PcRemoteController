@@ -50,7 +50,7 @@ namespace RemoteController.Manipulator
         public string Name { get; }
 
         /// <inheritdoc />
-        public bool Execute(IManipulatorsManager manager, string param)
+        public object Execute(IManipulatorsManager manager, string param)
         {
             var context = manager.GetContext<T>();
             return context != null &&

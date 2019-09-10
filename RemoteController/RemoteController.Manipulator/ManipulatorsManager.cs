@@ -53,15 +53,18 @@ namespace RemoteController.Manipulator
         }
 
         /// <inheritdoc />
-        public bool TryExecute(string name, string param = null)
+        public object TryExecute(string name, string param)
         {
             var m = _manipulations.FirstOrDefault(x => string.Equals(x.Name, name, StringComparison.InvariantCultureIgnoreCase));
             if (m == null)
+            {
                 return false;
+            }
 
             try
             {
-                return m.Execute(this, param);
+                var rv = m.Execute(this, param);
+                return rv;
             }
             catch
             {

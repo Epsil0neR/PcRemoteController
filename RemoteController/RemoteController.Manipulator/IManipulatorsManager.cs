@@ -22,7 +22,7 @@
         /// <param name="name">Name of manipulation.</param>
         /// <param name="param">Optional parameter for manipulation.</param>
         /// <returns></returns>
-        bool TryExecute(string name, string param = null);
+        object TryExecute(string name, string param = null);
 
         /// <summary>
         /// Adds manipulation for managing.

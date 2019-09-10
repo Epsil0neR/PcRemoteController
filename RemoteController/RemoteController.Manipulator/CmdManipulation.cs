@@ -34,7 +34,7 @@ namespace RemoteController.Manipulator
         public string Name { get; }
 
         /// <inheritdoc />
-        public bool Execute(IManipulatorsManager manager, string param)
+        public object Execute(IManipulatorsManager manager, string param)
         {
             var arguments = $@"/C {_command}";
             if (_supportParam)
