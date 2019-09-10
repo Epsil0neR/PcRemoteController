@@ -59,7 +59,16 @@ function doWebSocket() {
         if (client.readyState === WebSocket.OPEN)
             writeToScreen("Connected");
         else
-            writeToScreen("Server state: " + client.readyState);
+            writeToScreen("Server state: " + webSocketConnectionStatusToString(client.readyState));
+    }
+
+    function webSocketConnectionStatusToString(status) {
+        if (status === WebSocket.CLOSED) return "Closed";
+        if (status === WebSocket.CLOSING) return "Closing";
+        if (status === WebSocket.CONNECTING) return "Connecting";
+        if (status === WebSocket.open) return "Open";
+
+        return status;
     }
 }
 
