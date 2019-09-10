@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.InteropServices;
 using WindowsInput;
 using WindowsInput.Native;
 
@@ -9,8 +10,16 @@ namespace RemoteController.Manipulator
     {
         private static void DefaultAction(IKeyboardSimulator simulator, string param)
         {
-            if (Enum.TryParse(param, out VirtualKeyCode key))
+            if (Enum.TryParse(param, true, out VirtualKeyCode key))
                 simulator.KeyPress(key);
+            else
+            {
+                var c = string.IsNullOrEmpty(param) ? ' ' : param[0];
+                var s = VkKeyScan(c);
+                key = (VirtualKeyCode) s;
+                if (Enum.IsDefined(typeof(VirtualKeyCode), key))
+                    simulator.KeyPress(key);
+            }
         }
 
         public KeyboardManipulation(string name, Action<IKeyboardSimulator, string> action)
@@ -37,5 +46,8 @@ namespace RemoteController.Manipulator
                 return (simulator, s) => simulator.ModifiedKeyStroke(modifiers, key);
             return (simulator, s) => simulator.KeyPress(key);
         }
+
+        [DllImport("user32.dll")]
+        public static extern short VkKeyScan(char ch);
     }
 }

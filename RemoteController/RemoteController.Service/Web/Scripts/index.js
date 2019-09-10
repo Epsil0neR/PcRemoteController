@@ -1,6 +1,12 @@
 ﻿var url = "ws://localhost:6431/Testing";
-var client;
+var storage_url = localStorage.getItem('url');
+if (storage_url !== null)
+    url = storage_url;
+else
+    localStorage.setItem('url', url);
 
+
+var client;
 var output;
 var btn;
 var cmdName;
@@ -26,7 +32,6 @@ function init() {
 
 function doWebSocket() {
     client = new NeptuneSocketClient(url, 5000);
-    var handlers = [];
 
     if (btn !== null)
         btn.addEventListener('click',
@@ -38,10 +43,7 @@ function doWebSocket() {
                 m.Hash = makeid();
 
                 var action = m.ActionName.toLowerCase();
-                if (handlers.indexOf(action) < 0) {
-                    client.AddHandler(action, clientHandler);
-                    handlers.push(action);
-                }
+                handle(action);
                 client.Send(m);
                 console.log('btnPing clicked', this);
                 writeToScreen("Request: " + JSON.stringify(m));
@@ -51,12 +53,7 @@ function doWebSocket() {
 
     onConnectionStatusChange();
 
-    /**
-     * @param {WebSocketMessage} msg Message
-     */
-    function clientHandler(msg) {
-        writeToScreen("Response: " + JSON.stringify(msg));
-    }
+
 
     function onConnectionStatusChange() {
         if (client.readyState === WebSocket.OPEN)
@@ -76,13 +73,31 @@ function writeToScreen(message) {
 
 window.addEventListener("load", init, false);
 
-function message(action) {
+function message(action, data) {
     if (client.readyState !== WebSocket.OPEN)
         return;
 
+    handle(action);
     var m = new WebSocketMessage();
     m.ActionName = action;
+    m.Data = data;
     m.Type = WebSocketMessageType.Request;
     m.Hash = makeid();
+    writeToScreen("Request: " + m.Hash + "<br />" + JSON.stringify(m));
     client.Send(m);
+}
+
+var handlers = [];
+function handle(action) {
+    if (handlers.indexOf(action) < 0) {
+        client.AddHandler(action, clientHandler);
+        handlers.push(action);
+    }
+}
+
+/**
+ * @param {WebSocketMessage} msg Message
+ */
+function clientHandler(msg) {
+    writeToScreen("Response: "+ msg.Hash + "<br />" + JSON.stringify(msg));
 }

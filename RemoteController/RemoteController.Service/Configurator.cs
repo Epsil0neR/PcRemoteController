@@ -16,7 +16,7 @@ namespace RemoteController.Service
         public static void Configure(ManipulatorsManager manipulatorsManager, WsService service)
         {
             SetContexts(manipulatorsManager);
-
+            
             manipulatorsManager.Add(new CmdManipulation("cmd.git.stage", "git add -A"));
             manipulatorsManager.Add(new CmdManipulation("cmd.git.unstage", "git reset"));
             manipulatorsManager.Add(new CmdManipulation("cmd.git", "git", true));
@@ -157,7 +157,6 @@ namespace RemoteController.Service
             }
 
             var rv = _manipulators.TryExecute(msg.ActionName, msg.Data?.ToString());
-
             msg.Sender.Send(new Message
             {
                 ActionName = msg.ActionName,
