@@ -31,7 +31,7 @@ namespace RemoteController.Manipulator
                 }
                 else
                 {
-                    rv["d"] = c.Roots.Keys;
+                    rv["folders"] = c.Roots.Keys;
                 }
 
                 return rv;
@@ -57,12 +57,12 @@ namespace RemoteController.Manipulator
                         .Select(x => x.FullName.Replace(rootOrig, rootKey))
                         .ToList();
                     if (folders.Any())
-                        rv["d"] = folders;
+                        rv["folders"] = folders;
                     var files = di.GetFiles()
                         .Select(x => x.FullName.Replace(rootOrig, rootKey))
                         .ToList();
                     if (files.Any())
-                        rv["f"] = files.ToList();
+                        rv["files"] = files.ToList();
                 }
             }
         }
