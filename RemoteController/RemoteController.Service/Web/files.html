@@ -5,14 +5,8 @@
     <meta name="viewport" content="width=device-width, user-scalable=no">
     <script type="text/javascript" src="/Scripts/WebSocket.js"></script>
     <script type="text/javascript" src="/Scripts/index.js"></script>
+    <script type="text/javascript" src="/Scripts/files.js"></script>
     <link rel="stylesheet" type="text/css" href="/Styles/styles.css">
-
-    <style>
-        .span {
-            width: 100px;
-            display: inline-block;
-        }
-    </style>
 </head>
 <body>
     <div class="links">
@@ -22,20 +16,13 @@
     </div>
     <div class="border"></div>
 
-    <form action="javascript:void(0);">
-        <div>
-            <span class="span">Action name:</span>
-            <input id="cmdName" />
-        </div>
-        <div>
-            <span class="span">Parameter: </span>
-            <input id="cmdParam" />
-        </div>
+    <button id="btnTest">Test</button>
 
-        <button id="btnPing" type="submit">Execute</button>
-    </form>
-
+    <div id="folders"></div>
     <div class="border"></div>
+    <div id="files"></div>
+
+<div class="border"></div>
     <div id="output"></div>
 </body>
 </html>

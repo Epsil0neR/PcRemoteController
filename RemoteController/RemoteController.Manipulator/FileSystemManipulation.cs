@@ -67,11 +67,14 @@ namespace RemoteController.Manipulator
             if (!File.Exists(pathOrig))
                 return false;
 
-            // Check if file matches search pattern:
-            var dir = Directory.GetParent(pathOrig);
-            var files = dir.GetFiles(c.FileSearchPattern).Select(x => x.FullName.ToLowerInvariant());
-            if (!files.Contains(pathOrig.ToLowerInvariant()))
-                return false;
+            if (!string.IsNullOrWhiteSpace(c.FileSearchPattern))
+            {
+                // Check if file matches search pattern:
+                var dir = Directory.GetParent(pathOrig);
+                var files = dir.GetFiles(c.FileSearchPattern).Select(x => x.FullName.ToLowerInvariant());
+                if (!files.Contains(pathOrig.ToLowerInvariant()))
+                    return false;
+            }
 
             // Check if folders filter allows that file containing folder.
             if (c.FolderFilter?.Invoke(Directory.GetParent(pathOrig)?.FullName) == false)
@@ -159,6 +162,8 @@ namespace RemoteController.Manipulator
                 .ToList();
             if (files.Any())
                 rv["files"] = files.ToList();
+
+            rv["path"] = path.ToPathParts();
         }
 
         private string GetRoot(string path)
@@ -209,5 +214,18 @@ namespace RemoteController.Manipulator
                 .Where(x => filter(x.FullName));
         }
 
+        public static IEnumerable<string> ToPathParts(this string path)
+        {
+            var rv = new List<string>();
+
+            while (!string.IsNullOrEmpty(path))
+            {
+                var part = Path.GetFileName(path);
+                path = Path.GetDirectoryName(path);
+                rv.Add(part);
+            }
+
+            return rv;
+        }
     }
 }

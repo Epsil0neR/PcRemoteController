@@ -6,33 +6,18 @@
     <script type="text/javascript" src="/Scripts/WebSocket.js"></script>
     <script type="text/javascript" src="/Scripts/index.js"></script>
 
-    <style>
-        .span {
-            width: 100px;
-            display: inline-block;
-        }
-
-        button {
-            width: 150px;
-            height: 150px;
-            display: inline-block;
-            font-size: 50px;
-        }
-
-        .container {
-            display: block;
-            width: 100%;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="/Styles/styles.css">
 </head>
 <body>
 
     <div class="links">
         <a href="/index.html">Home</a>
         <a href="/movie.html">Movie</a>
+        <a href="/files.html">Files</a>
     </div>
+    <div class="border"></div>
 
-    <div class="container">
+    <div class="btn-container">
         <button onclick="message('key.volume.+')" type="submit">Vol +</button>
         <button onclick="message('key.volume.-')" type="submit">Vol -</button>
         <button onclick="message('key', 'left')" type="submit">&lt;-</button>
@@ -41,6 +26,7 @@
         <button onclick="message('key', 'f')" type="submit">F</button>
     </div>
 
+    <div class="border"></div>
     <div id="output"></div>
 </body>
 </html>

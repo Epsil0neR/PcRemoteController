@@ -14,6 +14,6 @@ namespace RemoteController.Manipulator.Contexts
 
         public Func<string, bool> FileFilter { get; set; }
 
-        public string FileSearchPattern { get; set; } = "*.log";
+        public string FileSearchPattern { get; set; }
     }
 }

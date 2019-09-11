@@ -26,7 +26,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Web\files.html" />
     <None Remove="Web\movie.html" />
+    <None Remove="Web\Scripts\files.js" />
+    <None Remove="Web\Styles\styles.css" />
   </ItemGroup>
 
 </Project>
