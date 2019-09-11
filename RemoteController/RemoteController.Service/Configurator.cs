@@ -75,9 +75,9 @@ namespace RemoteController.Service
             manipulatorsManager.SetContext(inputSimulator.Keyboard);
             manipulatorsManager.SetContext(inputSimulator.Mouse);
 
-            if (manipulatorsManager.GetContext<FolderContexts>() == null)
+            if (manipulatorsManager.GetContext<FileSystemContext>() == null)
             {
-                var fc = new FolderContexts
+                var fc = new FileSystemContext
                 {
                     Roots = new Dictionary<string, string>()
                     {

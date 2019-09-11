@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace RemoteController.Manipulator.Contexts
 {
-    public class FolderContexts
+    public class FileSystemContext
     {
         /// <summary>
         /// Dictionary of folder name to root.
