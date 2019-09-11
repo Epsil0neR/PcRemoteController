@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using WindowsInput;
@@ -28,10 +27,6 @@ namespace RemoteController.Service
             manipulatorsManager.Add(new CmdManipulation("cmd.git.3", "git", true, true, true));
 
             manipulatorsManager.Add(new KeyboardManipulation("Key"));
-            manipulatorsManager.Add(new KeyboardManipulation("Key.Left", VirtualKeyCode.LEFT));
-            manipulatorsManager.Add(new KeyboardManipulation("Key.Right", VirtualKeyCode.RIGHT));
-            manipulatorsManager.Add(new KeyboardManipulation("Key.F", VirtualKeyCode.VK_F));
-            manipulatorsManager.Add(new KeyboardManipulation("Key.Space", VirtualKeyCode.SPACE));
 
             manipulatorsManager.Add(new KeyboardManipulation("Key.Media.Play", VirtualKeyCode.MEDIA_PLAY_PAUSE));
             manipulatorsManager.Add(new KeyboardManipulation("Key.Media.Next", VirtualKeyCode.MEDIA_NEXT_TRACK));
@@ -81,9 +76,9 @@ namespace RemoteController.Service
                 {
                     Roots = new Dictionary<string, string>()
                     {
-                        {"Testing", @"C:\testing" }
-                        //{ "Download",  @"E:\Download"},
-                        //{ "Downloads", @"C:\Users\Epsil0neR\Downloads"}
+                        //{"Testing", @"C:\testing" }
+                        { "Download",  @"E:\Download"},
+                        { "Downloads", @"C:\Users\Epsil0neR\Downloads"}
                     }
                 };
                 manipulatorsManager.SetContext(fc);
@@ -131,58 +126,6 @@ namespace RemoteController.Service
 
                 res.WriteContent(contents);
             };
-        }
-    }
-
-    public class ServiceBinding : IDisposable
-    {
-        private readonly WsService _service;
-        private readonly ManipulatorsManager _manipulators;
-
-        public ServiceBinding(WsService service, ManipulatorsManager manipulators)
-        {
-            _service = service;
-            _manipulators = manipulators;
-
-            _manipulators.ItemStateChanged += ManipulatorsOnItemStateChanged;
-        }
-
-        public void Dispose()
-        {
-            _manipulators.ItemStateChanged -= ManipulatorsOnItemStateChanged;
-        }
-
-        private void ManipulatorsOnItemStateChanged(object sender, ManipulatorsItemEventArgs e)
-        {
-            if (e.Inserted)
-                _service.RegisterHandlerForAction(e.Manipulation.Name, Handler);
-            else
-                _service.UnregisterHandlerForAction(e.Manipulation.Name, Handler);
-        }
-
-        private void Handler(Message msg)
-        {
-            if (msg.Type != MessageType.Request)
-            {
-                msg.Sender.Send(new Message
-                {
-                    ActionName = msg.ActionName,
-                    Hash = msg.Hash,
-                    Data = "Only Request message mode support for messages from clients",
-                    Type = MessageType.Error
-                });
-                return;
-            }
-
-            var data = _manipulators.TryExecute(msg.ActionName, msg.Data?.ToString());
-
-            msg.Sender.Send(new Message
-            {
-                ActionName = msg.ActionName,
-                Hash = msg.Hash,
-                Data = data,
-                Type = MessageType.Response
-            });
         }
     }
 }
