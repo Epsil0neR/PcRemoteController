@@ -43,8 +43,7 @@ namespace RemoteController.Manipulator
 
             if (!string.IsNullOrEmpty(rootKey) && c.Roots.TryGetValue(rootKey, out var rootOrig))
             {
-                var pathRelative = path.Substring(root.Length + 1);
-                var pathOrig = Path.Combine(rootOrig, pathRelative);
+                var pathOrig = GetOriginalPath(path, root, rootOrig);
 
                 if (File.Exists(pathOrig))
                 {
@@ -81,15 +80,10 @@ namespace RemoteController.Manipulator
 
             if (string.IsNullOrWhiteSpace(param))
             {
-
                 if (c.Roots.Count == 1)
-                {
                     PopulateContent(rv, c, c.Roots.ElementAt(0).Key);
-                }
                 else
-                {
                     rv["folders"] = c.Roots.Keys;
-                }
 
                 return rv;
             }
@@ -107,7 +101,8 @@ namespace RemoteController.Manipulator
 
             if (!string.IsNullOrEmpty(rootKey) && contexts.Roots.TryGetValue(rootKey, out var rootOrig))
             {
-                var di = new DirectoryInfo(rootOrig);
+                var pathOrig = GetOriginalPath(path, root, rootOrig);
+                var di = new DirectoryInfo(pathOrig);
                 if (di.Exists)
                 {
                     var folders = di.GetDirectories()
@@ -136,6 +131,16 @@ namespace RemoteController.Manipulator
                 rv = p;
             }
 
+            return rv;
+        }
+
+        private string GetOriginalPath(string path, string rootFake, string rootOrig)
+        {
+            if (string.Equals(path, rootFake, StringComparison.InvariantCultureIgnoreCase))
+                return rootOrig;
+
+            var relative = path.Substring(rootFake.Length + 1);
+            var rv = Path.Combine(rootOrig, relative);
             return rv;
         }
     }
