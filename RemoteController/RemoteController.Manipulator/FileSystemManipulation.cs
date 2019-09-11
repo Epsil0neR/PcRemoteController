@@ -124,12 +124,15 @@ namespace RemoteController.Manipulator
                 return;
 
             var folders = di.GetDirectories()
+                .FilterDirectories(contexts.FolderFilter)
                 .Select(x => x.FullName.Replace(rootOrig, rootKey))
                 .ToList();
             if (folders.Any())
                 rv["folders"] = folders;
 
-            var files = di.GetFiles()
+            var fp = string.IsNullOrWhiteSpace(contexts.FileSearchPattern) ? "*" : contexts.FileSearchPattern;
+            var files = di.GetFiles(fp, SearchOption.TopDirectoryOnly)
+                .FilterFiles(contexts.FileFilter)
                 .Select(x => x.FullName.Replace(rootOrig, rootKey))
                 .ToList();
             if (files.Any())
@@ -160,5 +163,29 @@ namespace RemoteController.Manipulator
             var rv = Path.Combine(rootOrig, relative);
             return rv;
         }
+
+    }
+
+    internal static class FileSystemManipulationHelpers
+    {
+
+        public static IEnumerable<DirectoryInfo> FilterDirectories(this DirectoryInfo[] directoryInfos, Func<string, bool> filter)
+        {
+            if (filter == null)
+                return directoryInfos;
+
+            return directoryInfos
+                .Where(x => filter(x.FullName));
+        }
+
+        public static IEnumerable<FileInfo> FilterFiles(this FileInfo[] fileInfos, Func<string, bool> filter)
+        {
+            if (filter == null)
+                return fileInfos;
+
+            return fileInfos
+                .Where(x => filter(x.FullName));
+        }
+
     }
 }
