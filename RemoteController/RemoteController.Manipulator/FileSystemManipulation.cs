@@ -1,21 +1,78 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using RemoteController.Manipulator.Contexts;
 
 namespace RemoteController.Manipulator
 {
-    public class FolderManipulation : IManipulation
+
+    public enum FileSystemManipulationType
     {
-        public FolderManipulation(string name)
+        List,
+        Exec
+    }
+
+    public class FileSystemManipulation : IManipulation
+    {
+        public FileSystemManipulation(string name, FileSystemManipulationType type)
         {
             Name = name;
+            Type = type;
         }
 
         public string Name { get; }
+        public FileSystemManipulationType Type { get; }
 
         public object Execute(IManipulatorsManager manager, string param)
+        {
+            if (Type == FileSystemManipulationType.Exec)
+                return Exec(manager, param);
+            if (Type == FileSystemManipulationType.List)
+                return List(manager, param);
+
+            return null;
+        }
+
+        private object Exec(IManipulatorsManager manager, string path)
+        {
+            var c = manager.GetContext<FolderContexts>();
+            var root = GetRoot(path);
+            var rootKey = c.Roots.Keys.FirstOrDefault(x => string.Equals(root, x, StringComparison.InvariantCultureIgnoreCase));
+
+            if (!string.IsNullOrEmpty(rootKey) && c.Roots.TryGetValue(rootKey, out var rootOrig))
+            {
+                var pathRelative = path.Substring(root.Length + 1);
+                var pathOrig = Path.Combine(rootOrig, pathRelative);
+
+                if (File.Exists(pathOrig))
+                {
+                    var p = new Process
+                    {
+                        StartInfo = new ProcessStartInfo
+                        {
+                            UseShellExecute = true,
+                            FileName = pathOrig
+                        }
+                    };
+
+                    try
+                    {
+                        p.Start();
+                        return true;
+                    }
+                    catch
+                    {
+                        // ignored
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        private object List(IManipulatorsManager manager, string param)
         {
             var c = manager.GetContext<FolderContexts>();
             var rv = new Dictionary<string, IEnumerable<string>>();

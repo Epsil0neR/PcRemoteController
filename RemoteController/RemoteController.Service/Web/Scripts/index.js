@@ -5,7 +5,6 @@ if (storage_url !== null)
 else
     localStorage.setItem('url', url);
 
-
 var client;
 var output;
 var btn;

@@ -18,7 +18,9 @@ namespace RemoteController.Service
         public static void Configure(ManipulatorsManager manipulatorsManager, WsService service)
         {
             SetContexts(manipulatorsManager);
-            manipulatorsManager.Add(new FolderManipulation("folder"));
+            manipulatorsManager.Add(new FileSystemManipulation("FileSystem.List", FileSystemManipulationType.List));
+            manipulatorsManager.Add(new FileSystemManipulation("FileSystem.Exec", FileSystemManipulationType.Exec));
+
             manipulatorsManager.Add(new CmdManipulation("cmd.git.stage", "git add -A"));
             manipulatorsManager.Add(new CmdManipulation("cmd.git.unstage", "git reset"));
             manipulatorsManager.Add(new CmdManipulation("cmd.git", "git", true));
@@ -79,8 +81,9 @@ namespace RemoteController.Service
                 {
                     Roots = new Dictionary<string, string>()
                     {
-                        { "Download",  @"E:\Download"},
-                        { "Downloads", @"C:\Users\Epsil0neR\Downloads"}
+                        {"Testing", @"C:\testing" }
+                        //{ "Download",  @"E:\Download"},
+                        //{ "Downloads", @"C:\Users\Epsil0neR\Downloads"}
                     }
                 };
                 manipulatorsManager.SetContext(fc);

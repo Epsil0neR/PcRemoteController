@@ -38,7 +38,7 @@ namespace RemoteController.Manipulator
         {
             var arguments = $@"/C {_command}";
             if (_supportParam)
-                arguments = $"{arguments} {param}";
+                arguments = $"{arguments} \"{param}\"";
             Process proc = new Process
             {
                 StartInfo =
