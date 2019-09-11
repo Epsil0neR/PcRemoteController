@@ -107,5 +107,5 @@ function handle(action) {
  * @param {WebSocketMessage} msg Message
  */
 function clientHandler(msg) {
-    writeToScreen("Response: "+ msg.Hash + "<br />" + JSON.stringify(msg));
+    writeToScreen("Response: "+ msg.Hash + "<br /><pre>" + JSON.stringify(msg, undefined, 4) + "</pre>");
 }
