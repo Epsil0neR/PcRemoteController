@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using RemoteController.Manipulator.Contexts;
@@ -50,31 +51,44 @@ namespace RemoteController.Manipulator
             var root = GetRoot(path);
             var rootKey = c.Roots.Keys.FirstOrDefault(x => string.Equals(root, x, StringComparison.InvariantCultureIgnoreCase));
 
-            if (!string.IsNullOrEmpty(rootKey) && c.Roots.TryGetValue(rootKey, out var rootOrig))
+            if (string.IsNullOrEmpty(rootKey) || !c.Roots.TryGetValue(rootKey, out var rootOrig))
+                return false;
+
+            var pathOrig = GetOriginalPath(path, root, rootOrig);
+
+            if (!File.Exists(pathOrig))
+                return false;
+
+            // Check if file matches search pattern:
+            var dir = Directory.GetParent(pathOrig);
+            var files = dir.GetFiles(c.FileSearchPattern).Select(x => x.FullName.ToLowerInvariant());
+            if (!files.Contains(pathOrig.ToLowerInvariant()))
+                return false;
+
+            // Check if folders filter allows that file containing folder.
+            if (c.FolderFilter?.Invoke(Directory.GetParent(pathOrig)?.FullName) == false)
+                return false;
+
+            // Check if file filter allows that file.
+            if (c.FileFilter?.Invoke(pathOrig) == false)
+                return false;
+
+            try
             {
-                var pathOrig = GetOriginalPath(path, root, rootOrig);
-
-                if (File.Exists(pathOrig))
+                var p = new Process
                 {
-                    var p = new Process
+                    StartInfo = new ProcessStartInfo
                     {
-                        StartInfo = new ProcessStartInfo
-                        {
-                            UseShellExecute = true,
-                            FileName = pathOrig
-                        }
-                    };
-
-                    try
-                    {
-                        p.Start();
-                        return true;
+                        UseShellExecute = true,
+                        FileName = pathOrig
                     }
-                    catch
-                    {
-                        // ignored
-                    }
-                }
+                };
+                p.Start();
+                return true;
+            }
+            catch
+            {
+                // ignored
             }
 
             return false;
