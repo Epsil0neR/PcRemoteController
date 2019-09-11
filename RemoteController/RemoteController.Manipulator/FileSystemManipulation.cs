@@ -1,38 +1,46 @@
-﻿using System;
+﻿using RemoteController.Manipulator.Contexts;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using RemoteController.Manipulator.Contexts;
 
 namespace RemoteController.Manipulator
 {
-
-    public enum FileSystemManipulationType
+    /// <summary>
+    /// Indicates in what mode <see cref="FileSystemManipulation"/> will work.
+    /// </summary>
+    public enum FileSystemManipulationMode
     {
+        /// <summary>
+        /// Lists directory content.
+        /// </summary>
         List,
+
+        /// <summary>
+        /// Executes file.
+        /// </summary>
         Exec
     }
 
     public class FileSystemManipulation : IManipulation
     {
-        public FileSystemManipulation(string name, FileSystemManipulationType type)
+        public FileSystemManipulation(string name, FileSystemManipulationMode mode)
         {
             Name = name;
-            Type = type;
+            Mode = mode;
         }
 
         public string Name { get; }
-        public FileSystemManipulationType Type { get; }
+        public FileSystemManipulationMode Mode { get; }
 
         public object Execute(IManipulatorsManager manager, string param)
         {
-            switch (Type)
+            switch (Mode)
             {
-                case FileSystemManipulationType.Exec:
+                case FileSystemManipulationMode.Exec:
                     return Exec(manager, param);
-                case FileSystemManipulationType.List:
+                case FileSystemManipulationMode.List:
                     return List(manager, param);
                 default:
                     return null;

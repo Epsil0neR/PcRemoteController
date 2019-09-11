@@ -3,14 +3,14 @@
     public interface IManipulatorsManager
     {
         /// <summary>
-        /// Gets context for specified type
+        /// Gets context for specified mode
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         T GetContext<T>();
 
         /// <summary>
-        /// Sets context for specified type.
+        /// Sets context for specified mode.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="context"></param>

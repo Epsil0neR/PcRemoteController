@@ -18,8 +18,8 @@ namespace RemoteController.Service
         public static void Configure(ManipulatorsManager manipulatorsManager, WsService service)
         {
             SetContexts(manipulatorsManager);
-            manipulatorsManager.Add(new FileSystemManipulation("FileSystem.List", FileSystemManipulationType.List));
-            manipulatorsManager.Add(new FileSystemManipulation("FileSystem.Exec", FileSystemManipulationType.Exec));
+            manipulatorsManager.Add(new FileSystemManipulation("FileSystem.List", FileSystemManipulationMode.List));
+            manipulatorsManager.Add(new FileSystemManipulation("FileSystem.Exec", FileSystemManipulationMode.Exec));
 
             manipulatorsManager.Add(new CmdManipulation("cmd.git.stage", "git add -A"));
             manipulatorsManager.Add(new CmdManipulation("cmd.git.unstage", "git reset"));
@@ -168,7 +168,7 @@ namespace RemoteController.Service
                 {
                     ActionName = msg.ActionName,
                     Hash = msg.Hash,
-                    Data = "Only Request message type support for messages from clients",
+                    Data = "Only Request message mode support for messages from clients",
                     Type = MessageType.Error
                 });
                 return;
