@@ -35,7 +35,9 @@ namespace RemoteController.Service
             Console.WriteLine("Starting service...");
             Configurator.SetContexts(Manipulators);
             Server.StartServer();
-            Console.WriteLine($"Started WS server? {Server.IsStarted}");
+
+            var p = Server.IsStarted ? "started" : "failed to start";
+            Console.WriteLine($"WebSocket server {p}");
 
             return true;
         }
@@ -45,7 +47,9 @@ namespace RemoteController.Service
             Console.WriteLine("Stopping service...");
             Server.StopServer();
             Configurator.ClearContexts(Manipulators);
-            Console.WriteLine($"Stopped WS server: {!Server.IsStarted}");
+
+            var p = !Server.IsStarted ? "shut down" : "failed to shut down";
+            Console.WriteLine($"WebSocket server {p}");
 
             return true;
         }
