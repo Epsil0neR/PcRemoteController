@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RemoteController.Service", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RemoteController.WebSocket", "RemoteController.WebSocket\RemoteController.WebSocket.csproj", "{FFF1CBE4-5E55-4B52-9F80-FD397CD4E251}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteController.Manipulator", "RemoteController.Manipulator\RemoteController.Manipulator.csproj", "{1F5737B5-647A-453B-BF71-59B08EFBC25F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RemoteController.Manipulator", "RemoteController.Manipulator\RemoteController.Manipulator.csproj", "{1F5737B5-647A-453B-BF71-59B08EFBC25F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteController.Informer", "RemoteController.Informer\RemoteController.Informer.csproj", "{05AF89BE-DC8A-4929-9EA0-4252FD7651E5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{1F5737B5-647A-453B-BF71-59B08EFBC25F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F5737B5-647A-453B-BF71-59B08EFBC25F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F5737B5-647A-453B-BF71-59B08EFBC25F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05AF89BE-DC8A-4929-9EA0-4252FD7651E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05AF89BE-DC8A-4929-9EA0-4252FD7651E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05AF89BE-DC8A-4929-9EA0-4252FD7651E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05AF89BE-DC8A-4929-9EA0-4252FD7651E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
