@@ -56,7 +56,14 @@ namespace RemoteController.Service
 
         private void InformerOnChanged(object sender, EventArgs e)
         {
-            var m = new Message();
+            var informer = (BaseInformer)sender;
+            var m = new Message
+            {
+                ActionName = $"Informer.{informer.Name}",
+                Type = MessageType.Notification,
+                Data = informer
+            };
+
             Server.Broadcast(m);
         }
 
