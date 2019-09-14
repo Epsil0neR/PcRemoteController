@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Linq;
+using Epsiloner.Collections;
+using RemoteController.Informer;
 using RemoteController.Manipulator;
 using RemoteController.WebSocket;
 using Topshelf;
@@ -16,6 +19,7 @@ namespace RemoteController.Service
         public WsService Service { get; }
         public HttpServer Http { get; }
         public ServiceBinding ServiceBinding { get; }
+        public ObservableCollection<BaseInformer> Informers { get; }
 
         public RemoteControllerService(LogWriter logger)
         {
@@ -26,9 +30,36 @@ namespace RemoteController.Service
             Service = new WsService(Server);
             ServiceBinding = new ServiceBinding(Service, Manipulators);
 
+            Informers = new ObservableCollection<BaseInformer>();
+            Informers.RegisterHandler(InformersHandler, true);
+
             Configurator.Configure(Manipulators, Service);
             Configurator.Web(Http);
+            Configurator.Configure(Informers);
         }
+
+        private void InformersHandler(bool inserted, BaseInformer item, int index)
+        {
+            if (inserted)
+            {
+                var n = item.Name;
+                if (Informers.Count(x => string.Equals(n, x.Name, StringComparison.InvariantCultureIgnoreCase)) > 1)
+                    throw new InvalidOperationException("Informer with same name already registered.");
+
+                item.Changed += InformerOnChanged;
+            }
+            else
+            {
+                item.Changed -= InformerOnChanged;
+            }
+        }
+
+        private void InformerOnChanged(object sender, EventArgs e)
+        {
+            var m = new Message();
+            Server.Broadcast(m);
+        }
+
 
         public bool Start(HostControl hostControl)
         {

@@ -5,6 +5,11 @@ namespace RemoteController.Informer
     public abstract class BaseInformer
     {
         /// <summary>
+        /// Unique name for each informer
+        /// </summary>
+        public abstract string Name { get; }
+
+        /// <summary>
         /// Raise when some data in informer has been changed.
         /// </summary>
         public event EventHandler Changed;

@@ -8,6 +8,9 @@ namespace RemoteController.Informer
     /// </summary>
     public class SoundInformer : BaseInformer
     {
+        /// <inheritdoc />
+        public override string Name => "Sound";
+
         /// <summary>
         /// Volume 0-100
         /// </summary>
@@ -32,6 +35,7 @@ namespace RemoteController.Informer
         /// List of enabled sound input devices.
         /// </summary>
         public object InputDeviceList { get; private set; }
+
 
         public override void CheckForChanges()
         {

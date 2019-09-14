@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Epsiloner.Core" Version="1.0.11" />
     <PackageReference Include="NLog" Version="4.6.7" />
     <PackageReference Include="NLog.Config" Version="4.6.7" />
     <PackageReference Include="NLog.Schema" Version="4.6.7" />
@@ -15,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\RemoteController.Informer\RemoteController.Informer.csproj" />
     <ProjectReference Include="..\RemoteController.Manipulator\RemoteController.Manipulator.csproj" />
     <ProjectReference Include="..\RemoteController.WebSocket\RemoteController.WebSocket.csproj" />
   </ItemGroup>

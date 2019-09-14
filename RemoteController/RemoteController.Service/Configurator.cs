@@ -3,6 +3,8 @@ using System.Linq;
 using System.Text;
 using WindowsInput;
 using WindowsInput.Native;
+using Epsiloner.Collections;
+using RemoteController.Informer;
 using RemoteController.Manipulator;
 using RemoteController.Manipulator.Contexts;
 using RemoteController.WebSocket;
@@ -122,7 +124,8 @@ namespace RemoteController.Service
                 {
                     res.ContentType = "application/javascript";
                     res.ContentEncoding = Encoding.UTF8;
-                } else if (path.EndsWith(".css"))
+                }
+                else if (path.EndsWith(".css"))
                 {
                     res.ContentType = "text/css";
                     res.ContentEncoding = Encoding.UTF8;
@@ -130,6 +133,11 @@ namespace RemoteController.Service
 
                 res.WriteContent(contents);
             };
+        }
+
+        public static void Configure(IList<BaseInformer> informers)
+        {
+            informers.Add(new SoundInformer());
         }
     }
 }
