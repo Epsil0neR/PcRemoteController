@@ -19,10 +19,15 @@ PC remote controller for phone via LAN connection.
     - [x] Configure allowed roots for view (with file extensions that client can see)
     - [x] Provide directory content (directories and allowed files)
     - [x] Execute file (any or from whitelist only? whitelist example: *.mp3, *.avi)
+  - [ ] Sound
+    - [ ] Volume change (by setting 0-100 value)
+    - [ ] Change current output device (speakers / headset / headphone)
+    - [ ] Change current input device (mic / headset)
   
 - [ ] Library for reading data from PC (with updates)
   - [ ] Master volume changes
-  - [ ] Volume output device changes
+  - [ ] Sound output device list and changes
+  - [ ] Sound input device list and changes
   - [ ] Mute / unmute mic
   - [ ] CPU stats (temp / laod / speed)
 
