@@ -92,9 +92,9 @@ WebSocketClient.prototype.open = function (autoReconnectInterval) {
         this.__createdInstance(this.instance);
     } catch (error) { /**/ }
 }
-WebSocketClient.prototype.send = function (data, option) {
+WebSocketClient.prototype.send = function (data) {
     try {
-        this.instance.send(data, option);
+        this.instance.send(data);
     } catch (e) {
         this.instance.emit("error", e);
     }
