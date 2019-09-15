@@ -1,4 +1,5 @@
 ﻿window.addEventListener("load", () => {
+    let key = 'history-FileSystem.List';
     var btnTest = document.getElementById('btnTest');
     var divPaths = document.getElementById('paths');
     var divFolders = document.getElementById('folders');
@@ -15,8 +16,11 @@
                 var path = msg.Data.path;
                 createPath('', '..');
                 var root = '';
+
                 if (path instanceof Array)
                     root = path.join('\\') + '\\';
+
+                localStorage[key] = path instanceof Array ? path.join('\\') : '';
 
                 if (path instanceof Array) {
                     path.forEach((x, i) => {
@@ -34,6 +38,18 @@
             }
         });
 
+    var orig = client.onConnectionStatusChange;
+    client.onConnectionStatusChange = onConnChange;
+
+    function onConnChange(status) {
+        if (orig instanceof Function)
+            orig(status);
+
+        if (client.readyState == WebSocket.OPEN) {
+            message('FileSystem.List', localStorage[key]);
+        }
+    }
+
     function createPath(url, text) {
         var a = document.createElement('a');
         a.text = text;
@@ -50,6 +66,8 @@
     btnTest.addEventListener('click', btnTestOnClick);
 
     function btnTestOnClick(parameters) {
-        message('FileSystem.List');
+        message('FileSystem.List', localStorage[key]);
     }
+
+    onConnChange(client.readyState);
 }, false);
