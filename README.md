@@ -11,14 +11,14 @@ PC remote controller for phone via LAN connection.
   
 - [ ] Library for manipulating PC
   - [ ] Keyboard / Mouse
-    - [ ] Media keys
-    - [ ] Volume keys
+    - [x] Media keys
+    - [x] Volume keys
     - [ ] Other keys (any or from whitelist only?)
   - [ ] Commands (must be registered locally and invoked only by command name)
   - [ ] Files 
-    - [ ] Configure allowed roots for view (with file extensions that client can see)
-    - [ ] Provide directory content (directories and allowed files)
-    - [ ] Execute file (any or from whitelist only? whitelist example: *.mp3, *.avi)
+    - [x] Configure allowed roots for view (with file extensions that client can see)
+    - [x] Provide directory content (directories and allowed files)
+    - [x] Execute file (any or from whitelist only? whitelist example: *.mp3, *.avi)
   
 - [ ] Library for reading data from PC (with updates)
   - [ ] Master volume changes
