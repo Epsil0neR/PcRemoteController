@@ -22,11 +22,12 @@ namespace RemoteController.Service
             manipulatorsManager.Add(new FileSystemManipulation("FileSystem.List", FileSystemManipulationMode.List));
             manipulatorsManager.Add(new FileSystemManipulation("FileSystem.Exec", FileSystemManipulationMode.Exec));
 
-            manipulatorsManager.Add(new CmdManipulation("cmd.git.stage", "git add -A"));
-            manipulatorsManager.Add(new CmdManipulation("cmd.git.unstage", "git reset"));
-            manipulatorsManager.Add(new CmdManipulation("cmd.git", "git", true));
-            manipulatorsManager.Add(new CmdManipulation("cmd.git.2", "git", true, false, true));
-            manipulatorsManager.Add(new CmdManipulation("cmd.git.3", "git", true, true, true));
+            // Disable CMD commands for now
+            //manipulatorsManager.Add(new CmdManipulation("cmd.git.stage", "git add -A"));
+            //manipulatorsManager.Add(new CmdManipulation("cmd.git.unstage", "git reset"));
+            //manipulatorsManager.Add(new CmdManipulation("cmd.git", "git", true));
+            //manipulatorsManager.Add(new CmdManipulation("cmd.git.2", "git", true, false, true));
+            //manipulatorsManager.Add(new CmdManipulation("cmd.git.3", "git", true, true, true));
 
             manipulatorsManager.Add(new KeyboardManipulation("Key"));
 
