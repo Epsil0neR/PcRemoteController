@@ -31,4 +31,14 @@
 
 #folders a, #files a {
     display: block;
+    cursor: pointer;
 }
+
+#paths a {
+    cursor: pointer;
+}
+
+    #paths a + a:before {
+        content: '\\';
+        margin: 0 4px;
+    }

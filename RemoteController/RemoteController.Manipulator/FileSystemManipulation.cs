@@ -153,7 +153,7 @@ namespace RemoteController.Manipulator
                 .Select(x => x.FullName.Replace(rootOrig, rootKey))
                 .ToList();
             if (folders.Any())
-                rv["folders"] = folders;
+                rv["folders"] = folders.Select(Path.GetFileName).ToList();
 
             var fp = string.IsNullOrWhiteSpace(contexts.FileSearchPattern) ? "*" : contexts.FileSearchPattern;
             var files = di.GetFiles(fp, SearchOption.TopDirectoryOnly)
@@ -161,7 +161,7 @@ namespace RemoteController.Manipulator
                 .Select(x => x.FullName.Replace(rootOrig, rootKey))
                 .ToList();
             if (files.Any())
-                rv["files"] = files.ToList();
+                rv["files"] = files.Select(Path.GetFileName).ToList();
 
             rv["path"] = path.ToPathParts();
         }
@@ -222,7 +222,7 @@ namespace RemoteController.Manipulator
             {
                 var part = Path.GetFileName(path);
                 path = Path.GetDirectoryName(path);
-                rv.Add(part);
+                rv.Insert(0, part);
             }
 
             return rv;

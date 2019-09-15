@@ -78,7 +78,7 @@ namespace RemoteController.Service
                 {
                     Roots = new Dictionary<string, string>()
                     {
-                        //{"Testing", @"C:\testing" }
+                        {"Testing", @"C:\testing" },
                         { "Download",  @"E:\Download"},
                         { "Downloads", @"C:\Users\Epsil0neR\Downloads"}
                     }
