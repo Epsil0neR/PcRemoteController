@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using NAudio.CoreAudioApi;
 
 namespace RemoteController.Informer
 {
@@ -8,38 +9,67 @@ namespace RemoteController.Informer
     /// </summary>
     public class SoundInformer : BaseInformer
     {
+        private int _outputVolume;
+        private string _outputDevice;
+        private bool _outputIsMuted;
+        private IList<string> _outputDeviceList;
+
         /// <inheritdoc />
         public override string Name => "Sound";
 
         /// <summary>
-        /// Volume 0-100
+        /// Output volume 0-100
         /// </summary>
-        public int Volume { get; private set; }
+        public int OutputVolume => _outputVolume;
 
         /// <summary>
         /// Current device used for sound output.
         /// </summary>
-        public object OutputDevice { get; private set; }
+        public string OutputDevice => _outputDevice;
+
+        /// <summary>
+        /// Indicates if current sound output is muted.
+        /// </summary>
+        public bool OutputIsMuted => _outputIsMuted;
 
         /// <summary>
         /// Current device used for sound input.
         /// </summary>
-        public object InputDevice { get; private set; }
+        public string InputDevice { get; private set; }
 
         /// <summary>
         /// List of enabled sound output devices.
         /// </summary>
-        public object OutputDeviceList { get; private set; }
+        public IEnumerable<string> OutputDeviceList => _outputDeviceList;
 
         /// <summary>
         /// List of enabled sound input devices.
         /// </summary>
-        public object InputDeviceList { get; private set; }
+        public string InputDeviceList { get; private set; }
 
 
-        public override void CheckForChanges()
+        public override bool CheckForChanges()
         {
-            throw new System.NotImplementedException();
+            var enumer = new MMDeviceEnumerator();
+            var devices = enumer.EnumerateAudioEndPoints(DataFlow.Render, DeviceState.Active).ToList();
+            var device = enumer.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
+            var changes = new[]
+            {
+                Set(ref _outputDevice, device.DeviceFriendlyName),
+                Set(ref _outputVolume, (int)(device.AudioEndpointVolume.MasterVolumeLevelScalar * 100)),
+                Set(ref _outputIsMuted, device.AudioEndpointVolume.Mute),
+                SetList(ref _outputDeviceList, devices.Select(x => x.DeviceFriendlyName)),
+            };
+
+            if (!changes.Any(x => x))
+                return false;
+
+            RaiseChanged();
+            return true;
+        }
+
+        public SoundInformer()
+        {
         }
     }
 }

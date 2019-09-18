@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace RemoteController.Informer
 {
@@ -26,6 +28,51 @@ namespace RemoteController.Informer
         /// Checks for changes in system.
         /// NOTE: Not all OS components notifies about changes.
         /// </summary>
-        public abstract void CheckForChanges();
+        public abstract bool CheckForChanges();
+
+
+        /// <summary>
+        /// Sets backfield to value and returns true if value changed, otherwise returns false.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="prop"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        protected bool Set<T>(ref T prop, T value)
+        {
+            bool changed = !EqualityComparer<T>.Default.Equals(prop, value);
+            if (changed)
+            {
+                prop = value;
+            }
+            return changed;
+        }
+
+        /// <summary>
+        /// Sets list to values and returns true if lists differs by item counts or by values.
+        /// If changed only order of items - returns false.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="prop"></param>
+        /// <param name="values"></param>
+        /// <returns></returns>
+        protected bool SetList<T>(ref IList<T> prop, IEnumerable<T> values)
+        {
+            var v = values?.ToList();
+            var changed = prop?.Count == v?.Count;
+            if (!changed && v != null && prop != null)
+            {
+                foreach (var itm in v)
+                {
+                    if (prop.Contains(itm))
+                        continue;
+
+                    changed = true;
+                    break;
+                }
+            }
+            prop = v;
+            return changed;
+        }
     }
 }
