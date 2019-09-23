@@ -266,6 +266,7 @@ namespace RemoteController.WebSocket
 
         private void InitSocket(WsSocket socket)
         {
+            socket.IgnoreExtensions = true;
             socket.Opened += BehaviorOnOpened;
             socket.Closed += BehaviorOnClosed;
             socket.Message += BehaviorOnMessage;

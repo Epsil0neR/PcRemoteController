@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Epsiloner.Cooldowns;
 using NAudio.CoreAudioApi;
 
 namespace RemoteController.Informer
@@ -9,10 +11,13 @@ namespace RemoteController.Informer
     /// </summary>
     public class SoundInformer : BaseInformer
     {
+        private readonly EventCooldown _cooldown;
+
         private int _outputVolume;
         private string _outputDevice;
         private bool _outputIsMuted;
         private IList<string> _outputDeviceList;
+        private MMDevice _device;
 
         /// <inheritdoc />
         public override string Name => "Sound";
@@ -53,9 +58,10 @@ namespace RemoteController.Informer
             var enumer = new MMDeviceEnumerator();
             var devices = enumer.EnumerateAudioEndPoints(DataFlow.Render, DeviceState.Active).ToList();
             var device = enumer.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
+            var changedDevice = Set(ref _outputDevice, device.DeviceFriendlyName);
             var changes = new[]
             {
-                Set(ref _outputDevice, device.DeviceFriendlyName),
+                changedDevice,
                 Set(ref _outputVolume, (int)(device.AudioEndpointVolume.MasterVolumeLevelScalar * 100)),
                 Set(ref _outputIsMuted, device.AudioEndpointVolume.Mute),
                 SetList(ref _outputDeviceList, devices.Select(x => x.DeviceFriendlyName)),
@@ -64,12 +70,49 @@ namespace RemoteController.Informer
             if (!changes.Any(x => x))
                 return false;
 
+            if (changedDevice)
+            {
+                if (_device != null)
+                    _device.AudioEndpointVolume.OnVolumeNotification -= AudioEndpointVolumeOnOnVolumeNotification;
+                _device = device;
+                if (_device != null)
+                    _device.AudioEndpointVolume.OnVolumeNotification += AudioEndpointVolumeOnOnVolumeNotification;
+            }
+
             RaiseChanged();
             return true;
         }
 
+        private void AudioEndpointVolumeOnOnVolumeNotification(AudioVolumeNotificationData data)
+        {
+            var changes = new[]
+            {
+                Set(ref _outputVolume, (int) (data.MasterVolume * 100)),
+                Set(ref _outputIsMuted, data.Muted),
+            };
+            if (changes.Any(x => x))
+                RaiseChanged();
+        }
+
+        /// <inheritdoc />
+        public override void Start()
+        {
+            _cooldown.Accumulate();
+        }
+
+        /// <inheritdoc />
+        public override void Stop()
+        {
+            _cooldown.Cancel();
+        }
+
         public SoundInformer()
         {
+            _cooldown = new EventCooldown(TimeSpan.FromMilliseconds(5000), () =>
+            {
+                CheckForChanges();
+                _cooldown.Accumulate();
+            });
         }
     }
 }

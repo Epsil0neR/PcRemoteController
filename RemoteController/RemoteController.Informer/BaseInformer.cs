@@ -30,6 +30,16 @@ namespace RemoteController.Informer
         /// </summary>
         public abstract bool CheckForChanges();
 
+        /// <summary>
+        /// Start monitoring system for changes.
+        /// </summary>
+        public abstract void Start();
+
+        /// <summary>
+        /// Stops system monitoring.
+        /// </summary>
+        public abstract void Stop();
+
 
         /// <summary>
         /// Sets backfield to value and returns true if value changed, otherwise returns false.
@@ -59,7 +69,7 @@ namespace RemoteController.Informer
         protected bool SetList<T>(ref IList<T> prop, IEnumerable<T> values)
         {
             var v = values?.ToList();
-            var changed = prop?.Count == v?.Count;
+            var changed = prop?.Count != v?.Count;
             if (!changed && v != null && prop != null)
             {
                 foreach (var itm in v)

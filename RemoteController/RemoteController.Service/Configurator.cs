@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using WindowsInput;
-using WindowsInput.Native;
-using Epsiloner.Collections;
+using System.Threading.Tasks;
 using RemoteController.Informer;
 using RemoteController.Manipulator;
 using RemoteController.Manipulator.Contexts;
@@ -11,12 +10,17 @@ using RemoteController.WebSocket;
 using WebSocketSharp;
 using WebSocketSharp.Net;
 using WebSocketSharp.Server;
+using WindowsInput;
+using WindowsInput.Native;
 
 namespace RemoteController.Service
 {
     internal static class Configurator
     {
-        public static void Configure(ManipulatorsManager manipulatorsManager, WsService service)
+        public static void Configure(
+            ManipulatorsManager manipulatorsManager,
+            WsService service,
+            InformersManager informersManager)
         {
             SetContexts(manipulatorsManager);
             manipulatorsManager.Add(new FileSystemManipulation("FileSystem.List", FileSystemManipulationMode.List));
@@ -65,6 +69,25 @@ namespace RemoteController.Service
 
                 return true;
             }));
+
+            service.Server.ClientConnected += ServerOnClientConnected;
+            void ServerOnClientConnected(object sender, EventArgs e)
+            {
+                var socket = sender as IWsSocket;
+                var behavior = socket as WebSocketBehavior;
+                if (socket == null)
+                    return;
+
+                var task = Task.Delay(1000);
+                task.ConfigureAwait(false);
+                task.ContinueWith(t =>
+                {
+                    if (behavior?.State != WebSocketState.Open)
+                        return;
+
+                    informersManager.Informers.Send(socket);
+                });
+            }
         }
 
         public static void SetContexts(ManipulatorsManager manipulatorsManager)
@@ -136,9 +159,37 @@ namespace RemoteController.Service
             };
         }
 
-        public static void Configure(IList<BaseInformer> informers)
+        public static void Configure(InformersManager manager)
         {
-            informers.Add(new SoundInformer());
+            manager.Register(new SoundInformer());
+        }
+
+        public static void Send(this IEnumerable<BaseInformer> informers, IWsSocket socket)
+        {
+            foreach (var info in informers)
+                info.Send(socket);
+        }
+
+        public static void Send(this BaseInformer informer, IWsSocket socket)
+        {
+            socket.Send(informer.ToMessage());
+        }
+
+        public static void Send(this BaseInformer informer, WsServer server)
+        {
+            var msg = informer.ToMessage();
+            server.Broadcast(msg);
+        }
+
+        public static Message ToMessage(this BaseInformer informer)
+        {
+            var rv = new Message()
+            {
+                Type = MessageType.Notification,
+                ActionName = $"Informer.{informer.Name}",
+                Data = informer,
+            };
+            return rv;
         }
     }
 }
