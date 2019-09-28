@@ -118,6 +118,34 @@ namespace RemoteController.Informer
             return true;
         }
 
+        public bool ChangeOutputVolume(int volume)
+        {
+            return ChangeVolume(ref _output, volume);
+        }
+        public bool ChangeInputVolume(int volume)
+        {
+            return ChangeVolume(ref _input, volume);
+        }
+
+        private bool ChangeVolume(ref MMDevice device, int volume)
+        {
+
+            if (volume < 0 || volume > 100)
+                return false; // Do nothing if value exceeds.
+
+            if (device == null)
+            {
+                // Try find output device
+                CheckForChanges();
+
+                if (device == null)
+                    return false; // Do nothing if there are no output device.
+            }
+
+            device.AudioEndpointVolume.MasterVolumeLevelScalar = volume / 100f;
+            return true;
+        }
+
         private void InputOnOnVolumeNotification(AudioVolumeNotificationData data)
         {
             var changes = new[]

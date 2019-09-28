@@ -88,6 +88,25 @@ namespace RemoteController.Service
                     informersManager.Informers.Send(socket);
                 });
             }
+
+            var soundInformer = informersManager.Informer<SoundInformer>();
+            if (soundInformer != null)
+            {
+                manipulatorsManager.Add(new CustomManipulation<bool>("Sound.Output.Volume", (string input) =>
+                {
+                    if (!int.TryParse(input, out int volume))
+                        return false;
+
+                    return soundInformer.ChangeOutputVolume(volume);
+                }));
+                manipulatorsManager.Add(new CustomManipulation<bool>("Sound.Input.Volume", (string input) =>
+                {
+                    if (!int.TryParse(input, out int volume))
+                        return false;
+
+                    return soundInformer.ChangeInputVolume(volume);
+                }));
+            }
         }
 
         public static void SetContexts(ManipulatorsManager manipulatorsManager)
@@ -162,6 +181,7 @@ namespace RemoteController.Service
         public static void Configure(InformersManager manager)
         {
             manager.Register(new SoundInformer());
+
         }
 
         public static void Send(this IEnumerable<BaseInformer> informers, IWsSocket socket)

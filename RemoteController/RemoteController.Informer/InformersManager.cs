@@ -41,6 +41,11 @@ namespace RemoteController.Informer
                 informer.CheckForChanges();
         }
 
+        public T Informer<T>() where T : BaseInformer
+        {
+            return _items.OfType<T>().FirstOrDefault();
+        }
+
         public void Unregister(BaseInformer informer)
         {
             if (!_items.Remove(informer))
