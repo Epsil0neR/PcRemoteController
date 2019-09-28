@@ -33,7 +33,7 @@ function init() {
 
     if (inpVolume !== null && inpVolume !== undefined) {
         inpVolume.disabled = true;
-        inpVolume.addEventListener("change", inpVolumeOnChange);
+        inpVolume.addEventListener("input", inpVolumeOnChange);
     }
 
     doWebSocket();
