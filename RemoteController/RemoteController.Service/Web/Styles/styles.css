@@ -42,3 +42,8 @@
         content: '\\';
         margin: 0 4px;
     }
+
+#inpVolume {
+    width: 100%;
+    margin: 0;
+}

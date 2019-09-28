@@ -10,6 +10,8 @@ var output;
 var btn;
 var cmdName;
 var cmdParam;
+var inpVolume;
+var lblVolume;
 
 function makeid() {
     var text = "";
@@ -26,7 +28,23 @@ function init() {
     btn = document.getElementById("btnPing");
     cmdName = document.getElementById("cmdName");
     cmdParam = document.getElementById("cmdParam");
+    inpVolume = document.getElementById("inpVolume");
+    lblVolume = document.getElementById("lblVolume");
+
+    if (inpVolume !== null && inpVolume !== undefined) {
+        inpVolume.disabled = true;
+        inpVolume.addEventListener("change", inpVolumeOnChange);
+    }
+
     doWebSocket();
+}
+
+function inpVolumeOnChange(e) {
+    if (inpVolume.disabled)
+        return;
+
+    var data = inpVolume.value;
+    message("Sound.Output.Volume", data);
 }
 
 function doWebSocket() {
@@ -49,6 +67,23 @@ function doWebSocket() {
             });
 
     client.onConnectionStatusChange = onConnectionStatusChange;
+
+    client.AddHandler('Informer.Sound', m => {
+        var data = m.Data;
+        if (data === null ||
+            data === undefined)
+            return;
+
+        if (inpVolume !== null &&
+            inpVolume !== undefined) {
+            inpVolume.value = data.OutputVolume;
+            inpVolume.disabled = false;
+        }
+        if (lblVolume !== null &&
+            lblVolume !== undefined) {
+            lblVolume.innerHTML = data.OutputVolume;
+        }
+    });
 
     onConnectionStatusChange();
 
@@ -107,5 +142,5 @@ function handle(action) {
  * @param {WebSocketMessage} msg Message
  */
 function clientHandler(msg) {
-    writeToScreen("Response: "+ msg.Hash + "<br /><pre>" + JSON.stringify(msg, undefined, 4) + "</pre>");
+    writeToScreen("Response: " + msg.Hash + "<br /><pre>" + JSON.stringify(msg, undefined, 4) + "</pre>");
 }
