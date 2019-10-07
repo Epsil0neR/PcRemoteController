@@ -18,16 +18,16 @@
     <div class="border"></div>
 
     <div class="btn-container">
-        <div>
-            Volume: <span id="lblVolume" />
-        </div>
-        <input id="inpVolume" type="range" min="0" max="100" step="1"/>
         <button onclick="message('key.volume.+')" type="submit">Vol +</button>
         <button onclick="message('key.volume.-')" type="submit">Vol -</button>
         <button onclick="message('key', 'left')" type="submit">&lt;-</button>
         <button onclick="message('key', 'right')" type="submit">-&gt;</button>
         <button onclick="message('key', 'space')" type="submit">Space</button>
         <button onclick="message('key', 'f')" type="submit">F</button>
+        <input id="inpVolume" type="range" min="0" max="100" step="1"/>
+        <div>
+            Volume: <span id="lblVolume" />
+        </div>
     </div>
 
     <div class="border"></div>
