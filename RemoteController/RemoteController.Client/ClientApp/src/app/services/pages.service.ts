@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IPage, PageDetails } from '../models/_exports';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,9 +9,14 @@ export class PagesService {
   private static __key: string = 'rc.pages';
 
   constructor() {
+    this.pages = new BehaviorSubject(null);
     if (localStorage.getItem(PagesService.__key) === null)
       localStorage.setItem(PagesService.__key, JSON.stringify(<any>[]));
+
+    this.list();
   }
+
+  public pages: BehaviorSubject<IPage[]>;
 
   private detailsKey(name: string) {
     const key = `${PagesService.__key}.${name}`;
@@ -33,6 +39,9 @@ export class PagesService {
     const rv = pages
       .sort((a, b) => a.index - b.index);
 
+
+    this.pages.next(rv);
+
     return rv;
   }
 
@@ -44,7 +53,7 @@ export class PagesService {
     if (typeof name !== 'string')
       return null;
 
-    const list = this.list();
+    const list = this.pages.getValue();
     if (list === null || list === undefined)
       return null;
 
@@ -74,7 +83,7 @@ export class PagesService {
     if (typeof name !== 'string')
       name = title.toLowerCase();
 
-    const list = this.list(); // TODO: Init list.
+    const list = this.pages.getValue(); // TODO: Init list.
     const exists = () => list.find(x => x.name === name) !== undefined;
     if (exists()) {
       const origName = name;
@@ -92,9 +101,9 @@ export class PagesService {
       name: name,
       index: list.length,
     };
-    this.setPage(page);
     const key = this.detailsKey(name);
     localStorage.setItem(key, details.toJson());
+    this.setPage(page);
 
     return details;
   }
@@ -109,7 +118,7 @@ export class PagesService {
 
     name = name.toLowerCase();
 
-    const pages = this.list();
+    const pages = this.pages.getValue();
     const rv = pages instanceof Array ? pages.findIndex(x => <any>(x.name === name)) : -1;
 
     if (rv >= 0) {
@@ -128,6 +137,7 @@ export class PagesService {
   private savePages(pages: IPage[]) {
     const json = JSON.stringify(pages);
     localStorage.setItem(PagesService.__key, json);
+    this.pages.next(pages);
   }
   //////////////////////////////////////////////////// STOPPED HERE.
 
@@ -139,7 +149,7 @@ export class PagesService {
     if (page == null)
       return;
 
-    const pages = this.list();
+    const pages = this.pages.getValue();
     const ind = pages instanceof Array ? pages.findIndex(x => <any>(x.name === page.name)) : -1;
     if (ind >= 0)
       pages[ind] = page;
