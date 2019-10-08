@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-page-editor',
+  selector: 'rc-page-editor',
   templateUrl: './page-editor.component.html',
   styleUrls: ['./page-editor.component.css']
 })

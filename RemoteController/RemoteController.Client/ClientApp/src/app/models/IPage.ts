@@ -1,5 +1,5 @@
 export interface IPage {
-    name: string,
-    index: number,
+    name: string;
+    index: number;
     title: string;
 }

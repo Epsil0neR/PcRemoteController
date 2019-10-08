@@ -1,15 +1,27 @@
 export class PageDetails {
-    public title: string = '';
+  public title: string = '';
 
-    public toDto() {
-        return {};
-    }
+  public static parse(json: string): PageDetails {
+    if (!json)
+      return null;
 
-    public toJson(): string {
-        return JSON.stringify(this.toDto());
-    }
+    const dto = JSON.parse(json);
+    if (!dto)
+      return null;
 
-    public static parse(json: string): PageDetails {
-        return null;
-    }
+    const pd = new PageDetails();
+    pd.title = dto.title;
+    return pd;
+  }
+
+  public toDto() {
+    return {
+      title: this.title
+    };
+  }
+
+  public toJson(): string {
+    return JSON.stringify(this.toDto());
+  }
+
 }

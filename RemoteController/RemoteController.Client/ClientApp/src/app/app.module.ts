@@ -12,7 +12,7 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 
 import * as Components from './components/_exports';
 import * as Services from './services/_exports';
-import { environment } from "../environments/environment";
+import { environment } from '../environments/environment';
 
 @NgModule({
     declarations: [
@@ -23,7 +23,8 @@ import { environment } from "../environments/environment";
         FetchDataComponent,
         Components.SendKeyComponent,
         Components.PageComponent,
-        Components.PageEditorComponent
+        Components.PageEditorComponent,
+        Components.PageCreateComponent
     ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -33,7 +34,8 @@ import { environment } from "../environments/environment";
             { path: '', component: HomeComponent, pathMatch: 'full' },
             { path: 'counter', component: CounterComponent },
             { path: 'fetch-data', component: FetchDataComponent },
-            { path: 'page/:name', component: Components.PageComponent }
+            { path: 'create', component: Components.PageCreateComponent},
+            { path: 'p/:name', component: Components.PageComponent }
         ])
     ],
     providers: [
@@ -50,7 +52,7 @@ import { environment } from "../environments/environment";
 export class AppModule { }
 
 export function WebSocketServiceProvider() {
-    let rv = new Services.WebSocketService(environment.wsHost);
+    const rv = new Services.WebSocketService(environment.wsHost);
     rv.open();
     console.log('Created WebSocketService: ', rv);
     return rv;
