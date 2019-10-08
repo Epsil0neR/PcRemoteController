@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import * as Models from "../models/_exports";
-import { environment } from "../../environments/environment";
+import * as Models from '../models/_exports';
+import { environment } from '../../environments/environment';
 
 @Injectable({
     providedIn: 'root',
@@ -14,30 +14,30 @@ export class WebSocketService {
     private __handlers: { [id: string]: Function[] } = {};
     private __messageHandlers: { [id: string]: ((message: Models.WebSocketMessage) => void)[] } = {};
     private __instnaceHandlers = {
-        "close": (e: CloseEvent) => {
+        'close': (e: CloseEvent) => {
             this.raiseEvent('close', e);
 
-            if (e.code !== 1000) //1000 is a CLOSE_NORMAL, on which client don't need to reconnect.
+            if (e.code !== 1000) // 1000 is a CLOSE_NORMAL, on which client don't need to reconnect.
                 this.reconnect();
 
-            this.raiseEvent("connection", false);
+            this.raiseEvent('connection', false);
         },
-        "error": (e: CloseEvent) => {
+        'error': (e: CloseEvent) => {
             this.raiseEvent('error', e);
 
-            if ((<any>e.code) === "ECONNREFUSED" || e.reason === "ECONNREFUSED")
+            if ((<any>e.code) === 'ECONNREFUSED' || e.reason === 'ECONNREFUSED')
                 this.reconnect();
         },
-        "message": (e: MessageEvent) => {
+        'message': (e: MessageEvent) => {
             this.raiseEvent('message.raw', e);
 
             try {
-                let data = JSON.parse(e.data);
-                let msg = Models.WebSocketMessage.parse(data);
+                const data = JSON.parse(e.data);
+                const msg = Models.WebSocketMessage.parse(data);
                 if (msg === null)
                     return;
 
-                function filter(f: Function): any { return f(msg) !== false; };
+                function filter(f: Function): any { return f(msg) !== false; }
 
                 this.raiseEvent('message', msg);
 
@@ -50,9 +50,9 @@ export class WebSocketService {
             }
 
         },
-        "open": (e: Event) => {
+        'open': (e: Event) => {
             this.raiseEvent('open', e);
-            this.raiseEvent("connection", true);
+            this.raiseEvent('connection', true);
         },
     };
     private __filters: Function[] = [];
@@ -66,7 +66,7 @@ export class WebSocketService {
         return this.__autoReconnectInterval;
     }
     set autoReconnectInterval(value: number) {
-        if (value !== null && (typeof (value) !== "number") || isNaN(value))
+        if (value !== null && (typeof (value) !== 'number') || isNaN(value))
             return;
         if (value < 0)
             value = 0;
@@ -77,13 +77,13 @@ export class WebSocketService {
     /**
      * Gets or sets auto-reconnect tries count before stopping trying to reconnect.
      * -1 -> Infinity times.
-     * @returns {number} 
+     * @returns {number}
      */
     get autoReconnectTries() {
         return this.__autoReconnectTries;
     }
     set autoReconnectTries(value: number) {
-        if (value !== null && (typeof (value) !== "number") || isNaN(value))
+        if (value !== null && (typeof (value) !== 'number') || isNaN(value))
             return;
         if (value < -1)
             value = -1;
@@ -114,7 +114,7 @@ export class WebSocketService {
 
         this.__handlers[name].push(handler);
 
-        //TODO: Depending on event type: check if that handler should be invoked instantly.
+        // TODO: Depending on event type: check if that handler should be invoked instantly.
     }
 
     public removeHandler(name: string, handler: Function): boolean {
@@ -128,11 +128,11 @@ export class WebSocketService {
         if (!this.__handlers.hasOwnProperty(name))
             return false;
 
-        var arr = this.__handlers[name];
+        const arr = this.__handlers[name];
         if (arr instanceof Array === false)
             return false;
 
-        var ind = arr.indexOf(handler);
+        const ind = arr.indexOf(handler);
         if (ind < 0)
             return false;
 
@@ -144,15 +144,14 @@ export class WebSocketService {
             return;
 
         console.log('Raise event:', name, data);
-        //TODO:
 
         name = name.toLowerCase();
 
         if (!this.__handlers.hasOwnProperty(name))
             return;
 
-        var handlers = this.__handlers[name];
-        if (handlers instanceof Array == false)
+        const handlers = this.__handlers[name];
+        if (handlers instanceof Array === false)
             return;
 
         handlers.forEach(h => h(data));
@@ -162,12 +161,12 @@ export class WebSocketService {
         if (message instanceof Models.WebSocketMessage === false)
             return;
 
-        var data = JSON.stringify(message.toDto());
+        const data = JSON.stringify(message.toDto());
 
         try {
             this.instance.send(data);
         } catch (e) {
-            this.raiseEvent("error.send", message);
+            this.raiseEvent('error.send', message);
         }
     }
 
@@ -177,15 +176,15 @@ export class WebSocketService {
             this.instance = new WebSocket(this.url);
             this.instanceCreated(this.instance);
             this.__autoReconnectTry = 0;
-            this.raiseEvent("open");
+            this.raiseEvent('open');
         } catch (e) {
-            this.raiseEvent("error.open", e);
+            this.raiseEvent('error.open', e);
         }
     }
 
     public close(): void {
         if (this.instance instanceof WebSocket) {
-            let ws = this.instance;
+            const ws = this.instance;
             this.instance = null;
             ws.close();
             this.instanceClosed(ws);
@@ -210,20 +209,20 @@ export class WebSocketService {
     }
 
     private instanceCreated(instance: WebSocket) {
-        for (let evt in this.__instnaceHandlers) {
+        for (const evt in this.__instnaceHandlers) {
             if (this.__instnaceHandlers.hasOwnProperty(evt) === false)
                 continue;
 
-            var handler = this.__instnaceHandlers[evt];
+            const handler = this.__instnaceHandlers[evt];
             instance.addEventListener(evt, handler);
         }
     }
     private instanceClosed(instance: WebSocket) {
-        for (let evt in this.__instnaceHandlers) {
+        for (const evt in this.__instnaceHandlers) {
             if (this.__instnaceHandlers.hasOwnProperty(evt) === false)
                 continue;
 
-            var handler = this.__instnaceHandlers[evt];
+            const handler = this.__instnaceHandlers[evt];
             instance.removeEventListener(evt, handler);
         }
     }
@@ -248,8 +247,8 @@ export class WebSocketService {
         if (!(filter instanceof Function))
             return 0;
 
-        var rv = 0;
-        var ind = this.__filters.indexOf(filter);
+        let rv = 0;
+        let ind = this.__filters.indexOf(filter);
         while (ind >= 0) {
             this.__filters.splice(ind, 1);
             ind = this.__filters.indexOf(filter);
@@ -266,7 +265,7 @@ export class WebSocketService {
 
         action = action.toLowerCase();
 
-        var handlers = this.__messageHandlers[action];
+        const handlers = this.__messageHandlers[action];
         if (handlers instanceof Array === false)
             return;
 
@@ -296,11 +295,11 @@ export class WebSocketService {
         if (!this.__messageHandlers.hasOwnProperty(name))
             return false;
 
-        var arr = this.__messageHandlers[name];
+        const arr = this.__messageHandlers[name];
         if (arr instanceof Array === false)
             return false;
 
-        var ind = arr.indexOf(handler);
+        const ind = arr.indexOf(handler);
         if (ind < 0)
             return false;
 

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
+import { WebSocketService } from 'src/app/services/_exports';
 
 @Component({
   selector: 'rc-key-control',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class KeyControlComponent implements OnInit {
 
-  constructor() { }
+  constructor(private webSocketService: WebSocketService) { }
 
   ngOnInit() {
   }
 
+  @HostListener('click') onClick(){
+    console.log('key-control: click');
+  }
 }
