@@ -1,18 +1,23 @@
 import { Component, OnInit, HostListener } from '@angular/core';
+import { BaseControlComponent } from '../BaseControlComponent';
 
 @Component({
   selector: 'rc-volume-control',
   templateUrl: './volume-control.component.html',
   styleUrls: ['./volume-control.component.css']
 })
-export class VolumeControlComponent implements OnInit {
+export class VolumeControlComponent
+  extends BaseControlComponent
+  implements OnInit {
 
-  constructor() { }
+  constructor() {
+    super();
+  }
 
   ngOnInit() {
   }
 
-  @HostListener('click') onClick(){
+  @HostListener('click') onClick() {
     console.log('volume-control: click');
   }
 
