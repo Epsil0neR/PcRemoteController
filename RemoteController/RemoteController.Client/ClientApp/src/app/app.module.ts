@@ -24,7 +24,9 @@ import { environment } from '../environments/environment';
         Components.SendKeyComponent,
         Components.PageComponent,
         Components.PageEditorComponent,
-        Components.PageCreateComponent
+        Components.PageCreateComponent,
+        Components.KeyControlComponent,
+        Components.VolumeControlComponent
     ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -43,11 +45,6 @@ import { environment } from '../environments/environment';
         { provide: Services.WebSocketService, useFactory: WebSocketServiceProvider },
     ],
     bootstrap: [AppComponent],
-    exports: [
-        Components.SendKeyComponent,
-        Components.PageComponent,
-        Components.PageEditorComponent
-    ],
 })
 export class AppModule { }
 
