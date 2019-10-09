@@ -1,10 +1,22 @@
-import { WebSocketMessageType } from "./WebSocketMessageType";
+import { WebSocketMessageType } from './WebSocketMessageType';
 
 export class WebSocketMessage {
     private __Type: WebSocketMessageType = WebSocketMessageType.Request;
     private __ActionName: string = null;
     private __Hash: string = null;
     private __Data: any = null;
+
+    static parse(object: any): WebSocketMessage {
+        if (object instanceof Object === false)
+            return null;
+
+        const rv = new WebSocketMessage();
+        rv.Type = object.Type;
+        rv.ActionName = object.ActionName;
+        rv.Hash = object.Hash;
+        rv.Data = object.Data;
+        return rv;
+    }
 
     get Type(): WebSocketMessageType {
         return this.__Type;
@@ -35,24 +47,12 @@ export class WebSocketMessage {
     }
 
     toDto(): Object {
-        let rv = {
+        const rv = {
             Type: this.Type,
             ActionName: this.ActionName,
             Hash: this.Hash,
             Data: this.Data
         };
-        return rv;
-    }
-
-    static parse(object: any): WebSocketMessage {
-        if (object instanceof Object === false)
-            return null;
-
-        let rv = new WebSocketMessage();
-        rv.Type = object.Type;
-        rv.ActionName = object.ActionName;
-        rv.Hash = object.Hash;
-        rv.Data = object.Data;
         return rv;
     }
 }

@@ -32,5 +32,5 @@
   /**
      * Shows some info from informers.
      */
-  Info, 
+  Info
 }
