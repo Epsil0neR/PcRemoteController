@@ -5,12 +5,15 @@ import { PageDetails } from 'src/app/models/PageDetails';
 import { ControlHostDirective } from 'src/app/directives/control-host/control-host.directive';
 import { PagesService } from 'src/app/services/pages.service';
 import { ControlType } from 'src/app/models/ControlType';
-// import { KeyControlComponent } from '../key-control/key-control.component';
-// import { VolumeControlComponent } from '../volume-control/volume-control.component';
+import { KeyControlComponent } from '../key-control/key-control.component';
+import { VolumeControlComponent } from '../volume-control/volume-control.component';
+import { BaseControlComponent } from '../BaseControlComponent';
+import { IKeyControl } from 'src/app/models/IControl';
 
-// export const ControlTypeMapping = new Map<ControlType, Type<unknown>>();
-// ControlTypeMapping.set(ControlType.Key, KeyControlComponent);
-// ControlTypeMapping.set(ControlType.Volume, VolumeControlComponent);
+export const ControlTypeMapping = new Map<ControlType, Type<BaseControlComponent>>([
+  [ControlType.Key, KeyControlComponent],
+  [ControlType.Volume, VolumeControlComponent]
+]);
 
 /**
  * Represents page with controls and listeners.
@@ -56,12 +59,24 @@ export class PageComponent implements OnInit, OnDestroy {
   }
 
   loadComponents(details: PageDetails) {
-    const controlType = ControlType.Key;
-    // const t = ControlTypeMapping.get(controlType);
-    // const factory = this.componentFactoryResolver.resolveComponentFactory(t);
-    // const ref = this.host.viewContainerRef;
-    // ref.clear();
+    const ref = this.host.viewContainerRef;
+    ref.clear();
+    if (details instanceof PageDetails === false)
+      return;
 
-    // const component = ref.createComponent(factory);
+    details.controls.forEach(itm => {
+      const controlType = itm.type;
+      const componentType = ControlTypeMapping.get(controlType);
+      const factory = this.componentFactoryResolver.resolveComponentFactory(componentType);
+      const component = ref.createComponent(factory);
+
+      const control = component.instance;
+      control.col = itm.col;
+      if (controlType === ControlType.Key) {
+        const c = <KeyControlComponent>control;
+        const i = <IKeyControl> itm;
+        c.key = i.key;
+      }
+    });
   }
 }

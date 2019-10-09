@@ -1,5 +1,25 @@
+import { IControl, IKeyControl } from './IControl';
+import { ControlType } from './ControlType';
+
 export class PageDetails {
   public title: string = '';
+  public controls: IControl[] = [
+    <IKeyControl>{
+      type: ControlType.Key,
+      col: 4,
+      key: 'F1'
+    },
+    <IKeyControl>{
+      type: ControlType.Key,
+      col: 4,
+      key: 'F12'
+    },
+    <IKeyControl>{
+      type: ControlType.Key,
+      col: 4,
+      key: 'F11'
+    }
+  ];
 
   public static parse(json: string): PageDetails {
     if (!json)
@@ -16,7 +36,8 @@ export class PageDetails {
 
   public toDto() {
     return {
-      title: this.title
+      title: this.title,
+      items: [], // TODO: Implement
     };
   }
 

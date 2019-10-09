@@ -51,6 +51,10 @@ import { PagesService } from './services/pages.service';
         { provide: WebSocketService, useFactory: WebSocketServiceProvider },
     ],
     bootstrap: [AppComponent],
+    entryComponents: [
+      KeyControlComponent,
+      VolumeControlComponent
+    ]
 })
 export class AppModule { }
 
