@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
-import { PagesService } from '../services/_exports';
-import { IPage } from '../models/_exports';
+import { PagesService } from '../services/pages.service';
+import { IPage } from '../models/IPage';
 import { Subscription } from 'rxjs';
 
 @Component({

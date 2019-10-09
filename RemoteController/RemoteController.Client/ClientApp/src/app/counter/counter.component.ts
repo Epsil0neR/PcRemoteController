@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { WebSocketService } from "../services/_exports";
+import { WebSocketService } from '../services/web-socket.service';
 
 @Component({
-    selector: 'app-counter-component',
+    selector: 'rc-counter-component',
     templateUrl: './counter.component.html'
 })
 export class CounterComponent {
@@ -14,11 +14,11 @@ export class CounterComponent {
     }
 
     constructor(
-        public WebSocketService: WebSocketService
+        public webSocketService: WebSocketService
     ) {
-        this.WebSocketService.addHandler('connection', (connected) => {
+        this.webSocketService.addHandler('connection', (connected) => {
           this.isConnected = connected;
         });
-        this.isConnected = this.WebSocketService.state === WebSocket.OPEN;
+        this.isConnected = this.webSocketService.state === WebSocket.OPEN;
     }
 }

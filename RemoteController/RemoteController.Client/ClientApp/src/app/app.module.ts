@@ -10,9 +10,15 @@ import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 
-import * as Components from './components/_exports';
-import * as Services from './services/_exports';
 import { environment } from '../environments/environment';
+import { PageComponent } from './components/page/page.component';
+import { PageEditorComponent } from './components/page-editor/page-editor.component';
+import { PageCreateComponent } from './components/page-create/page-create.component';
+import { KeyControlComponent } from './components/key-control/key-control.component';
+import { VolumeControlComponent } from './components/volume-control/volume-control.component';
+import { ControlHostDirective } from './directives/control-host/control-host.directive';
+import { WebSocketService } from './services/web-socket.service';
+import { PagesService } from './services/pages.service';
 
 @NgModule({
     declarations: [
@@ -21,11 +27,12 @@ import { environment } from '../environments/environment';
         HomeComponent,
         CounterComponent,
         FetchDataComponent,
-        Components.PageComponent,
-        Components.PageEditorComponent,
-        Components.PageCreateComponent,
-        Components.KeyControlComponent,
-        Components.VolumeControlComponent
+        PageComponent,
+        PageEditorComponent,
+        PageCreateComponent,
+        KeyControlComponent,
+        VolumeControlComponent,
+        ControlHostDirective
     ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -35,20 +42,20 @@ import { environment } from '../environments/environment';
             { path: '', component: HomeComponent, pathMatch: 'full' },
             { path: 'counter', component: CounterComponent },
             { path: 'fetch-data', component: FetchDataComponent },
-            { path: 'create', component: Components.PageCreateComponent},
-            { path: 'p/:name', component: Components.PageComponent }
+            { path: 'create', component: PageCreateComponent},
+            { path: 'p/:name', component: PageComponent }
         ])
     ],
     providers: [
-        Services.PagesService,
-        { provide: Services.WebSocketService, useFactory: WebSocketServiceProvider },
+        PagesService,
+        { provide: WebSocketService, useFactory: WebSocketServiceProvider },
     ],
     bootstrap: [AppComponent],
 })
 export class AppModule { }
 
 export function WebSocketServiceProvider() {
-    const rv = new Services.WebSocketService(environment.wsHost);
+    const rv = new WebSocketService(environment.wsHost);
     rv.open();
     console.log('Created WebSocketService: ', rv);
     return rv;

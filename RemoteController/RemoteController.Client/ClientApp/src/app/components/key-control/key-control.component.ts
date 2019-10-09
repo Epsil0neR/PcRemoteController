@@ -1,8 +1,9 @@
 import { Component, OnInit, HostListener, Input } from '@angular/core';
-import { WebSocketService } from 'src/app/services/_exports';
-import { WebSocketMessage, WebSocketMessageType } from 'src/app/models/_exports';
-import * as utils from '../../utils/_exports';
+import { makeid } from '../../utils/makeid';
 import { BaseControlComponent } from '../BaseControlComponent';
+import { WebSocketService } from 'src/app/services/web-socket.service';
+import { WebSocketMessage } from 'src/app/models/WebSocketMessage';
+import { WebSocketMessageType } from 'src/app/models/WebSocketMessageType';
 
 @Component({
   selector: 'rc-key-control',
@@ -29,7 +30,7 @@ export class KeyControlComponent
     m.ActionName = 'key';
     m.Data = this.key;
     m.Type = WebSocketMessageType.Request;
-    m.Hash = utils.makeid();
+    m.Hash = makeid();
 
     this.webSocketService.send(m);
   }

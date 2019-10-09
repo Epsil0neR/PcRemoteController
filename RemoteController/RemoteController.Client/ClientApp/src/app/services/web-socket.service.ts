@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import * as Models from '../models/_exports';
 import { environment } from '../../environments/environment';
+import { WebSocketMessage } from '../models/WebSocketMessage';
 
 @Injectable({
     providedIn: 'root',
@@ -12,7 +12,7 @@ export class WebSocketService {
     private __autoReconnectTry: number = 0; // Current try of reconnect.
 
     private __handlers: { [id: string]: Function[] } = {};
-    private __messageHandlers: { [id: string]: ((message: Models.WebSocketMessage) => void)[] } = {};
+    private __messageHandlers: { [id: string]: ((message: WebSocketMessage) => void)[] } = {};
     private __instnaceHandlers = {
         'close': (e: CloseEvent) => {
             this.raiseEvent('close', e);
@@ -33,7 +33,7 @@ export class WebSocketService {
 
             try {
                 const data = JSON.parse(e.data);
-                const msg = Models.WebSocketMessage.parse(data);
+                const msg = WebSocketMessage.parse(data);
                 if (msg === null)
                     return;
 
@@ -157,8 +157,8 @@ export class WebSocketService {
         handlers.forEach(h => h(data));
     }
 
-    public send(message: Models.WebSocketMessage) {
-        if (message instanceof Models.WebSocketMessage === false)
+    public send(message: WebSocketMessage) {
+        if (message instanceof WebSocketMessage === false)
             return;
 
         const data = JSON.stringify(message.toDto());
@@ -257,7 +257,7 @@ export class WebSocketService {
         return rv;
     }
 
-    private raiseMessage(message: Models.WebSocketMessage) {
+    private raiseMessage(message: WebSocketMessage) {
         let action = message.ActionName;
 
         if (!this.__messageHandlers.hasOwnProperty(action))
@@ -271,7 +271,7 @@ export class WebSocketService {
 
         handlers.forEach(x => x(message));
     }
-    public addMessageHandler(action: string, handler: (message: Models.WebSocketMessage) => void) {
+    public addMessageHandler(action: string, handler: (message: WebSocketMessage) => void) {
         if (typeof action !== 'string')
             return;
         if (handler instanceof Function === false)
@@ -284,7 +284,7 @@ export class WebSocketService {
 
         this.__messageHandlers[action].push(handler);
     }
-    public removeMessageHandler(name: string, handler: (message: Models.WebSocketMessage) => void): boolean {
+    public removeMessageHandler(name: string, handler: (message: WebSocketMessage) => void): boolean {
         if (typeof name !== 'string')
             return false;
         if (handler instanceof Function === false)
