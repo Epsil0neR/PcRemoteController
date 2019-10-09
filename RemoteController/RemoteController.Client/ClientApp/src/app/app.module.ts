@@ -21,7 +21,6 @@ import { environment } from '../environments/environment';
         HomeComponent,
         CounterComponent,
         FetchDataComponent,
-        Components.SendKeyComponent,
         Components.PageComponent,
         Components.PageEditorComponent,
         Components.PageCreateComponent,
