@@ -258,7 +258,7 @@ export class WebSocketService {
     }
 
     private raiseMessage(message: WebSocketMessage) {
-        let action = message.ActionName;
+        let action = message.ActionName.toLowerCase();
 
         if (!this.__messageHandlers.hasOwnProperty(action))
             return;

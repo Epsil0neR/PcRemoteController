@@ -1,1 +1,9 @@
-<p>volume-control works!</p>
+<input
+  #inp (change)='this.setVolume($event.target.value)'
+  [attr.disabled]="isEnabled ? null : ''"
+  [ngClass]="colClass"
+  class="custom-range"
+  type="range"
+  min="0"
+  max="100"
+  step="1" />

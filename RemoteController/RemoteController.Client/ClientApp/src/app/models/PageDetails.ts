@@ -18,6 +18,10 @@ export class PageDetails {
       type: ControlType.Key,
       col: 4,
       key: 'F11'
+    },
+    {
+      type: ControlType.Volume,
+      col: 12
     }
   ];
 
