@@ -19,6 +19,9 @@ import { VolumeControlComponent } from './components/volume-control/volume-contr
 import { ControlHostDirective } from './directives/control-host/control-host.directive';
 import { WebSocketService } from './services/web-socket.service';
 import { PagesService } from './services/pages.service';
+import { OutputControlComponent } from './components/output-control/output-control.component';
+import { CommandControlComponent } from './components/command-control/command-control.component';
+import { FileSystemControlComponent } from './components/file-system-control/file-system-control.component';
 
 @NgModule({
     declarations: [
@@ -32,7 +35,10 @@ import { PagesService } from './services/pages.service';
         PageCreateComponent,
         KeyControlComponent,
         VolumeControlComponent,
-        ControlHostDirective
+        ControlHostDirective,
+        OutputControlComponent,
+        CommandControlComponent,
+        FileSystemControlComponent,
     ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -53,7 +59,10 @@ import { PagesService } from './services/pages.service';
     bootstrap: [AppComponent],
     entryComponents: [
       KeyControlComponent,
-      VolumeControlComponent
+      VolumeControlComponent,
+      OutputControlComponent,
+      CommandControlComponent,
+      FileSystemControlComponent,
     ]
 })
 export class AppModule { }

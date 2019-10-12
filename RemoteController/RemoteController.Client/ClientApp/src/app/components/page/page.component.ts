@@ -9,10 +9,16 @@ import { KeyControlComponent } from '../key-control/key-control.component';
 import { VolumeControlComponent } from '../volume-control/volume-control.component';
 import { BaseControlComponent } from '../BaseControlComponent';
 import { IKeyControl } from 'src/app/models/IControl';
+import { CommandControlComponent } from '../command-control/command-control.component';
+import { FileSystemControlComponent } from '../file-system-control/file-system-control.component';
+import { OutputControlComponent } from '../output-control/output-control.component';
 
 export const ControlTypeMapping = new Map<ControlType, Type<BaseControlComponent>>([
   [ControlType.Key, KeyControlComponent],
-  [ControlType.Volume, VolumeControlComponent]
+  [ControlType.Volume, VolumeControlComponent],
+  [ControlType.Command, CommandControlComponent],
+  [ControlType.FileSystem, FileSystemControlComponent],
+  [ControlType.Output, OutputControlComponent]
 ]);
 
 /**

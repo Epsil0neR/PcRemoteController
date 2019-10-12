@@ -1,36 +1,36 @@
 ﻿export enum ControlType {
   /**
-     * Default control type. Invalid for usage.
-     */
+   * Default control type. Invalid for usage.
+   */
   None,
 
   /**
-     * Invokes regular key, keys combination or special key.
-     */
+   * Invokes regular key, keys combination or special key.
+   */
   Key,
 
   /**
-     * Controls output volume
-     */
+   * Controls output volume
+   */
   Volume,
 
   /**
-     * Shows communication output. Temporary control type.
-     */
+   * Shows communication output. Temporary control type.
+   */
   Output,
 
   /**
-     * Executes specific commands.
-     */
+   * Executes specific commands.
+   */
   Command,
 
   /**
-     * Provides access to file system.
-     */
+   * Provides access to file system.
+   */
   FileSystem,
 
   /**
-     * Shows some info from informers.
-     */
+   * TODO:  Shows some info from informers.
+   */
   Info
 }
