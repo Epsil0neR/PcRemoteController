@@ -1,10 +1,11 @@
 ﻿window.addEventListener("load", () => {
+
     const cmdBase = 'FileSystem.';
     const cmdList = cmdBase + 'List';
     const cmdExec = cmdBase + 'Exec';
     let key = 'history-' + cmdList;
-    var btnTest = document.getElementById('btnTest');
     var divPaths = document.getElementById('paths');
+    createPath('', '..');
     var divFolders = document.getElementById('folders');
     var divFiles = document.getElementById('files');
 
@@ -38,6 +39,8 @@
             if (msg.Data.files instanceof Array) {
                 msg.Data.files.forEach(x => createAction(root + x, x, cmdExec, divFiles));
             }
+        } else {
+            createPath('', '..');
         }
     });
 
@@ -65,8 +68,6 @@
         a.addEventListener('click', () => message(action, url));
         el.appendChild(a);
     }
-
-    btnTest.addEventListener('click', () => onConnChange(client.readyState));
 
     onConnChange(client.readyState);
 }, false);
