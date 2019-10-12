@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BaseControlComponent } from '../BaseControlComponent';
+import { ControlType } from 'src/app/models/ControlType';
+import { IControl } from 'src/app/models/IControl';
 
 @Component({
   selector: 'rc-output-control',
@@ -15,6 +17,14 @@ export class OutputControlComponent
   }
 
   ngOnInit() {
+  }
+
+  protected GetControlType(): ControlType {
+    return ControlType.Output;
+  }
+
+  public load(data: IControl) {
+    super.load(data);
   }
 
 }

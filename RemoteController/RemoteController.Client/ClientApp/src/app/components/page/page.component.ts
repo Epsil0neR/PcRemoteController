@@ -77,12 +77,7 @@ export class PageComponent implements OnInit, OnDestroy {
       const component = ref.createComponent(factory);
 
       const control = component.instance;
-      control.col = itm.col;
-      if (controlType === ControlType.Key) {
-        const c = <KeyControlComponent>control;
-        const i = <IKeyControl> itm;
-        c.key = i.key;
-      }
-    });
+      control.load(itm);
+      });
   }
 }

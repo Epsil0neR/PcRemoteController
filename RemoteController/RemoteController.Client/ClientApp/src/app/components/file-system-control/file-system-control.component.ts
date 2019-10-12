@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BaseControlComponent } from '../BaseControlComponent';
+import { ControlType } from 'src/app/models/ControlType';
+import { IControl } from 'src/app/models/IControl';
 
 @Component({
   selector: 'rc-file-system-control',
@@ -15,6 +17,14 @@ export class FileSystemControlComponent
   }
 
   ngOnInit() {
+  }
+
+  protected GetControlType(): ControlType {
+    return ControlType.FileSystem;
+  }
+
+  public load(data: IControl) {
+    super.load(data);
   }
 
 }

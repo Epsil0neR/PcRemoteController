@@ -4,6 +4,8 @@ import { BaseControlComponent } from '../BaseControlComponent';
 import { WebSocketService } from 'src/app/services/web-socket.service';
 import { WebSocketMessage } from 'src/app/models/WebSocketMessage';
 import { WebSocketMessageType } from 'src/app/models/WebSocketMessageType';
+import { ControlType } from 'src/app/models/ControlType';
+import { IKeyControl } from 'src/app/models/IControl';
 
 @Component({
   selector: 'rc-key-control',
@@ -33,5 +35,15 @@ export class KeyControlComponent
     m.Hash = makeid();
 
     this.webSocketService.send(m);
+  }
+
+  protected GetControlType(): ControlType {
+    return ControlType.Key;
+  }
+
+  load(data: IKeyControl) {
+    super.load(data);
+
+    this.key = data.key;
   }
 }

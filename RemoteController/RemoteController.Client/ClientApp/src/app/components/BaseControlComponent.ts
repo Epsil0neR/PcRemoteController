@@ -1,4 +1,6 @@
 import { Input, HostBinding } from '@angular/core';
+import { IControl } from '../models/IControl';
+import { ControlType } from '../models/ControlType';
 
 export abstract class BaseControlComponent {
   private _col: number = 4;
@@ -8,6 +10,7 @@ export abstract class BaseControlComponent {
   public get col(): number {
     return this._col;
   }
+
   @Input('col')
   public set col(v: number) {
     if (typeof v !== 'number')
@@ -24,4 +27,19 @@ export abstract class BaseControlComponent {
 
   @Input()
   public colClass: string;
+
+  /**
+   * Control type that component supports.
+   */
+  protected abstract GetControlType(): ControlType;
+
+  public load(data: IControl): void {
+    if (!data)
+      throw new Error('Data must be provided');
+
+    if (data.type !== this.GetControlType())
+      throw new Error('Data is not supported by this component');
+
+    this.col = data.col;
+  }
 }

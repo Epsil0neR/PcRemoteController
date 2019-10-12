@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BaseControlComponent } from '../BaseControlComponent';
+import { ControlType } from 'src/app/models/ControlType';
+import { IControl } from 'src/app/models/IControl';
 
 @Component({
   selector: 'rc-command-control',
@@ -17,4 +19,11 @@ export class CommandControlComponent
   ngOnInit() {
   }
 
+  protected GetControlType(): ControlType {
+    return ControlType.Command;
+  }
+
+  public load(data: IControl) {
+    super.load(data);
+  }
 }
