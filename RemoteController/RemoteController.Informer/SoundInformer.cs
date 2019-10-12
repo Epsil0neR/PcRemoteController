@@ -67,6 +67,7 @@ namespace RemoteController.Informer
         /// </summary>
         public bool InputIsMuted => _inputIsMuted;
 
+        /// <inheritdoc />
         public override bool CheckForChanges()
         {
             using (var enumer = new MMDeviceEnumerator())

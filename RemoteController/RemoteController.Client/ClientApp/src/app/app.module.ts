@@ -22,6 +22,7 @@ import { PagesService } from './services/pages.service';
 import { OutputControlComponent } from './components/output-control/output-control.component';
 import { CommandControlComponent } from './components/command-control/command-control.component';
 import { FileSystemControlComponent } from './components/file-system-control/file-system-control.component';
+import { InformersStateService } from './services/informers-state.service';
 
 @NgModule({
     declarations: [
@@ -55,6 +56,7 @@ import { FileSystemControlComponent } from './components/file-system-control/fil
     providers: [
         PagesService,
         { provide: WebSocketService, useFactory: WebSocketServiceProvider },
+        InformersStateService,
     ],
     bootstrap: [AppComponent],
     entryComponents: [

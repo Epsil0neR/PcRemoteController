@@ -92,14 +92,15 @@ namespace RemoteController.Service
             var soundInformer = informersManager.Informer<SoundInformer>();
             if (soundInformer != null)
             {
-                manipulatorsManager.Add(new CustomManipulation<bool>("Sound.Output.Volume", (string input) =>
+                manipulatorsManager.Add(new CustomManipulation<SoundInformer>(soundInformer.GetActionName(), () => soundInformer.CheckForChanges() ? null  : soundInformer));
+                manipulatorsManager.Add(new CustomManipulation<bool>("Sound.Output.Volume", input =>
                 {
                     if (!int.TryParse(input, out int volume))
                         return false;
 
                     return soundInformer.ChangeOutputVolume(volume);
                 }));
-                manipulatorsManager.Add(new CustomManipulation<bool>("Sound.Input.Volume", (string input) =>
+                manipulatorsManager.Add(new CustomManipulation<bool>("Sound.Input.Volume", input =>
                 {
                     if (!int.TryParse(input, out int volume))
                         return false;
@@ -121,9 +122,9 @@ namespace RemoteController.Service
                 {
                     Roots = new Dictionary<string, string>()
                     {
-                        {"Testing", @"C:\testing" },
-                        { "Download",  @"E:\Download"},
-                        { "Downloads", @"C:\Users\Epsil0neR\Downloads"}
+                        { "Testing", @"C:\testing" },
+                        { "Download",  @"E:\Download" },
+                        { "Downloads", @"C:\Users\Epsil0neR\Downloads" }
                     }
                 };
                 manipulatorsManager.SetContext(fc);
@@ -181,7 +182,6 @@ namespace RemoteController.Service
         public static void Configure(InformersManager manager)
         {
             manager.Register(new SoundInformer());
-
         }
 
         public static void Send(this IEnumerable<BaseInformer> informers, IWsSocket socket)
@@ -201,12 +201,17 @@ namespace RemoteController.Service
             server.Broadcast(msg);
         }
 
+        public static string GetActionName(this BaseInformer informer)
+        {
+            return $"Informer.{informer.Name}";
+        }
+
         public static Message ToMessage(this BaseInformer informer)
         {
             var rv = new Message()
             {
                 Type = MessageType.Notification,
-                ActionName = $"Informer.{informer.Name}",
+                ActionName = informer.GetActionName(),
                 Data = informer,
             };
             return rv;
