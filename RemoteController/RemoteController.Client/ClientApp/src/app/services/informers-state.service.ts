@@ -8,26 +8,21 @@ import { WebSocketMessageType } from '../models/WebSocketMessageType';
 @Injectable({
   providedIn: 'root'
 })
-export class InformersStateService implements OnInit, OnDestroy {
+export class InformersStateService {
 
   public Sound: BehaviorSubject<IInformerSound>;
 
-  private handlers: { [action: string]: (msg: WebSocketMessage) => void } = {
-    'Informer.Sound': (msg) => this.onSound(msg),
-  }
+  private handlers: { [action: string]: (msg: WebSocketMessage) => void };
 
   constructor(private service: WebSocketService) {
+    this.handlers = {
+      'Informer.Sound': (msg) => this.onSound(msg),
+    };
     this.Sound = new BehaviorSubject<IInformerSound>(null);
-  }
 
-  ngOnInit(): void {
-    this.proceedHandlers(this.service.removeHandler);
+    this.proceedHandlers();
     this.checkServer();
     this.service.addHandler('connection', this.onConnection);
-  }
-  ngOnDestroy(): void {
-    this.service.removeHandler('connection', this.onConnection);
-    this.proceedHandlers(this.service.addHandler);
   }
 
   private onConnection = (connected: boolean) => {
@@ -35,13 +30,13 @@ export class InformersStateService implements OnInit, OnDestroy {
       this.checkServer();
   }
 
-  private proceedHandlers(func: (name: string, handler: Function) => void) {
+  private proceedHandlers() {
     for (const action in this.handlers) {
       if (!this.handlers.hasOwnProperty(action))
         continue;
 
       const handler = this.handlers[action];
-      func(action, handler);
+      this.service.addMessageHandler(action, handler);
     }
   }
 
