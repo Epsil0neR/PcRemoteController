@@ -35,7 +35,8 @@ export class VolumeControlComponent
 
   messageInformerSound = (m: WebSocketMessage) => {
     this.isEnabled = true;
-    (<HTMLInputElement>(this.input.nativeElement)).value = m.Data.OutputVolume;
+    const data = <IInformerSound>m.Data;
+    (<HTMLInputElement>(this.input.nativeElement)).value = <any>data.OutputVolume;
   }
 
   protected GetControlType(): ControlType {
