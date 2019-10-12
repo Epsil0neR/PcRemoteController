@@ -31,13 +31,18 @@ export class PageDetails {
 
     const pd = new PageDetails();
     pd.title = dto.title;
+    pd.controls = (<IControl[]>(dto.controls)).map(this.parseControl);
     return pd;
+  }
+
+  private static parseControl(dto: IControl): IControl {
+    return dto;
   }
 
   public toDto() {
     return {
       title: this.title,
-      items: [], // TODO: Implement
+      controls: this.controls.map(this.controlToDto),
     };
   }
 
@@ -45,4 +50,7 @@ export class PageDetails {
     return JSON.stringify(this.toDto());
   }
 
+  private controlToDto(control: IControl): IControl {
+    return control;
+  }
 }
