@@ -207,6 +207,7 @@ export class WebSocketService {
       this.instance = null;
       ws.close();
       this.instanceClosed(ws);
+      this.isConnected.next(false);
     }
   }
 

@@ -32,6 +32,20 @@ export class PageDetails {
       text: 'Right',
       icon: 'arrow-right'
     },
+    <IKeyControl>{
+      type: ControlType.Key,
+      col: 4,
+      key: 'f',
+      text: 'Fullscreen',
+      icon: 'compress'
+    },
+    <IKeyControl>{
+      type: ControlType.Key,
+      col: 8,
+      key: 'space',
+      text: 'SPACE',
+      icon: 'pause'
+    },
     {
       type: ControlType.Volume,
       col: 12
