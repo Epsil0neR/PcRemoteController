@@ -30,8 +30,6 @@ export class KeyControlComponent
   }
 
   @HostListener('click') onClick() {
-    console.log('key-control: click');
-
     const m = new WebSocketMessage({
       a: 'key',
       d: this.key,
@@ -48,12 +46,6 @@ export class KeyControlComponent
 
   load(data: IKeyControl) {
     super.load(data);
-
-    console.log('Icon: ', icons.faVolumeUp);
-    console.log('Icons: ', icons);
-    console.log('Icons fas: ', icons.fas);
-    console.log(icons.faAd, icons.fas['faAd']);
-    console.log(icons.faAd === icons.fas['faAd']);
     this.key = data.key;
     if (!!data.icon) {
       this.icon = this.findIcon(data.icon);

@@ -6,32 +6,31 @@ export class PageDetails {
   public controls: IControl[] = [
     <IKeyControl>{
       type: ControlType.Key,
-      col: 4,
+      col: 3,
       key: 'VOLUME_UP',
       text: 'Volume up',
       icon: 'volume-up'
     },
     <IKeyControl>{
       type: ControlType.Key,
-      col: 4,
+      col: 3,
       key: 'VOLUME_DOWN',
       text: 'Volume down',
       icon: 'volume-down'
     },
     <IKeyControl>{
       type: ControlType.Key,
-      col: 4,
-      key: 'F1'
+      col: 3,
+      key: 'left',
+      text: 'Left',
+      icon: 'arrow-left'
     },
     <IKeyControl>{
       type: ControlType.Key,
-      col: 4,
-      key: 'F12'
-    },
-    <IKeyControl>{
-      type: ControlType.Key,
-      col: 4,
-      key: 'F11'
+      col: 3,
+      key: 'right',
+      text: 'Right',
+      icon: 'arrow-right'
     },
     {
       type: ControlType.Volume,
