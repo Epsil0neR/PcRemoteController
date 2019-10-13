@@ -7,6 +7,20 @@ export class PageDetails {
     <IKeyControl>{
       type: ControlType.Key,
       col: 4,
+      key: 'VOLUME_UP',
+      text: 'Volume up',
+      icon: 'volume-up'
+    },
+    <IKeyControl>{
+      type: ControlType.Key,
+      col: 4,
+      key: 'VOLUME_DOWN',
+      text: 'Volume down',
+      icon: 'volume-down'
+    },
+    <IKeyControl>{
+      type: ControlType.Key,
+      col: 4,
       key: 'F1'
     },
     <IKeyControl>{
