@@ -70,7 +70,7 @@ export class VolumeControlComponent
       return;
 
     const m = new WebSocketMessage({
-      a:'Sound.Output.Volume',
+      a: 'Sound.Output.Volume',
       d: parseInt(value, 10),
       t: WebSocketMessageType.Request,
       h: makeid()

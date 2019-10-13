@@ -1,1 +1,12 @@
-<p>file-system-control works!</p>
+<div #p id="paths" id="paths">
+  <a *ngFor="let x of paths" (click)='goToPath(x.url)'>{{x.title}}</a>
+</div>
+<div class="border"></div>
+<div id="folders">
+  <a *ngFor="let x of folders" (click)='goToPath(x.url)'>{{x.title}}</a>
+</div>
+<div class="border"></div>
+<div id="files">
+    <a *ngFor="let x of files" (click)='exec(x.url)'>{{x.title}}</a>
+</div>
+<div class="border"></div>

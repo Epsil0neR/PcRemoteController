@@ -1,5 +1,5 @@
 export interface IFileSystemList {
-  paht: string[];
+  path: string[];
   folders: string[];
   files: string[];
 }

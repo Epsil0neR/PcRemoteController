@@ -7,6 +7,7 @@ import { WebSocketMessage } from 'src/app/models/WebSocketMessage';
 import { WebSocketMessageType } from 'src/app/models/WebSocketMessageType';
 import { makeid } from 'src/app/utils/makeid';
 import { Subscription } from 'rxjs';
+import { IFileSystemList } from 'src/app/models/IFileSystemList';
 
 @Component({
   selector: 'rc-file-system-control',
@@ -21,6 +22,11 @@ export class FileSystemControlComponent
   private lsKey: string = null;
   private messageHandlers: { [action: string]: (msg: WebSocketMessage) => void } = null;
   private subscription: Subscription;
+
+  public files: { url: string, title: string }[] = null;
+  public folders: { url: string, title: string }[] = null;
+  public paths: { url: string, title: string }[] = null;
+  public path: string = '';
 
   constructor(private service: WebSocketService) {
     super();
@@ -41,7 +47,7 @@ export class FileSystemControlComponent
 
     this.subscription = this.service.isConnected.subscribe(value => {
       if (value && !!this.lsKey)
-        this.sendListReq();
+        this.goToPath('');
     });
   }
 
@@ -64,19 +70,48 @@ export class FileSystemControlComponent
     super.load(data);
 
     this.lsKey = `${FileSystemControlComponent.lsKeyRoot}.${data.id}`;
-
   }
 
   onFileSystemList(m: WebSocketMessage): void {
-    console.log('OnFileSystemList: ', m);
+    console.warn('OnFileSystemList: ', m);
+    if (m.Type === WebSocketMessageType.Response) {
+      const r = <IFileSystemList>m.Data;
+      this.path = !!r.path ? r.path.join('\\') + '\\' : '';
+      const map = (x: string) => {
+        return {
+          url: this.path + x,
+          title: x
+        };
+      }
+      this.files = !!r.files ? r.files.map(map) : [];
+      this.folders = !!r.folders ? r.folders.map(map) : [];
+      this.paths = !!r.path ? r.path.map((x, i, arr) => {
+        const p = arr.slice(0, i + 1);
+        return {
+          url: p.join('\\'),
+          title: x
+        }
+      }) : [];
+      this.paths.unshift({ url: '', title: '..' });
+    }
   }
 
-  private sendListReq() {
+  goToPath(url: string) {
     const m = new WebSocketMessage({
       a: 'FileSystem.List',
       t: WebSocketMessageType.Request,
       h: makeid(),
-      d: 'Download'
+      d: url
+    });
+    this.service.send(m);
+  }
+
+  exec(url: string) {
+    const m = new WebSocketMessage({
+      a: 'FileSystem.Exec',
+      t: WebSocketMessageType.Request,
+      h: makeid(),
+      d: url
     });
     this.service.send(m);
   }
