@@ -73,7 +73,6 @@ export class FileSystemControlComponent
   }
 
   onFileSystemList(m: WebSocketMessage): void {
-    console.warn('OnFileSystemList: ', m);
     if (m.Type === WebSocketMessageType.Response) {
       const r = <IFileSystemList>m.Data;
       this.path = !!r.path ? r.path.join('\\') + '\\' : '';

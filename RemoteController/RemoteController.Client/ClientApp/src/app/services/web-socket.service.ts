@@ -18,8 +18,7 @@ export interface WebSocketServiceEventMap {
 }
 
 @Injectable({
-  providedIn: 'root',
-  useFactory: () => new WebSocketService(environment.wsHost)
+  providedIn: 'root'
 })
 export class WebSocketService {
   private __autoReconnectInterval: number = 5 * 1000; // 5 seconds.
@@ -77,7 +76,7 @@ export class WebSocketService {
   private instance: WebSocket;
 
   public isConnected: BehaviorSubject<boolean>;
-
+  public logRaisingEvent: boolean = false;
   /**
    * Gets or sets auto-reconnect interval in ms. Minimum is 0 -> instant reconnect.
    * @returns {number}
@@ -159,7 +158,8 @@ export class WebSocketService {
     if (typeof name !== 'string')
       return;
 
-    console.log('Raise event:', name, data);
+    if (this.logRaisingEvent)
+      console.log('Raise event:', name, data);
 
     name = name.toLowerCase();
 

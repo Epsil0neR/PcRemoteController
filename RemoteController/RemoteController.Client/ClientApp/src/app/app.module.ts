@@ -71,6 +71,7 @@ export class AppModule { }
 
 export function WebSocketServiceProvider() {
     const rv = new WebSocketService(environment.wsHost);
+    rv.logRaisingEvent = false;
     rv.open();
     console.log('Created WebSocketService: ', rv);
     return rv;

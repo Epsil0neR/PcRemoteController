@@ -7,6 +7,8 @@ export interface IControl {
 
 export interface IKeyControl extends IControl {
   key: string;
+  text?: string;
+  icon?: string;
 }
 
 export interface IFileSystemControl extends IControl {
