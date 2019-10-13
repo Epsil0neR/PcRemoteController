@@ -3,10 +3,16 @@
 </div>
 <div class="border"></div>
 <div id="folders">
-  <a *ngFor="let x of folders" (click)='goToPath(x.url)'>{{x.title}}</a>
+  <a *ngFor="let x of folders" (click)='goToPath(x.url)'>
+    <fa-icon [icon]='iconFolder'></fa-icon>
+    {{x.title}}
+  </a>
 </div>
 <div class="border"></div>
 <div id="files">
-    <a *ngFor="let x of files" (click)='exec(x.url)'>{{x.title}}</a>
+    <a *ngFor="let x of files" (click)='exec(x.url)'>
+      <fa-icon [icon]='iconFile'></fa-icon>
+      {{x.title}}
+    </a>
 </div>
 <div class="border"></div>

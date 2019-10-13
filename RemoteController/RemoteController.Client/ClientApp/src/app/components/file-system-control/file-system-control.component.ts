@@ -8,6 +8,7 @@ import { WebSocketMessageType } from 'src/app/models/WebSocketMessageType';
 import { makeid } from 'src/app/utils/makeid';
 import { Subscription } from 'rxjs';
 import { IFileSystemList } from 'src/app/models/IFileSystemList';
+import * as Icons from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'rc-file-system-control',
@@ -27,6 +28,9 @@ export class FileSystemControlComponent
   public folders: { url: string, title: string }[] = null;
   public paths: { url: string, title: string }[] = null;
   public path: string = '';
+
+  public iconFolder: Icons.IconDefinition = Icons.faFolder;
+  public iconFile: Icons.IconDefinition = Icons.faFile;
 
   constructor(private service: WebSocketService) {
     super();
