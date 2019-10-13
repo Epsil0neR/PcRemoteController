@@ -1,4 +1,4 @@
-import { IControl, IKeyControl } from './IControl';
+import { IControl, IKeyControl, IFileSystemControl } from './IControl';
 import { ControlType } from './ControlType';
 
 export class PageDetails {
@@ -22,6 +22,11 @@ export class PageDetails {
     {
       type: ControlType.Volume,
       col: 12
+    },
+    <IFileSystemControl>{
+      type: ControlType.FileSystem,
+      col: 12,
+      id: '1'
     }
   ];
 

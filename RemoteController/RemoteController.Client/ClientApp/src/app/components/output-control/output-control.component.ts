@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { BaseControlComponent } from '../BaseControlComponent';
 import { ControlType } from 'src/app/models/ControlType';
 import { IControl } from 'src/app/models/IControl';
+import { WebSocketService } from 'src/app/services/web-socket.service';
 
 @Component({
   selector: 'rc-output-control',
@@ -10,13 +11,16 @@ import { IControl } from 'src/app/models/IControl';
 })
 export class OutputControlComponent
   extends BaseControlComponent
-  implements OnInit {
+  implements OnInit, OnDestroy {
 
-  constructor() {
+  constructor(private service: WebSocketService) {
     super();
   }
 
   ngOnInit() {
+  }
+
+  ngOnDestroy() {
   }
 
   protected GetControlType(): ControlType {

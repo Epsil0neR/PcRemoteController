@@ -69,11 +69,12 @@ export class VolumeControlComponent
     if (!this.isEnabled)
       return;
 
-    const m = new WebSocketMessage();
-    m.ActionName = 'Sound.Output.Volume';
-    m.Data = parseInt(value, 10);
-    m.Type = WebSocketMessageType.Request;
-    m.Hash = makeid();
+    const m = new WebSocketMessage({
+      a:'Sound.Output.Volume',
+      d: parseInt(value, 10),
+      t: WebSocketMessageType.Request,
+      h: makeid()
+    });
 
     this.webSocketService.send(m);
   }

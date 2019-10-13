@@ -28,11 +28,12 @@ export class KeyControlComponent
   @HostListener('click') onClick() {
     console.log('key-control: click');
 
-    const m = new WebSocketMessage();
-    m.ActionName = 'key';
-    m.Data = this.key;
-    m.Type = WebSocketMessageType.Request;
-    m.Hash = makeid();
+    const m = new WebSocketMessage({
+      a: 'key',
+      d: this.key,
+      t: WebSocketMessageType.Request,
+      h: makeid()
+    });
 
     this.webSocketService.send(m);
   }

@@ -196,9 +196,6 @@ export class WebSocketService {
       this.instance = new WebSocket(this.url);
       this.instanceCreated(this.instance);
       this.__autoReconnectTry = 0;
-      this.raiseEvent('open', null);
-      this.raiseEvent('connection', true);
-      this.isConnected.next(true);
     } catch (e) {
       this.raiseEvent('error.open', e);
     }

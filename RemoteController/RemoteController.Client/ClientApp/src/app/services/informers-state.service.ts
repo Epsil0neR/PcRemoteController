@@ -52,10 +52,11 @@ export class InformersStateService {
       if (!this.handlers.hasOwnProperty(action))
         continue;
 
-      const m = new WebSocketMessage();
-      m.ActionName = action;
-      m.Type = WebSocketMessageType.Request;
-      m.Hash = makeid();
+      const m = new WebSocketMessage({
+        a: action,
+        t: WebSocketMessageType.Request,
+        h: makeid()
+      });
 
       this.service.send(m);
     }

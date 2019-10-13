@@ -8,3 +8,10 @@ export interface IControl {
 export interface IKeyControl extends IControl {
   key: string;
 }
+
+export interface IFileSystemControl extends IControl {
+  /**
+   * Unique identifier for FileSystem component to remember opened folder.
+   */
+  id: string;
+}
