@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { WebSocketMessage } from '../models/WebSocketMessage';
+import { BehaviorSubject } from 'rxjs';
 
 export interface WebSocketServiceEventMap {
   'open': any;
@@ -35,6 +36,7 @@ export class WebSocketService {
         this.reconnect();
 
       this.raiseEvent('connection', false);
+      this.isConnected.next(false);
     },
     'error': (e: CloseEvent) => {
       this.raiseEvent('error', e);
@@ -68,10 +70,13 @@ export class WebSocketService {
     'open': (e: Event) => {
       this.raiseEvent('open', e);
       this.raiseEvent('connection', true);
+      this.isConnected.next(true);
     },
   };
   private __filters: Function[] = [];
   private instance: WebSocket;
+
+  public isConnected: BehaviorSubject<boolean>;
 
   /**
    * Gets or sets auto-reconnect interval in ms. Minimum is 0 -> instant reconnect.
@@ -106,14 +111,8 @@ export class WebSocketService {
     this.__autoReconnectTries = value;
   }
 
-  get state(): number {
-    if (this.instance instanceof WebSocket === false)
-      return WebSocket.CLOSED;
-    return this.instance.readyState;
-  }
-
   constructor(public url: string) {
-
+    this.isConnected = new BehaviorSubject<boolean>(false);
   }
 
   public addHandler<K extends keyof WebSocketServiceEventMap>(name: K, data: (data: WebSocketServiceEventMap[K]) => any): void;
@@ -198,6 +197,8 @@ export class WebSocketService {
       this.instanceCreated(this.instance);
       this.__autoReconnectTry = 0;
       this.raiseEvent('open', null);
+      this.raiseEvent('connection', true);
+      this.isConnected.next(true);
     } catch (e) {
       this.raiseEvent('error.open', e);
     }

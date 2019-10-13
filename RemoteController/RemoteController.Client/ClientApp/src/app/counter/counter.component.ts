@@ -1,24 +1,27 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { WebSocketService } from '../services/web-socket.service';
+import { Subscription } from 'rxjs';
 
 @Component({
-    selector: 'rc-counter-component',
-    templateUrl: './counter.component.html'
+  selector: 'rc-counter-component',
+  templateUrl: './counter.component.html'
 })
-export class CounterComponent {
-    public currentCount = 0;
-    public isConnected = false;
+export class CounterComponent implements OnInit, OnDestroy {
+  public currentCount = 0;
+  public isConnected = false;
+  private subscription: Subscription;
 
-    public incrementCounter() {
-        this.currentCount++;
-    }
+  public incrementCounter() {
+    this.currentCount++;
+  }
 
-    constructor(
-        public webSocketService: WebSocketService
-    ) {
-        this.webSocketService.addHandler('connection', (connected) => {
-          this.isConnected = connected;
-        });
-        this.isConnected = this.webSocketService.state === WebSocket.OPEN;
-    }
+  constructor(public webSocketService: WebSocketService) {
+  }
+
+  ngOnInit(): void {
+    this.subscription = this.webSocketService.isConnected.subscribe(value => this.isConnected = value);
+  }
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
 }
