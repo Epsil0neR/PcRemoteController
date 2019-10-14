@@ -32,7 +32,7 @@ export const ControlTypeMapping = new Map<ControlType, Type<BaseControlComponent
 })
 export class PageComponent implements OnInit, OnDestroy {
   private sub: Subscription;
-  private name: string;
+  public name: string;
   private items = [];
   public details: PageDetails = null;
 

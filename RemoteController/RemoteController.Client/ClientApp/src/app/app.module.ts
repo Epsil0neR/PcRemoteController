@@ -52,6 +52,7 @@ import { InformersStateService } from './services/informers-state.service';
             { path: 'counter', component: CounterComponent },
             { path: 'fetch-data', component: FetchDataComponent },
             { path: 'create', component: PageCreateComponent},
+            { path: 'edit/:name', component: PageEditorComponent },
             { path: 'p/:name', component: PageComponent }
         ])
     ],
