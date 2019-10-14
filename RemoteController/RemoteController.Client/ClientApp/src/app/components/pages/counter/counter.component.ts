@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { WebSocketService } from '../services/web-socket.service';
 import { Subscription } from 'rxjs';
+import { WebSocketService } from '../../../services/web-socket.service';
 
 @Component({
   selector: 'rc-counter-component',
