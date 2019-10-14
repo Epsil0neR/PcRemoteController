@@ -24,6 +24,7 @@ import { OutputControlComponent } from './components/controls/output-control/out
 import { CommandControlComponent } from './components/controls/command-control/command-control.component';
 import { FileSystemControlComponent } from './components/controls/file-system-control/file-system-control.component';
 import { InformersStateService } from './services/informers-state.service';
+import { EnumToArrayPipe } from './pipes/enum-to-array.pipe';
 
 @NgModule({
     declarations: [
@@ -41,6 +42,7 @@ import { InformersStateService } from './services/informers-state.service';
         OutputControlComponent,
         CommandControlComponent,
         FileSystemControlComponent,
+        EnumToArrayPipe,
     ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

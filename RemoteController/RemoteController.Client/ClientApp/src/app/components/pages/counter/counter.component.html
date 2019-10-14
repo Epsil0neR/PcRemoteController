@@ -5,3 +5,7 @@
 <p aria-live="polite">Current count: <strong>{{ currentCount }}</strong></p>
 
 <button class="btn btn-primary" (click)="incrementCounter()">Increment</button>
+
+<select [(ngModel)]='controlType' class="form-control">
+  <option *ngFor="let item of controlTypes | enumToArray" [ngValue]='item.value'>{{item.name}}</option>
+</select>

@@ -85,7 +85,8 @@ export class FileSystemControlComponent
           url: this.path + x,
           title: x
         };
-      }
+      };
+
       this.files = !!r.files ? r.files.map(map) : [];
       this.folders = !!r.folders ? r.folders.map(map) : [];
       this.paths = !!r.path ? r.path.map((x, i, arr) => {
@@ -93,7 +94,7 @@ export class FileSystemControlComponent
         return {
           url: p.join('\\'),
           title: x
-        }
+        };
       }) : [];
       this.paths.unshift({ url: '', title: '..' });
     }
