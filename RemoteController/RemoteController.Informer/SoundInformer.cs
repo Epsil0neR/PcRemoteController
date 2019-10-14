@@ -76,19 +76,19 @@ namespace RemoteController.Informer
                 var output = enumer.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
                 var inputList = enumer.EnumerateAudioEndPoints(DataFlow.Capture, DeviceState.Active).ToList();
                 var input = enumer.GetDefaultAudioEndpoint(DataFlow.Capture, Role.Communications);
-                var changedOutput = Set(ref _outputDevice, output.DeviceFriendlyName);
-                var changedInput = Set(ref _inputDevice, input.DeviceFriendlyName);
+                var changedOutput = Set(ref _outputDevice, output.FriendlyName);
+                var changedInput = Set(ref _inputDevice, input.FriendlyName);
                 var changes = new[]
                 {
                     changedOutput,
                     Set(ref _outputVolume, (int)(output.AudioEndpointVolume.MasterVolumeLevelScalar * 100)),
                     Set(ref _outputIsMuted, output.AudioEndpointVolume.Mute),
-                    SetList(ref _outputDeviceList, outputList.Select(x => x.DeviceFriendlyName)),
+                    SetList(ref _outputDeviceList, outputList.Select(x => x.FriendlyName)),
 
                     changedInput,
                     Set(ref _inputVolume, (int)(input.AudioEndpointVolume.MasterVolumeLevelScalar * 100)),
                     Set(ref _inputIsMuted, output.AudioEndpointVolume.Mute),
-                    SetList(ref _inputDeviceList, inputList.Select(x=>x.DeviceFriendlyName)),
+                    SetList(ref _inputDeviceList, inputList.Select(x=>x.FriendlyName)),
                 };
 
                 if (!changes.Any(x => x))
