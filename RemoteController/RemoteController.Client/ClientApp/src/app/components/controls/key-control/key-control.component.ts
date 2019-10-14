@@ -1,6 +1,6 @@
 import { Component, OnInit, HostListener, Input } from '@angular/core';
-import { makeid } from '../../utils/makeid';
-import { BaseControlComponent } from '../BaseControlComponent';
+import { makeid } from '../../../utils/makeid';
+import { BaseControlComponent } from '../../BaseControlComponent';
 import { WebSocketService } from 'src/app/services/web-socket.service';
 import { WebSocketMessage } from 'src/app/models/WebSocketMessage';
 import { WebSocketMessageType } from 'src/app/models/WebSocketMessageType';

@@ -5,13 +5,13 @@ import { PageDetails } from 'src/app/models/PageDetails';
 import { ControlHostDirective } from 'src/app/directives/control-host/control-host.directive';
 import { PagesService } from 'src/app/services/pages.service';
 import { ControlType } from 'src/app/models/ControlType';
-import { KeyControlComponent } from '../../key-control/key-control.component';
-import { VolumeControlComponent } from '../../volume-control/volume-control.component';
+import { KeyControlComponent } from '../../controls/key-control/key-control.component';
+import { VolumeControlComponent } from '../../controls/volume-control/volume-control.component';
 import { BaseControlComponent } from '../../BaseControlComponent';
 import { IKeyControl } from 'src/app/models/IControl';
-import { CommandControlComponent } from '../../command-control/command-control.component';
-import { FileSystemControlComponent } from '../../file-system-control/file-system-control.component';
-import { OutputControlComponent } from '../../output-control/output-control.component';
+import { CommandControlComponent } from '../../controls/command-control/command-control.component';
+import { FileSystemControlComponent } from '../../controls/file-system-control/file-system-control.component';
+import { OutputControlComponent } from '../../controls/output-control/output-control.component';
 
 export const ControlTypeMapping = new Map<ControlType, Type<BaseControlComponent>>([
   [ControlType.Key, KeyControlComponent],
