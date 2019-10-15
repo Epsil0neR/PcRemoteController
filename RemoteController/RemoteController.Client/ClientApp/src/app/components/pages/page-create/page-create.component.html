@@ -1,5 +1,10 @@
-<h3>Create page</h3>
+<!-- <h3>Create page</h3> -->
 
-<input [(ngModel)]="title" (keydown.enter)="create()" placeholder="Title" />
-<br>
-<button type="submit" (click)="create()">Create</button>
+<div class="form-group">
+  <input [(ngModel)]="title" (keydown.enter)="create()" placeholder="Title" class="form-control form-control-lg" />
+</div>
+
+<div>
+  <button class="btn">Add control</button>
+  <button (click)="create()" class="btn btn-primary">Create</button>
+</div>
