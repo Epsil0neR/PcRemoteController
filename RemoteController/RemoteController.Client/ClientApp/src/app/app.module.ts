@@ -23,6 +23,7 @@ import { FileSystemControlComponent } from './components/controls/file-system-co
 import { EnumToArrayPipe } from './pipes/enum-to-array.pipe';
 import { ControlEditorComponent } from './components/control-editor/control-editor.component';
 import { CoreModule } from 'src/core';
+import { KeyModule } from 'src/key';
 
 @NgModule({
     declarations: [
@@ -56,7 +57,8 @@ import { CoreModule } from 'src/core';
             { path: 'edit/:name', component: PageEditorComponent },
             { path: 'p/:name', component: PageComponent }
         ]),
-        CoreModule.forRoot()
+        CoreModule.forRoot(),
+        KeyModule.forRoot()
     ],
     providers: [
         EnumToArrayPipe,
