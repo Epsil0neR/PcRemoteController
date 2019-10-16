@@ -7,6 +7,7 @@ import { KeyEditorComponent } from './key-editor-component/key-editor.component'
 @NgModule({
   declarations: [
     KeyComponent,
+    KeyEditorComponent,
   ],
   imports: [
     CommonModule,
