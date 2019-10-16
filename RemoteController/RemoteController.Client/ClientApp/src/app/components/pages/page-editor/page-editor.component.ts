@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { PagesService } from 'src/core/services/pages.service';
-import { IControl, PageDetails } from 'src/core';
+import { IControl, PageDetails, PagesService } from 'src/core';
 
 @Component({
   selector: 'rc-page-editor',
