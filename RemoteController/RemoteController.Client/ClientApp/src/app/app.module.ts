@@ -26,6 +26,7 @@ import { FileSystemControlComponent } from './components/controls/file-system-co
 import { InformersStateService } from './services/informers-state.service';
 import { EnumToArrayPipe } from './pipes/enum-to-array.pipe';
 import { ControlEditorComponent } from './components/control-editor/control-editor.component';
+import { CoreModule } from '../core/core.module';
 
 @NgModule({
     declarations: [
@@ -58,7 +59,8 @@ import { ControlEditorComponent } from './components/control-editor/control-edit
             { path: 'create', component: PageCreateComponent},
             { path: 'edit/:name', component: PageEditorComponent },
             { path: 'p/:name', component: PageComponent }
-        ])
+        ]),
+        CoreModule
     ],
     providers: [
         PagesService,
