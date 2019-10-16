@@ -5,6 +5,7 @@ import { WebSocketService } from './services/web-socket.service';
 import { makeid } from './utils/makeid';
 import { PagesService } from './services/pages.service';
 import { InformersStateService } from './services/informers-state.service';
+import { ControlsService } from './services/controls.service';
 
 @NgModule({
   declarations: [],
@@ -12,6 +13,7 @@ import { InformersStateService } from './services/informers-state.service';
     CommonModule
   ],
   providers: [
+    ControlsService,
     InformersStateService,
     PagesService,
     WebSocketService,
@@ -24,6 +26,7 @@ export class CoreModule {
     return {
       ngModule: CoreModule,
       providers: [
+        ControlsService,
         InformersStateService,
         PagesService,
         { provide: WebSocketService, useFactory: WebSocketServiceProvider },

@@ -8,7 +8,7 @@ import { BaseControlComponent } from '../../BaseControlComponent';
 import { CommandControlComponent } from '../../controls/command-control/command-control.component';
 import { FileSystemControlComponent } from '../../controls/file-system-control/file-system-control.component';
 import { OutputControlComponent } from '../../controls/output-control/output-control.component';
-import { ControlType, PageDetails, PagesService } from 'src/core';
+import { ControlType, PageDetails, PagesService, ControlsService } from 'src/core';
 
 export const ControlTypeMapping = new Map<ControlType, Type<BaseControlComponent>>([
   [ControlType.Key, KeyControlComponent],
@@ -38,7 +38,8 @@ export class PageComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private pagesService: PagesService,
     private router: Router,
-    private componentFactoryResolver: ComponentFactoryResolver
+    private componentFactoryResolver: ComponentFactoryResolver,
+    private controlsService: ControlsService
   ) { }
 
   ngOnInit() {
@@ -65,6 +66,8 @@ export class PageComponent implements OnInit, OnDestroy {
     ref.clear();
     if (details instanceof PageDetails === false)
       return;
+
+    this.controlsService.views(ref, details.controls);
 
     details.controls.forEach(itm => {
       const controlType = itm.type;
