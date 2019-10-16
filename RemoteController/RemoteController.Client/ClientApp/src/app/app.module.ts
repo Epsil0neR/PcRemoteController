@@ -25,6 +25,7 @@ import { ControlEditorComponent } from './components/control-editor/control-edit
 import { CoreModule } from 'src/core';
 import { KeyModule } from 'src/key';
 import { VolumeModule } from 'src/volume';
+import { FileSystemModule } from 'src/file-system';
 
 @NgModule({
     declarations: [
@@ -60,7 +61,8 @@ import { VolumeModule } from 'src/volume';
         ]),
         CoreModule.forRoot(),
         KeyModule.forRoot(),
-        VolumeModule.forRoot()
+        VolumeModule.forRoot(),
+        FileSystemModule.forRoot()
     ],
     providers: [
         EnumToArrayPipe,

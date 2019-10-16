@@ -6,13 +6,13 @@ import { CoreModule } from 'src/core';
   declarations: [],
   imports: [
     CommonModule,
-    CoreModule
+    CoreModule,
   ]
 })
-export class VolumeModule {
+export class FileSystemModule {
   static forRoot(): ModuleWithProviders {
     return {
-      ngModule: VolumeModule,
+      ngModule: FileSystemModule,
       providers: [
       ]
     };
