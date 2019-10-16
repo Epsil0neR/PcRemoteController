@@ -25,6 +25,7 @@ import { CommandControlComponent } from './components/controls/command-control/c
 import { FileSystemControlComponent } from './components/controls/file-system-control/file-system-control.component';
 import { InformersStateService } from './services/informers-state.service';
 import { EnumToArrayPipe } from './pipes/enum-to-array.pipe';
+import { ControlEditorComponent } from './components/control-editor/control-editor.component';
 
 @NgModule({
     declarations: [
@@ -43,6 +44,7 @@ import { EnumToArrayPipe } from './pipes/enum-to-array.pipe';
         CommandControlComponent,
         FileSystemControlComponent,
         EnumToArrayPipe,
+        ControlEditorComponent,
     ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -62,6 +64,7 @@ import { EnumToArrayPipe } from './pipes/enum-to-array.pipe';
         PagesService,
         { provide: WebSocketService, useFactory: WebSocketServiceProvider },
         InformersStateService,
+        EnumToArrayPipe,
     ],
     bootstrap: [AppComponent],
     entryComponents: [

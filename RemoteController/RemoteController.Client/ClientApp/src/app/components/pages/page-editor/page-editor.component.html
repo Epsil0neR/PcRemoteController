@@ -1,1 +1,16 @@
-<p>page-editor works!</p>
+
+<rc-control-editor
+*ngIf="!!editControl"
+[(control)]='editControl'></rc-control-editor>
+
+<div *ngIf="!editControl">
+    <p>page-editor works!</p>
+
+    <button
+      *ngFor="let c of details.controls"
+      class="btn"
+      (click)="editControl = c;"
+      >
+      {{c.type}}-{{c.text}}
+    </button>
+</div>
