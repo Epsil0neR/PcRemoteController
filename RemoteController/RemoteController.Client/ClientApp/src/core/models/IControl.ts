@@ -1,4 +1,4 @@
-import { ControlType} from './ControlType';
+import { ControlType } from './ControlType';
 
 export interface IControl {
   type: ControlType;

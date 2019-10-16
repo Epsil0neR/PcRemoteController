@@ -1,6 +1,6 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CoreModule } from 'src/core';
+import { CoreModule, ControlsService } from 'src/core';
 import { KeyComponent } from './key-component/key.component';
 import { KeyEditorComponent } from './key-editor-component/key-editor.component';
 
@@ -19,6 +19,10 @@ import { KeyEditorComponent } from './key-editor-component/key-editor.component'
   ]
 })
 export class KeyModule {
+  constructor(controls: ControlsService) {
+    controls.register('key', KeyComponent, KeyEditorComponent);
+  }
+
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: KeyModule,
