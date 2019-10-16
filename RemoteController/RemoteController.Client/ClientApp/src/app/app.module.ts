@@ -24,6 +24,7 @@ import { EnumToArrayPipe } from './pipes/enum-to-array.pipe';
 import { ControlEditorComponent } from './components/control-editor/control-editor.component';
 import { CoreModule } from 'src/core';
 import { KeyModule } from 'src/key';
+import { VolumeModule } from 'src/volume';
 
 @NgModule({
     declarations: [
@@ -58,7 +59,8 @@ import { KeyModule } from 'src/key';
             { path: 'p/:name', component: PageComponent }
         ]),
         CoreModule.forRoot(),
-        KeyModule.forRoot()
+        KeyModule.forRoot(),
+        VolumeModule.forRoot()
     ],
     providers: [
         EnumToArrayPipe,
