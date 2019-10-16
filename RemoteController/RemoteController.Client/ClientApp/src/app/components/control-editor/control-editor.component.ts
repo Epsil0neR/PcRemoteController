@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { IControl } from 'src/app/models/IControl';
-import { ControlType } from 'src/app/models/ControlType';
 import { EnumToArrayPipe } from 'src/app/pipes/enum-to-array.pipe';
+import { ControlType, IControl } from 'src/core';
 
 @Component({
   selector: 'rc-control-editor',

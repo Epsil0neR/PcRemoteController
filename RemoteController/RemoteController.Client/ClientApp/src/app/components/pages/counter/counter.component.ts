@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { WebSocketService } from '../../../services/web-socket.service';
-import { ControlType } from 'src/app/models/ControlType';
+import { ControlType, WebSocketService } from 'src/core';
 
 @Component({
   selector: 'rc-counter-component',

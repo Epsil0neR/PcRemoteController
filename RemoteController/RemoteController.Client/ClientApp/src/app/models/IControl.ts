@@ -1,9 +1,4 @@
-import { ControlType} from './ControlType';
-
-export interface IControl {
-  type: ControlType;
-  col: number;
-}
+import { IControl } from 'src/core';
 
 export interface IKeyControl extends IControl {
   key: string;

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IPage } from '../models/IPage';
+import { IPage } from '../../core/models/IPage';
 import { PageDetails } from '../models/PageDetails';
 import { BehaviorSubject } from 'rxjs';
 

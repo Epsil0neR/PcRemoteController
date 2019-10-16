@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
@@ -11,14 +11,12 @@ import { HomeComponent } from './components/pages/home/home.component';
 import { CounterComponent } from './components/pages/counter/counter.component';
 import { FetchDataComponent } from './components/pages/fetch-data/fetch-data.component';
 
-import { environment } from '../environments/environment';
 import { PageComponent } from './components/pages/page/page.component';
 import { PageEditorComponent } from './components/pages/page-editor/page-editor.component';
 import { PageCreateComponent } from './components/pages/page-create/page-create.component';
 import { KeyControlComponent } from './components/controls/key-control/key-control.component';
 import { VolumeControlComponent } from './components/controls/volume-control/volume-control.component';
 import { ControlHostDirective } from './directives/control-host/control-host.directive';
-import { WebSocketService } from './services/web-socket.service';
 import { PagesService } from './services/pages.service';
 import { OutputControlComponent } from './components/controls/output-control/output-control.component';
 import { CommandControlComponent } from './components/controls/command-control/command-control.component';
@@ -64,7 +62,6 @@ import { CoreModule } from '../core/core.module';
     ],
     providers: [
         PagesService,
-        { provide: WebSocketService, useFactory: WebSocketServiceProvider },
         InformersStateService,
         EnumToArrayPipe,
     ],
@@ -78,11 +75,3 @@ import { CoreModule } from '../core/core.module';
     ]
 })
 export class AppModule { }
-
-export function WebSocketServiceProvider() {
-    const rv = new WebSocketService(environment.wsHost);
-    rv.logRaisingEvent = false;
-    rv.open();
-    console.log('Created WebSocketService: ', rv);
-    return rv;
-}

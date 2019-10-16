@@ -1,6 +1,5 @@
-import { Input, HostBinding } from '@angular/core';
-import { IControl } from '../models/IControl';
-import { ControlType } from '../models/ControlType';
+import { Input } from '@angular/core';
+import { ControlType, IControl } from 'src/core';
 
 export abstract class BaseControlComponent {
   private _col: number = 4;

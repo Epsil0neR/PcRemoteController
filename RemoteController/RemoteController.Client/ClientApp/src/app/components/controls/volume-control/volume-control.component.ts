@@ -1,13 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef, OnDestroy, Input } from '@angular/core';
 import { BaseControlComponent } from '../../BaseControlComponent';
-import { ControlType } from 'src/app/models/ControlType';
-import { IControl } from 'src/app/models/IControl';
-import { WebSocketService } from 'src/app/services/web-socket.service';
-import { WebSocketMessage } from 'src/app/models/WebSocketMessage';
-import { WebSocketMessageType } from 'src/app/models/WebSocketMessageType';
-import { makeid } from 'src/app/utils/makeid';
 import { InformersStateService } from 'src/app/services/informers-state.service';
 import { Subscription } from 'rxjs';
+import { WebSocketService, WebSocketMessage, ControlType, IControl, WebSocketMessageType, makeid } from 'src/core';
 
 @Component({
   selector: 'rc-volume-control',

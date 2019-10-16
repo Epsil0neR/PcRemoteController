@@ -1,12 +1,8 @@
 import { Component, OnInit, HostListener, Input } from '@angular/core';
-import { makeid } from '../../../utils/makeid';
 import { BaseControlComponent } from '../../BaseControlComponent';
-import { WebSocketService } from 'src/app/services/web-socket.service';
-import { WebSocketMessage } from 'src/app/models/WebSocketMessage';
-import { WebSocketMessageType } from 'src/app/models/WebSocketMessageType';
-import { ControlType } from 'src/app/models/ControlType';
-import { IKeyControl } from 'src/app/models/IControl';
 import * as icons from '@fortawesome/free-solid-svg-icons';
+import { WebSocketService, WebSocketMessage, WebSocketMessageType, makeid, ControlType } from 'src/core';
+import { IKeyControl } from 'src/app/models/IControl';
 
 @Component({
   selector: 'rc-key-control',

@@ -1,5 +1,5 @@
-import { IControl, IKeyControl, IFileSystemControl } from './IControl';
-import { ControlType } from './ControlType';
+import { IKeyControl, IFileSystemControl } from './IControl';
+import { IControl, ControlType } from 'src/core';
 
 export class PageDetails {
   public title: string = '';

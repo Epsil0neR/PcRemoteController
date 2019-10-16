@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { PageDetails } from 'src/app/models/PageDetails';
 import { ControlHostDirective } from 'src/app/directives/control-host/control-host.directive';
 import { PagesService } from 'src/app/services/pages.service';
-import { ControlType } from 'src/app/models/ControlType';
+import { ControlType } from 'src/core';
 import { KeyControlComponent } from '../../controls/key-control/key-control.component';
 import { VolumeControlComponent } from '../../controls/volume-control/volume-control.component';
 import { BaseControlComponent } from '../../BaseControlComponent';

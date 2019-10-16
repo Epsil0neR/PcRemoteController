@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { PageDetails } from 'src/app/models/PageDetails';
 import { PagesService } from 'src/app/services/pages.service';
-import { IControl } from 'src/app/models/IControl';
+import { IControl } from 'src/core';
 
 @Component({
   selector: 'rc-page-editor',

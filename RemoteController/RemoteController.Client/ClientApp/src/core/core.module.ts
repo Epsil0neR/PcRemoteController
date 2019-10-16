@@ -2,6 +2,7 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WebSocketService } from 'src/core/services/web-socket.service';
 import { environment } from 'src/environments/environment';
+import { makeid } from './utils/makeid';
 
 @NgModule({
   declarations: [],
@@ -9,7 +10,9 @@ import { environment } from 'src/environments/environment';
     CommonModule
   ],
   providers: [
-    { provide: WebSocketService, useFactory: WebSocketServiceProvider },
+    WebSocketService,
+  ],
+  exports: [
   ]
 })
 export class CoreModule {
@@ -17,9 +20,9 @@ export class CoreModule {
     return {
       ngModule: CoreModule,
       providers: [
-        WebSocketService
+        { provide: WebSocketService, useFactory: WebSocketServiceProvider },
       ]
-    }
+    };
   }
 }
 

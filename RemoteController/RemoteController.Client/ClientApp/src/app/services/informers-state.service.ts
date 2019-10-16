@@ -1,9 +1,6 @@
-import { Injectable, OnInit, OnDestroy } from '@angular/core';
-import { WebSocketService } from './web-socket.service';
-import { WebSocketMessage } from '../models/WebSocketMessage';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
-import { makeid } from '../utils/makeid';
-import { WebSocketMessageType } from '../models/WebSocketMessageType';
+import { WebSocketMessage, WebSocketService, WebSocketMessageType, makeid } from 'src/core';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +10,6 @@ export class InformersStateService {
   public Sound: BehaviorSubject<IInformerSound>;
 
   private handlers: { [action: string]: (msg: WebSocketMessage) => void };
-  private subscription: Subscription;
 
   constructor(private service: WebSocketService) {
     this.handlers = {
@@ -23,10 +19,6 @@ export class InformersStateService {
 
     this.proceedHandlers();
     this.checkServer();
-    this.subscription = this.service.isConnected.subscribe(value => {
-      if (value)
-        this.checkServer();
-    });
   }
 
   private proceedHandlers() {

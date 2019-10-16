@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PagesService } from '../../services/pages.service';
-import { IPage } from '../../models/IPage';
+import { IPage } from '../../../core/models/IPage';
 import { Subscription } from 'rxjs';
-import { WebSocketService } from '../../services/web-socket.service';
+import { WebSocketService } from 'src/core';
 
 @Component({
   selector: 'rc-nav-menu',
