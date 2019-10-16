@@ -2,7 +2,7 @@ import { Component, OnInit, HostListener, Input } from '@angular/core';
 import { BaseControlComponent } from '../../BaseControlComponent';
 import * as icons from '@fortawesome/free-solid-svg-icons';
 import { WebSocketService, WebSocketMessage, WebSocketMessageType, makeid, ControlType } from 'src/core';
-import { IKeyControl } from 'src/app/models/IControl';
+import { IKeyControl } from 'src/key';
 
 @Component({
   selector: 'rc-key-control',
@@ -42,11 +42,11 @@ export class KeyControlComponent
 
   load(data: IKeyControl) {
     super.load(data);
-    this.key = data.key;
+    this.key = data.data;
     if (!!data.icon) {
       this.icon = this.findIcon(data.icon);
     }
-    this.text = !!data.text ? data.text : data.key;
+    this.text = !!data.text ? data.text : data.data;
   }
 
   private findIcon(name: string) {
