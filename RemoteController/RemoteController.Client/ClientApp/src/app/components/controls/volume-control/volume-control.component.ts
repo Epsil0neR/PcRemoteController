@@ -1,8 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, OnDestroy, Input } from '@angular/core';
 import { BaseControlComponent } from '../../BaseControlComponent';
-import { InformersStateService } from 'src/app/services/informers-state.service';
 import { Subscription } from 'rxjs';
-import { WebSocketService, WebSocketMessage, ControlType, IControl, WebSocketMessageType, makeid } from 'src/core';
+import { WebSocketService, WebSocketMessage, ControlType, IControl, WebSocketMessageType, makeid, InformersStateService } from 'src/core';
 
 @Component({
   selector: 'rc-volume-control',

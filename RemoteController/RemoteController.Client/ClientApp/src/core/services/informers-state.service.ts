@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
-import { WebSocketMessage, WebSocketService, WebSocketMessageType, makeid } from 'src/core';
+import { WebSocketMessage } from '../models/WebSocketMessage';
+import { WebSocketService } from './web-socket.service';
+import { WebSocketMessageType } from '../models/WebSocketMessageType';
+import { makeid } from '../utils/makeid';
 
 @Injectable({
   providedIn: 'root'

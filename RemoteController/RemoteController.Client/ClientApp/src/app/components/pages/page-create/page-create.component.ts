@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PagesService } from 'src/core/services/pages.service';
+import { PagesService } from 'src/core';
 
 @Component({
   selector: 'rc-page-create',

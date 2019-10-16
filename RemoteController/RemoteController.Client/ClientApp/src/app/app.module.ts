@@ -17,14 +17,12 @@ import { PageCreateComponent } from './components/pages/page-create/page-create.
 import { KeyControlComponent } from './components/controls/key-control/key-control.component';
 import { VolumeControlComponent } from './components/controls/volume-control/volume-control.component';
 import { ControlHostDirective } from './directives/control-host/control-host.directive';
-import { PagesService } from '../core/services/pages.service';
 import { OutputControlComponent } from './components/controls/output-control/output-control.component';
 import { CommandControlComponent } from './components/controls/command-control/command-control.component';
 import { FileSystemControlComponent } from './components/controls/file-system-control/file-system-control.component';
-import { InformersStateService } from './services/informers-state.service';
 import { EnumToArrayPipe } from './pipes/enum-to-array.pipe';
 import { ControlEditorComponent } from './components/control-editor/control-editor.component';
-import { CoreModule } from '../core/core.module';
+import { CoreModule } from 'src/core';
 
 @NgModule({
     declarations: [
@@ -61,8 +59,6 @@ import { CoreModule } from '../core/core.module';
         CoreModule.forRoot()
     ],
     providers: [
-        PagesService,
-        InformersStateService,
         EnumToArrayPipe,
     ],
     bootstrap: [AppComponent],
