@@ -60,7 +60,7 @@ import { CoreModule } from '../core/core.module';
             { path: 'edit/:name', component: PageEditorComponent },
             { path: 'p/:name', component: PageComponent }
         ]),
-        CoreModule
+        CoreModule.forRoot()
     ],
     providers: [
         PagesService,
