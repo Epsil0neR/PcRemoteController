@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { IPage } from '../../core/models/IPage';
-import { PageDetails } from '../models/PageDetails';
+import { IPage } from '../models/IPage';
 import { BehaviorSubject } from 'rxjs';
+import { PageDetails } from '../models/PageDetails';
 
 @Injectable({
   providedIn: 'root'

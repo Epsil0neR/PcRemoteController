@@ -1,17 +1,14 @@
 import { Component, OnInit, OnDestroy, ComponentFactoryResolver, ViewChild, Type } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { PageDetails } from 'src/app/models/PageDetails';
 import { ControlHostDirective } from 'src/app/directives/control-host/control-host.directive';
-import { PagesService } from 'src/app/services/pages.service';
-import { ControlType } from 'src/core';
 import { KeyControlComponent } from '../../controls/key-control/key-control.component';
 import { VolumeControlComponent } from '../../controls/volume-control/volume-control.component';
 import { BaseControlComponent } from '../../BaseControlComponent';
-import { IKeyControl } from 'src/app/models/IControl';
 import { CommandControlComponent } from '../../controls/command-control/command-control.component';
 import { FileSystemControlComponent } from '../../controls/file-system-control/file-system-control.component';
 import { OutputControlComponent } from '../../controls/output-control/output-control.component';
+import { ControlType, PageDetails, PagesService } from 'src/core';
 
 export const ControlTypeMapping = new Map<ControlType, Type<BaseControlComponent>>([
   [ControlType.Key, KeyControlComponent],
@@ -33,7 +30,6 @@ export const ControlTypeMapping = new Map<ControlType, Type<BaseControlComponent
 export class PageComponent implements OnInit, OnDestroy {
   private sub: Subscription;
   public name: string;
-  private items = [];
   public details: PageDetails = null;
 
   @ViewChild(ControlHostDirective, { static: true }) host: ControlHostDirective;
