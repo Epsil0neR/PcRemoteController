@@ -3,9 +3,11 @@ import { CommonModule } from '@angular/common';
 import { CoreModule, ControlsService } from 'src/core';
 import { FileSystemControlComponent } from './file-system-component/file-system.component';
 import { FileSystemEditorComponent } from './file-system-editor-component/file-system-editor.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   imports: [
+    FontAwesomeModule,
     CommonModule,
     CoreModule,
   ],
