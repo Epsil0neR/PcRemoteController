@@ -1,7 +1,8 @@
 import { Component, OnInit, HostListener, Input } from '@angular/core';
-import * as icons from '@fortawesome/free-solid-svg-icons';
+import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { WebSocketService, WebSocketMessage, WebSocketMessageType, makeid, ControlType, BaseControlComponent } from 'src/core';
 import { IKeyControl } from 'src/key';
+import { findIcon } from 'src/core/utils/findIcon';
 
 @Component({
   selector: 'rc-key-control',
@@ -12,7 +13,7 @@ export class KeyControlComponent
   extends BaseControlComponent
   implements OnInit {
 
-  public icon: icons.IconDefinition;
+  public icon: IconDefinition;
   text: string;
 
   constructor(private webSocketService: WebSocketService) {
@@ -43,20 +44,8 @@ export class KeyControlComponent
     super.load(data);
     this.key = data.data;
     if (!!data.icon) {
-      this.icon = this.findIcon(data.icon);
+      this.icon = findIcon(data.icon);
     }
     this.text = !!data.text ? data.text : data.data;
-  }
-
-  private findIcon(name: string) {
-    const pack = icons.fas;
-    for (const key in pack) {
-      if (!pack.hasOwnProperty(key))
-        continue;
-
-      const icon = pack[key];
-      if (icon.iconName === name)
-        return icon;
-    }
   }
 }
