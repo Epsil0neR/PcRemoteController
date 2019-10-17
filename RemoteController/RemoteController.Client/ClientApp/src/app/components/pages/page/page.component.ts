@@ -37,7 +37,6 @@ export class PageComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private pagesService: PagesService,
     private router: Router,
-    private componentFactoryResolver: ComponentFactoryResolver,
     private controlsService: ControlsService
   ) { }
 
@@ -67,15 +66,5 @@ export class PageComponent implements OnInit, OnDestroy {
       return;
 
     this.controlsService.views(ref, details.controls);
-
-    details.controls.forEach(itm => {
-      const controlType = itm.type;
-      const componentType = ControlTypeMapping.get(controlType);
-      const factory = this.componentFactoryResolver.resolveComponentFactory(componentType);
-      const component = ref.createComponent(factory);
-
-      const control = component.instance;
-      control.load(itm);
-      });
   }
 }

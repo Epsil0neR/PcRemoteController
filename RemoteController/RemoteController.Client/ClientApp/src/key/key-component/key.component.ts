@@ -1,8 +1,8 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import { IControlViewer, IControl, BaseControlComponent, WebSocketService, WebSocketMessage, WebSocketMessageType, makeid } from 'src/core';
+import { IControlViewer, WebSocketService, WebSocketMessage, WebSocketMessageType, makeid, findIcon } from 'src/core';
 import { IKeyControl } from '../Models/IKeyControl';
-import { findIcon } from 'src/core/utils/findIcon';
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { BaseControlComponent } from 'src/core/components/BaseControlComponent';
 
 @Component({
   selector: 'rc-key',

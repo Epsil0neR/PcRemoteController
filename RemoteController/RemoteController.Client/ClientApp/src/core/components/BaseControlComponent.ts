@@ -1,7 +1,6 @@
 import { Input } from '@angular/core';
-import { ControlType, IControl } from 'src/core';
 
-export abstract class BaseControlComponent {
+export class BaseControlComponent {
   private _col: number = 4;
   protected colMax: number = 12;
   protected colMin: number = 1;
@@ -26,19 +25,4 @@ export abstract class BaseControlComponent {
 
   @Input()
   public colClass: string;
-
-  /**
-   * Control type that component supports.
-   */
-  protected abstract GetControlType(): ControlType;
-
-  public load(data: IControl): void {
-    if (!data)
-      throw new Error('Data must be provided');
-
-    if (data.type !== this.GetControlType())
-      throw new Error('Data is not supported by this component');
-
-    this.col = data.col;
-  }
 }

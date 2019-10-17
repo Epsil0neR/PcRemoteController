@@ -1,4 +1,4 @@
-import { IControl, WebSocketService } from 'src/core';
+import { IControl } from 'src/core';
 
 export interface IKeyControl extends IControl {
   /**

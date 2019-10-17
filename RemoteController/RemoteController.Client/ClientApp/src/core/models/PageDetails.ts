@@ -3,6 +3,12 @@ import { IControl } from './IControl';
 export class PageDetails {
   public title: string = '';
   public controls: IControl[] = [
+    <any>{
+      name: 'key',
+      data: 'VOLUME_UP',
+      text: 'Volume up',
+      icon: 'volume-up'
+    }
     // <IKeyControl>{
     //   type: ControlType.Key,
     //   col: 3,

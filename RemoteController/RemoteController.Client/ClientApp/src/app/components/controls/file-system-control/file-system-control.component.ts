@@ -66,7 +66,8 @@ export class FileSystemControlComponent
   }
 
   public load(data: IFileSystemControl) {
-    super.load(data);
+    this.col = data.col;
+    throw new Error('Obsolete');
 
     this.lsKey = `${FileSystemControlComponent.lsKeyRoot}.${data.id}`;
   }

@@ -1,8 +1,7 @@
 import { Component, OnInit, HostListener, Input } from '@angular/core';
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
-import { WebSocketService, WebSocketMessage, WebSocketMessageType, makeid, ControlType, BaseControlComponent } from 'src/core';
+import { WebSocketService, WebSocketMessage, WebSocketMessageType, makeid, ControlType, BaseControlComponent, findIcon } from 'src/core';
 import { IKeyControl } from 'src/key';
-import { findIcon } from 'src/core/utils/findIcon';
 
 @Component({
   selector: 'rc-key-control',
@@ -41,7 +40,8 @@ export class KeyControlComponent
   }
 
   load(data: IKeyControl) {
-    super.load(data);
+    this.col = data.col;
+    throw new Error('Obsolete');
     this.key = data.data;
     if (!!data.icon) {
       this.icon = findIcon(data.icon);

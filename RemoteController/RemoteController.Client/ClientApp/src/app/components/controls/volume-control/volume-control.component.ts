@@ -58,7 +58,8 @@ export class VolumeControlComponent
   }
 
   public load(data: IControl) {
-    super.load(data);
+    this.col = data.col;
+    throw new Error('Obsolete');
   }
 
   setVolume(value: string) {

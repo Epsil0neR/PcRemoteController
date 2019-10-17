@@ -1,1 +1,7 @@
-<p>key works!</p>
+<button
+  title="{{title}}"
+  class="btn btn-light"
+  [ngClass]="colClass">
+  <fa-icon *ngIf="!!icon" [icon]="icon" class="fa-3x"></fa-icon>
+  <span *ngIf="!icon">{{title.toUpperCase()}}</span>
+</button>
