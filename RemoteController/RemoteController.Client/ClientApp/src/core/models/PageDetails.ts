@@ -12,6 +12,9 @@ export class PageDetails {
     {
       name: 'vol'
     },
+    {
+      name: 'fs'
+    }
     // <IKeyControl>{
     //   type: ControlType.Key,
     //   col: 3,

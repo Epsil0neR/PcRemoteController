@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { IFileSystemList } from 'src/file-system/Models/models/IFileSystemList';
+import { IFileSystemList } from 'src/file-system/Models/IFileSystemList';
 import * as Icons from '@fortawesome/free-solid-svg-icons';
 import { WebSocketMessage, WebSocketService, WebSocketMessageType, makeid, BaseControlComponent, IControlViewer } from 'src/core';
 import { IFileSystemControl } from '../Models/IFileSystemControl';
@@ -15,7 +15,6 @@ export class FileSystemControlComponent
   implements IControlViewer, OnInit, OnDestroy {
 
   static readonly lsKeyRoot: string = 'rc.components.file-system';
-  private lsKey: string = null;
   private messageHandlers: { [action: string]: (msg: WebSocketMessage) => void } = null;
   private subscription: Subscription;
 
@@ -45,7 +44,7 @@ export class FileSystemControlComponent
     }
 
     this.subscription = this.service.isConnected.subscribe(value => {
-      if (value && !!this.lsKey)
+      if (value)
         this.goToPath('');
     });
   }
