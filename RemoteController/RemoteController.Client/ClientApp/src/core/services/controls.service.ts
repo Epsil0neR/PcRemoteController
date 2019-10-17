@@ -2,8 +2,6 @@ import { Injectable, Type, ViewContainerRef, ComponentFactoryResolver } from '@a
 import { IControlViewer } from '../models/IControlViewer';
 import { IControlEditor } from '../models/IControlEditor';
 import { IControl } from '../models/IControl';
-import { stringify } from 'querystring';
-import { ReadVarExpr } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
