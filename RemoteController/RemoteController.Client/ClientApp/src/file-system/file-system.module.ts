@@ -2,6 +2,7 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CoreModule } from 'src/core';
 import { FileSystemControlComponent } from './file-system-component/file-system.component';
+import { FileSystemEditorComponent } from './file-system-editor/file-system-editor.component';
 
 @NgModule({
   imports: [
@@ -9,7 +10,16 @@ import { FileSystemControlComponent } from './file-system-component/file-system.
     CoreModule,
   ],
   declarations: [
-    FileSystemControlComponent
+    FileSystemControlComponent,
+    FileSystemEditorComponent,
+  ],
+  exports: [
+    FileSystemControlComponent,
+    FileSystemEditorComponent,
+  ],
+  entryComponents: [
+    FileSystemControlComponent,
+    FileSystemEditorComponent,
   ],
 })
 export class FileSystemModule {
