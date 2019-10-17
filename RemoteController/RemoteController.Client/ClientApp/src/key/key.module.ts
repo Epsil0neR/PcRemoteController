@@ -18,6 +18,10 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
   exports: [
     KeyComponent,
     KeyEditorComponent
+  ],
+  entryComponents: [
+    KeyComponent,
+    KeyEditorComponent
   ]
 })
 export class KeyModule {

@@ -196,7 +196,9 @@ export class WebSocketService {
       this.instanceCreated(this.instance);
       this.__autoReconnectTry = 0;
     } catch (e) {
+      console.warn(e);
       this.raiseEvent('error.open', e);
+      this.raiseEvent('error.open', { e: e, message: 'Count not initialize WebSocket.' });
     }
   }
 

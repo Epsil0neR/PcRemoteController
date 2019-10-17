@@ -6,11 +6,15 @@ import { makeid } from './utils/makeid';
 import { PagesService } from './services/pages.service';
 import { InformersStateService } from './services/informers-state.service';
 import { ControlsService } from './services/controls.service';
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [],
   imports: [
-    CommonModule
+        BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+        HttpClientModule,
+        CommonModule
   ],
   providers: [
     ControlsService,
