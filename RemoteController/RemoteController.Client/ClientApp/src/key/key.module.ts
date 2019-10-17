@@ -26,7 +26,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 })
 export class KeyModule {
   constructor(controls: ControlsService) {
-    controls.register(KeyModule.controlKey, KeyComponent, KeyEditorComponent);
+    controls.register(KeyModule.controlKey, 'Key', KeyComponent, KeyEditorComponent);
   }
 
   static readonly controlKey: string = 'key';

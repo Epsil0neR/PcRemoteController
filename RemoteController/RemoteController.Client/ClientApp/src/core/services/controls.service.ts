@@ -2,6 +2,8 @@ import { Injectable, Type, ViewContainerRef, ComponentFactoryResolver } from '@a
 import { IControlViewer } from '../models/IControlViewer';
 import { IControlEditor } from '../models/IControlEditor';
 import { IControl } from '../models/IControl';
+import { stringify } from 'querystring';
+import { ReadVarExpr } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
@@ -14,14 +16,17 @@ export class ControlsService {
     private componentFactoryResolver: ComponentFactoryResolver
   ) { }
 
-  public register(name: string, viewType: Type<IControlViewer>, editType: Type<IControlEditor>) {
+  public register(name: string, title: string, viewType: Type<IControlViewer>, editType: Type<IControlEditor>) {
     if (typeof name !== 'string')
       throw new Error('name parameter must be of type string.');
 
     if (!!this._registrations.find(x => x.name === name))
       throw new Error('name already in use.');
 
-    const r: ControlRegistration = { name, viewType, editType };
+    if (typeof title !== 'string' || title.trim().length === 0)
+      throw new Error('title parameter must be non whitespace string.');
+
+    const r: ControlRegistration = { name, title, viewType, editType };
     this._registrations.push(r);
   }
 
@@ -59,10 +64,20 @@ export class ControlsService {
     });
   }
 
+  /**
+   * Gets a list avaiable registrations.
+   *
+   * @returns {{ title: string, name: string }[]}
+   * @memberof ControlsService
+   */
+  public getAvailable(): { title: string, name: string }[] {
+    return  this._registrations.map(x => ({ title: x.title, name: x.name }));
+  }
 }
 
 interface ControlRegistration {
   name: string;
+  title: string;
   viewType: Type<IControlViewer>;
   editType: Type<IControlEditor>;
 }
