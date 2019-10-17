@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { BaseControlComponent } from '../../BaseControlComponent';
-import { WebSocketService, ControlType, IControl } from 'src/core';
+import { WebSocketService, ControlType, IControl, BaseControlComponent, } from 'src/core';
 
 @Component({
   selector: 'rc-output-control',

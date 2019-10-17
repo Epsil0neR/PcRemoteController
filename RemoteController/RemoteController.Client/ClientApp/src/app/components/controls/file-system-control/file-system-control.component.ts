@@ -1,10 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { BaseControlComponent } from '../../BaseControlComponent';
 import { IFileSystemControl } from 'src/app/models/IControl';
 import { Subscription } from 'rxjs';
 import { IFileSystemList } from 'src/app/models/IFileSystemList';
 import * as Icons from '@fortawesome/free-solid-svg-icons';
-import { WebSocketMessage, WebSocketService, ControlType, WebSocketMessageType, makeid } from 'src/core';
+import { WebSocketMessage, WebSocketService, ControlType, WebSocketMessageType, makeid, BaseControlComponent } from 'src/core';
 
 @Component({
   selector: 'rc-file-system-control',

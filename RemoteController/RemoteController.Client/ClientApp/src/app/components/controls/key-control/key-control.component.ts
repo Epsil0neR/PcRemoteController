@@ -1,7 +1,6 @@
 import { Component, OnInit, HostListener, Input } from '@angular/core';
-import { BaseControlComponent } from '../../BaseControlComponent';
 import * as icons from '@fortawesome/free-solid-svg-icons';
-import { WebSocketService, WebSocketMessage, WebSocketMessageType, makeid, ControlType } from 'src/core';
+import { WebSocketService, WebSocketMessage, WebSocketMessageType, makeid, ControlType, BaseControlComponent } from 'src/core';
 import { IKeyControl } from 'src/key';
 
 @Component({

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IControlViewer, IControl } from 'src/core';
+import { IKeyControl } from '../Models/IKeyControl';
 
 @Component({
   selector: 'rc-key',
@@ -13,7 +14,8 @@ export class KeyComponent implements IControlViewer, OnInit {
   ngOnInit() {
   }
 
-  load(data: IControl): boolean {
-    throw new Error('Method not implemented.');
+  load(data: IKeyControl): boolean {
+    // TODO
+    return true;
   }
 }

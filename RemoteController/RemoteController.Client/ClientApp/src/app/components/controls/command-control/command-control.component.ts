@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BaseControlComponent } from '../../BaseControlComponent';
-import { ControlType, IControl } from 'src/core';
+import { ControlType, IControl, BaseControlComponent } from 'src/core';
 
 @Component({
   selector: 'rc-command-control',
