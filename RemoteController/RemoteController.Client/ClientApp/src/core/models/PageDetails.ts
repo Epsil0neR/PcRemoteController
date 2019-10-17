@@ -8,7 +8,10 @@ export class PageDetails {
       data: 'VOLUME_UP',
       text: 'Volume up',
       icon: 'volume-up'
-    }
+    },
+    {
+      name: 'vol'
+    },
     // <IKeyControl>{
     //   type: ControlType.Key,
     //   col: 3,
