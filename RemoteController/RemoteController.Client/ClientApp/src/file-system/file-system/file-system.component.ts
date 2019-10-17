@@ -1,14 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { IFileSystemControl } from 'src/app/models/IControl';
+import { IFileSystemControl } from './node_modules/src/app/models/IControl';
 import { Subscription } from 'rxjs';
-import { IFileSystemList } from 'src/app/models/IFileSystemList';
+import { IFileSystemList } from './node_modules/src/app/models/IFileSystemList';
 import * as Icons from '@fortawesome/free-solid-svg-icons';
-import { WebSocketMessage, WebSocketService, WebSocketMessageType, makeid, BaseControlComponent } from 'src/core';
+import { WebSocketMessage, WebSocketService, WebSocketMessageType, makeid, BaseControlComponent } from './node_modules/src/core';
 
 @Component({
-  selector: 'rc-file-system-control',
-  templateUrl: './file-system-control.component.html',
-  styleUrls: ['./file-system-control.component.css']
+  selector: 'rc-file-system',
+  templateUrl: './file-system.component.html',
+  styleUrls: ['./file-system.component.css']
 })
 export class FileSystemControlComponent
   extends BaseControlComponent

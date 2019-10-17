@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FileSystemControlComponent } from './file-system-control.component';
+import { FileSystemControlComponent } from './file-system.component';
 
 describe('FileSystemControlComponent', () => {
   let component: FileSystemControlComponent;

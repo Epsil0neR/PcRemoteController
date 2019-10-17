@@ -15,7 +15,6 @@ import { PageComponent } from './components/pages/page/page.component';
 import { PageEditorComponent } from './components/pages/page-editor/page-editor.component';
 import { PageCreateComponent } from './components/pages/page-create/page-create.component';
 import { ControlHostDirective } from './directives/control-host/control-host.directive';
-import { FileSystemControlComponent } from './components/controls/file-system-control/file-system-control.component';
 import { EnumToArrayPipe } from './pipes/enum-to-array.pipe';
 import { CoreModule } from 'src/core';
 import { KeyModule } from 'src/key';
@@ -33,7 +32,6 @@ import { FileSystemModule } from 'src/file-system';
         PageEditorComponent,
         PageCreateComponent,
         ControlHostDirective,
-        FileSystemControlComponent,
         EnumToArrayPipe,
     ],
     imports: [
@@ -58,8 +56,5 @@ import { FileSystemModule } from 'src/file-system';
         EnumToArrayPipe,
     ],
     bootstrap: [AppComponent],
-    entryComponents: [
-      FileSystemControlComponent,
-    ]
 })
 export class AppModule { }
