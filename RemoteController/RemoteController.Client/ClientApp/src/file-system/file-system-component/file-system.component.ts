@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { IFileSystemControl } from 'src/app/models/IControl';
 import { Subscription } from 'rxjs';
-import { IFileSystemList } from 'src/app/models/IFileSystemList';
+import { IFileSystemList } from 'src/file-system/Models/models/IFileSystemList';
 import * as Icons from '@fortawesome/free-solid-svg-icons';
-import { WebSocketMessage, WebSocketService, WebSocketMessageType, makeid, BaseControlComponent } from 'src/core';
+import { WebSocketMessage, WebSocketService, WebSocketMessageType, makeid, BaseControlComponent, IControlViewer } from 'src/core';
+import { IFileSystemControl } from '../Models/IFileSystemControl';
 
 @Component({
   selector: 'rc-file-system',
@@ -12,7 +12,7 @@ import { WebSocketMessage, WebSocketService, WebSocketMessageType, makeid, BaseC
 })
 export class FileSystemControlComponent
   extends BaseControlComponent
-  implements OnInit, OnDestroy {
+  implements IControlViewer, OnInit, OnDestroy {
 
   static readonly lsKeyRoot: string = 'rc.components.file-system';
   private lsKey: string = null;
@@ -61,11 +61,10 @@ export class FileSystemControlComponent
     }
   }
 
-  public load(data: IFileSystemControl) {
+  public load(data: IFileSystemControl): boolean {
     this.col = data.col;
-    throw new Error('Obsolete');
-
-    this.lsKey = `${FileSystemControlComponent.lsKeyRoot}.${data.id}`;
+    // TODO
+    return true;
   }
 
   onFileSystemList(m: WebSocketMessage): void {

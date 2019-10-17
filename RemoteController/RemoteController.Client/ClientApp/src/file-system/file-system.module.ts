@@ -1,8 +1,8 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CoreModule } from 'src/core';
+import { CoreModule, ControlsService } from 'src/core';
 import { FileSystemControlComponent } from './file-system-component/file-system.component';
-import { FileSystemEditorComponent } from './file-system-editor/file-system-editor.component';
+import { FileSystemEditorComponent } from './file-system-editor-component/file-system-editor.component';
 
 @NgModule({
   imports: [
@@ -23,6 +23,12 @@ import { FileSystemEditorComponent } from './file-system-editor/file-system-edit
   ],
 })
 export class FileSystemModule {
+  constructor(controls: ControlsService) {
+    controls.register(FileSystemModule.controlKey, 'File System', FileSystemControlComponent, FileSystemEditorComponent);
+  }
+
+  static readonly controlKey: string = 'fs';
+
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: FileSystemModule,
