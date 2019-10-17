@@ -1,7 +1,10 @@
-import { ControlType } from './ControlType';
-
 export interface IControl {
-  type: ControlType;
+  /**
+   * Unique name of control. Note: this is reserved property by ControlsService.
+   *
+   * @type {string}
+   * @memberof IControl
+   */
   name: string;
   col: number;
 }

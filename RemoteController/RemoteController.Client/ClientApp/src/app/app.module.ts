@@ -14,14 +14,10 @@ import { FetchDataComponent } from './components/pages/fetch-data/fetch-data.com
 import { PageComponent } from './components/pages/page/page.component';
 import { PageEditorComponent } from './components/pages/page-editor/page-editor.component';
 import { PageCreateComponent } from './components/pages/page-create/page-create.component';
-import { KeyControlComponent } from './components/controls/key-control/key-control.component';
 import { VolumeControlComponent } from './components/controls/volume-control/volume-control.component';
 import { ControlHostDirective } from './directives/control-host/control-host.directive';
-import { OutputControlComponent } from './components/controls/output-control/output-control.component';
-import { CommandControlComponent } from './components/controls/command-control/command-control.component';
 import { FileSystemControlComponent } from './components/controls/file-system-control/file-system-control.component';
 import { EnumToArrayPipe } from './pipes/enum-to-array.pipe';
-import { ControlEditorComponent } from './components/control-editor/control-editor.component';
 import { CoreModule } from 'src/core';
 import { KeyModule } from 'src/key';
 import { VolumeModule } from 'src/volume';
@@ -37,14 +33,10 @@ import { FileSystemModule } from 'src/file-system';
         PageComponent,
         PageEditorComponent,
         PageCreateComponent,
-        KeyControlComponent,
         VolumeControlComponent,
         ControlHostDirective,
-        OutputControlComponent,
-        CommandControlComponent,
         FileSystemControlComponent,
         EnumToArrayPipe,
-        ControlEditorComponent,
     ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -69,10 +61,7 @@ import { FileSystemModule } from 'src/file-system';
     ],
     bootstrap: [AppComponent],
     entryComponents: [
-      KeyControlComponent,
       VolumeControlComponent,
-      OutputControlComponent,
-      CommandControlComponent,
       FileSystemControlComponent,
     ]
 })

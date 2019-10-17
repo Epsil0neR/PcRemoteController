@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { ControlType, WebSocketService } from 'src/core';
+import { WebSocketService } from 'src/core';
 
 @Component({
   selector: 'rc-counter-component',
@@ -11,16 +11,12 @@ export class CounterComponent implements OnInit, OnDestroy {
   public isConnected = false;
   private subscription: Subscription;
 
-  public readonly controlTypes;
-  public readonly controlType: ControlType = ControlType.None;
-
   public incrementCounter() {
     this.currentCount++;
   }
 
 
   constructor(public webSocketService: WebSocketService) {
-    this.controlTypes = ControlType;
   }
 
   ngOnInit(): void {

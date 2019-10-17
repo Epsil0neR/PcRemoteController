@@ -20,10 +20,6 @@ export class KeyComponent
   public icon: IconDefinition = null;
   public showIconWithTitle: boolean = false;
 
-  protected GetControlType(): import("../../core").ControlType {
-    throw new Error("Method not implemented.");
-  }
-
   constructor(private webSocketService: WebSocketService) {
     super();
   }

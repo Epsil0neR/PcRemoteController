@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, OnDestroy, Input } from '@angular/core';
 import { Subscription } from 'rxjs';
 import {
-  WebSocketService, WebSocketMessage, ControlType, IControl,
+  WebSocketService, WebSocketMessage, IControl,
   WebSocketMessageType, makeid, InformersStateService, BaseControlComponent
 } from 'src/core';
 
@@ -51,10 +51,6 @@ export class VolumeControlComponent
     this.isEnabled = true;
     const data = <IInformerSound>m.Data;
     (<HTMLInputElement>(this.input.nativeElement)).value = <any>data.OutputVolume;
-  }
-
-  protected GetControlType(): ControlType {
-    return ControlType.Volume;
   }
 
   public load(data: IControl) {

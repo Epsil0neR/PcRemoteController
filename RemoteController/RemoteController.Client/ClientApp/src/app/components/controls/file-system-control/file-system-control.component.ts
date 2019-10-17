@@ -3,7 +3,7 @@ import { IFileSystemControl } from 'src/app/models/IControl';
 import { Subscription } from 'rxjs';
 import { IFileSystemList } from 'src/app/models/IFileSystemList';
 import * as Icons from '@fortawesome/free-solid-svg-icons';
-import { WebSocketMessage, WebSocketService, ControlType, WebSocketMessageType, makeid, BaseControlComponent } from 'src/core';
+import { WebSocketMessage, WebSocketService, WebSocketMessageType, makeid, BaseControlComponent } from 'src/core';
 
 @Component({
   selector: 'rc-file-system-control',
@@ -59,10 +59,6 @@ export class FileSystemControlComponent
       const handler = this.messageHandlers[action];
       this.service.removeMessageHandler(action, handler);
     }
-  }
-
-  protected GetControlType(): ControlType {
-    return ControlType.FileSystem;
   }
 
   public load(data: IFileSystemControl) {
