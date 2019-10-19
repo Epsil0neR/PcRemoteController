@@ -20,3 +20,12 @@ html, body {
   padding: 0;
   height: 100%;
 }
+section {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+}
+
+section > .content {
+  flex: 1;
+}

@@ -1,4 +1,3 @@
-.editor {
-  background: lightblue;
+:host {
   height: 100%;
 }

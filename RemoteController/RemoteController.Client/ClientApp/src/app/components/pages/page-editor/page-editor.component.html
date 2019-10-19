@@ -1,4 +1,5 @@
-<div *ngIf="!editControl" class='editor'>
+<section *ngIf="!editControl">
+  <div class="content">
     <p>page-editor works!</p>
 
     <button
@@ -8,4 +9,9 @@
       >
       {{c.name}}
     </button>
-</div>
+  </div>
+  <div>
+    <button>Button 1</button>
+    <button>Button 2</button>
+  </div>
+</section>
