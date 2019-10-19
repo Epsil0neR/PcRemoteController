@@ -1,9 +1,10 @@
 <section *ngIf="!editControl">
-  <div class="content">
-    <p>page-editor works!</p>
-
+  <div class="content container">
+      <div class="form-group">
+          <input [(ngModel)]="title" placeholder="Title" class="form-control form-control-lg" />
+        </div>
     <button
-      *ngFor="let c of details?.controls"
+      *ngFor="let c of controls"
       class="btn"
       (click)="editControl = c;"
       >
@@ -11,7 +12,8 @@
     </button>
   </div>
   <div>
-    <button>Button 1</button>
-    <button>Button 2</button>
+    <button>[Add control]</button>
+    <button>[Cancel]</button>
+    <button>[Save]</button>
   </div>
 </section>

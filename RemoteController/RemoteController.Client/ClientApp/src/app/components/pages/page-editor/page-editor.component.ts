@@ -11,14 +11,15 @@ import { IControl, PageDetails, PagesService } from 'src/core';
 export class PageEditorComponent implements OnInit {
   private sub: Subscription;
   public name: string;
-  public details: PageDetails = null;
   public editControl: IControl = null;
+  public title: string = null;
+  public controls: IControl[] = [];
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private pagesService: PagesService
-    ) { }
+  ) { }
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
@@ -29,10 +30,10 @@ export class PageEditorComponent implements OnInit {
         console.warn('Page editor could not find %o. Navigating to home...', this.name);
         this.router.navigate(['/']);
       } else {
-        this.details = details;
+        this.title = details.title;
+        this.controls = details.controls;
       }
     });
     this.sub.unsubscribe();
   }
-
 }
