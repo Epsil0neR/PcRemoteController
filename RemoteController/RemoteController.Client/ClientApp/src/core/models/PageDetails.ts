@@ -14,7 +14,7 @@ export class PageDetails {
     },
     <any>{
       name: 'fs',
-      id: 'test-123'
+      id: 'testing'
     }
     // <IKeyControl>{
     //   type: ControlType.Key,
