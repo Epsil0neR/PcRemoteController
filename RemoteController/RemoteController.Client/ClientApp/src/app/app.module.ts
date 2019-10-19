@@ -19,6 +19,7 @@ import { CoreModule } from 'src/core';
 import { KeyModule } from 'src/key';
 import { VolumeModule } from 'src/volume';
 import { FileSystemModule } from 'src/file-system';
+import { ControlEditorComponent } from './control-editor/control-editor.component';
 
 @NgModule({
     declarations: [
@@ -31,6 +32,7 @@ import { FileSystemModule } from 'src/file-system';
         PageCreateComponent,
         ControlHostDirective,
         EnumToArrayPipe,
+        ControlEditorComponent,
     ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
