@@ -30,6 +30,7 @@ export class FileSystemPathsService {
             data[key] = element;
         }
       }
+      this.data = data;
     } else {
       this.data = {};
     }
@@ -130,4 +131,5 @@ export class FileSystemPathsService {
    */
   public getAllIDs(): string[] {
     return Object.keys(this.data);
+  }
 }

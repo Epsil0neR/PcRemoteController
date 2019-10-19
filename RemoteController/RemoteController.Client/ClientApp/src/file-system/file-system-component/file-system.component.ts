@@ -4,7 +4,7 @@ import { IFileSystemList } from 'src/file-system/Models/IFileSystemList';
 import * as Icons from '@fortawesome/free-solid-svg-icons';
 import { WebSocketMessage, WebSocketService, WebSocketMessageType, makeid, BaseControlComponent, IControlViewer } from 'src/core';
 import { IFileSystemControl } from '../Models/IFileSystemControl';
-import { FileSystemEditorComponent } from '../file-system-editor-component/file-system-editor.component';
+import { FileSystemPathsService } from '../Services/file-system-paths.service';
 
 @Component({
   selector: 'rc-file-system',
@@ -15,10 +15,11 @@ export class FileSystemComponent
   extends BaseControlComponent
   implements IControlViewer, OnInit, OnDestroy {
 
-  static readonly lsKeyRoot: string = 'rc.components.file-system';
   private messageHandlers: { [action: string]: (msg: WebSocketMessage) => void } = null;
   private subscription: Subscription;
   private initialized: boolean = false;
+  private id: string;
+  private socketId: string;
 
   public files: { url: string, title: string }[] = null;
   public folders: { url: string, title: string }[] = null;
@@ -27,14 +28,16 @@ export class FileSystemComponent
 
   public iconFolder: Icons.IconDefinition = Icons.faFolder;
   public iconFile: Icons.IconDefinition = Icons.faFile;
-  lsKey: string;
 
-  constructor(private service: WebSocketService) {
+  constructor(
+    private service: WebSocketService,
+    private pathsService: FileSystemPathsService) {
     super();
 
     this.messageHandlers = {
       'FileSystem.List': (m) => this.onFileSystemList(m)
     };
+    this.socketId = this.pathsService.generateId();
   }
 
   ngOnInit() {
@@ -70,9 +73,11 @@ export class FileSystemComponent
 
   public load(data: IFileSystemControl): boolean {
     this.col = data.col;
-    this.lsKey = `${FileSystemComponent.lsKeyRoot}.${data.id}`;
+    this.id = data.id;
+    this.socketId = !!this.id ? this.id : this.pathsService.generateId();
 
-    this.path = localStorage.getItem(this.lsKey);
+    // Path for control is loaded only if control has unique id.
+    this.path = !!this.id ? this.pathsService.getPath(this.id) : '';
     if (!!this.path && this.initialized)
       this.goToPath(this.path);
 
@@ -81,12 +86,15 @@ export class FileSystemComponent
   }
 
   onFileSystemList(m: WebSocketMessage): void {
+    if (!m || !m.Hash || !m.Hash.startsWith(this.socketId))
+      return;
     if (m.Type === WebSocketMessageType.Response) {
       const r = <IFileSystemList>m.Data;
-      this.path = !!r.path ? r.path.join('\\') + '\\' : '';
+      this.path = !!r.path ? r.path.join('\\') : '';
+      const path = !!this.path ? this.path + '\\' : '';
       const map = (x: string) => {
         return {
-          url: this.path + x,
+          url: path + x,
           title: x
         };
       };
@@ -102,9 +110,8 @@ export class FileSystemComponent
       }) : [];
       this.paths.unshift({ url: '', title: '..' });
 
-      console.log(1, this.lsKey, this.path);
-      if (!!this.lsKey)
-        localStorage.setItem(this.lsKey, this.path);
+      if (!!this.id) // Save path only if unique id is specified.
+        this.pathsService.setPath(this.id, this.path);
     }
   }
 
@@ -112,7 +119,7 @@ export class FileSystemComponent
     const m = new WebSocketMessage({
       a: 'FileSystem.List',
       t: WebSocketMessageType.Request,
-      h: makeid(),
+      h: `${this.socketId}-${makeid()}`,
       d: url
     });
     this.service.send(m);
@@ -122,7 +129,7 @@ export class FileSystemComponent
     const m = new WebSocketMessage({
       a: 'FileSystem.Exec',
       t: WebSocketMessageType.Request,
-      h: makeid(),
+      h: `${this.socketId}-${makeid()}`,
       d: url
     });
     this.service.send(m);
