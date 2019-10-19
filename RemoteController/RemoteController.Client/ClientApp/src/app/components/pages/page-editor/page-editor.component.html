@@ -1,8 +1,8 @@
-<div *ngIf="!editControl">
+<div *ngIf="!editControl" class='editor'>
     <p>page-editor works!</p>
 
     <button
-      *ngFor="let c of details.controls"
+      *ngFor="let c of details?.controls"
       class="btn"
       (click)="editControl = c;"
       >

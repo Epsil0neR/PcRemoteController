@@ -26,12 +26,13 @@ export class PageEditorComponent implements OnInit {
 
       const details = this.pagesService.details(this.name);
       if (details === null) {
-        console.log('Page %o not found. Navigating to home...', this.name);
+        console.warn('Page editor could not find %o. Navigating to home...', this.name);
         this.router.navigate(['/']);
       } else {
         this.details = details;
       }
     });
+    this.sub.unsubscribe();
   }
 
 }
