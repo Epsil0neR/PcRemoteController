@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FileSystemControlComponent } from './file-system.component';
+import { FileSystemComponent } from './file-system.component';
 
 describe('FileSystemControlComponent', () => {
-  let component: FileSystemControlComponent;
-  let fixture: ComponentFixture<FileSystemControlComponent>;
+  let component: FileSystemComponent;
+  let fixture: ComponentFixture<FileSystemComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FileSystemControlComponent ]
+      declarations: [ FileSystemComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FileSystemControlComponent);
+    fixture = TestBed.createComponent(FileSystemComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

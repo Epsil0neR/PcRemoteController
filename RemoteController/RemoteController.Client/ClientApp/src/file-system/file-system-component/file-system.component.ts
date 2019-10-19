@@ -4,19 +4,21 @@ import { IFileSystemList } from 'src/file-system/Models/IFileSystemList';
 import * as Icons from '@fortawesome/free-solid-svg-icons';
 import { WebSocketMessage, WebSocketService, WebSocketMessageType, makeid, BaseControlComponent, IControlViewer } from 'src/core';
 import { IFileSystemControl } from '../Models/IFileSystemControl';
+import { FileSystemEditorComponent } from '../file-system-editor-component/file-system-editor.component';
 
 @Component({
   selector: 'rc-file-system',
   templateUrl: './file-system.component.html',
   styleUrls: ['./file-system.component.css']
 })
-export class FileSystemControlComponent
+export class FileSystemComponent
   extends BaseControlComponent
   implements IControlViewer, OnInit, OnDestroy {
 
   static readonly lsKeyRoot: string = 'rc.components.file-system';
   private messageHandlers: { [action: string]: (msg: WebSocketMessage) => void } = null;
   private subscription: Subscription;
+  private initialized: boolean = false;
 
   public files: { url: string, title: string }[] = null;
   public folders: { url: string, title: string }[] = null;
@@ -25,6 +27,7 @@ export class FileSystemControlComponent
 
   public iconFolder: Icons.IconDefinition = Icons.faFolder;
   public iconFile: Icons.IconDefinition = Icons.faFile;
+  lsKey: string;
 
   constructor(private service: WebSocketService) {
     super();
@@ -44,12 +47,17 @@ export class FileSystemControlComponent
     }
 
     this.subscription = this.service.isConnected.subscribe(value => {
-      if (value)
-        this.goToPath('');
+      if (!value)
+        return;
+
+      this.goToPath(!!this.path ? this.path : '');
     });
+
+    this.initialized = true;
   }
 
   ngOnDestroy() {
+    this.initialized = false;
     this.subscription.unsubscribe();
     for (const action in this.messageHandlers) {
       if (!this.messageHandlers.hasOwnProperty(action))
@@ -62,6 +70,12 @@ export class FileSystemControlComponent
 
   public load(data: IFileSystemControl): boolean {
     this.col = data.col;
+    this.lsKey = `${FileSystemComponent.lsKeyRoot}.${data.id}`;
+
+    this.path = localStorage.getItem(this.lsKey);
+    if (!!this.path && this.initialized)
+      this.goToPath(this.path);
+
     // TODO
     return true;
   }
@@ -87,6 +101,10 @@ export class FileSystemControlComponent
         };
       }) : [];
       this.paths.unshift({ url: '', title: '..' });
+
+      console.log(1, this.lsKey, this.path);
+      if (!!this.lsKey)
+        localStorage.setItem(this.lsKey, this.path);
     }
   }
 
