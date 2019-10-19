@@ -4,12 +4,16 @@ import { CoreModule, ControlsService } from 'src/core';
 import { FileSystemComponent } from './file-system-component/file-system.component';
 import { FileSystemEditorComponent } from './file-system-editor-component/file-system-editor.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { FileSystemPathsService } from './Services/file-system-paths.service';
 
 @NgModule({
   imports: [
     FontAwesomeModule,
     CommonModule,
     CoreModule,
+  ],
+  providers: [
+    FileSystemPathsService
   ],
   declarations: [
     FileSystemComponent,
@@ -35,6 +39,7 @@ export class FileSystemModule {
     return {
       ngModule: FileSystemModule,
       providers: [
+        FileSystemPathsService
       ]
     };
   }
