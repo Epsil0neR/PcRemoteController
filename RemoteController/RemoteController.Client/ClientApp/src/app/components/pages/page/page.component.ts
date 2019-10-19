@@ -33,7 +33,7 @@ export class PageComponent implements OnInit, OnDestroy {
 
       const details = this.pagesService.details(this.name);
       if (details === null) {
-        console.log('Page %o not found. Navigating to home...', this.name);
+        console.warn('Page %o not found. Navigating to home...', this.name);
         this.router.navigate(['/']);
       } else {
         this.details = details;

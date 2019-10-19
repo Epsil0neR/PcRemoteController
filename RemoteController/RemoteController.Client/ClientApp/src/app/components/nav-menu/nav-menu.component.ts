@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { IPage } from '../../../core/models/IPage';
 import { Subscription } from 'rxjs';
-import { WebSocketService, PagesService } from 'src/core';
+import { WebSocketService, PagesService, IPage } from 'src/core';
 
 @Component({
   selector: 'rc-nav-menu',
@@ -19,10 +18,7 @@ export class NavMenuComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.subscriptions.push(this.pagesService.pages.subscribe(value => {
-      this.pages = value;
-      console.log(value);
-    }));
+    this.subscriptions.push(this.pagesService.pages.subscribe(value => this.pages = value));
     this.subscriptions.push(this.service.isConnected.subscribe(value => this.isConnected = value));
   }
 
