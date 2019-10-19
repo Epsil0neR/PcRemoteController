@@ -9,7 +9,6 @@ import { AppComponent } from './app.component';
 import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
 import { HomeComponent } from './components/pages/home/home.component';
 import { CounterComponent } from './components/pages/counter/counter.component';
-import { FetchDataComponent } from './components/pages/fetch-data/fetch-data.component';
 
 import { PageComponent } from './components/pages/page/page.component';
 import { PageEditorComponent } from './components/pages/page-editor/page-editor.component';
@@ -27,7 +26,6 @@ import { FileSystemModule } from 'src/file-system';
         NavMenuComponent,
         HomeComponent,
         CounterComponent,
-        FetchDataComponent,
         PageComponent,
         PageEditorComponent,
         PageCreateComponent,
@@ -42,7 +40,6 @@ import { FileSystemModule } from 'src/file-system';
         RouterModule.forRoot([
             { path: '', component: HomeComponent, pathMatch: 'full' },
             { path: 'counter', component: CounterComponent },
-            { path: 'fetch-data', component: FetchDataComponent },
             { path: 'create', component: PageCreateComponent},
             { path: 'edit/:name', component: PageEditorComponent },
             { path: 'p/:name', component: PageComponent }
