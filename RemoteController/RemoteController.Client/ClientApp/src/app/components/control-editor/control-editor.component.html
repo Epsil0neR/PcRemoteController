@@ -1,0 +1,12 @@
+<section>
+  <main>
+    <p>control-editor works! {{control.name}}</p>
+  </main>
+  <footer>
+    <div class="container-fluid">
+      <button class="btn btn-lg btn-secondary col-5" (click)='cancel.emit()'>Cancel</button>
+      <span class="d-inline-block col-2"></span>
+      <button class="btn btn-lg btn-primary col-5" (click)='save.emit(control)'>Save</button>
+    </div>
+  </footer>
+</section>

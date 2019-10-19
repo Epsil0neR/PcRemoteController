@@ -36,4 +36,18 @@ export class PageEditorComponent implements OnInit {
     });
     this.sub.unsubscribe();
   }
+
+  updateControl(control: IControl) {
+    if (!control)
+      throw new Error('control parameter is not set.');
+
+    const curr = this.editControl;
+    if (!curr) {
+      console.warn('Updating null control. Update: ', control);
+      return;
+    }
+
+    console.log('Current control:', curr);
+    console.log('Updated control:', control);
+  }
 }

@@ -19,7 +19,7 @@ import { CoreModule } from 'src/core';
 import { KeyModule } from 'src/key';
 import { VolumeModule } from 'src/volume';
 import { FileSystemModule } from 'src/file-system';
-import { ControlEditorComponent } from './control-editor/control-editor.component';
+import { ControlEditorComponent } from './components/control-editor/control-editor.component';
 
 @NgModule({
     declarations: [

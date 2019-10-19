@@ -1,8 +1,8 @@
 <section *ngIf="!editControl">
-  <div class="content container">
-      <div class="form-group">
-          <input [(ngModel)]="title" placeholder="Title" class="form-control form-control-lg" />
-        </div>
+  <main class="container">
+    <div class="form-group">
+      <input [(ngModel)]="title" placeholder="Title" class="form-control form-control-lg" />
+    </div>
     <button
       *ngFor="let c of controls"
       class="btn"
@@ -10,10 +10,17 @@
       >
       {{c.name}}
     </button>
-  </div>
+  </main>
   <div>
     <button>[Add control]</button>
     <button>[Cancel]</button>
     <button>[Save]</button>
   </div>
 </section>
+
+<rc-control-editor
+  *ngIf="!!editControl"
+  [control]='editControl'
+  (cancel)='editControl=null'
+  (save)='updateControl($event);editControl=null'
+  ></rc-control-editor>

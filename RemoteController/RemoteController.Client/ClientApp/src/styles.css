@@ -26,6 +26,6 @@ section {
   height: 100%;
 }
 
-section > .content {
+section > .content, section > main {
   flex: 1;
 }
