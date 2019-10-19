@@ -7,12 +7,12 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
-import { HomeComponent } from './components/pages/home/home.component';
-import { CounterComponent } from './components/pages/counter/counter.component';
+import { HomeComponent } from './components/home/home.component';
+import { CounterComponent } from './components/counter/counter.component';
 
-import { PageComponent } from './components/pages/page/page.component';
-import { PageEditorComponent } from './components/pages/page-editor/page-editor.component';
-import { PageCreateComponent } from './components/pages/page-create/page-create.component';
+import { PageComponent } from './components/page/page.component';
+import { PageEditorComponent } from './components/page-editor/page-editor.component';
+import { PageCreateComponent } from './components/page-create/page-create.component';
 import { ControlHostDirective } from './directives/control-host/control-host.directive';
 import { EnumToArrayPipe } from './pipes/enum-to-array.pipe';
 import { CoreModule } from 'src/core';
