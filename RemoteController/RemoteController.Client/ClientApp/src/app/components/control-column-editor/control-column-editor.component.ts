@@ -13,13 +13,13 @@ export class ControlColumnEditorComponent implements OnInit, OnDestroy {
   private initialized = false;
 
   /**
-   * Columns cound
+   * Columns count
    */
   get value() {
     return this._value;
   }
   /**
-   * Columns cound
+   * Columns count
    */
   @Input()
   set value(v) {
