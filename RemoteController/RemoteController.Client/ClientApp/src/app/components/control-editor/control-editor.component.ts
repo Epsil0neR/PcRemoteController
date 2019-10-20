@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
-import { IControl } from 'src/core';
+import { IControl, ControlsService } from 'src/core';
 import { ControlHostDirective } from 'src/app/directives/control-host/control-host.directive';
 
 @Component({
@@ -13,24 +13,25 @@ export class ControlEditorComponent implements OnInit {
 
   @ViewChild(ControlHostDirective, { static: true }) host: ControlHostDirective;
 
-  get control() {
+  public get control() {
     return this._control;
   }
-  @Input()
-  set control(value: IControl) {
+  public set control(value: IControl) {
     if (!value)
       value = null;
 
     this._control = value;
-    this.data = Object.assign({}, value);
+    this.data = !!value ? Object.assign({}, value) : null;
   }
 
   @Input() canChangeType: boolean = false;
 
   @Output() cancel = new EventEmitter(true);
-  @Output() save = new EventEmitter<IControl>(true);
+  @Output() save = new EventEmitter<{ orig: IControl, changed: IControl }>(true);
 
-  constructor() { }
+  constructor(
+    private controlsService: ControlsService
+  ) { }
 
   ngOnInit() {
   }
@@ -38,5 +39,26 @@ export class ControlEditorComponent implements OnInit {
   public load(control: IControl) {
     console.log('Loading control editor for', control);
     this.control = control;
+
+    this.showTypedEditor();
+  }
+
+  private showTypedEditor() {
+    const ref = this.host.viewContainerRef;
+    ref.clear();
+    if (!this.control)
+      return;
+
+    this.controlsService.editors(ref, [this.data]);
+  }
+
+  submit(data?: IControl) {
+    const c = this.control;
+    this.control = null;
+    if (!data) {
+      this.cancel.emit();
+    } else {
+      this.save.emit({ orig: c, changed: data });
+    }
   }
 }

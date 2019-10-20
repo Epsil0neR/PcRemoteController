@@ -1,4 +1,4 @@
-<section *ngIf="!editControl">
+<section *ngIf="show">
   <main class="container">
     <div class="form-group">
       <input [(ngModel)]="title" autofocus placeholder="Title" class="form-control form-control-lg" />
@@ -19,7 +19,6 @@
 </section>
 
 <rc-control-editor
-  [hidden]="!editControl"
-  (cancel)='editControl=null'
-  (save)='updateControl($event);editControl=null'
+  (cancel)='updateControl()'
+  (save)='updateControl($event);'
   ></rc-control-editor>

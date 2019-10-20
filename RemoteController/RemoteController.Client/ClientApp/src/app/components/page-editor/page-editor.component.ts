@@ -12,9 +12,9 @@ import { ControlEditorComponent } from '../control-editor/control-editor.compone
 export class PageEditorComponent implements OnInit {
   private sub: Subscription;
   public name: string;
-  public editControl: IControl = null;
   public title: string = null;
   public controls: IControl[] = [];
+  public show = true;
 
   @ViewChild(ControlEditorComponent, { static: true }) controlEditor: ControlEditorComponent;
 
@@ -34,29 +34,29 @@ export class PageEditorComponent implements OnInit {
         this.router.navigate(['/']);
       } else {
         this.title = details.title;
-        this.controls = details.controls;
+        this.controls = [...details.controls];
       }
     });
     this.sub.unsubscribe();
   }
 
-  updateControl(control: IControl) {
-    if (!control)
-      throw new Error('control parameter is not set.');
+  updateControl(data?: { orig: IControl, changed: IControl }) {
+    this.show = true;
+    if (!data)
+      return;
 
-    const curr = this.editControl;
-    if (!curr) {
-      console.warn('Updating null control. Update: ', control);
+    const ind = this.controls.indexOf(data.orig);
+    if (ind < 0) {
+      console.log('Failed to update control - origin not found.');
       return;
     }
 
-    console.log('TODO: Current control:', curr);
-    console.log('TODO: Updated control:', control);
+    this.controls[ind] = data.changed;
+    console.log(this.controls);
   }
 
   openControlEditor(control: IControl) {
-    this.editControl = control;
-    console.log('Open editor: ', this.controlEditor);
+    this.show = false;
     this.controlEditor.load(control);
   }
 }

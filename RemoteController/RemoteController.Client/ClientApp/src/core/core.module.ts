@@ -9,10 +9,12 @@ import { ControlsService } from './services/controls.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { AutoFocusDirective } from './directives/auto-focus.directive';
+import { ControlColumnEditorComponent } from './components/control-column-editor/control-column-editor.component';
 
 @NgModule({
   declarations: [
-    AutoFocusDirective
+    AutoFocusDirective,
+    ControlColumnEditorComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -26,7 +28,8 @@ import { AutoFocusDirective } from './directives/auto-focus.directive';
     WebSocketService,
   ],
   exports: [
-    AutoFocusDirective
+    AutoFocusDirective,
+    ControlColumnEditorComponent,
   ]
 })
 export class CoreModule {

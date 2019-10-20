@@ -9,15 +9,18 @@ import { IControlEditor, IControl } from 'src/core';
 export class VolumeEditorComponent
   implements IControlEditor, OnInit {
 
+  private data: IControl = null;
+
   constructor() { }
 
   ngOnInit() {
   }
 
   load(data: IControl): boolean {
-    throw new Error('Method not implemented.');
+    this.data = !!data ? data : null;
+    return true;
   }
   save(): IControl {
-    throw new Error('Method not implemented.');
+    return this.data;
   }
 }

@@ -1,16 +1,15 @@
-<section *ngIf='!!data'>
+<section [hidden]='!data'>
   <main>
-    <p>control-editor works! {{ control.name }}</p>
-    <rc-control-column-editor [(value)]="data.col"></rc-control-column-editor>
+    <p>Edit control: {{ control?.name }}</p>
     <ng-template rcControlHost></ng-template>
   </main>
   <footer>
     <div class="container-fluid">
-      <button class="btn btn-lg btn-secondary col-5" (click)="cancel.emit()">
+      <button class="btn btn-lg btn-secondary col-5" (click)="submit()">
         Cancel
       </button>
       <span class="d-inline-block col-2"></span>
-      <button class="btn btn-lg btn-primary col-5" (click)="save.emit(data)">
+      <button class="btn btn-lg btn-primary col-5" (click)="submit(data)">
         Save
       </button>
     </div>
