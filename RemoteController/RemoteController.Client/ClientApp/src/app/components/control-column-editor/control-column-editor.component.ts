@@ -21,11 +21,11 @@ export class ControlColumnEditorComponent implements OnInit, OnDestroy {
    */
   @Input()
   set value(v) {
-    v = parseInt(v);
-    if (!isNumber(v) || isNaN(v) || v < this.min) {
+    v = parseInt(<any>v, 10);
+    if (isNaN(v) || v < this.min) {
       v = this.min;
     } else if (v > this.max)
-      this.max;
+      v = this.max;
 
     this._value = v;
     if (this.initialized)
