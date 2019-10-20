@@ -6,7 +6,7 @@
     <button
       *ngFor="let c of controls"
       class="btn"
-      (click)="editControl = c;"
+      (click)="openControlEditor(c);"
       >
       {{c.name}}
     </button>
@@ -19,8 +19,7 @@
 </section>
 
 <rc-control-editor
-  *ngIf="!!editControl"
-  [control]='editControl'
+  [hidden]="!editControl"
   (cancel)='editControl=null'
   (save)='updateControl($event);editControl=null'
   ></rc-control-editor>

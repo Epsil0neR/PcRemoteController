@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
-import { isNumber } from 'util';
 
 @Component({
   selector: 'rc-control-column-editor',
@@ -24,15 +23,14 @@ export class ControlColumnEditorComponent implements OnInit, OnDestroy {
   @Input()
   set value(v) {
     v = parseInt(<any>v, 10);
-    if (isNaN(v) || v < this.min) {
+    if (isNaN(v) || v > this.max) {
       v = this.min;
-    } else if (v > this.max)
-      v = this.max;
+    } else if (v < this.min)
+      v = this.min;
 
     this._value = v;
     if (this.initialized)
       this.valueChange.emit(v);
-    console.log('Value set: ', v);
   }
   @Output() valueChange = new EventEmitter<number>();
 

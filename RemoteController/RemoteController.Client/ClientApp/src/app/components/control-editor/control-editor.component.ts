@@ -1,5 +1,6 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { IControl } from 'src/core';
+import { ControlHostDirective } from 'src/app/directives/control-host/control-host.directive';
 
 @Component({
   selector: 'rc-control-editor',
@@ -7,8 +8,23 @@ import { IControl } from 'src/core';
   styleUrls: ['./control-editor.component.css']
 })
 export class ControlEditorComponent implements OnInit {
+  private _control: IControl = null;
+  public data: IControl = null;
 
-  @Input() control: IControl = null;
+  @ViewChild(ControlHostDirective, { static: true }) host: ControlHostDirective;
+
+  get control() {
+    return this._control;
+  }
+  @Input()
+  set control(value: IControl) {
+    if (!value)
+      value = null;
+
+    this._control = value;
+    this.data = Object.assign({}, value);
+  }
+
   @Input() canChangeType: boolean = false;
 
   @Output() cancel = new EventEmitter(true);
@@ -19,4 +35,8 @@ export class ControlEditorComponent implements OnInit {
   ngOnInit() {
   }
 
+  public load(control: IControl) {
+    console.log('Loading control editor for', control);
+    this.control = control;
+  }
 }

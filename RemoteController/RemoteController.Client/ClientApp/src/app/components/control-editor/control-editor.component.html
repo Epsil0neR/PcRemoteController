@@ -1,13 +1,18 @@
-<section>
+<section *ngIf='!!data'>
   <main>
-    <p>control-editor works! {{control.name}}</p>
-    <rc-control-column-editor [(value)]='control.col' ></rc-control-column-editor>
+    <p>control-editor works! {{ control.name }}</p>
+    <rc-control-column-editor [(value)]="data.col"></rc-control-column-editor>
+    <ng-template rcControlHost></ng-template>
   </main>
   <footer>
     <div class="container-fluid">
-      <button class="btn btn-lg btn-secondary col-5" (click)='cancel.emit()'>Cancel</button>
+      <button class="btn btn-lg btn-secondary col-5" (click)="cancel.emit()">
+        Cancel
+      </button>
       <span class="d-inline-block col-2"></span>
-      <button class="btn btn-lg btn-primary col-5" (click)='save.emit(control)'>Save</button>
+      <button class="btn btn-lg btn-primary col-5" (click)="save.emit(data)">
+        Save
+      </button>
     </div>
   </footer>
 </section>

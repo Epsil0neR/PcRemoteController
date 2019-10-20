@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { IControl, PageDetails, PagesService } from 'src/core';
+import { IControl, PagesService } from 'src/core';
+import { ControlEditorComponent } from '../control-editor/control-editor.component';
 
 @Component({
   selector: 'rc-page-editor',
   templateUrl: './page-editor.component.html',
-  styleUrls: ['./page-editor.component.css']
+  styleUrls: ['./page-editor.component.css'],
 })
 export class PageEditorComponent implements OnInit {
   private sub: Subscription;
@@ -15,10 +16,12 @@ export class PageEditorComponent implements OnInit {
   public title: string = null;
   public controls: IControl[] = [];
 
+  @ViewChild(ControlEditorComponent, { static: true }) controlEditor: ControlEditorComponent;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private pagesService: PagesService
+    private pagesService: PagesService,
   ) { }
 
   ngOnInit() {
@@ -47,7 +50,13 @@ export class PageEditorComponent implements OnInit {
       return;
     }
 
-    console.log('Current control:', curr);
-    console.log('Updated control:', control);
+    console.log('TODO: Current control:', curr);
+    console.log('TODO: Updated control:', control);
+  }
+
+  openControlEditor(control: IControl) {
+    this.editControl = control;
+    console.log('Open editor: ', this.controlEditor);
+    this.controlEditor.load(control);
   }
 }
