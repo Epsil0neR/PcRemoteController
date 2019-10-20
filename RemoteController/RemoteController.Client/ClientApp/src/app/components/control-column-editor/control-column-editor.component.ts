@@ -8,6 +8,8 @@ import { isNumber } from 'util';
 })
 export class ControlColumnEditorComponent implements OnInit, OnDestroy {
   private _value: number = 1;
+  private _min: number = 1;
+  private _max: number = 12;
   private initialized = false;
 
   /**
@@ -34,8 +36,33 @@ export class ControlColumnEditorComponent implements OnInit, OnDestroy {
   }
   @Output() valueChange = new EventEmitter<number>();
 
-  public min: number = 1;
-  public max: number = 12;
+  get min() {
+    return this._min;
+  }
+  set min(v: number) {
+    if (typeof v !== 'number') {
+      v = parseInt(<any>v, 10);
+    }
+    if (isNaN(v))
+      return;
+
+    this._min = v;
+    this.value = this.value; // In case value outside boudaries
+  }
+
+  get max() {
+    return this._max;
+  }
+  set max(v: number) {
+    if (typeof v !== 'number') {
+      v = parseInt(<any>v, 10);
+    }
+    if (isNaN(v))
+      return;
+
+    this._max = v;
+    this.value = this.value; // In case value outside boudaries
+  }
 
   constructor() { }
 
