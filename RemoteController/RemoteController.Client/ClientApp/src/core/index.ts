@@ -1,5 +1,6 @@
 export * from './core.module';
 export * from './components/BaseControlComponent';
+export * from './directives/auto-focus.directive';
 export * from './models/IControl';
 export * from './models/IControlEditor';
 export * from './models/IControlViewer';

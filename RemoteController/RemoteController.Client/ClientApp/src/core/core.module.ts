@@ -8,13 +8,16 @@ import { InformersStateService } from './services/informers-state.service';
 import { ControlsService } from './services/controls.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
+import { AutoFocusDirective } from './directives/auto-focus.directive';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    AutoFocusDirective
+  ],
   imports: [
-        BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
-        HttpClientModule,
-        CommonModule
+    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+    HttpClientModule,
+    CommonModule
   ],
   providers: [
     ControlsService,
@@ -23,6 +26,7 @@ import { HttpClientModule } from '@angular/common/http';
     WebSocketService,
   ],
   exports: [
+    AutoFocusDirective
   ]
 })
 export class CoreModule {
