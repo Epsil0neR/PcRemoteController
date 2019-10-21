@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IControlEditor, IControl } from 'src/core';
+import { IFileSystemControl } from '../Models/IFileSystemControl';
 
 @Component({
   selector: 'rc-file-system-editor',
@@ -9,15 +10,20 @@ import { IControlEditor, IControl } from 'src/core';
 export class FileSystemEditorComponent
   implements IControlEditor, OnInit {
 
+  public data: IFileSystemControl = null;
+
   constructor() { }
 
   ngOnInit() {
   }
 
-  load(data: IControl): boolean {
-    throw new Error('Method not implemented.');
+  load(data: IFileSystemControl): boolean {
+    this.data = !!data ? data : null;
+
+    data.maxHeight = data.maxHeight > 0 ? data.maxHeight : 0;
+    return true;
   }
-  save(): IControl {
-    throw new Error('Method not implemented.');
+  save(): IFileSystemControl {
+    return this.data;
   }
 }

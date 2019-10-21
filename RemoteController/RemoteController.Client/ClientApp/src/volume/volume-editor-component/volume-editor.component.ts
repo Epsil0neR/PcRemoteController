@@ -9,7 +9,7 @@ import { IControlEditor, IControl } from 'src/core';
 export class VolumeEditorComponent
   implements IControlEditor, OnInit {
 
-  private data: IControl = null;
+  public data: IControl = null;
 
   constructor() { }
 

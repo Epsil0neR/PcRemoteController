@@ -1,1 +1,13 @@
-<p>file-system-editor works!</p>
+<rc-control-column-editor *ngIf="!!data" [(value)]="data.col"></rc-control-column-editor>
+
+<div class="form-group">
+  <label>Maximum height (0 = infinity) in px</label>
+  <input type="number"
+    autofocus
+    class="form-control"
+    [value]='data.maxHeight'
+    (value)='data.maxHeight = $event.target.value'
+    min="0"
+    step="5"
+  />
+</div>
