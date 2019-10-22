@@ -1,7 +1,7 @@
 import { Input } from '@angular/core';
 
 export class BaseControlComponent {
-  private _col: number = 4;
+  private _col: number = 12;
   protected colMax: number = 12;
   protected colMin: number = 1;
 
