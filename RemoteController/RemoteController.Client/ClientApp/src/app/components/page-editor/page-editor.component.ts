@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { IControl, PagesService } from 'src/core';
+import { IControl, PagesService, PageDetails } from 'src/core';
 import { ControlEditorComponent } from '../control-editor/control-editor.component';
 
 @Component({
@@ -35,6 +35,7 @@ export class PageEditorComponent implements OnInit {
       } else {
         this.title = details.title;
         this.controls = [...details.controls];
+
       }
     });
     this.sub.unsubscribe();
@@ -58,5 +59,15 @@ export class PageEditorComponent implements OnInit {
   openControlEditor(control: IControl) {
     this.show = false;
     this.controlEditor.load(control);
+  }
+
+  save() {
+    const details: PageDetails = new PageDetails();
+    details.controls = this.controls,
+      details.title = this.title,
+      this.pagesService.update(this.name, details);
+  }
+
+  cancel() {
   }
 }

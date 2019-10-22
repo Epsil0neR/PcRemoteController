@@ -5,7 +5,8 @@
     </div>
     <button
       *ngFor="let c of controls"
-      class="btn"
+      class="btn btn-secondary"
+      [ngClass]="c.col | columnClassName"
       (click)="openControlEditor(c);"
       >
       {{c.name}}
@@ -14,7 +15,7 @@
   <div>
     <button>[Add control]</button>
     <button>[Cancel]</button>
-    <button>[Save]</button>
+    <button (click)='save()'>[Save]</button>
   </div>
 </section>
 

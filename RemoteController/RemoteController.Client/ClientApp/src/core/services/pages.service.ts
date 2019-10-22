@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { IPage } from '../models/IPage';
 import { BehaviorSubject } from 'rxjs';
 import { PageDetails } from '../models/PageDetails';
+import { ReadVarExpr } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
@@ -158,5 +159,32 @@ export class PagesService {
       pages.push(page);
 
     this.savePages(pages);
+  }
+
+
+  update(name: string, details: PageDetails): boolean {
+    if (details instanceof PageDetails === false)
+      throw new Error('details argument must be of type PageDetails.');
+
+    const list = this.pages.getValue();
+    if (list === null || list === undefined)
+      return false;
+
+    name = name.toLowerCase();
+
+    const page = list.find(x => x.name === name);
+    if (page === null || page === undefined)
+      return false;
+
+    const key = this.detailsKey(name);
+    const json = localStorage.getItem(key);
+    if (typeof json !== 'string')
+      return false;
+
+    page.title = details.title;
+    this.savePages(list);
+    localStorage.setItem(key, JSON.stringify(details));
+
+    return true;
   }
 }
