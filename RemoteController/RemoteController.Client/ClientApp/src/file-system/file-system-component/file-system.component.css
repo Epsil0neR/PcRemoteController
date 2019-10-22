@@ -18,3 +18,7 @@
   display: block;
   cursor: pointer;
 }
+
+.root {
+  overflow: auto;
+}

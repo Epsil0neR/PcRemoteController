@@ -26,6 +26,7 @@ export class FileSystemComponent
   public paths: { url: string, title: string }[] = null;
   public path: string = '';
 
+  public maxHeight: number = 0;
   public iconFolder: Icons.IconDefinition = Icons.faFolder;
   public iconFile: Icons.IconDefinition = Icons.faFile;
 
@@ -74,6 +75,7 @@ export class FileSystemComponent
   public load(data: IFileSystemControl): boolean {
     this.col = data.col;
     this.id = data.id;
+    this.maxHeight = data.maxHeight > 0 ? data.maxHeight : 0;
     this.socketId = !!this.id ? this.id : this.pathsService.generateId();
 
     // Path for control is loaded only if control has unique id.

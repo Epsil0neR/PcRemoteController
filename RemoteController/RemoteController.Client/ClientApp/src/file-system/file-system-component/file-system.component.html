@@ -1,5 +1,7 @@
 <div
+  class='root'
   [ngClass]="col | columnClassName"
+  [style.maxHeight.px]="maxHeight > 0 ? maxHeight : ''"
   >
   <div #p id="paths" id="paths">
     <a *ngFor="let x of paths" (click)='goToPath(x.url)'>{{x.title}}</a>
