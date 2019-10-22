@@ -20,9 +20,5 @@ export class BaseControlComponent {
     if (v > this.colMax)
       v = this.colMax;
     this._col = parseInt(<any>v, 10);
-    this.colClass = `col-${this._col}`;
   }
-
-  @Input()
-  public colClass: string;
 }

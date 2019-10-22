@@ -10,11 +10,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { AutoFocusDirective } from './directives/auto-focus.directive';
 import { ControlColumnEditorComponent } from './components/control-column-editor/control-column-editor.component';
+import { ColumnClassNamePipe } from './pipes/column-class-name.pipe';
 
 @NgModule({
   declarations: [
     AutoFocusDirective,
     ControlColumnEditorComponent,
+    ColumnClassNamePipe,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -30,6 +32,7 @@ import { ControlColumnEditorComponent } from './components/control-column-editor
   exports: [
     AutoFocusDirective,
     ControlColumnEditorComponent,
+    ColumnClassNamePipe,
   ]
 })
 export class CoreModule {
