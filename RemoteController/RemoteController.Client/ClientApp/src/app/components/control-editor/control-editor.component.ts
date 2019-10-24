@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
-import { IControl, ControlsService } from 'src/core';
+import { IControl, ControlsService, IControlEditor } from 'src/core';
 import { ControlHostDirective } from 'src/app/directives/control-host/control-host.directive';
 
 @Component({
@@ -9,6 +9,7 @@ import { ControlHostDirective } from 'src/app/directives/control-host/control-ho
 })
 export class ControlEditorComponent implements OnInit {
   private _control: IControl = null;
+  private _editor: IControlEditor = null;
   public data: IControl = null;
 
   @ViewChild(ControlHostDirective, { static: true }) host: ControlHostDirective;
@@ -49,16 +50,23 @@ export class ControlEditorComponent implements OnInit {
     if (!this.control)
       return;
 
-    this.controlsService.editors(ref, [this.data]);
+    const editors = this.controlsService.editors(ref, [this.data]);
+    this._editor = editors.length > 0 && !!editors[0] ? editors[0] : null;
   }
 
-  submit(data?: IControl) {
+  submit(save: boolean) {
+    // tslint:disable-next-line: triple-equals
+    save = save == true;
+
     const c = this.control;
     this.control = null;
-    if (!data) {
+    if (!save) {
       this.cancel.emit();
-    } else {
-      this.save.emit({ orig: c, changed: data });
+      return;
     }
+
+    console.log(this._editor);
+    const data = !!this._editor ? this._editor.save() : null;
+    this.save.emit({ orig: c, changed: data });
   }
 }

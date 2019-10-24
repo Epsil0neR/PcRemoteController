@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IControlEditor, IControl } from 'src/core';
 import { IKeyControl } from '../Models/IKeyControl';
+import { KeyCodes } from '../Models/KeysList';
 
 @Component({
   selector: 'rc-key-editor',
@@ -10,6 +11,7 @@ import { IKeyControl } from '../Models/IKeyControl';
 export class KeyEditorComponent
   implements IControlEditor, OnInit {
 
+  public keyCodes = KeyCodes;
   public data: IKeyControl = null;
 
   constructor() { }
@@ -22,6 +24,7 @@ export class KeyEditorComponent
     return true;
   }
   save(): IControl {
+    console.log('HELLO: ', this.data);
     return this.data;
   }
 }

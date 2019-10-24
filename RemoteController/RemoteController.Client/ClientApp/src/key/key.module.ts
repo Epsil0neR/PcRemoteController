@@ -4,6 +4,7 @@ import { CoreModule, ControlsService } from 'src/core';
 import { KeyComponent } from './key-component/key.component';
 import { KeyEditorComponent } from './key-editor-component/key-editor.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
   imports: [
     FontAwesomeModule,
     CommonModule,
+    FormsModule,
     CoreModule
   ],
   exports: [

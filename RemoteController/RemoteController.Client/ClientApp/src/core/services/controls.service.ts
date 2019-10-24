@@ -28,10 +28,11 @@ export class ControlsService {
     this._registrations.push(r);
   }
 
-  public views(ref: ViewContainerRef, items: IControl[]) {
+  public views(ref: ViewContainerRef, items: IControl[]): IControlViewer[] {
     if (!ref || !items)
-      return;
+      return [];
 
+    const rv = [];
     items.forEach(item => {
       const r = this._registrations.find(x => x.name === item.name);
       if (!r)
@@ -42,13 +43,17 @@ export class ControlsService {
       const control = c.instance;
 
       control.load(item);
+      rv.push(control);
     });
+
+    return rv;
   }
 
-  public editors(ref: ViewContainerRef, items: IControl[]) {
+  public editors(ref: ViewContainerRef, items: IControl[]): IControlEditor[] {
     if (!ref || !items)
-      return;
+      return [];
 
+    const rv = [];
     items.forEach(item => {
       const r = this._registrations.find(x => x.name === item.name);
       if (!r)
@@ -59,7 +64,10 @@ export class ControlsService {
       const control = c.instance;
 
       control.load(item);
+      rv.push(control);
     });
+
+    return rv;
   }
 
   /**
@@ -69,7 +77,7 @@ export class ControlsService {
    * @memberof ControlsService
    */
   public getAvailable(): { title: string, name: string }[] {
-    return  this._registrations.map(x => ({ title: x.title, name: x.name }));
+    return this._registrations.map(x => ({ title: x.title, name: x.name }));
   }
 }
 
