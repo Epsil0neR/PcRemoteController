@@ -13,6 +13,7 @@ export class KeyEditorComponent
 
   public keyCodes = KeyCodes;
   public data: IKeyControl = null;
+  public key: { name: string, value: string } = null;
 
   constructor() { }
 
@@ -20,11 +21,24 @@ export class KeyEditorComponent
   }
 
   load(data: IKeyControl): boolean {
-    this.data = !!data ? data : null;
+    if (!!data) {
+      this.data = data;
+      this.key = this.keyCodes.find(x => x.value === data.data);
+    } else {
+      this.data = null;
+      this.key = null;
+    }
     return true;
   }
   save(): IControl {
-    console.log('HELLO: ', this.data);
+    if (!!this.key) {
+      this.data.data = this.key.value;
+      this.data.text = this.key.name;
+    }
     return this.data;
+  }
+
+  onKeyChanged(data: { name: string, value: string }) {
+    this.key = data;
   }
 }
