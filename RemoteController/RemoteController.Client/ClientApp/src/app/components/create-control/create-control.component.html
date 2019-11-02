@@ -1,0 +1,5 @@
+<p>create-control works!</p>
+<select [ngModel]="selectedControlType" (ngModelChange)="test($event)" class="form-control">
+  <option *ngFor="let x of controlTypes" [ngValue]='x.name'>{{x.title}}</option>
+</select>
+EDITOR GOES HERE

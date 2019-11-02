@@ -29,6 +29,7 @@ export class ControlEditorComponent implements OnInit {
 
   @Output() cancel = new EventEmitter(true);
   @Output() save = new EventEmitter<{ orig: IControl, changed: IControl }>(true);
+  @Output() delete = new EventEmitter<IControl>(true);
 
   constructor(
     private controlsService: ControlsService
@@ -68,5 +69,14 @@ export class ControlEditorComponent implements OnInit {
     console.log(this._editor);
     const data = !!this._editor ? this._editor.save() : null;
     this.save.emit({ orig: c, changed: data });
+  }
+
+  deleteAction() {
+    if (!this.control)
+      return;
+
+    const c = this.control;
+    this.control = null;
+    this.delete.emit(c);
   }
 }

@@ -5,11 +5,13 @@
   </main>
   <footer>
     <div class="container-fluid">
-      <button class="btn btn-lg btn-secondary col-5" (click)="submit(false)">
+      <button class="btn btn-lg btn-secondary col-4" (click)="submit(false)">
         Cancel
       </button>
-      <span class="d-inline-block col-2"></span>
-      <button class="btn btn-lg btn-primary col-5" (click)="submit(true)">
+      <button class="btn btn-lg btn-danger col-4" (click)='deleteAction()'>
+        Delete
+      </button>
+      <button class="btn btn-lg btn-primary col-4" (click)="submit(true)">
         Save
       </button>
     </div>
