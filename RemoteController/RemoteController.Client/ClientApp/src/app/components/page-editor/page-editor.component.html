@@ -28,4 +28,6 @@
 
 <rc-create-control
   [hidden]="!showCreateControl"
+  (cancel)="hideCreateControl()"
+  (submit)="createControl($event)"
   ></rc-create-control>

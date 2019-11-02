@@ -25,7 +25,8 @@ export class ControlEditorComponent implements OnInit {
     this.data = !!value ? Object.assign({}, value) : null;
   }
 
-  @Input() canChangeType: boolean = false;
+  @Input() showDelete: boolean = true;
+  @Input() textSave = 'Save';
 
   @Output() cancel = new EventEmitter(true);
   @Output() save = new EventEmitter<{ orig: IControl, changed: IControl }>(true);

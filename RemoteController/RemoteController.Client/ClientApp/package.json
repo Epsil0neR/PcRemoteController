@@ -8,7 +8,8 @@
     "build:ssr": "ng run RemoteController.Client:server:dev",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "service": "..\\..\\RemoteController.Service\\bin\\publish\\netcoreapp2.2\\RemoteController.Service.exe"
   },
   "private": true,
   "dependencies": {

@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { IControl, PagesService, PageDetails } from 'src/core';
 import { ControlEditorComponent } from '../control-editor/control-editor.component';
+import { CreateControlComponent } from '../create-control/create-control.component';
 
 @Component({
   selector: 'rc-page-editor',
@@ -18,6 +19,7 @@ export class PageEditorComponent implements OnInit {
   public showCreateControl = false;
 
   @ViewChild(ControlEditorComponent, { static: true }) controlEditor: ControlEditorComponent;
+  @ViewChild(CreateControlComponent, { static: true }) controlCreator: CreateControlComponent;
 
   constructor(
     private router: Router,
@@ -90,7 +92,21 @@ export class PageEditorComponent implements OnInit {
     this.router.navigate(['/', 'p', this.name]);
   }
 
-  addControl(){
+  addControl() {
+    this.controlCreator.type = null;
     this.showCreateControl = true;
+  }
+
+  hideCreateControl() {
+    this.controlCreator.type = null;
+    this.showCreateControl = false;
+  }
+
+  createControl(control: IControl) {
+    if (!control)
+      return;
+
+    this.hideCreateControl();
+    this.controls.push(control);
   }
 }

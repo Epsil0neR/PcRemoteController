@@ -1,5 +1,23 @@
-<p>create-control works!</p>
-<select [ngModel]="selectedControlType" (ngModelChange)="test($event)" class="form-control">
-  <option *ngFor="let x of controlTypes" [ngValue]='x.name'>{{x.title}}</option>
-</select>
-EDITOR GOES HERE
+<section>
+  Control type:
+  <select [ngModel]="type" (ngModelChange)="typeChanged($event)" class="form-control">
+    <option *ngFor="let x of controlTypes" [ngValue]='x.name'>{{x.title}}</option>
+  </select>
+
+  <main
+    [hidden]='!!editor.data'></main>
+
+  <button
+    [hidden]='!!editor.data'
+    class="btn btn-lg btn-secondary"
+    (click)='onCancel()'>Cancel</button>
+
+  <main [hidden]="!editor.data">
+    <rc-control-editor
+      [showDelete]='false'
+      [textSave]="'Add'"
+      (cancel)="onCancel()"
+      (save)="onSave($event)"
+      ></rc-control-editor>
+  </main>
+</section>
