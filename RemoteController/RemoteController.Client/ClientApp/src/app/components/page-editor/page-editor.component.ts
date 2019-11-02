@@ -56,7 +56,6 @@ export class PageEditorComponent implements OnInit {
     }
 
     this.controls[ind] = data.changed;
-    console.log('Control updated:', data.changed, this.controls);
   }
 
   deleteControl(control: IControl) {
@@ -71,7 +70,6 @@ export class PageEditorComponent implements OnInit {
     }
 
     this.controls.splice(ind, 1);
-    console.log('Control removed: ', control, this.controls);
   }
 
   openControlEditor(control: IControl) {
