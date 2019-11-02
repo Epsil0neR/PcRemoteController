@@ -1,5 +1,5 @@
 <rc-control-column-editor *ngIf="!!data" [(value)]="data.col"></rc-control-column-editor>
 <p>key-editor works!</p>
-<select [(ngModel)]="data.data" *ngIf="!!data">
+<select [(ngModel)]="data.data" *ngIf="!!data" class="form-control">
   <option *ngFor="let x of keyCodes" [ngValue]='x.value'>{{x.name}}</option>
 </select>
