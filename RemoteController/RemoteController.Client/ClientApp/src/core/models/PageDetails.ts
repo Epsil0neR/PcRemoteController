@@ -5,16 +5,39 @@ export class PageDetails {
   public controls: IControl[] = [
     <any>{
       name: 'key',
-      data: 'VOLUME_UP',
-      text: 'Volume up',
-      icon: 'volume-up'
+      col: 4,
+      data: 'VK_F',
+      text: 'Fullscreen',
+      icon: 'compress'
     },
     {
-      name: 'vol'
+      name: 'vol',
+      col: 8
+    },
+    <any>{
+      name: 'key',
+      col: 3,
+      data: 'LEFT',
+      text: 'Left',
+      icon: 'angle-double-left'
+    },
+    <any>{
+      name: 'key',
+      col: 6,
+      data: 'MEDIA_PLAY_PAUSE',
+      text: 'Media Play/Pause',
+      icon: 'pause'
+    },
+    <any>{
+      name: 'key',
+      col: 3,
+      data: 'RIGHT',
+      text: 'Right',
+      icon: 'angle-double-right'
     },
     <any>{
       name: 'fs',
-      id: 'testing'
+      id: 'movies'
     }
     // <IKeyControl>{
     //   type: ControlType.Key,
