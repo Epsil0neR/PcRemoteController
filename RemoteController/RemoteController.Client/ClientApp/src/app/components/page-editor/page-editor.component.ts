@@ -15,6 +15,7 @@ export class PageEditorComponent implements OnInit {
   public title: string = null;
   public controls: IControl[] = [];
   public show = true;
+  public showCreateControl = false;
 
   @ViewChild(ControlEditorComponent, { static: true }) controlEditor: ControlEditorComponent;
 
@@ -87,5 +88,9 @@ export class PageEditorComponent implements OnInit {
 
   navigateToPage() {
     this.router.navigate(['/', 'p', this.name]);
+  }
+
+  addControl(){
+    this.showCreateControl = true;
   }
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ControlsService } from 'src/core';
 
 @Component({
   selector: 'rc-create-control',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CreateControlComponent implements OnInit {
 
-  constructor() { }
+  constructor(public controlsService: ControlsService) { }
 
   ngOnInit() {
   }

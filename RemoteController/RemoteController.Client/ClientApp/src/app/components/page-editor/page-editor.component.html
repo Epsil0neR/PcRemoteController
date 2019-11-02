@@ -1,4 +1,4 @@
-<section *ngIf="show">
+<section [hidden]="!show || showCreateControl">
   <main class="container">
     <div class="form-group">
       <input [(ngModel)]="title" autofocus placeholder="Title" class="form-control form-control-lg" />
@@ -13,14 +13,19 @@
     </button>
   </main>
   <div>
-    <button>[Add control]</button>
+    <button (click)='addControl()' class="btn btn-secondary">Add control</button>
     <button (click)='navigateToPage()' class="btn btn-secondary">Cancel</button>
     <button (click)='save()' class="btn btn-primary">Done</button>
   </div>
 </section>
 
 <rc-control-editor
+  [hidden]="show"
   (cancel)='updateControl()'
   (save)='updateControl($event)'
   (delete)='deleteControl($event)'
   ></rc-control-editor>
+
+<rc-create-control
+  [hidden]="!showCreateControl"
+  ></rc-create-control>
