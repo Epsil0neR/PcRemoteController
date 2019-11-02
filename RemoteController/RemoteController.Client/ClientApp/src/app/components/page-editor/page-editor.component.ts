@@ -43,17 +43,32 @@ export class PageEditorComponent implements OnInit {
 
   updateControl(data?: { orig: IControl, changed: IControl }) {
     this.show = true;
-    if (!data)
+    if (!data || !data.orig)
       return;
 
     const ind = this.controls.indexOf(data.orig);
     if (ind < 0) {
-      console.log('Failed to update control - origin not found.');
+      console.log('Failed to update control - origin not found.', data.orig);
       return;
     }
 
     this.controls[ind] = data.changed;
-    console.log(this.controls);
+    console.log('Control updated:', data.changed, this.controls);
+  }
+
+  deleteControl(control: IControl) {
+    this.show = true;
+    if (!control)
+      return;
+
+    const ind = this.controls.indexOf(control);
+    if (ind < 0) {
+      console.log('Failed to delete control - origin not found', control);
+      return;
+    }
+
+    this.controls.splice(ind, 1);
+    console.log('Control removed: ', control, this.controls);
   }
 
   openControlEditor(control: IControl) {
@@ -63,11 +78,14 @@ export class PageEditorComponent implements OnInit {
 
   save() {
     const details: PageDetails = new PageDetails();
-    details.controls = this.controls,
-      details.title = this.title,
-      this.pagesService.update(this.name, details);
+    details.controls = this.controls;
+    details.title = this.title;
+    this.pagesService.update(this.name, details);
+
+    this.navigateToPage();
   }
 
-  cancel() {
+  navigateToPage() {
+    this.router.navigate(['/', 'p', this.name]);
   }
 }

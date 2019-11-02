@@ -14,12 +14,13 @@
   </main>
   <div>
     <button>[Add control]</button>
-    <button>[Cancel]</button>
-    <button (click)='save()'>[Save]</button>
+    <button (click)='navigateToPage()' class="btn btn-secondary">Cancel</button>
+    <button (click)='save()' class="btn btn-primary">Done</button>
   </div>
 </section>
 
 <rc-control-editor
   (cancel)='updateControl()'
-  (save)='updateControl($event);'
+  (save)='updateControl($event)'
+  (delete)='deleteControl($event)'
   ></rc-control-editor>
