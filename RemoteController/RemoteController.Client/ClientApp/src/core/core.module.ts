@@ -11,6 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AutoFocusDirective } from './directives/auto-focus.directive';
 import { ControlColumnEditorComponent } from './components/control-column-editor/control-column-editor.component';
 import { ColumnClassNamePipe } from './pipes/column-class-name.pipe';
+import { $ } from 'protractor';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,10 @@ export class CoreModule {
 }
 
 function WebSocketServiceProvider() {
-  const rv = new WebSocketService(environment.wsHost);
+  const l = window.location;
+  const url = `ws://${l.hostname}:6431/Testing`;
+  console.log('URL: ', url);
+  const rv = new WebSocketService(url);
   rv.logRaisingEvent = false;
   rv.open();
   console.log('Created WebSocketService: ', rv);
