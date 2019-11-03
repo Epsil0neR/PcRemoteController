@@ -4,15 +4,6 @@
   margin: 4px;
 }
 
-#paths a {
-  cursor: pointer;
-}
-
-#paths a + a:before {
-  content: "\\";
-  margin: 0 4px;
-}
-
 #folders a,
 #files a {
   display: block;

@@ -3,9 +3,16 @@
   [ngClass]="col | columnClassName"
   [style.maxHeight.px]="maxHeight > 0 ? maxHeight : ''"
   >
-  <div #p id="paths" id="paths">
-    <a *ngFor="let x of paths" (click)='goToPath(x.url)'>{{x.title}}</a>
-  </div>
+
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li
+        *ngFor="let x of paths"
+        class="breadcrumb-item">
+        <a (click)='goToPath(x.url);' href="javascript:void(0);">{{x.title}}</a>
+      </li>
+    </ol>
+  </nav>
   <div class="border"></div>
   <div id="folders">
     <a *ngFor="let x of folders" (click)='goToPath(x.url)'>
