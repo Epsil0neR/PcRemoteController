@@ -9,7 +9,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "service": "..\\..\\RemoteController.Service\\bin\\publish\\netcoreapp2.2\\RemoteController.Service.exe"
+    "service": "..\\..\\RemoteController.Service\\bin\\publish\\netcoreapp3.0\\RemoteController.Service.exe"
   },
   "private": true,
   "dependencies": {
