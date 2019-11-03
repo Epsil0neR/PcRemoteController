@@ -2,14 +2,14 @@
   "name": "remotecontroller.client",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
     "start": "ng serve --host 0.0.0.0",
+    "service": "..\\..\\RemoteController.Service\\bin\\publish\\netcoreapp3.0\\RemoteController.Service.exe",
+    "ng": "ng",
     "build": "ng build",
     "build:ssr": "ng run RemoteController.Client:server:dev",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e",
-    "service": "..\\..\\RemoteController.Service\\bin\\publish\\netcoreapp3.0\\RemoteController.Service.exe"
+    "e2e": "ng e2e"
   },
   "private": true,
   "dependencies": {
