@@ -12,17 +12,17 @@ using WebSocketSharp.Net;
 using WebSocketSharp.Server;
 using WindowsInput;
 using WindowsInput.Native;
+using Microsoft.Extensions.Configuration;
+using RemoteController.Service.Configs;
 
 namespace RemoteController.Service
 {
     internal static class Configurator
     {
-        public static void Configure(
-            ManipulatorsManager manipulatorsManager,
+        public static void Configure(ManipulatorsManager manipulatorsManager,
             WsService service,
             InformersManager informersManager)
         {
-            SetContexts(manipulatorsManager);
             manipulatorsManager.Add(new FileSystemManipulation("FileSystem.List", FileSystemManipulationMode.List));
             manipulatorsManager.Add(new FileSystemManipulation("FileSystem.Exec", FileSystemManipulationMode.Exec));
 
@@ -110,7 +110,7 @@ namespace RemoteController.Service
             }
         }
 
-        public static void SetContexts(ManipulatorsManager manipulatorsManager)
+        public static void SetContexts(ManipulatorsManager manipulatorsManager, FileSystemConfig config)
         {
             var inputSimulator = new InputSimulator();
             manipulatorsManager.SetContext(inputSimulator.Keyboard);
@@ -120,12 +120,7 @@ namespace RemoteController.Service
             {
                 var fc = new FileSystemContext
                 {
-                    Roots = new Dictionary<string, string>()
-                    {
-                        { "Testing", @"C:\testing" },
-                        { "Download",  @"E:\Download" },
-                        { "Downloads", @"C:\Users\Epsil0neR\Downloads" }
-                    }
+                    Roots = config.Roots
                 };
                 manipulatorsManager.SetContext(fc);
             }

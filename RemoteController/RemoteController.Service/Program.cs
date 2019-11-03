@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using Microsoft.Extensions.Configuration;
 using Topshelf;
 using Topshelf.Logging;
 
@@ -8,12 +10,17 @@ namespace RemoteController.Service
     {
         static void Main(string[] args)
         {
+            var config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("settings.config", true, true)
+                .Build();
+
             var rv = HostFactory.Run(x =>
             {
                 x.Service<RemoteControllerService>(c =>
                 {
                     x.UseNLog();
-                    c.ConstructUsing(name => new RemoteControllerService(HostLogger.Current.Get(string.Empty)));
+                    c.ConstructUsing(name => new RemoteControllerService(HostLogger.Current.Get(string.Empty), config));
                     c.WhenStarted((s, host) => s.Start(host));
                     c.WhenStopped((s, host) => s.Stop(host));
                 });

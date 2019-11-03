@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq;
 using Epsiloner.Collections;
+using Microsoft.Extensions.Configuration;
 using RemoteController.Informer;
 using RemoteController.Manipulator;
+using RemoteController.Service.Configs;
 using RemoteController.WebSocket;
 using Topshelf;
 using Topshelf.Logging;
@@ -12,6 +14,8 @@ namespace RemoteController.Service
 {
     public class RemoteControllerService : ServiceControl
     {
+        public IConfiguration Config { get; }
+
         //THIS LINE IS IMPORTANT - this is how we get logger.
         public LogWriter Logger { get; }
         public ManipulatorsManager Manipulators { get; }
@@ -21,9 +25,10 @@ namespace RemoteController.Service
         public ServiceBinding ServiceBinding { get; }
         public InformersManager InformersManager { get; }
 
-        public RemoteControllerService(LogWriter logger)
+        public RemoteControllerService(LogWriter logger, IConfiguration config)
         {
             Logger = logger ?? HostLogger.Get<RemoteControllerService>();
+            Config = config ?? throw new ArgumentNullException(nameof(config));
             Manipulators = new ManipulatorsManager();
             Http = new HttpServer(6431) { KeepClean = false };
             Server = new WsServer(Http, "/Testing");
@@ -32,10 +37,16 @@ namespace RemoteController.Service
             InformersManager = new InformersManager();
             InformersManager.InformerChanged += InformersManagerOnInformerChanged;
 
+            FileSystemConfig = new FileSystemConfig();
+            config.GetSection("FileSystem").Bind(FileSystemConfig);
+
             Configurator.Configure(InformersManager);
+            Configurator.SetContexts(Manipulators, FileSystemConfig);
             Configurator.Configure(Manipulators, Service, InformersManager);
             Configurator.Web(Http);
         }
+
+        public FileSystemConfig FileSystemConfig { get; }
 
         private void InformersManagerOnInformerChanged(object sender, BaseInformer informer)
         {
@@ -45,7 +56,7 @@ namespace RemoteController.Service
         public bool Start(HostControl hostControl)
         {
             Console.WriteLine("Starting service...");
-            Configurator.SetContexts(Manipulators);
+            Configurator.SetContexts(Manipulators, FileSystemConfig);
             Server.StartServer();
 
             var p = Server.IsStarted ? "started" : "failed to start";
