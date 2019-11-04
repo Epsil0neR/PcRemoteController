@@ -3,14 +3,16 @@
     <div class="form-group">
       <input [(ngModel)]="title" autofocus placeholder="Title" class="form-control form-control-lg" />
     </div>
-    <button
-      *ngFor="let c of controls"
-      class="btn btn-secondary"
-      [ngClass]="c.col | columnClassName"
-      (click)="openControlEditor(c);"
-      >
-      {{c.name}}
-    </button>
+    <div [sortablejs]="controls">
+      <button
+        *ngFor="let c of controls"
+        class="btn btn-secondary"
+        [ngClass]="c.col | columnClassName"
+        (click)="openControlEditor(c);"
+        >
+        {{c.name}}
+      </button>
+    </div>
   </main>
   <div>
     <button (click)='addControl()' class="btn btn-secondary">Add control</button>
