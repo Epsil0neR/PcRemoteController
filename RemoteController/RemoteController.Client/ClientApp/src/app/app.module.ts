@@ -38,6 +38,7 @@ import { CreateControlComponent } from './components/create-control/create-contr
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+
     FontAwesomeModule,
     HttpClientModule,
     FormsModule,
