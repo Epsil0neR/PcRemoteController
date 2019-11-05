@@ -32,21 +32,40 @@ export class ControlsService {
     if (!ref || !items)
       return [];
 
+    ref.clear();
     const rv = [];
     items.forEach(item => {
-      const r = this._registrations.find(x => x.name === item.name);
-      if (!r)
-        return;
-
-      const f = this.componentFactoryResolver.resolveComponentFactory(r.viewType);
-      const c = ref.createComponent(f);
-      const control = c.instance;
-
-      control.load(item);
-      rv.push(control);
+      const control = this.generateView(ref, item);
+      if (!!control)
+        rv.push(control);
     });
 
     return rv;
+  }
+
+  public view(ref: ViewContainerRef, item: IControl): IControlViewer {
+    if (!ref || !item)
+      return null;
+
+    ref.clear();
+    const control = this.generateView(ref, item);
+    return control;
+  }
+
+  private generateView(ref: ViewContainerRef, item: IControl): IControlViewer {
+    if (!ref || !item)
+      return null;
+
+    const r = this._registrations.find(x => x.name === item.name);
+    if (!r)
+      return null;
+
+    const f = this.componentFactoryResolver.resolveComponentFactory(r.viewType);
+    const c = ref.createComponent(f);
+    const control = c.instance;
+
+    control.load(item);
+    return control;
   }
 
   public editors(ref: ViewContainerRef, items: IControl[]): IControlEditor[] {
@@ -55,20 +74,39 @@ export class ControlsService {
 
     const rv = [];
     items.forEach(item => {
-      const r = this._registrations.find(x => x.name === item.name);
-      if (!r)
-        return;
-
-      const f = this.componentFactoryResolver.resolveComponentFactory(r.editType);
-      const c = ref.createComponent(f);
-      const control = c.instance;
-
-      control.load(item);
-      rv.push(control);
+      const control = this.generateEditor(ref, item);
+      if (!!control)
+        rv.push(control);
     });
 
     return rv;
   }
+
+  public editor(ref: ViewContainerRef, item: IControl): IControlEditor {
+    if (!ref || !item)
+      return null;
+
+    ref.clear();
+    const control = this.generateEditor(ref, item);
+    return control;
+  }
+
+  private generateEditor(ref: ViewContainerRef, item: IControl): IControlEditor {
+    if (!ref || !item)
+      return null;
+
+    const r = this._registrations.find(x => x.name === item.name);
+    if (!r)
+      return null;
+
+    const f = this.componentFactoryResolver.resolveComponentFactory(r.editType);
+    const c = ref.createComponent(f);
+    const control = c.instance;
+
+    control.load(item);
+    return control;
+  }
+
 
   /**
    * Gets a list avaiable registrations.
