@@ -4,14 +4,11 @@
       <input [(ngModel)]="title" autofocus placeholder="Title" class="form-control form-control-lg" />
     </div>
     <div [sortablejs]="controls">
-      <button
+      <rc-control-editor-view
         *ngFor="let c of controls"
-        class="btn btn-secondary"
-        [ngClass]="c.col | columnClassName"
-        (click)="openControlEditor(c);"
-        >
-        {{c.name}}
-      </button>
+        [control]="c"
+        (click)="openControlEditor(c)"
+        ></rc-control-editor-view>
     </div>
   </main>
   <div>

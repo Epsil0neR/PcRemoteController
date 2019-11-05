@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, ViewChild, Input } from '@angular/core';
 import { ControlHostDirective } from 'src/app/directives/control-host/control-host.directive';
 import { IControl, ControlsService } from 'src/core';
 

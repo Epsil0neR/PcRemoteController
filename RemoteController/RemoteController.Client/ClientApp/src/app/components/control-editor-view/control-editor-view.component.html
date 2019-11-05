@@ -1,1 +1,11 @@
-<p>control-editor-view works!</p>
+<div class="editor">
+  <ng-template rcControlHost></ng-template>
+
+  <button
+  class="btn btn-secondary overlay"
+  [ngClass]="control.col | columnClassName"
+  (click)="onClick();"
+  >
+  {{control.name}}
+</button>
+</div>
