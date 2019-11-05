@@ -7,4 +7,7 @@
     </div>
   </div>
 
-<ng-template rcControlHost></ng-template>
+<rc-control-view
+  *ngFor="let item of details.controls"
+  [control]="item"
+  ></rc-control-view>

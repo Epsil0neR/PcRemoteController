@@ -1,15 +1,32 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { ControlHostDirective } from 'src/app/directives/control-host/control-host.directive';
+import { IControl, ControlsService } from 'src/core';
 
 @Component({
   selector: 'rc-control-view',
   templateUrl: './control-view.component.html',
   styleUrls: ['./control-view.component.css']
 })
-export class ControlViewComponent implements OnInit {
+export class ControlViewComponent {
 
-  constructor() { }
+  @ViewChild(ControlHostDirective, { static: true }) host: ControlHostDirective;
 
-  ngOnInit() {
+  private _control: IControl = null;
+
+  get control(): IControl {
+    return this._control;
   }
 
+  @Input()
+  set control(value: IControl) {
+    this._control = !!value ? value : null;
+    this.load();
+  }
+
+  constructor(private controlsService: ControlsService) { }
+
+  private load() {
+    const ref = this.host.viewContainerRef;
+    this.controlsService.view(ref, this.control);
+  }
 }
