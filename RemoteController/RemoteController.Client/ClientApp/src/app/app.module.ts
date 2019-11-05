@@ -22,6 +22,8 @@ import { VolumeModule } from 'src/volume';
 import { FileSystemModule } from 'src/file-system';
 import { ControlEditorComponent } from './components/control-editor/control-editor.component';
 import { CreateControlComponent } from './components/create-control/create-control.component';
+import { ControlViewComponent } from './components/control-view/control-view.component';
+import { ControlEditorViewComponent } from './components/control-editor-view/control-editor-view.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,9 @@ import { CreateControlComponent } from './components/create-control/create-contr
     ControlHostDirective,
     EnumToArrayPipe,
     ControlEditorComponent,
-    CreateControlComponent
+    CreateControlComponent,
+    ControlViewComponent,
+    ControlEditorViewComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
