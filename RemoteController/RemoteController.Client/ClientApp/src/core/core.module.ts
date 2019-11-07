@@ -29,6 +29,7 @@ import { $ } from 'protractor';
     InformersStateService,
     PagesService,
     WebSocketService,
+    ColumnClassNamePipe,
   ],
   exports: [
     AutoFocusDirective,

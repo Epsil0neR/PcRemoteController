@@ -14,6 +14,8 @@ export class VolumeComponent
   extends BaseControlComponent
   implements IControlViewer, OnInit, OnDestroy {
 
+  forceFullWidth: boolean = false;
+
   private subs: Subscription[] = [];
   @ViewChild('inp', { static: true }) input: ElementRef;
   @Input() public isEnabled: boolean = false;

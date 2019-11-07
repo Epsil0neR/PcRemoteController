@@ -30,6 +30,9 @@ export class FileSystemComponent
   public iconFolder: Icons.IconDefinition = Icons.faFolder;
   public iconFile: Icons.IconDefinition = Icons.faFile;
 
+
+  forceFullWidth: boolean = false;
+
   constructor(
     private service: WebSocketService,
     private pathsService: FileSystemPathsService) {

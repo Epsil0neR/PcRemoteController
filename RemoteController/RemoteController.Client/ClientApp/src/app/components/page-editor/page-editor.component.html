@@ -7,7 +7,7 @@
       <rc-control-editor-view
         *ngFor="let c of controls"
         [control]="c"
-        (click)="openControlEditor(c)"
+        (openEditor)="openControlEditor(c)"
         ></rc-control-editor-view>
     </div>
   </main>

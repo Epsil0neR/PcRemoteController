@@ -1,6 +1,6 @@
 <div
   class='root'
-  [ngClass]="col | columnClassName"
+  [ngClass]="forceFullWidth ? 'col-12' : col | columnClassName"
   [style.maxHeight.px]="maxHeight > 0 ? maxHeight : ''"
   >
 

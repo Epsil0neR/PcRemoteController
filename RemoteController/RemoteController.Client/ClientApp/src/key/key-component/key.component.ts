@@ -12,6 +12,8 @@ export class KeyComponent
   extends BaseControlComponent
   implements IControlViewer, OnInit {
 
+  forceFullWidth: boolean = false;
+
   /**
    * Data that will be sent to server on click.
    */

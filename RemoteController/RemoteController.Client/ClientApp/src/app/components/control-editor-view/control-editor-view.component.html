@@ -1,11 +1,10 @@
-<div class="editor">
-  <ng-template rcControlHost></ng-template>
+<!-- <div class="editor"> -->
+  <rc-control-view [control]="control"></rc-control-view>
 
   <button
   class="btn btn-secondary overlay"
-  [ngClass]="control.col | columnClassName"
   (click)="onClick();"
   >
   {{control.name}}
 </button>
-</div>
+<!-- </div> -->

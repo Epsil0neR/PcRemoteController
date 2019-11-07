@@ -1,6 +1,6 @@
-import { Component, ViewChild, Input, Output, EventEmitter } from '@angular/core';
-import { ControlHostDirective } from 'src/app/directives/control-host/control-host.directive';
-import { IControl, ControlsService } from 'src/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
+import { IControl, CoreModule } from 'src/core';
+import { ColumnClassNamePipe } from 'src/core';
 
 @Component({
   selector: 'rc-control-editor-view',
@@ -8,9 +8,6 @@ import { IControl, ControlsService } from 'src/core';
   styleUrls: ['./control-editor-view.component.css']
 })
 export class ControlEditorViewComponent {
-
-  @ViewChild(ControlHostDirective, { static: true }) host: ControlHostDirective;
-
   private _control: IControl = null;
 
   get control(): IControl {
@@ -20,20 +17,24 @@ export class ControlEditorViewComponent {
   @Input()
   set control(value: IControl) {
     this._control = !!value ? value : null;
-    this.load();
+    this.setClass();
   }
 
   @Output()
-  public click = new EventEmitter(true);
+  public openEditor = new EventEmitter(true);
 
-  constructor(private controlsService: ControlsService) { }
+  @HostBinding('class') class;
 
-  private load() {
-    const ref = this.host.viewContainerRef;
-    this.controlsService.view(ref, this.control);
+
+  private setClass() {
+    this.class = 'editor ' + (!this.control ? '' : this.columnClassName.transform(this.control.col));
   }
 
   private onClick() {
-    this.click.emit();
+    this.openEditor.emit();
+  }
+
+  constructor(private columnClassName: ColumnClassNamePipe) {
+    this.setClass();
   }
 }
