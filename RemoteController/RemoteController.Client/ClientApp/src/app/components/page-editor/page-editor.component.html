@@ -6,6 +6,7 @@
     <div [sortablejs]="controls">
       <rc-control-editor-view
         *ngFor="let c of controls"
+        [ngClass]='c.col | columnClassName'
         [control]="c"
         (openEditor)="openControlEditor(c)"
         ></rc-control-editor-view>

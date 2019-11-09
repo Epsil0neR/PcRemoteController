@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, ChangeDetectorRef } from '@angular/core';
 import { IControlViewer, WebSocketService, WebSocketMessage, WebSocketMessageType, makeid, findIcon, BaseControlComponent } from 'src/core';
 import { IKeyControl } from '../Models/IKeyControl';
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
@@ -10,9 +10,7 @@ import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 })
 export class KeyComponent
   extends BaseControlComponent
-  implements IControlViewer, OnInit {
-
-  forceFullWidth: boolean = false;
+  implements IControlViewer {
 
   /**
    * Data that will be sent to server on click.
@@ -26,12 +24,9 @@ export class KeyComponent
     super();
   }
 
-  ngOnInit() {
-  }
 
   load(data: IKeyControl): boolean {
-    // Set column size in super class.
-    this.col = ('col' in data) ? data.col : this.colMax;
+    this.col = ('col' in data) ? data.col : this.colMax; // TODO: use this.col somehow.
 
     this.data = data.data;
     this.title = !!data.text ? data.text : '';

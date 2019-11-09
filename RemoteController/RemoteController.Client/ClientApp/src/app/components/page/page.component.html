@@ -10,4 +10,5 @@
 <rc-control-view
   *ngFor="let item of details.controls"
   [control]="item"
+  [ngClass]='item.col | columnClassName'
   ></rc-control-view>

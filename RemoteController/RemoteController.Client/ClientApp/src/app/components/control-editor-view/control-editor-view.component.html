@@ -1,10 +1,11 @@
-<!-- <div class="editor"> -->
-  <rc-control-view [control]="control"></rc-control-view>
+<rc-control-view
+[control]="control"
+[style.width.%]="'100'"
+></rc-control-view>
 
-  <button
+<button
   class="btn btn-secondary overlay"
   (click)="onClick();"
   >
   {{control.name}}
 </button>
-<!-- </div> -->

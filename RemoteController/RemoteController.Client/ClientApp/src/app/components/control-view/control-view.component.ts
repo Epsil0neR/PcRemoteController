@@ -23,14 +23,10 @@ export class ControlViewComponent {
     this.load();
   }
 
-  @Input()
-  public forceFullWidth: boolean = true;
-
   constructor(private controlsService: ControlsService) { }
 
   private load() {
     const ref = this.host.viewContainerRef;
-    const viewer = this.controlsService.view(ref, this.control);
-    viewer.forceFullWidth = this.forceFullWidth;
+    this.controlsService.view(ref, this.control);
   }
 }
