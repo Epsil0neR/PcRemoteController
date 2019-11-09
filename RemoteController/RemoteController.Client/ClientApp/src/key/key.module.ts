@@ -1,6 +1,6 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CoreModule, ControlsService } from 'src/core';
+import { CoreModule, ControlsService, ControlRegistration } from 'src/core';
 import { KeyComponent } from './key-component/key.component';
 import { KeyEditorComponent } from './key-editor-component/key-editor.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -28,7 +28,14 @@ import { FormsModule } from '@angular/forms';
 })
 export class KeyModule {
   constructor(controls: ControlsService) {
-    controls.register(KeyModule.controlKey, 'Key', KeyComponent, KeyEditorComponent);
+    const reg: ControlRegistration = {
+      name: KeyModule.controlKey,
+      title: 'Key',
+      viewType: KeyComponent,
+      editType: KeyEditorComponent
+    };
+
+    controls.register(reg);
   }
 
   static readonly controlKey: string = 'key';
