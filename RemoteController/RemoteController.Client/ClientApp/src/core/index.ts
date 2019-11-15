@@ -1,5 +1,7 @@
 export * from './core.module';
 export * from './components/BaseControlComponent';
+export * from './components/control-column-editor/control-column-editor.component';
+export * from './components/icon-selector/icon-selector.component';
 export * from './directives/auto-focus.directive';
 export * from './models/IControl';
 export * from './models/IControlEditor';

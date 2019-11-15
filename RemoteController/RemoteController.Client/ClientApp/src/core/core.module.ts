@@ -1,8 +1,6 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { environment } from 'src/environments/environment';
 import { WebSocketService } from './services/web-socket.service';
-import { makeid } from './utils/makeid';
 import { PagesService } from './services/pages.service';
 import { InformersStateService } from './services/informers-state.service';
 import { ControlsService } from './services/controls.service';
@@ -11,13 +9,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { AutoFocusDirective } from './directives/auto-focus.directive';
 import { ControlColumnEditorComponent } from './components/control-column-editor/control-column-editor.component';
 import { ColumnClassNamePipe } from './pipes/column-class-name.pipe';
-import { $ } from 'protractor';
+import { IconSelectorComponent } from './components/icon-selector/icon-selector.component';
 
 @NgModule({
   declarations: [
     AutoFocusDirective,
     ControlColumnEditorComponent,
     ColumnClassNamePipe,
+    IconSelectorComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -34,6 +33,7 @@ import { $ } from 'protractor';
     AutoFocusDirective,
     ControlColumnEditorComponent,
     ColumnClassNamePipe,
+    IconSelectorComponent,
   ]
 })
 export class CoreModule {
