@@ -1,6 +1,6 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CoreModule, ControlsService } from 'src/core';
+import { CoreModule, ControlsService, ControlRegistration } from 'src/core';
 import { VolumeComponent } from './volume-component/volume.component';
 import { VolumeEditorComponent } from './volume-editor-component/volume-editor.component';
 
@@ -24,7 +24,14 @@ import { VolumeEditorComponent } from './volume-editor-component/volume-editor.c
 })
 export class VolumeModule {
   constructor(controls: ControlsService) {
-    controls.register(VolumeModule.controlKey, 'Volume', VolumeComponent, VolumeEditorComponent);
+    const reg: ControlRegistration = {
+      name: VolumeModule.controlKey,
+      title: 'Volume',
+      viewType: VolumeComponent,
+      editType: VolumeEditorComponent
+    };
+
+    controls.register(reg);
   }
 
   static readonly controlKey: string = 'vol';

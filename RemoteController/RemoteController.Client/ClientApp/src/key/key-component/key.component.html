@@ -1,7 +1,6 @@
 <button
   title="{{title}}"
-  class="btn btn-light"
-  [ngClass]="col | columnClassName">
+  class="btn btn-light">
   <fa-icon *ngIf="!!icon" [icon]="icon" class="fa-3x"></fa-icon>
   <span *ngIf="!icon">{{title.toUpperCase()}}</span>
 </button>

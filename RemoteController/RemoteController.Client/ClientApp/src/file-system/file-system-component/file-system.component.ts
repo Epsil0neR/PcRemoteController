@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { IFileSystemList } from 'src/file-system/Models/IFileSystemList';
 import * as Icons from '@fortawesome/free-solid-svg-icons';
@@ -73,7 +73,8 @@ export class FileSystemComponent
   }
 
   public load(data: IFileSystemControl): boolean {
-    this.col = data.col;
+    this.col = ('col' in data) ? data.col : this.colMax; // TODO: use this.col somehow.
+
     this.id = data.id;
     this.maxHeight = data.maxHeight > 0 ? data.maxHeight : 0;
     this.socketId = !!this.id ? this.id : this.pathsService.generateId();

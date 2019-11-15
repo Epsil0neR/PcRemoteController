@@ -1,1 +1,11 @@
-<p>control-editor-view works!</p>
+<rc-control-view
+[control]="control"
+[style.width.%]="'100'"
+></rc-control-view>
+
+<button
+  class="btn btn-secondary overlay"
+  (click)="onClick();"
+  >
+  {{control.name}}
+</button>

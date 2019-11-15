@@ -28,6 +28,7 @@ import { IconSelectorComponent } from './components/icon-selector/icon-selector.
     InformersStateService,
     PagesService,
     WebSocketService,
+    ColumnClassNamePipe,
   ],
   exports: [
     AutoFocusDirective,

@@ -2,7 +2,6 @@
   #inp (change)='this.setVolume($event.target.value)'
   [attr.disabled]="isEnabled ? null : ''"
   [attr.title]='input.nativeElement.value'
-  [ngClass]="col | columnClassName"
   class="custom-range"
   type="range"
   min="0"

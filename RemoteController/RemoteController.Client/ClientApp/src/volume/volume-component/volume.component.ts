@@ -44,7 +44,7 @@ export class VolumeComponent
 
   load(data: IControl): boolean {
     // Set column size in super class.
-    this.col = ('col' in data) ? data.col : this.colMax;
+    this.col = ('col' in data) ? data.col : this.colMax; // TODO: use this.col somehow.
 
     return true;
   }

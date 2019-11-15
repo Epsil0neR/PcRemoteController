@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using Microsoft.Extensions.Configuration;
 using Topshelf;
@@ -10,8 +11,13 @@ namespace RemoteController.Service
     {
         static void Main(string[] args)
         {
+            var proc = Process.GetCurrentProcess();
+            var loc = proc.MainModule?.FileName;
+            var dir = Path.GetDirectoryName(loc);
+            Console.WriteLine($"Base path: {dir}");
+            Console.WriteLine($"AppContext.BaseDirectory: {AppContext.BaseDirectory}");
             var config = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
+                .SetBasePath(dir)
                 .AddJsonFile("settings.config", true, true)
                 .Build();
 
