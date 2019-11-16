@@ -11,16 +11,20 @@ import { ControlColumnEditorComponent } from './components/control-column-editor
 import { ColumnClassNamePipe } from './pipes/column-class-name.pipe';
 import { IconSelectorComponent } from './components/icon-selector/icon-selector.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { IconsFilterPipe } from './pipes/IconsFilterPipe';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AutoFocusDirective,
     ControlColumnEditorComponent,
     ColumnClassNamePipe,
+    IconsFilterPipe,
     IconSelectorComponent,
   ],
   imports: [
     FontAwesomeModule,
+    FormsModule,
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     CommonModule

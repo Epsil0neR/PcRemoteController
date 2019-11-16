@@ -9,7 +9,8 @@ import { allIcons } from 'src/core/utils/findIcon';
 export class IconSelectorComponent
   implements OnInit, OnDestroy {
 
-    icons: any;
+  icons: any;
+  filter: string = '';
 
   constructor() { }
 
