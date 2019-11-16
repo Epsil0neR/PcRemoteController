@@ -1,1 +1,8 @@
 <p>icon-selector works!</p>
+<input type="text" placeholder="Search" />
+<div>
+  <fa-icon
+  *ngFor="let item of icons"
+  [icon]='item'
+  size="3x"></fa-icon>
+</div>

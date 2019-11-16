@@ -16,7 +16,7 @@ import { PageEditorComponent } from './components/page-editor/page-editor.compon
 import { PageCreateComponent } from './components/page-create/page-create.component';
 import { ControlHostDirective } from './directives/control-host/control-host.directive';
 import { EnumToArrayPipe } from './pipes/enum-to-array.pipe';
-import { CoreModule } from 'src/core';
+import { CoreModule, IconSelectorComponent } from 'src/core';
 import { KeyModule } from 'src/key';
 import { VolumeModule } from 'src/volume';
 import { FileSystemModule } from 'src/file-system';
@@ -52,7 +52,8 @@ import { ControlEditorViewComponent } from './components/control-editor-view/con
       { path: 'counter', component: CounterComponent },
       { path: 'create', component: PageCreateComponent },
       { path: 'edit/:name', component: PageEditorComponent },
-      { path: 'p/:name', component: PageComponent }
+      { path: 'p/:name', component: PageComponent },
+      { path: 'icon', component: IconSelectorComponent }
     ]),
     CoreModule.forRoot(),
     KeyModule.forRoot(),

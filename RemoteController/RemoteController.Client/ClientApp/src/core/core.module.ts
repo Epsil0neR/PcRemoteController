@@ -10,6 +10,7 @@ import { AutoFocusDirective } from './directives/auto-focus.directive';
 import { ControlColumnEditorComponent } from './components/control-column-editor/control-column-editor.component';
 import { ColumnClassNamePipe } from './pipes/column-class-name.pipe';
 import { IconSelectorComponent } from './components/icon-selector/icon-selector.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { IconSelectorComponent } from './components/icon-selector/icon-selector.
     IconSelectorComponent,
   ],
   imports: [
+    FontAwesomeModule,
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     CommonModule

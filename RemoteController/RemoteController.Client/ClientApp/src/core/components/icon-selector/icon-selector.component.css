@@ -1,0 +1,9 @@
+fa-icon {
+  display: inline-block;
+  padding: 5px;
+  margin: 2px;
+}
+
+fa-icon:hover {
+  background: lightpink;
+}
