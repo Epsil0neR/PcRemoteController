@@ -35,6 +35,7 @@ import { FormsModule } from '@angular/forms';
     PagesService,
     WebSocketService,
     ColumnClassNamePipe,
+    IconsFilterPipe,
   ],
   exports: [
     AutoFocusDirective,

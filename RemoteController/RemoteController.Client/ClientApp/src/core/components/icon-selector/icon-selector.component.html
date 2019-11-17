@@ -1,9 +1,12 @@
-<p>icon-selector works!</p>
-<input type="text" placeholder="Search" [(ngModel)]="filter" />
-{{filter}}
-<div>
-  <fa-icon
-  *ngFor="let item of icons | icons_filter: filter"
-  [icon]='item'
-  size="3x"></fa-icon>
+<div class="container-fluid">
+  <input type="text" placeholder="Search" [(ngModel)]="filter" class="form-control" />
+  Found: <b>{{ icons.length }}</b> icons.
+  <div>
+    <fa-icon
+      *ngFor="let item of icons"
+      [icon]="item"
+      [title]="item.iconName"
+      size="3x"
+    ></fa-icon>
+  </div>
 </div>
