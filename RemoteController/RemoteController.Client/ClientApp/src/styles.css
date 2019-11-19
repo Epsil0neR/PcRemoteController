@@ -20,6 +20,11 @@ html, body {
   padding: 0;
   height: 100%;
 }
+
+/*
+Flex where content has scroll:
+https://stackoverflow.com/a/14964944/1763586
+*/
 section {
   display: flex;
   flex-flow: column;
@@ -27,5 +32,7 @@ section {
 }
 
 section > .content, section > main {
-  flex: 1;
+  flex: 1 1 auto;
+  overflow-y: auto;
+  min-height: 0px;
 }

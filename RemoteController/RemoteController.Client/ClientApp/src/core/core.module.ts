@@ -1,8 +1,6 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { environment } from 'src/environments/environment';
 import { WebSocketService } from './services/web-socket.service';
-import { makeid } from './utils/makeid';
 import { PagesService } from './services/pages.service';
 import { InformersStateService } from './services/informers-state.service';
 import { ControlsService } from './services/controls.service';
@@ -11,15 +9,22 @@ import { HttpClientModule } from '@angular/common/http';
 import { AutoFocusDirective } from './directives/auto-focus.directive';
 import { ControlColumnEditorComponent } from './components/control-column-editor/control-column-editor.component';
 import { ColumnClassNamePipe } from './pipes/column-class-name.pipe';
-import { $ } from 'protractor';
+import { IconSelectorComponent } from './components/icon-selector/icon-selector.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { IconsFilterPipe } from './pipes/IconsFilterPipe';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AutoFocusDirective,
     ControlColumnEditorComponent,
     ColumnClassNamePipe,
+    IconsFilterPipe,
+    IconSelectorComponent,
   ],
   imports: [
+    FontAwesomeModule,
+    FormsModule,
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     CommonModule
@@ -30,11 +35,13 @@ import { $ } from 'protractor';
     PagesService,
     WebSocketService,
     ColumnClassNamePipe,
+    IconsFilterPipe,
   ],
   exports: [
     AutoFocusDirective,
     ControlColumnEditorComponent,
     ColumnClassNamePipe,
+    IconSelectorComponent,
   ]
 })
 export class CoreModule {

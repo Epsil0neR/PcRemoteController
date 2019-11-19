@@ -1,0 +1,14 @@
+fa-icon {
+  display: inline-block;
+  padding: 5px;
+  margin: 2px;
+  height: 60px;
+  min-width: 60px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+fa-icon:hover {
+  background: lightpink;
+  color: red;
+}
