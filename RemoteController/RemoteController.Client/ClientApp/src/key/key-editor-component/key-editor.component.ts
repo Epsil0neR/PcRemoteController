@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { IControlEditor, IControl } from 'src/core';
+import { IControlEditor, IControl, findIcon } from 'src/core';
 import { IKeyControl } from '../Models/IKeyControl';
 import { KeyCodes } from '../Models/KeysList';
+import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 
 @Component({
   selector: 'rc-key-editor',
@@ -14,6 +15,7 @@ export class KeyEditorComponent
   public keyCodes = KeyCodes;
   public data: IKeyControl = null;
   public key: { name: string, value: string } = null;
+  public icon: IconDefinition = null;
 
   constructor() { }
 
@@ -24,6 +26,7 @@ export class KeyEditorComponent
     if (!!data) {
       this.data = data;
       this.key = this.keyCodes.find(x => x.value === data.data);
+      this.icon = !!data.icon ? findIcon(data.icon) : null;
     } else {
       this.data = null;
       this.key = null;

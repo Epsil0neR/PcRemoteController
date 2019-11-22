@@ -7,3 +7,14 @@
   class="form-control">
   <option *ngFor="let x of keyCodes" [ngValue]='x'>{{x.name}}</option>
 </select>
+
+<div class="form-group">
+  <label class="col-3">
+    Icon:
+  </label>
+  <span class="col-3">
+    <fa-icon *ngIf="!!icon" [icon]="icon" class="fa-lg"></fa-icon>
+  </span>
+  <button class="btn btn-primary col-6">Change</button>
+  <span *ngIf="!icon">None</span>
+</div>
