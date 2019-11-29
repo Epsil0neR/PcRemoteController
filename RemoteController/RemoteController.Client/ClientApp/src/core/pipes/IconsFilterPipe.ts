@@ -8,10 +8,9 @@ export class IconsFilterPipe implements PipeTransform {
   transform(value: IconDefinition[], filter: string, ...args: any[]) {
     filter = !!filter ? filter.toLowerCase() : null;
     const rv = filter === null
-    ? value
-    : value.filter(x => x.iconName.indexOf(filter) >= 0);
+      ? value
+      : value.filter(x => x.iconName.indexOf(filter) >= 0);
 
-    console.log('Filtering: ', value, filter, args, rv);
     return rv;
   }
 }

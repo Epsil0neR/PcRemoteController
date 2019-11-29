@@ -50,6 +50,5 @@ export class KeyEditorComponent
   changeIcon(icon: IconDefinition) {
     this.icon = icon;
     this.showIconPicker = false;
-    console.log('ABC', icon);
   }
 }

@@ -69,8 +69,6 @@ export class IconSelectorComponent
   }
 
   selectIcon(icon: IconDefinition) {
-    console.log('Selecting icon: ', icon);
     this.iconChange.emit(!!icon ? icon : null);
-    console.log('Selected icon: ', icon);
   }
 }
