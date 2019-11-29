@@ -16,6 +16,7 @@ export class KeyEditorComponent
   public data: IKeyControl = null;
   public key: { name: string, value: string } = null;
   public icon: IconDefinition = null;
+  public showIconPicker: boolean = false;
 
   constructor() { }
 
@@ -37,11 +38,18 @@ export class KeyEditorComponent
     if (!!this.key) {
       this.data.data = this.key.value;
       this.data.text = this.key.name;
+      this.data.icon = !!this.icon ? this.icon.iconName : null;
     }
     return this.data;
   }
 
   onKeyChanged(data: { name: string, value: string }) {
     this.key = data;
+  }
+
+  changeIcon(icon: IconDefinition) {
+    this.icon = icon;
+    this.showIconPicker = false;
+    console.log('ABC', icon);
   }
 }

@@ -1,4 +1,4 @@
-fa-icon {
+fa-icon, .empty-icon {
   display: inline-block;
   padding: 5px;
   margin: 2px;
@@ -8,7 +8,12 @@ fa-icon {
   vertical-align: middle;
 }
 
-fa-icon:hover {
+fa-icon:hover, .empty-icon:hover {
   background: lightpink;
   color: red;
+}
+
+.selected {
+  background: lightskyblue;
+  color: #333333;
 }

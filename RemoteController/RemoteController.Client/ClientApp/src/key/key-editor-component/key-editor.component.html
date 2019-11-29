@@ -1,20 +1,29 @@
-<rc-control-column-editor *ngIf="!!data" [(value)]="data.col"></rc-control-column-editor>
-<p>key-editor works!</p>
-<select
-  *ngIf="!!data"
-  [ngModel]="key"
-  (ngModelChange)="onKeyChanged($event)"
-  class="form-control">
-  <option *ngFor="let x of keyCodes" [ngValue]='x'>{{x.name}}</option>
-</select>
 
-<div class="form-group">
-  <label class="col-3">
-    Icon:
-  </label>
-  <span class="col-3">
-    <fa-icon *ngIf="!!icon" [icon]="icon" class="fa-lg"></fa-icon>
-  </span>
-  <button class="btn btn-primary col-6">Change</button>
-  <span *ngIf="!icon">None</span>
+<div [hidden]="!!showIconPicker">
+  <rc-control-column-editor *ngIf="!!data" [(value)]="data.col"></rc-control-column-editor>
+  <select
+    *ngIf="!!data"
+    [ngModel]="key"
+    (ngModelChange)="onKeyChanged($event)"
+    class="form-control">
+    <option *ngFor="let x of keyCodes" [ngValue]='x'>{{x.name}}</option>
+  </select>
+
+  <div class="form-group">
+    <label class="col-3">
+      Icon:
+    </label>
+    <span class="col-3">
+      <fa-icon *ngIf="!!icon" [icon]="icon" class="fa-lg"></fa-icon>
+      <span *ngIf="!icon">None</span>
+    </span>
+    <button class="btn btn-primary col-6" (click)="showIconPicker = true">Change</button>
+  </div>
 </div>
+
+<rc-icon-selector
+  [hidden]="!showIconPicker"
+  showEmpty='true'
+  [icon]="icon"
+  (iconChange)='changeIcon($event)'
+></rc-icon-selector>

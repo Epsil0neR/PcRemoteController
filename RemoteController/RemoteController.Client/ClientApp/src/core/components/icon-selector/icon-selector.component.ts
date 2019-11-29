@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 import { allIcons } from 'src/core/utils/findIcon';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { IconsFilterPipe } from 'src/core/pipes/IconsFilterPipe';
@@ -13,8 +13,30 @@ export class IconSelectorComponent
 
   private _allIcons: IconDefinition[];
   private _filter: string = '';
+  private _showEmpty: boolean = false;
 
   public icons: IconDefinition[] = [];
+
+  public get showEmpty(): boolean {
+    return this._showEmpty;
+  }
+
+  @Input()
+  public set showEmpty(value: boolean) {
+    if (typeof value === 'boolean') {
+      this._showEmpty = value;
+    } else if (typeof value === 'string') {
+      this._showEmpty = (<string>value).toLowerCase() === 'true';
+    } else {
+      this._showEmpty = !!value;
+    }
+  }
+
+  @Input()
+  public icon: IconDefinition = null;
+
+  @Output()
+  public iconChange = new EventEmitter<IconDefinition>();
 
   public get filter() {
     return this._filter;
@@ -44,5 +66,11 @@ export class IconSelectorComponent
     }
 
     this.icons = this.filterPipe.transform(this._allIcons, this.filter);
+  }
+
+  selectIcon(icon: IconDefinition) {
+    console.log('Selecting icon: ', icon);
+    this.iconChange.emit(!!icon ? icon : null);
+    console.log('Selected icon: ', icon);
   }
 }

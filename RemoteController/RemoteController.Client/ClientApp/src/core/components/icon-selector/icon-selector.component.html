@@ -1,9 +1,16 @@
 <div class="container-fluid">
   <input type="text" placeholder="Search" [(ngModel)]="filter" class="form-control" />
-  Found: <b>{{ icons.length }}</b> icons.
+  Found: <b>{{ icons.length + (!!showEmpty ? 1 : 0) }}</b> icons.
   <div>
+    <div
+    *ngIf="showEmpty"
+    [class.selected]="!icon"
+    (click)='selectIcon()'
+    class="empty-icon"></div>
     <fa-icon
       *ngFor="let item of icons"
+      [class.selected]="icon===item"
+      (click)='selectIcon(item)'
       [icon]="item"
       [title]="item.iconName"
       size="3x"
