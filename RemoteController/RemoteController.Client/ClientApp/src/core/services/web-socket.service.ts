@@ -51,11 +51,9 @@ export class WebSocketService {
         if (msg === null)
           return;
 
-        function filter(f: Function): any { return f(msg) !== false; }
-
         this.raiseEvent('message.received', msg);
 
-        if (!this.__filters.every(filter))
+        if (!this.__filters.every(f => f(msg) !== false))
           return;
 
         this.raiseMessage(msg);
