@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -92,7 +93,7 @@ namespace RemoteController.Service
             var soundInformer = informersManager.Informer<SoundInformer>();
             if (soundInformer != null)
             {
-                manipulatorsManager.Add(new CustomManipulation<SoundInformer>(soundInformer.GetActionName(), () => soundInformer.CheckForChanges() ? null  : soundInformer));
+                manipulatorsManager.Add(new CustomManipulation<SoundInformer>(soundInformer.GetActionName(), () => soundInformer.CheckForChanges() ? null : soundInformer));
                 manipulatorsManager.Add(new CustomManipulation<bool>("Sound.Output.Volume", input =>
                 {
                     if (!int.TryParse(input, out int volume))
@@ -135,25 +136,54 @@ namespace RemoteController.Service
         public static void Web(HttpServer http)
         {
 #if DEBUG
-            http.DocumentRootPath = "../../../Web";
+            http.DocumentRootPath = "../../../../Web";
 #else
             http.DocumentRootPath = "./Web";
 #endif
-            http.OnGet += (sender, e) =>
+            http.OnGet += HttpOnGetSinglePage;
+        }
+
+        private static void HttpOnGetMultiPages(object sender, HttpRequestEventArgs e)
+        {
+            var req = e.Request;
+            var res = e.Response;
+            var path = req.RawUrl;
+            if (path == "/")
+                path += "index.html";
+
+            if (!e.TryReadFile(path, out var contents))
             {
-                var req = e.Request;
-                var res = e.Response;
+                res.StatusCode = (int)HttpStatusCode.NotFound;
+                return;
+            }
 
-                var path = req.RawUrl;
-                if (path == "/")
-                    path += "index.html";
+            if (path.EndsWith(".html"))
+            {
+                res.ContentType = "text/html";
+                res.ContentEncoding = Encoding.UTF8;
+            }
+            else if (path.EndsWith(".js"))
+            {
+                res.ContentType = "application/javascript";
+                res.ContentEncoding = Encoding.UTF8;
+            }
+            else if (path.EndsWith(".css"))
+            {
+                res.ContentType = "text/css";
+                res.ContentEncoding = Encoding.UTF8;
+            }
 
-                if (!e.TryReadFile(path, out var contents))
-                {
-                    res.StatusCode = (int)HttpStatusCode.NotFound;
-                    return;
-                }
+            res.WriteContent(contents);
+        }
 
+        private static void HttpOnGetSinglePage(object sender, HttpRequestEventArgs e)
+        {
+            var req = e.Request;
+            var res = e.Response;
+            var path = req.RawUrl;
+
+            if (e.TryReadFile(path, out var contents))
+            {
                 if (path.EndsWith(".html"))
                 {
                     res.ContentType = "text/html";
@@ -169,9 +199,19 @@ namespace RemoteController.Service
                     res.ContentType = "text/css";
                     res.ContentEncoding = Encoding.UTF8;
                 }
+            }
+            else if (e.TryReadFile("/index.html", out contents))
+            {
+                res.ContentType = "text/html";
+                res.ContentEncoding = Encoding.UTF8;
+            }
+            else
+            {
+                res.StatusCode = (int) HttpStatusCode.NotFound;
+                return;
+            }
 
-                res.WriteContent(contents);
-            };
+            res.WriteContent(contents);
         }
 
         public static void Configure(InformersManager manager)
