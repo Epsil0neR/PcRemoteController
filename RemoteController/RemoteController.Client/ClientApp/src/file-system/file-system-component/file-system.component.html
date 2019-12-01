@@ -13,7 +13,7 @@
     </ol>
   </nav>
 
-  <div id="folders">
+  <div id="folders" class="no-selection">
     <a *ngFor="let x of folders" (click)='goToPath(x.url)'>
       <fa-icon [icon]='iconFolder'></fa-icon>
       {{x.title}}
@@ -21,7 +21,7 @@
   </div>
   <div class="border"></div>
 
-  <div id="files">
+  <div id="files" class="no-selection">
     <a *ngFor="let x of files" (click)='exec(x.url)'>
       <fa-icon [icon]='iconFile'></fa-icon>
       {{x.title}}
