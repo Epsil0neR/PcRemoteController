@@ -33,7 +33,7 @@
             <a class="nav-link text-dark" [routerLink]="['/create']">Create</a>
           </li>
           <li *ngFor="let p of pages" class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/p', p.name]">Page {{p.title}}</a>
+            <a class="nav-link text-dark" [routerLink]="['/p', p.name]">{{p.title}}</a>
           </li>
         </ul>
       </div>

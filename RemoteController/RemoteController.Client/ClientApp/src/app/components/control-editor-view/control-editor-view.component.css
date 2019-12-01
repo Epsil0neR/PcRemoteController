@@ -1,17 +1,18 @@
 :host {
   display: inline-block;
   position: relative;
+  padding: 2px;
 }
 
  .overlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
   opacity: 0.25;
-  height: 100%;
-  width: 100%;
+  height: calc(100% - 4px);
+  width: calc(100% - 4px);
 }
 
 .overlay:hover {
