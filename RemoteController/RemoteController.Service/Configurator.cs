@@ -140,14 +140,14 @@ namespace RemoteController.Service
 #else
             http.DocumentRootPath = "./Web";
 #endif
-            http.OnGet += HttpOnGetSinglePage;
+            http.OnGet += HttpOnGetMultiPages;
         }
 
         private static void HttpOnGetMultiPages(object sender, HttpRequestEventArgs e)
         {
             var req = e.Request;
             var res = e.Response;
-            var path = req.RawUrl;
+            var path = req.Url.AbsolutePath;
             if (path == "/")
                 path += "index.html";
 
@@ -180,7 +180,7 @@ namespace RemoteController.Service
         {
             var req = e.Request;
             var res = e.Response;
-            var path = req.RawUrl;
+            var path = req.Url.AbsolutePath;
 
             if (e.TryReadFile(path, out var contents))
             {
