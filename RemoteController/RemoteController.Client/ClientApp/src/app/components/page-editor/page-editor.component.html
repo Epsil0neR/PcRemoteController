@@ -1,33 +1,40 @@
 <section [hidden]="!show || showCreateControl">
-<main class="container-fluid">
+  <main class="container-fluid">
     <div class="form-group">
-      <input [(ngModel)]="title" autofocus placeholder="Title" class="form-control form-control-lg" />
+      <input
+        [(ngModel)]="title"
+        autofocus
+        placeholder="Title"
+        class="form-control form-control-lg"
+      />
     </div>
-    <div [sortablejs]="controls">
+    <div [sortablejs]="controls" [sortablejsOptions]="{ delay: 100 }">
       <rc-control-editor-view
         *ngFor="let c of controls"
-        [ngClass]='c.col | columnClassName'
+        [ngClass]="c.col | columnClassName"
         [control]="c"
         (openEditor)="openControlEditor(c)"
-        ></rc-control-editor-view>
+      ></rc-control-editor-view>
     </div>
   </main>
   <div>
-    <button (click)='addControl()' class="btn btn-secondary">Add control</button>
-    <button (click)='navigateToPage()' class="btn btn-secondary">Cancel</button>
-    <button (click)='save()' class="btn btn-primary">Done</button>
+    <button (click)="addControl()" class="btn btn-secondary">
+      Add control
+    </button>
+    <button (click)="navigateToPage()" class="btn btn-secondary">Cancel</button>
+    <button (click)="save()" class="btn btn-primary">Done</button>
   </div>
 </section>
 
 <rc-control-editor
   [hidden]="show"
-  (cancel)='updateControl()'
-  (save)='updateControl($event)'
-  (delete)='deleteControl($event)'
-  ></rc-control-editor>
+  (cancel)="updateControl()"
+  (save)="updateControl($event)"
+  (delete)="deleteControl($event)"
+></rc-control-editor>
 
 <rc-create-control
   [hidden]="!showCreateControl"
   (cancel)="hideCreateControl()"
   (submit)="createControl($event)"
-  ></rc-create-control>
+></rc-create-control>
