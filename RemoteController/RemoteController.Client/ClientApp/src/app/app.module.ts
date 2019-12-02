@@ -9,7 +9,6 @@ import { SortablejsModule } from 'ngx-sortablejs';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
 import { HomeComponent } from './components/home/home.component';
-import { CounterComponent } from './components/counter/counter.component';
 
 import { PageComponent } from './components/page/page.component';
 import { PageEditorComponent } from './components/page-editor/page-editor.component';
@@ -30,7 +29,6 @@ import { ControlEditorViewComponent } from './components/control-editor-view/con
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    CounterComponent,
     PageComponent,
     PageEditorComponent,
     PageCreateComponent,
@@ -49,7 +47,7 @@ import { ControlEditorViewComponent } from './components/control-editor-view/con
     SortablejsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
+      { path: 'create', component: PageCreateComponent },
       { path: 'edit/:name', component: PageEditorComponent },
       { path: 'p/:name', component: PageComponent },
       { path: 'icon', component: IconSelectorComponent }
