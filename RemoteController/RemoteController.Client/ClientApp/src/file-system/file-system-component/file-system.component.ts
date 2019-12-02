@@ -91,8 +91,13 @@ export class FileSystemComponent
   onFileSystemList(m: WebSocketMessage): void {
     if (!m || !m.Hash || !m.Hash.startsWith(this.socketId))
       return;
+
     if (m.Type === WebSocketMessageType.Response) {
       const r = <IFileSystemList>m.Data;
+      if (r === null) {
+        this.goToPath('');
+        return;
+      }
       this.path = !!r.path ? r.path.join('\\') : '';
       const path = !!this.path ? this.path + '\\' : '';
       const map = (x: string) => {
