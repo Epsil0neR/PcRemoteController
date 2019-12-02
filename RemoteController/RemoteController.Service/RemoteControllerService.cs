@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Linq;
-using Epsiloner.Collections;
 using Microsoft.Extensions.Configuration;
 using RemoteController.Informer;
 using RemoteController.Manipulator;
@@ -24,29 +22,31 @@ namespace RemoteController.Service
         public HttpServer Http { get; }
         public ServiceBinding ServiceBinding { get; }
         public InformersManager InformersManager { get; }
+        public FileSystemConfig FileSystemConfig { get; }
+        public ServerConfig ServerConfig { get; }
 
         public RemoteControllerService(LogWriter logger, IConfiguration config)
         {
             Logger = logger ?? HostLogger.Get<RemoteControllerService>();
             Config = config ?? throw new ArgumentNullException(nameof(config));
+
+            FileSystemConfig = new FileSystemConfig();
+            ServerConfig = new ServerConfig();
+            config.GetSection("FileSystem").Bind(FileSystemConfig);
+            config.GetSection("Server").Bind(ServerConfig);
+
             Manipulators = new ManipulatorsManager();
-            Http = new HttpServer(6431) { KeepClean = false };
+            Http = new HttpServer(ServerConfig.Port) { KeepClean = false };
             Server = new WsServer(Http, "/Testing");
             Service = new WsService(Server);
             ServiceBinding = new ServiceBinding(Service, Manipulators);
             InformersManager = new InformersManager();
             InformersManager.InformerChanged += InformersManagerOnInformerChanged;
-
-            FileSystemConfig = new FileSystemConfig();
-            config.GetSection("FileSystem").Bind(FileSystemConfig);
-
             Configurator.Configure(InformersManager);
             Configurator.SetContexts(Manipulators, FileSystemConfig);
             Configurator.Configure(Manipulators, Service, InformersManager);
             Configurator.Web(Http);
         }
-
-        public FileSystemConfig FileSystemConfig { get; }
 
         private void InformersManagerOnInformerChanged(object sender, BaseInformer informer)
         {
