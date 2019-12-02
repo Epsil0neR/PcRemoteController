@@ -50,7 +50,6 @@ import { ControlEditorViewComponent } from './components/control-editor-view/con
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
-      { path: 'create', component: PageCreateComponent },
       { path: 'edit/:name', component: PageEditorComponent },
       { path: 'p/:name', component: PageComponent },
       { path: 'icon', component: IconSelectorComponent }
