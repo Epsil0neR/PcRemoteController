@@ -8,7 +8,6 @@ import { SortablejsModule } from 'ngx-sortablejs';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
-import { HomeComponent } from './components/home/home.component';
 
 import { PageComponent } from './components/page/page.component';
 import { PageEditorComponent } from './components/page-editor/page-editor.component';
@@ -28,7 +27,6 @@ import { ControlEditorViewComponent } from './components/control-editor-view/con
   declarations: [
     AppComponent,
     NavMenuComponent,
-    HomeComponent,
     PageComponent,
     PageEditorComponent,
     PageCreateComponent,
@@ -46,7 +44,7 @@ import { ControlEditorViewComponent } from './components/control-editor-view/con
     FormsModule,
     SortablejsModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: '', component: PageCreateComponent, pathMatch: 'full' },
       { path: 'create', component: PageCreateComponent },
       { path: 'edit/:name', component: PageEditorComponent },
       { path: 'p/:name', component: PageComponent },
