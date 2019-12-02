@@ -1,13 +1,21 @@
-<rc-control-column-editor *ngIf="!!data" [(value)]="data.col"></rc-control-column-editor>
+<rc-control-column-editor *ngIf="!!data" [(value)]="col"></rc-control-column-editor>
 
 <div class="form-group">
   <label>Maximum height (0 = infinity) in px</label>
   <input type="number"
     autofocus
     class="form-control"
-    [value]='data.maxHeight'
-    (value)='data.maxHeight = $event.target.value'
+    [(ngModel)]="maxHeight"
     min="0"
     step="5"
+  />
+</div>
+
+<div class="form-group">
+  <label>ID (used for sharing content between multiple contols)</label>
+  <input type="text"
+    maxlength="20"
+    class="form-control"
+    [(ngModel)]="id"
   />
 </div>

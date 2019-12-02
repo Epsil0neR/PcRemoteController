@@ -5,10 +5,12 @@ import { FileSystemComponent } from './file-system-component/file-system.compone
 import { FileSystemEditorComponent } from './file-system-editor-component/file-system-editor.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FileSystemPathsService } from './Services/file-system-paths.service';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     FontAwesomeModule,
+    FormsModule,
     CommonModule,
     CoreModule,
   ],
