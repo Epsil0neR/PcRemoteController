@@ -8,7 +8,8 @@ export class PageDetails {
       col: 4,
       data: 'VK_F',
       text: 'Fullscreen',
-      icon: 'compress'
+      icon: 'compress',
+      mode: 0,
     },
     {
       name: 'vol',
@@ -19,21 +20,24 @@ export class PageDetails {
       col: 3,
       data: 'LEFT',
       text: 'Left',
-      icon: 'angle-double-left'
+      icon: 'angle-double-left',
+      mode: 1,
     },
     <any>{
       name: 'key',
       col: 6,
       data: 'MEDIA_PLAY_PAUSE',
       text: 'Media Play/Pause',
-      icon: 'pause'
+      icon: 'pause',
+      mode: 1,
     },
     <any>{
       name: 'key',
       col: 3,
       data: 'RIGHT',
       text: 'Right',
-      icon: 'angle-double-right'
+      icon: 'angle-double-right',
+      mode: 1,
     },
     <any>{
       name: 'fs',

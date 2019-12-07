@@ -13,12 +13,14 @@ import { IconSelectorComponent } from './components/icon-selector/icon-selector.
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { IconsFilterPipe } from './pipes/IconsFilterPipe';
 import { FormsModule } from '@angular/forms';
+import { EnumToArrayPipe } from './pipes/EnumToArrayPipe';
 
 @NgModule({
   declarations: [
     AutoFocusDirective,
     ControlColumnEditorComponent,
     ColumnClassNamePipe,
+    EnumToArrayPipe,
     IconsFilterPipe,
     IconSelectorComponent,
   ],
@@ -36,11 +38,14 @@ import { FormsModule } from '@angular/forms';
     WebSocketService,
     ColumnClassNamePipe,
     IconsFilterPipe,
+    EnumToArrayPipe,
   ],
   exports: [
     AutoFocusDirective,
     ControlColumnEditorComponent,
     ColumnClassNamePipe,
+    EnumToArrayPipe,
+    IconsFilterPipe,
     IconSelectorComponent,
   ]
 })

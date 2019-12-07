@@ -35,13 +35,8 @@ namespace RemoteController.Service
             //manipulatorsManager.Add(new CmdManipulation("cmd.git.3", "git", true, true, true));
 
             manipulatorsManager.Add(new KeyboardManipulation("Key"));
-
-            manipulatorsManager.Add(new KeyboardManipulation("Key.Media.Play", VirtualKeyCode.MEDIA_PLAY_PAUSE));
-            manipulatorsManager.Add(new KeyboardManipulation("Key.Media.Next", VirtualKeyCode.MEDIA_NEXT_TRACK));
-            manipulatorsManager.Add(new KeyboardManipulation("Key.Media.Prev", VirtualKeyCode.MEDIA_PREV_TRACK));
-            manipulatorsManager.Add(new KeyboardManipulation("Key.Volume.-", VirtualKeyCode.VOLUME_DOWN));
-            manipulatorsManager.Add(new KeyboardManipulation("Key.Volume.+", VirtualKeyCode.VOLUME_UP));
-            manipulatorsManager.Add(new KeyboardManipulation("Key.Volume.Mute", VirtualKeyCode.VOLUME_MUTE));
+            manipulatorsManager.Add(new KeyboardManipulation("Key.Down", KeyboardManipulation.KeyDownAction));
+            manipulatorsManager.Add(new KeyboardManipulation("Key.Up", KeyboardManipulation.KeyUpAction));
 
             (int x, int y) GetMouseParam(string param)
             {

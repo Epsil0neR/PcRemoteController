@@ -18,3 +18,4 @@ export * from './services/web-socket.service';
 export * from './utils/findIcon';
 export * from './utils/makeid';
 export * from './pipes/column-class-name.pipe';
+export * from './pipes/EnumToArrayPipe';

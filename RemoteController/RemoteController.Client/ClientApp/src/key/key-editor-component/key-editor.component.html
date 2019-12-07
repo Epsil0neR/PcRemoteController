@@ -9,6 +9,14 @@
     <option *ngFor="let x of keyCodes" [ngValue]='x'>{{x.name}}</option>
   </select>
 
+  <select
+    *ngIf="!!data"
+    [ngModel]="mode"
+    (ngModelChange)="onModeChanged($event)"
+    class="form-control">
+    <option *ngFor="let x of modes | enumToArray" [ngValue]='x.index'>{{x.name}}</option>
+  </select>
+
   <div class="form-group">
     <label class="col-3">
       Icon:

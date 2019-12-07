@@ -1,4 +1,5 @@
 import { IControl } from 'src/core';
+import { KeyControlMode } from './KeyControlMode';
 
 export interface IKeyControl extends IControl {
   /**
@@ -20,4 +21,9 @@ export interface IKeyControl extends IControl {
    * If set to {true} and {icon} is available - shows both - text and icon.
    */
   iconWithText?: boolean;
+
+  /**
+   * Key control mode
+   */
+  mode: KeyControlMode;
 }

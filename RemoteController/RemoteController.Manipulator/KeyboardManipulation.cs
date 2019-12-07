@@ -8,7 +8,7 @@ namespace RemoteController.Manipulator
 {
     public class KeyboardManipulation : TypedManipulation<IKeyboardSimulator>
     {
-        private static void DefaultAction(IKeyboardSimulator simulator, string param)
+        public static void PressAction(IKeyboardSimulator simulator, string param)
         {
             if (Enum.TryParse(param, true, out VirtualKeyCode key))
                 simulator.KeyPress(key);
@@ -19,6 +19,34 @@ namespace RemoteController.Manipulator
                 key = (VirtualKeyCode) s;
                 if (Enum.IsDefined(typeof(VirtualKeyCode), key))
                     simulator.KeyPress(key);
+            }
+        }
+
+        public static void KeyDownAction(IKeyboardSimulator simulator, string param)
+        {
+            if (Enum.TryParse(param, true, out VirtualKeyCode key))
+                simulator.KeyDown(key);
+            else
+            {
+                var c = string.IsNullOrEmpty(param) ? ' ' : param[0];
+                var s = VkKeyScan(c);
+                key = (VirtualKeyCode)s;
+                if (Enum.IsDefined(typeof(VirtualKeyCode), key))
+                    simulator.KeyDown(key);
+            }
+        }
+
+        public static void KeyUpAction(IKeyboardSimulator simulator, string param)
+        {
+            if (Enum.TryParse(param, true, out VirtualKeyCode key))
+                simulator.KeyUp(key);
+            else
+            {
+                var c = string.IsNullOrEmpty(param) ? ' ' : param[0];
+                var s = VkKeyScan(c);
+                key = (VirtualKeyCode)s;
+                if (Enum.IsDefined(typeof(VirtualKeyCode), key))
+                    simulator.KeyUp(key);
             }
         }
 
@@ -38,7 +66,7 @@ namespace RemoteController.Manipulator
             : base(name, GenerateAction(key, modifiers)) { }
 
         public KeyboardManipulation(string name)
-            : base(name, DefaultAction) { }
+            : base(name, PressAction) { }
 
         private static Action<IKeyboardSimulator, string> GenerateAction(VirtualKeyCode key, VirtualKeyCode[] modifiers = null)
         {
