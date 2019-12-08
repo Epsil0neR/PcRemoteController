@@ -22,6 +22,7 @@ export class KeyComponent
   public showIconWithTitle: boolean = false;
   private mode: KeyControlMode = KeyControlMode.Press;
   private isKeyDown: boolean = false;
+  private repeatHandler: any | null = null;
 
   constructor(private webSocketService: WebSocketService) {
     super();
@@ -57,36 +58,51 @@ export class KeyComponent
     console.log('click');
     if (this.mode === KeyControlMode.Press)
       this.send('key');
-    else if (this.mode === KeyControlMode.Toogle) {
-      const isKeyDown = this.isKeyDown;
-      this.isKeyDown = !isKeyDown;
-      this.send(isKeyDown ? 'key.up' : 'key.down');
-    }
   }
 
   @HostListener('mousedown')
   @HostListener('touchstart')
   onTouchstart() {
-    if (this.mode !== KeyControlMode.DownUp)
-      return;
-
     if (this.isKeyDown)
       return;
 
-    this.isKeyDown = true;
-    this.send('key.down');
+    switch (this.mode) {
+      case KeyControlMode.DownUp:
+        this.isKeyDown = true;
+        this.send('key.down');
+        break;
+      case KeyControlMode.Repeatable:
+        this.send('key');
+
+        if (this.repeatHandler !== null) {
+          clearInterval(this.repeatHandler);
+          this.repeatHandler = null;
+        }
+        this.isKeyDown = true;
+        this.repeatHandler = setInterval(() => {
+          this.send('key');
+        }, 200);
+    }
   }
 
   @HostListener('mouseup')
   @HostListener('touchend')
   onTouchend() {
-    if (this.mode !== KeyControlMode.DownUp)
-      return;
-
     if (!this.isKeyDown)
       return;
 
-    this.isKeyDown = false;
-    this.send('key.up');
+    switch (this.mode) {
+      case KeyControlMode.DownUp:
+        this.isKeyDown = false;
+        this.send('key.up');
+        break;
+      case KeyControlMode.Repeatable:
+        if (this.repeatHandler !== null) {
+          this.isKeyDown = false;
+          clearInterval(this.repeatHandler);
+          this.repeatHandler = null;
+        }
+        break;
+    }
   }
 }
