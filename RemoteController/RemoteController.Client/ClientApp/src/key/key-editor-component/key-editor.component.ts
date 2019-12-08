@@ -13,6 +13,9 @@ import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 export class KeyEditorComponent
   implements IControlEditor, OnInit {
 
+  private repeatMin: number = 10;
+  private repeatDefault: number = 100;
+
   public keyCodes = KeyCodes;
   public data: IKeyControl = null;
   public key: { name: string, value: string } = null;
@@ -20,6 +23,7 @@ export class KeyEditorComponent
   public showIconPicker: boolean = false;
   public mode: KeyControlMode = KeyControlMode.Press;
   public modes = KeyControlMode;
+  public repeat: number = this.repeatDefault;
 
   constructor() { }
 
@@ -32,11 +36,17 @@ export class KeyEditorComponent
       this.key = this.keyCodes.find(x => x.value === data.data);
       this.icon = !!data.icon ? findIcon(data.icon) : null;
       this.mode = 'mode' in data ? data.mode : KeyControlMode.Press;
+      this.repeat = 'r' in data ? +data.r : this.repeatDefault;
+      if (isNaN(+this.repeat)) {
+        this.repeat = this.repeatDefault;
+      } else if (this.repeat < this.repeatMin)
+        this.repeat = this.repeatMin;
     } else {
       this.data = null;
       this.key = null;
       this.icon = null;
       this.mode = KeyControlMode.Press;
+      this.repeat = this.repeatDefault;
     }
     return true;
   }
@@ -46,6 +56,11 @@ export class KeyEditorComponent
       this.data.text = this.key.name;
       this.data.icon = !!this.icon ? this.icon.iconName : null;
       this.data.mode = this.mode;
+
+      if (this.mode === KeyControlMode.Repeatable)
+        this.data.r = this.repeat;
+      else
+        delete this.data.r;
     }
     return this.data;
   }

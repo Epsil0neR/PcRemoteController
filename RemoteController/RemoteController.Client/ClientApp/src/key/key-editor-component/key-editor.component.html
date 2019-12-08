@@ -1,21 +1,37 @@
 
 <div [hidden]="!!showIconPicker">
   <rc-control-column-editor *ngIf="!!data" [(value)]="data.col"></rc-control-column-editor>
-  <select
-    *ngIf="!!data"
-    [ngModel]="key"
-    (ngModelChange)="onKeyChanged($event)"
-    class="form-control">
-    <option *ngFor="let x of keyCodes" [ngValue]='x'>{{x.name}}</option>
-  </select>
 
-  <select
-    *ngIf="!!data"
-    [ngModel]="mode"
-    (ngModelChange)="onModeChanged($event)"
-    class="form-control">
-    <option *ngFor="let x of modes | enumToArray" [ngValue]='x.index'>{{x.name}}</option>
-  </select>
+  <div class="form-group" *ngIf="!!data">
+    <label>Key</label>
+    <select
+      [ngModel]="key"
+      (ngModelChange)="onKeyChanged($event)"
+      class="form-control">
+      <option *ngFor="let x of keyCodes" [ngValue]='x'>{{x.name}}</option>
+    </select>
+  </div>
+
+  <div class="form-group" *ngIf="!!data">
+    <label>Action mode</label>
+    <select
+      [ngModel]="mode"
+      (ngModelChange)="onModeChanged($event)"
+      class="form-control">
+      <option *ngFor="let x of modes | enumToArray" [ngValue]='x.index'>{{x.name}}</option>
+    </select>
+  </div>
+
+  <div class="form-group" *ngIf="!!data && mode === modes.Repeatable">
+    <label>Repeat interval</label>
+    <input
+      type="number"
+      [(ngModel)]="repeat"
+      class="form-control"
+      min="10"
+      step="10"
+      />
+  </div>
 
   <div class="form-group">
     <label class="col-3">

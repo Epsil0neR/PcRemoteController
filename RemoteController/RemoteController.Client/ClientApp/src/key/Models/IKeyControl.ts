@@ -26,4 +26,9 @@ export interface IKeyControl extends IControl {
    * Key control mode
    */
   mode: KeyControlMode;
+
+  /**
+   * Repeat interval in ms, default: 100.
+   */
+  r?: number;
 }

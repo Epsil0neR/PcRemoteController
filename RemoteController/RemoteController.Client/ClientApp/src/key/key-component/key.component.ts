@@ -22,6 +22,7 @@ export class KeyComponent
   public showIconWithTitle: boolean = false;
   private mode: KeyControlMode = KeyControlMode.Press;
   private isKeyDown: boolean = false;
+  private repeat?: number = 100;
   private repeatHandler: any | null = null;
 
   constructor(private webSocketService: WebSocketService) {
@@ -37,6 +38,9 @@ export class KeyComponent
     this.icon = !!data.icon ? findIcon(data.icon) : null;
     this.showIconWithTitle = data.iconWithText === true;
     this.mode = 'mode' in data ? data.mode : KeyControlMode.Press;
+
+    const r = +data.r;
+    this.repeat = !isNaN(r) && r > 0 ? r : 100;
 
     // TODO: Load all relevant data.
     return true;
@@ -81,7 +85,7 @@ export class KeyComponent
         this.isKeyDown = true;
         this.repeatHandler = setInterval(() => {
           this.send('key');
-        }, 200);
+        }, this.repeat);
     }
   }
 
