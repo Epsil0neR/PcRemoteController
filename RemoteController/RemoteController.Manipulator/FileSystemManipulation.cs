@@ -145,7 +145,7 @@ namespace RemoteController.Manipulator
 
             var pathOrig = GetOriginalPath(path, root, rootOrig);
             var di = new DirectoryInfo(pathOrig);
-            if (!di.Exists)
+            if (!di.Exists || !di.FullName.StartsWith(rootOrig)) //TODO: Forbidden.
                 return;
 
             var folders = di.GetDirectories()
