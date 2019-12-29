@@ -1,12 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Epsiloner.Core" Version="1.0.11" />
     <PackageReference Include="NAudio" Version="1.9.0" />
+    <PackageReferebce Include="OpenHardwareMonitor.Core" Version="0.8.0.5" />
   </ItemGroup>
 
 </Project>
