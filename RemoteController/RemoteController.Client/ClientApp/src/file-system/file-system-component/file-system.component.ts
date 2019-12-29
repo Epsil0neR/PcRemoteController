@@ -94,7 +94,7 @@ export class FileSystemComponent
 
     if (m.Type === WebSocketMessageType.Response) {
       const r = <IFileSystemList>m.Data;
-      if (r === null) {
+      if (r === null || r === undefined) {
         this.goToPath('');
         return;
       }

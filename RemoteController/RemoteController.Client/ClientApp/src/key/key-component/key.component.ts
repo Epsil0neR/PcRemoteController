@@ -47,7 +47,6 @@ export class KeyComponent
   }
 
   private send(action: 'key' | 'key.down' | 'key.up') {
-    console.log('Sending key:', action, this.data);
     const m = new WebSocketMessage({
       a: action,
       d: this.data,
@@ -59,7 +58,6 @@ export class KeyComponent
   }
 
   @HostListener('click') onClick() {
-    console.log('click');
     if (this.mode === KeyControlMode.Press)
       this.send('key');
   }
@@ -71,7 +69,7 @@ export class KeyComponent
       return;
 
     switch (this.mode) {
-      case KeyControlMode.DownUp:
+      case KeyControlMode['Long press']:
         this.isKeyDown = true;
         this.send('key.down');
         break;
@@ -96,7 +94,7 @@ export class KeyComponent
       return;
 
     switch (this.mode) {
-      case KeyControlMode.DownUp:
+      case KeyControlMode['Long press']:
         this.isKeyDown = false;
         this.send('key.up');
         break;

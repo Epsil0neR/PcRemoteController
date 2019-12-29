@@ -69,7 +69,6 @@ export class KeyEditorComponent
     this.key = data;
   }
   onModeChanged(data: KeyControlMode) {
-    console.log('Changing mode: ', data);
     this.mode = data;
   }
 
