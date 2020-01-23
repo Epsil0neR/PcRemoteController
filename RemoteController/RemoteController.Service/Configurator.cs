@@ -34,7 +34,7 @@ namespace RemoteController.Service
             //manipulatorsManager.Add(new CmdManipulation("cmd.git.2", "git", true, false, true));
             //manipulatorsManager.Add(new CmdManipulation("cmd.git.3", "git", true, true, true));
 
-            manipulatorsManager.Add(new KeyboardManipulation("Key"));
+            manipulatorsManager.Add(new KeyboardManipulation("Key", KeyboardManipulation.PressAction));
             manipulatorsManager.Add(new KeyboardManipulation("Key.Down", KeyboardManipulation.KeyDownAction));
             manipulatorsManager.Add(new KeyboardManipulation("Key.Up", KeyboardManipulation.KeyUpAction));
 
@@ -202,7 +202,7 @@ namespace RemoteController.Service
             }
             else
             {
-                res.StatusCode = (int) HttpStatusCode.NotFound;
+                res.StatusCode = (int)HttpStatusCode.NotFound;
                 return;
             }
 

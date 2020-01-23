@@ -17,12 +17,16 @@
       ></rc-control-editor-view>
     </div>
   </main>
-  <div>
-    <button (click)="addControl()" class="btn btn-secondary">
-      Add control
-    </button>
-    <button (click)="navigateToPage()" class="btn btn-secondary">Cancel</button>
-    <button (click)="save()" class="btn btn-primary">Done</button>
+  <div class="container-fluid editor-controls">
+    <div class="col-4">
+      <button (click)="addControl()" class="btn btn-lg btn-primary">Add control</button>
+    </div>
+    <div class="col-4">
+      <button (click)="navigateToPage()" class="btn btn-lg btn-secondary">Cancel</button>
+    </div>
+    <div class="col-4">
+      <button (click)="save()" class="btn btn-lg btn-primary">Done</button>
+    </div>
   </div>
 </section>
 

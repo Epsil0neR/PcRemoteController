@@ -65,9 +65,6 @@ namespace RemoteController.Manipulator
         public KeyboardManipulation(string name, VirtualKeyCode key, VirtualKeyCode[] modifiers = null)
             : base(name, GenerateAction(key, modifiers)) { }
 
-        public KeyboardManipulation(string name)
-            : base(name, PressAction) { }
-
         private static Action<IKeyboardSimulator, string> GenerateAction(VirtualKeyCode key, VirtualKeyCode[] modifiers = null)
         {
             if (modifiers?.Any() == true)
