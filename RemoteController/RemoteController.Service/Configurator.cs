@@ -1,20 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using RemoteController.Informer;
 using RemoteController.Manipulator;
 using RemoteController.Manipulator.Contexts;
+using RemoteController.Service.Configs;
 using RemoteController.WebSocket;
 using WebSocketSharp;
 using WebSocketSharp.Net;
 using WebSocketSharp.Server;
 using WindowsInput;
-using WindowsInput.Native;
-using Microsoft.Extensions.Configuration;
-using RemoteController.Service.Configs;
 
 namespace RemoteController.Service
 {
@@ -202,7 +199,7 @@ namespace RemoteController.Service
             }
             else
             {
-                res.StatusCode = (int) HttpStatusCode.NotFound;
+                res.StatusCode = (int)HttpStatusCode.NotFound;
                 return;
             }
 
@@ -231,11 +228,21 @@ namespace RemoteController.Service
             server.Broadcast(msg);
         }
 
+        /// <summary>
+        /// Provides name for custom manipulator.
+        /// </summary>
+        /// <param name="informer"></param>
+        /// <returns></returns>
         public static string GetActionName(this BaseInformer informer)
         {
             return $"Informer.{informer.Name}";
         }
 
+        /// <summary>
+        /// Converts informer to <see cref="Message"/>.
+        /// </summary>
+        /// <param name="informer"></param>
+        /// <returns></returns>
         public static Message ToMessage(this BaseInformer informer)
         {
             var rv = new Message()
