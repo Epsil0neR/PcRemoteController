@@ -132,7 +132,7 @@ namespace RemoteController.Service
 #else
             http.DocumentRootPath = "./Web";
 #endif
-            http.OnGet += HttpOnGetMultiPages;
+            http.OnGet += HttpOnGetSinglePage;
         }
 
         private static void HttpOnGetMultiPages(object sender, HttpRequestEventArgs e)
