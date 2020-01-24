@@ -9,6 +9,10 @@ code {
   color: #e01a76;
 }
 
+button, .btn {
+  border-radius: 0;
+}
+
 .btn-primary {
   color: #fff;
   background-color: #1b6ec2;

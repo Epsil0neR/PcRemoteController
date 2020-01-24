@@ -4,23 +4,36 @@
     <ng-template rcControlHost></ng-template>
   </main>
   <footer>
-    <div class="container-fluid">
-      <button
+    <div class="container-fluid control-editor-controls">
+      <div
         [class.col-4]="showDelete"
-        [class.col-6]="!showDelete"
-        class="btn btn-lg btn-secondary"
-        (click)="submit(false)">
-        Cancel
-      </button>
-      <button *ngIf="showDelete" class="btn btn-lg btn-danger col-4" (click)='deleteAction()'>
-        Delete
-      </button>
-      <button
+        [class.col-6]="!showDelete">
+        <button
+          class="btn btn-lg btn-secondary"
+          (click)="submit(false)">
+          Cancel
+        </button>
+      </div>
+      <div
+        *ngIf="showDelete"
+        class="col-4">
+        <button
+          *ngIf="showDelete"
+          class="btn btn-lg btn-danger"
+          (click)='deleteAction()'>
+          Delete
+        </button>
+      </div>
+      <div
         [class.col-4]="showDelete"
-        [class.col-6]="!showDelete"
-        class="btn btn-lg btn-primary" (click)="submit(true)">
-        {{textSave}}
-      </button>
+        [class.col-6]="!showDelete">
+        <button
+          class="btn btn-lg btn-primary"
+          (click)="submit(true)">
+          {{textSave}}
+        </button>
+      </div>
     </div>
   </footer>
+
 </section>

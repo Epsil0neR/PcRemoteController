@@ -6,7 +6,7 @@
     <RuntimeIdentifier>win10-x64</RuntimeIdentifier>
     <PublishTrimmed>true</PublishTrimmed>
     <PublishReadyToRun>true</PublishReadyToRun>
-    <PublishSingleFile>true</PublishSingleFile>
+    <!--<PublishSingleFile>true</PublishSingleFile>-->
   </PropertyGroup>
 
   <ItemGroup>
@@ -38,6 +38,7 @@
   <ItemGroup>
     <None Remove="settings.config" />
     <None Remove="Web\files.html" />
+    <None Remove="Web\index.html" />
     <None Remove="Web\movie.html" />
     <None Remove="Web\Scripts\files.js" />
     <None Remove="Web\Styles\styles.css" />

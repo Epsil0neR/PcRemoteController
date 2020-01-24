@@ -10,11 +10,11 @@
   left: 2px;
   right: 2px;
   bottom: 2px;
-  opacity: 0.25;
+  opacity: 0.1;
   height: calc(100% - 4px);
   width: calc(100% - 4px);
 }
 
 .overlay:hover {
-  opacity: 0.85;
+  opacity: 0.25;
 }

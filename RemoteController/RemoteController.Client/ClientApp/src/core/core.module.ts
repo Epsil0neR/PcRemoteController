@@ -63,7 +63,7 @@ export class CoreModule {
   }
 }
 
-function WebSocketServiceProvider() {
+export function WebSocketServiceProvider() {
   const l = window.location;
   const url = `ws://${l.hostname}:6431/Testing`;
   console.log('URL: ', url);
