@@ -3,7 +3,7 @@ PC remote controller for phone via LAN connection.
 
 **Server tasks:**
 - [ ] Create service
-  - [ ] Configure URI for WebSocket
+  - [x] Configure URI for WebSocket
   - [ ] Configure restrictions for WebSocket connections
 
 - [ ] Configure WebSocket
@@ -13,14 +13,16 @@ PC remote controller for phone via LAN connection.
   - [ ] Keyboard / Mouse
     - [x] Media keys
     - [x] Volume keys
-    - [ ] Other keys (any or from whitelist only?)
+    - [x] Other keys (any or from whitelist only?)
+    - [ ] Joystick
+    - [ ] Touchpad
   - [ ] Commands (must be registered locally and invoked only by command name)
   - [ ] Files 
     - [x] Configure allowed roots for view (with file extensions that client can see)
     - [x] Provide directory content (directories and allowed files)
     - [x] Execute file (any or from whitelist only? whitelist example: *.mp3, *.avi)
   - [ ] Sound
-    - [ ] Volume change (by setting 0-100 value)
+    - [x] Volume change (by setting 0-100 value)
     - [ ] Change current output device (speakers / headset / headphone)
     - [ ] Change current input device (mic / headset)
   
