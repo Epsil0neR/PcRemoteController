@@ -18,9 +18,9 @@
 
   <ItemGroup>
     <PackageReference Include="Epsiloner.Core" Version="1.0.11" />
-    <PackageReference Include="NLog" Version="4.6.7" />
-    <PackageReference Include="NLog.Config" Version="4.6.7" />
-    <PackageReference Include="NLog.Schema" Version="4.6.7" />
+    <PackageReference Include="NLog" Version="4.6.8" />
+    <PackageReference Include="NLog.Config" Version="4.6.8" />
+    <PackageReference Include="NLog.Schema" Version="4.6.8" />
     <PackageReference Include="Topshelf" Version="4.2.1" />
     <PackageReference Include="Topshelf.NLog" Version="4.2.1" />
 
