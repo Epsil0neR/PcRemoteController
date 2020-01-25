@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Epsiloner.Core" Version="1.0.11" />
+    <PackageReference Include="Epsiloner.Core" Version="1.0.19" />
     <PackageReference Include="NAudio" Version="1.9.0" />
     <PackageReference Include="OpenHardwareMonitor.Core" Version="0.8.0.5" />
   </ItemGroup>
