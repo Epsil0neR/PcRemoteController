@@ -6,6 +6,13 @@
     <RuntimeIdentifier>win10-x64</RuntimeIdentifier>
     <PublishTrimmed>true</PublishTrimmed>
     <PublishReadyToRun>true</PublishReadyToRun>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+
+    <Version>1.0.0</Version>
+    <AssemblyVersion>$(Version)</AssemblyVersion>
+
+    <Authors>Veniamin Lytkin @ Epsil0neR</Authors>
+    <Copyright>Copyright © Epsil0neR 2020</Copyright>
     <!--<PublishSingleFile>true</PublishSingleFile>-->
   </PropertyGroup>
 
@@ -30,21 +37,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="Web\icon.ico" />
     <Content Include="Web\**\*.*">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
 
-  <ItemGroup>
     <None Remove="settings.config" />
-    <None Remove="Web\files.html" />
-    <None Remove="Web\index.html" />
-    <None Remove="Web\movie.html" />
-    <None Remove="Web\Scripts\files.js" />
-    <None Remove="Web\Styles\styles.css" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="settings.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
