@@ -14,8 +14,16 @@ namespace RemoteController.Service
             var proc = Process.GetCurrentProcess();
             var loc = proc.MainModule?.FileName;
             var dir = Path.GetDirectoryName(loc);
-            Console.WriteLine($"Base path: {dir}");
-            Console.WriteLine($"AppContext.BaseDirectory: {AppContext.BaseDirectory}");
+#if DEBUG
+            Console.Write("Base path: ");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine(dir);
+            Console.ResetColor();
+            Console.Write("AppContext.BaseDirectory: ");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine(AppContext.BaseDirectory);
+            Console.ResetColor();
+#endif
             var config = new ConfigurationBuilder()
                 .SetBasePath(dir)
                 .AddJsonFile("settings.config", true, true)
