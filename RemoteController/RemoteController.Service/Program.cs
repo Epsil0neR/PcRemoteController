@@ -73,6 +73,11 @@ namespace RemoteController.Service
             Console.ResetColor();
         }
 
+        /// <summary>
+        /// Log method used by NLog. DO NOT REMOVE IT unless it also removed in NLog.config file.
+        /// </summary>
+        /// <param name="level"></param>
+        /// <param name="message"></param>
         public static void LogMethod(string level, string message)
         {
             ConsoleColor color = level switch
