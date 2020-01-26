@@ -45,7 +45,7 @@ namespace RemoteController.Service
             Configurator.Configure(InformersManager);
             Configurator.SetContexts(Manipulators, FileSystemConfig);
             Configurator.Configure(Manipulators, Service, InformersManager);
-            Configurator.Web(Http);
+            Configurator.Web(Http, Logger);
         }
 
         private void InformersManagerOnInformerChanged(object sender, BaseInformer informer)

@@ -8,6 +8,7 @@ using RemoteController.Manipulator;
 using RemoteController.Manipulator.Contexts;
 using RemoteController.Service.Configs;
 using RemoteController.WebSocket;
+using Topshelf.Logging;
 using WebSocketSharp;
 using WebSocketSharp.Net;
 using WebSocketSharp.Server;
@@ -125,8 +126,23 @@ namespace RemoteController.Service
             manipulators.SetContext<IMouseSimulator>(null);
         }
 
-        public static void Web(HttpServer http)
+        public static void Web(HttpServer http, LogWriter logger)
         {
+            http.Log.Output = (data, s) =>
+            {
+                var level = data.Level switch
+                {
+                    LogLevel.Trace => LoggingLevel.Debug,
+                    LogLevel.Debug => LoggingLevel.Debug,
+                    LogLevel.Info => LoggingLevel.Info,
+                    LogLevel.Warn => LoggingLevel.Warn,
+                    LogLevel.Error => LoggingLevel.Error,
+                    LogLevel.Fatal => LoggingLevel.Fatal,
+                    _ => LoggingLevel.None
+                };
+                logger.Log(level, data.ToString());
+            };
+
 #if DEBUG
             http.DocumentRootPath = "../../../../Web";
 #else

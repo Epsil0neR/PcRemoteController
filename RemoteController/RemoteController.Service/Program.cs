@@ -7,7 +7,7 @@ using Topshelf.Logging;
 
 namespace RemoteController.Service
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
@@ -16,13 +16,9 @@ namespace RemoteController.Service
             var dir = Path.GetDirectoryName(loc);
 #if DEBUG
             Console.Write("Base path: ");
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine(dir);
-            Console.ResetColor();
+            WriteLineColored(ConsoleColor.Green, dir);
             Console.Write("AppContext.BaseDirectory: ");
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine(AppContext.BaseDirectory);
-            Console.ResetColor();
+            WriteLineColored(ConsoleColor.Green, AppContext.BaseDirectory);
 #endif
             var config = new ConfigurationBuilder()
                 .SetBasePath(dir)
@@ -62,6 +58,34 @@ namespace RemoteController.Service
 
             var exitCode = (int)Convert.ChangeType(rv, rv.GetTypeCode());
             Environment.ExitCode = exitCode;
+        }
+
+        public static void WriteColored(ConsoleColor color, string text)
+        {
+            Console.ForegroundColor = color;
+            Console.Write(text);
+            Console.ResetColor();
+        }
+        public static void WriteLineColored(ConsoleColor color, string text)
+        {
+            Console.ForegroundColor = color;
+            Console.WriteLine(text);
+            Console.ResetColor();
+        }
+
+        public static void LogMethod(string level, string message)
+        {
+            ConsoleColor color = level switch
+            {
+                "Trace" => ConsoleColor.White,
+                "Debug" => ConsoleColor.White,
+                "Info" => ConsoleColor.White,
+                "Warn" => ConsoleColor.Yellow,
+                "Error" => ConsoleColor.Red,
+                "Fatal" => ConsoleColor.DarkRed,
+                _ => ConsoleColor.White
+            };
+            WriteLineColored(color, message);
         }
     }
 }
