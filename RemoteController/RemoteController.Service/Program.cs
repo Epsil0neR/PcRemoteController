@@ -60,12 +60,23 @@ namespace RemoteController.Service
             Environment.ExitCode = exitCode;
         }
 
+        /// <summary>
+        /// Writes specified message in colored way without going to next line after specified <paramref name="text"/>.
+        /// </summary>
+        /// <param name="color"></param>
+        /// <param name="text"></param>
         public static void WriteColored(ConsoleColor color, string text)
         {
             Console.ForegroundColor = color;
             Console.Write(text);
             Console.ResetColor();
         }
+
+        /// <summary>
+        /// Writes specified message in colored way.
+        /// </summary>
+        /// <param name="color"></param>
+        /// <param name="text"></param>
         public static void WriteLineColored(ConsoleColor color, string text)
         {
             Console.ForegroundColor = color;
@@ -78,6 +89,7 @@ namespace RemoteController.Service
         /// </summary>
         /// <param name="level"></param>
         /// <param name="message"></param>
+        // ReSharper disable once UnusedMember.Global
         public static void LogMethod(string level, string message)
         {
             ConsoleColor color = level switch
