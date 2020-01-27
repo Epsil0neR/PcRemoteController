@@ -141,7 +141,10 @@ namespace RemoteController.Service
                     LogLevel.Fatal => Level.Fatal,
                     _ => Level.Off
                 };
-                log.Log(level, data.ToString());
+                var m = data.Caller?.GetMethod();
+                var separator = data.Message.Contains(Environment.NewLine) ? Environment.NewLine : " | ";
+                var text = $"{m?.DeclaringType?.Name ?? "unknown"}.{m?.Name ?? "unknown"}{separator}{data.Message}";
+                log.Log(level, text);
             };
 
 #if DEBUG
