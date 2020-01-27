@@ -69,10 +69,9 @@ namespace RemoteController.Service
             void ServerOnClientConnected(object sender, EventArgs e)
             {
                 var socket = sender as IWsSocket;
-                var behavior = socket as WebSocketBehavior;
-                if (socket == null)
+                if (!(socket is WebSocketBehavior behavior))
                     return;
-
+                
                 var task = Task.Delay(1000);
                 task.ConfigureAwait(false);
                 task.ContinueWith(t =>
@@ -83,6 +82,15 @@ namespace RemoteController.Service
                     informersManager.Informers.Send(socket);
                 });
             }
+
+            service.Server.PropertyChanged += (sender, args) =>
+            {
+                if (args.PropertyName == nameof(WsServer.ConnectionsCount))
+                {
+                    Console.Write("Connected clients: ");
+                    Program.WriteLineColored(ConsoleColor.Green, service.Server.ConnectionsCount.ToString());
+                }
+            };
 
             var soundInformer = informersManager.Informer<SoundInformer>();
             if (soundInformer != null)
