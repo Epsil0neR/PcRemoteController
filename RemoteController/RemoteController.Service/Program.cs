@@ -10,7 +10,6 @@ namespace RemoteController.Service
 {
     public class Program
     {
-        public static LogWriter LogWriter { get; private set; }
         public static Logger Logger { get; set; }
 
         static void Main(string[] args)
@@ -36,8 +35,7 @@ namespace RemoteController.Service
                 x.UseNLog();
                 x.Service<RemoteControllerService>(c =>
                 {
-                    LogWriter = HostLogger.Current.Get(string.Empty);
-                    c.ConstructUsing(name => new RemoteControllerService(LogWriter, config));
+                    c.ConstructUsing(name => new RemoteControllerService(Logger, config));
                     c.WhenStarted((s, host) => s.Start(host));
                     c.WhenStopped((s, host) => s.Stop(host));
                 });

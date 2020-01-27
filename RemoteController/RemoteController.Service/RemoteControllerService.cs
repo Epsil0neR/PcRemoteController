@@ -1,11 +1,11 @@
 ﻿using System;
 using Microsoft.Extensions.Configuration;
+using NLog;
 using RemoteController.Informer;
 using RemoteController.Manipulator;
 using RemoteController.Service.Configs;
 using RemoteController.WebSocket;
 using Topshelf;
-using Topshelf.Logging;
 using WebSocketSharp.Server;
 
 namespace RemoteController.Service
@@ -14,8 +14,7 @@ namespace RemoteController.Service
     {
         public IConfiguration Config { get; }
 
-        //THIS LINE IS IMPORTANT - this is how we get logger.
-        public LogWriter Logger { get; }
+        public Logger Logger { get; }
         public ManipulatorsManager Manipulators { get; }
         public WsServer Server { get; }
         public WsService Service { get; }
@@ -25,9 +24,9 @@ namespace RemoteController.Service
         public FileSystemConfig FileSystemConfig { get; }
         public ServerConfig ServerConfig { get; }
 
-        public RemoteControllerService(LogWriter logger, IConfiguration config)
+        public RemoteControllerService(Logger logger, IConfiguration config)
         {
-            Logger = logger ?? HostLogger.Get<RemoteControllerService>();
+            Logger = logger ?? throw new ArgumentNullException(nameof(logger));
             Config = config ?? throw new ArgumentNullException(nameof(config));
 
             FileSystemConfig = new FileSystemConfig();
@@ -47,6 +46,7 @@ namespace RemoteController.Service
             Configurator.Configure(Manipulators, Service, InformersManager);
             Configurator.Web(Http, Logger);
         }
+
 
         private void InformersManagerOnInformerChanged(object sender, BaseInformer informer)
         {
