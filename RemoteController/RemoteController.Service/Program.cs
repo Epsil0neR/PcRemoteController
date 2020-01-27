@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using Microsoft.Extensions.Configuration;
+using NLog;
 using Topshelf;
 using Topshelf.Logging;
 
@@ -9,8 +10,13 @@ namespace RemoteController.Service
 {
     public class Program
     {
+        public static LogWriter LogWriter { get; private set; }
+        public static Logger Logger { get; set; }
+
         static void Main(string[] args)
         {
+            Logger = LogManager.GetLogger("File");
+
             var proc = Process.GetCurrentProcess();
             var loc = proc.MainModule?.FileName;
             var dir = Path.GetDirectoryName(loc);
@@ -27,10 +33,11 @@ namespace RemoteController.Service
 
             var rv = HostFactory.Run(x =>
             {
+                x.UseNLog();
                 x.Service<RemoteControllerService>(c =>
                 {
-                    x.UseNLog();
-                    c.ConstructUsing(name => new RemoteControllerService(HostLogger.Current.Get(string.Empty), config));
+                    LogWriter = HostLogger.Current.Get(string.Empty);
+                    c.ConstructUsing(name => new RemoteControllerService(LogWriter, config));
                     c.WhenStarted((s, host) => s.Start(host));
                     c.WhenStopped((s, host) => s.Stop(host));
                 });
@@ -59,6 +66,7 @@ namespace RemoteController.Service
             var exitCode = (int)Convert.ChangeType(rv, rv.GetTypeCode());
             Environment.ExitCode = exitCode;
         }
+
 
         /// <summary>
         /// Writes specified message in colored way without going to next line after specified <paramref name="text"/>.
@@ -102,6 +110,18 @@ namespace RemoteController.Service
                 "Fatal" => ConsoleColor.DarkRed,
                 _ => ConsoleColor.White
             };
+            var l = level switch
+            {
+                "Trace" => LogLevel.Trace,
+                "Debug" => LogLevel.Debug,
+                "Info" => LogLevel.Info,
+                "Warn" => LogLevel.Warn,
+                "Error" => LogLevel.Error,
+                "Fatal" => LogLevel.Fatal,
+                _ => LogLevel.Info
+            };
+
+            Logger.Log(l, message);
             WriteLineColored(color, message);
         }
     }
