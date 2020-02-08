@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "start": "ng serve --host 0.0.0.0",
-    "service": "..\\..\\RemoteController.Service\\bin\\publish\\netcoreapp3.0\\RemoteController.Service.exe",
+    "service": "..\\..\\RemoteController.Service\\bin\\publish\\netcoreapp3.0\\RemoteController.Service.exe"
+  },
+  "scripts-ecluded-by-Epsil0neR": {
     "ng": "ng",
     "build": "ng build",
     "build:ssr": "ng run RemoteController.Client:server:dev",
