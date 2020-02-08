@@ -18,8 +18,11 @@
     </div>
   </main>
   <div class="container-fluid editor-controls">
-    <div class="col-4">
+    <div class="col-12" style="margin: 0 0 4px 0;">
       <button (click)="addControl()" class="btn btn-lg btn-primary">Add control</button>
+    </div>
+    <div class="col-4">
+      <button (click)="delete()" class="btn btn-lg btn-danger">Delete</button>
     </div>
     <div class="col-4">
       <button (click)="navigateToPage()" class="btn btn-lg btn-secondary">Cancel</button>

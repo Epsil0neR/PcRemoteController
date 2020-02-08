@@ -86,6 +86,15 @@ export class PageEditorComponent implements OnInit {
     this.navigateToPage();
   }
 
+  delete() {
+    const confirmed = confirm('Delete this page?');
+    if (!confirmed)
+      return;
+
+    this.pagesService.delete(this.name);
+    this.router.navigate(['/']);
+  }
+
   navigateToPage() {
     this.router.navigate(['/', 'p', this.name]);
   }
