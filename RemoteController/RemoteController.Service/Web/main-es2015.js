@@ -100,7 +100,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<section [hidden]=\"!show || showCreateControl\">\r\n  <main class=\"container-fluid\">\r\n    <div class=\"form-group\">\r\n      <input\r\n        [(ngModel)]=\"title\"\r\n        autofocus\r\n        placeholder=\"Title\"\r\n        class=\"form-control form-control-lg\"\r\n      />\r\n    </div>\r\n    <div [sortablejs]=\"controls\" [sortablejsOptions]=\"{ delay: 100 }\">\r\n      <rc-control-editor-view\r\n        *ngFor=\"let c of controls\"\r\n        [ngClass]=\"c.col | columnClassName\"\r\n        [control]=\"c\"\r\n        (openEditor)=\"openControlEditor(c)\"\r\n      ></rc-control-editor-view>\r\n    </div>\r\n  </main>\r\n  <div class=\"container-fluid editor-controls\">\r\n    <div class=\"col-4\">\r\n      <button (click)=\"addControl()\" class=\"btn btn-lg btn-primary\">Add control</button>\r\n    </div>\r\n    <div class=\"col-4\">\r\n      <button (click)=\"navigateToPage()\" class=\"btn btn-lg btn-secondary\">Cancel</button>\r\n    </div>\r\n    <div class=\"col-4\">\r\n      <button (click)=\"save()\" class=\"btn btn-lg btn-primary\">Done</button>\r\n    </div>\r\n  </div>\r\n</section>\r\n\r\n<rc-control-editor\r\n  [hidden]=\"show\"\r\n  (cancel)=\"updateControl()\"\r\n  (save)=\"updateControl($event)\"\r\n  (delete)=\"deleteControl($event)\"\r\n></rc-control-editor>\r\n\r\n<rc-create-control\r\n  [hidden]=\"!showCreateControl\"\r\n  (cancel)=\"hideCreateControl()\"\r\n  (submit)=\"createControl($event)\"\r\n></rc-create-control>\r\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<section [hidden]=\"!show || showCreateControl\">\r\n  <main class=\"container-fluid\">\r\n    <div class=\"form-group\">\r\n      <input\r\n        [(ngModel)]=\"title\"\r\n        autofocus\r\n        placeholder=\"Title\"\r\n        class=\"form-control form-control-lg\"\r\n      />\r\n    </div>\r\n    <div [sortablejs]=\"controls\" [sortablejsOptions]=\"{ delay: 100 }\">\r\n      <rc-control-editor-view\r\n        *ngFor=\"let c of controls\"\r\n        [ngClass]=\"c.col | columnClassName\"\r\n        [control]=\"c\"\r\n        (openEditor)=\"openControlEditor(c)\"\r\n      ></rc-control-editor-view>\r\n    </div>\r\n  </main>\r\n  <div class=\"container-fluid editor-controls\">\r\n    <div class=\"col-12\" style=\"margin: 0 0 4px 0;\">\r\n      <button (click)=\"addControl()\" class=\"btn btn-lg btn-primary\">Add control</button>\r\n    </div>\r\n    <div class=\"col-4\">\r\n      <button (click)=\"delete()\" class=\"btn btn-lg btn-danger\">Delete</button>\r\n    </div>\r\n    <div class=\"col-4\">\r\n      <button (click)=\"navigateToPage()\" class=\"btn btn-lg btn-secondary\">Cancel</button>\r\n    </div>\r\n    <div class=\"col-4\">\r\n      <button (click)=\"save()\" class=\"btn btn-lg btn-primary\">Done</button>\r\n    </div>\r\n  </div>\r\n</section>\r\n\r\n<rc-control-editor\r\n  [hidden]=\"show\"\r\n  (cancel)=\"updateControl()\"\r\n  (save)=\"updateControl($event)\"\r\n  (delete)=\"deleteControl($event)\"\r\n></rc-control-editor>\r\n\r\n<rc-create-control\r\n  [hidden]=\"!showCreateControl\"\r\n  (cancel)=\"hideCreateControl()\"\r\n  (submit)=\"createControl($event)\"\r\n></rc-create-control>\r\n");
 
 /***/ }),
 
@@ -204,7 +204,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<input\n  #inp (change)='this.setVolume($event.target.value)'\n  [attr.disabled]=\"isEnabled ? null : ''\"\n  [attr.title]='input.nativeElement.value'\n  class=\"custom-range\"\n  type=\"range\"\n  min=\"0\"\n  max=\"100\"\n  value=\"0\"\n  step=\"1\" />\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<input\r\n  #inp (change)='this.setVolume($event.target.value)'\r\n  [attr.disabled]=\"isEnabled ? null : ''\"\r\n  [attr.title]='input.nativeElement.value'\r\n  class=\"custom-range\"\r\n  type=\"range\"\r\n  min=\"0\"\r\n  max=\"100\"\r\n  value=\"0\"\r\n  step=\"1\" />\r\n");
 
 /***/ }),
 
@@ -217,7 +217,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<rc-control-column-editor *ngIf=\"!!data\" [(value)]=\"data.col\"></rc-control-column-editor>\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<rc-control-column-editor *ngIf=\"!!data\" [(value)]=\"data.col\"></rc-control-column-editor>\r\n");
 
 /***/ }),
 
@@ -832,7 +832,8 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NavMenuComponent", function() { return NavMenuComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
-/* harmony import */ var src_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/core */ "./src/core/index.ts");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm2015/index.js");
+/* harmony import */ var src_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/core */ "./src/core/index.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -847,10 +848,13 @@ var __importDefault = (undefined && undefined.__importDefault) || function (mod)
 };
 
 
+
 let NavMenuComponent = class NavMenuComponent {
-    constructor(pagesService, service) {
+    constructor(pagesService, service, elementRef, renderer) {
         this.pagesService = pagesService;
         this.service = service;
+        this.elementRef = elementRef;
+        this.renderer = renderer;
         this.isExpanded = false;
         this.isConnected = false;
         this.subscriptions = [];
@@ -858,6 +862,11 @@ let NavMenuComponent = class NavMenuComponent {
     ngOnInit() {
         this.subscriptions.push(this.pagesService.pages.subscribe(value => this.pages = value));
         this.subscriptions.push(this.service.isConnected.subscribe(value => this.isConnected = value));
+        const sub = new rxjs__WEBPACK_IMPORTED_MODULE_1__["Subscription"](this.renderer.listen('document', 'click', (evt) => {
+            if (this.isExpanded && !this.elementRef.nativeElement.contains(evt.target))
+                this.isExpanded = false;
+        }));
+        this.subscriptions.push(sub);
     }
     ngOnDestroy() {
         this.subscriptions.forEach(x => x.unsubscribe());
@@ -880,8 +889,10 @@ let NavMenuComponent = class NavMenuComponent {
     }
 };
 NavMenuComponent.ctorParameters = () => [
-    { type: src_core__WEBPACK_IMPORTED_MODULE_1__["PagesService"] },
-    { type: src_core__WEBPACK_IMPORTED_MODULE_1__["WebSocketService"] }
+    { type: src_core__WEBPACK_IMPORTED_MODULE_2__["PagesService"] },
+    { type: src_core__WEBPACK_IMPORTED_MODULE_2__["WebSocketService"] },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"] },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Renderer2"] }
 ];
 NavMenuComponent = __decorate([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -889,7 +900,10 @@ NavMenuComponent = __decorate([
         template: __importDefault(__webpack_require__(/*! raw-loader!./nav-menu.component.html */ "./node_modules/raw-loader/dist/cjs.js!./src/app/components/nav-menu/nav-menu.component.html")).default,
         styles: [__importDefault(__webpack_require__(/*! ./nav-menu.component.css */ "./src/app/components/nav-menu/nav-menu.component.css")).default]
     }),
-    __metadata("design:paramtypes", [src_core__WEBPACK_IMPORTED_MODULE_1__["PagesService"], src_core__WEBPACK_IMPORTED_MODULE_1__["WebSocketService"]])
+    __metadata("design:paramtypes", [src_core__WEBPACK_IMPORTED_MODULE_2__["PagesService"],
+        src_core__WEBPACK_IMPORTED_MODULE_2__["WebSocketService"],
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"],
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["Renderer2"]])
 ], NavMenuComponent);
 
 
@@ -1068,6 +1082,13 @@ let PageEditorComponent = class PageEditorComponent {
         details.title = this.title;
         this.pagesService.update(this.name, details);
         this.navigateToPage();
+    }
+    delete() {
+        const confirmed = confirm('Delete this page?');
+        if (!confirmed)
+            return;
+        this.pagesService.delete(this.name);
+        this.router.navigate(['/']);
     }
     navigateToPage() {
         this.router.navigate(['/', 'p', this.name]);
@@ -4369,7 +4390,7 @@ VolumeModule = VolumeModule_1 = __decorate([
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! E:\Projects\_git\Epsil0neR\PcRemoteController\RemoteController\RemoteController.Client\ClientApp\src\main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! e:\Projects\_git\Epsil0neR\PcRemoteController\RemoteController\RemoteController.Client\ClientApp\src\main.ts */"./src/main.ts");
 
 
 /***/ })

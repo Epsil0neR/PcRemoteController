@@ -179,7 +179,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<section [hidden]=\"!show || showCreateControl\">\r\n  <main class=\"container-fluid\">\r\n    <div class=\"form-group\">\r\n      <input\r\n        [(ngModel)]=\"title\"\r\n        autofocus\r\n        placeholder=\"Title\"\r\n        class=\"form-control form-control-lg\"\r\n      />\r\n    </div>\r\n    <div [sortablejs]=\"controls\" [sortablejsOptions]=\"{ delay: 100 }\">\r\n      <rc-control-editor-view\r\n        *ngFor=\"let c of controls\"\r\n        [ngClass]=\"c.col | columnClassName\"\r\n        [control]=\"c\"\r\n        (openEditor)=\"openControlEditor(c)\"\r\n      ></rc-control-editor-view>\r\n    </div>\r\n  </main>\r\n  <div class=\"container-fluid editor-controls\">\r\n    <div class=\"col-4\">\r\n      <button (click)=\"addControl()\" class=\"btn btn-lg btn-primary\">Add control</button>\r\n    </div>\r\n    <div class=\"col-4\">\r\n      <button (click)=\"navigateToPage()\" class=\"btn btn-lg btn-secondary\">Cancel</button>\r\n    </div>\r\n    <div class=\"col-4\">\r\n      <button (click)=\"save()\" class=\"btn btn-lg btn-primary\">Done</button>\r\n    </div>\r\n  </div>\r\n</section>\r\n\r\n<rc-control-editor\r\n  [hidden]=\"show\"\r\n  (cancel)=\"updateControl()\"\r\n  (save)=\"updateControl($event)\"\r\n  (delete)=\"deleteControl($event)\"\r\n></rc-control-editor>\r\n\r\n<rc-create-control\r\n  [hidden]=\"!showCreateControl\"\r\n  (cancel)=\"hideCreateControl()\"\r\n  (submit)=\"createControl($event)\"\r\n></rc-create-control>\r\n";
+    __webpack_exports__["default"] = "<section [hidden]=\"!show || showCreateControl\">\r\n  <main class=\"container-fluid\">\r\n    <div class=\"form-group\">\r\n      <input\r\n        [(ngModel)]=\"title\"\r\n        autofocus\r\n        placeholder=\"Title\"\r\n        class=\"form-control form-control-lg\"\r\n      />\r\n    </div>\r\n    <div [sortablejs]=\"controls\" [sortablejsOptions]=\"{ delay: 100 }\">\r\n      <rc-control-editor-view\r\n        *ngFor=\"let c of controls\"\r\n        [ngClass]=\"c.col | columnClassName\"\r\n        [control]=\"c\"\r\n        (openEditor)=\"openControlEditor(c)\"\r\n      ></rc-control-editor-view>\r\n    </div>\r\n  </main>\r\n  <div class=\"container-fluid editor-controls\">\r\n    <div class=\"col-12\" style=\"margin: 0 0 4px 0;\">\r\n      <button (click)=\"addControl()\" class=\"btn btn-lg btn-primary\">Add control</button>\r\n    </div>\r\n    <div class=\"col-4\">\r\n      <button (click)=\"delete()\" class=\"btn btn-lg btn-danger\">Delete</button>\r\n    </div>\r\n    <div class=\"col-4\">\r\n      <button (click)=\"navigateToPage()\" class=\"btn btn-lg btn-secondary\">Cancel</button>\r\n    </div>\r\n    <div class=\"col-4\">\r\n      <button (click)=\"save()\" class=\"btn btn-lg btn-primary\">Done</button>\r\n    </div>\r\n  </div>\r\n</section>\r\n\r\n<rc-control-editor\r\n  [hidden]=\"show\"\r\n  (cancel)=\"updateControl()\"\r\n  (save)=\"updateControl($event)\"\r\n  (delete)=\"deleteControl($event)\"\r\n></rc-control-editor>\r\n\r\n<rc-create-control\r\n  [hidden]=\"!showCreateControl\"\r\n  (cancel)=\"hideCreateControl()\"\r\n  (submit)=\"createControl($event)\"\r\n></rc-create-control>\r\n";
     /***/
   },
 
@@ -339,7 +339,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<input\n  #inp (change)='this.setVolume($event.target.value)'\n  [attr.disabled]=\"isEnabled ? null : ''\"\n  [attr.title]='input.nativeElement.value'\n  class=\"custom-range\"\n  type=\"range\"\n  min=\"0\"\n  max=\"100\"\n  value=\"0\"\n  step=\"1\" />\n";
+    __webpack_exports__["default"] = "<input\r\n  #inp (change)='this.setVolume($event.target.value)'\r\n  [attr.disabled]=\"isEnabled ? null : ''\"\r\n  [attr.title]='input.nativeElement.value'\r\n  class=\"custom-range\"\r\n  type=\"range\"\r\n  min=\"0\"\r\n  max=\"100\"\r\n  value=\"0\"\r\n  step=\"1\" />\r\n";
     /***/
   },
 
@@ -359,7 +359,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<rc-control-column-editor *ngIf=\"!!data\" [(value)]=\"data.col\"></rc-control-column-editor>\n";
+    __webpack_exports__["default"] = "<rc-control-column-editor *ngIf=\"!!data\" [(value)]=\"data.col\"></rc-control-column-editor>\r\n";
     /***/
   },
 
@@ -1322,7 +1322,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony import */
 
 
-    var src_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
+    var rxjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
+    /*! rxjs */
+    "./node_modules/rxjs/_esm2015/index.js");
+    /* harmony import */
+
+
+    var src_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
     /*! src/core */
     "./src/core/index.ts");
 
@@ -1349,11 +1355,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     var NavMenuComponent =
     /*#__PURE__*/
     function () {
-      function NavMenuComponent(pagesService, service) {
+      function NavMenuComponent(pagesService, service, elementRef, renderer) {
         _classCallCheck(this, NavMenuComponent);
 
         this.pagesService = pagesService;
         this.service = service;
+        this.elementRef = elementRef;
+        this.renderer = renderer;
         this.isExpanded = false;
         this.isConnected = false;
         this.subscriptions = [];
@@ -1370,6 +1378,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           this.subscriptions.push(this.service.isConnected.subscribe(function (value) {
             return _this2.isConnected = value;
           }));
+          var sub = new rxjs__WEBPACK_IMPORTED_MODULE_1__["Subscription"](this.renderer.listen('document', 'click', function (evt) {
+            if (_this2.isExpanded && !_this2.elementRef.nativeElement.contains(evt.target)) _this2.isExpanded = false;
+          }));
+          this.subscriptions.push(sub);
         }
       }, {
         key: "ngOnDestroy",
@@ -1406,9 +1418,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
     NavMenuComponent.ctorParameters = function () {
       return [{
-        type: src_core__WEBPACK_IMPORTED_MODULE_1__["PagesService"]
+        type: src_core__WEBPACK_IMPORTED_MODULE_2__["PagesService"]
       }, {
-        type: src_core__WEBPACK_IMPORTED_MODULE_1__["WebSocketService"]
+        type: src_core__WEBPACK_IMPORTED_MODULE_2__["WebSocketService"]
+      }, {
+        type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"]
+      }, {
+        type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Renderer2"]
       }];
     };
 
@@ -1420,7 +1436,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       styles: [__importDefault(__webpack_require__(
       /*! ./nav-menu.component.css */
       "./src/app/components/nav-menu/nav-menu.component.css")).default]
-    }), __metadata("design:paramtypes", [src_core__WEBPACK_IMPORTED_MODULE_1__["PagesService"], src_core__WEBPACK_IMPORTED_MODULE_1__["WebSocketService"]])], NavMenuComponent);
+    }), __metadata("design:paramtypes", [src_core__WEBPACK_IMPORTED_MODULE_2__["PagesService"], src_core__WEBPACK_IMPORTED_MODULE_2__["WebSocketService"], _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"], _angular_core__WEBPACK_IMPORTED_MODULE_0__["Renderer2"]])], NavMenuComponent);
     /***/
   },
 
@@ -1712,6 +1728,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           details.title = this.title;
           this.pagesService.update(this.name, details);
           this.navigateToPage();
+        }
+      }, {
+        key: "delete",
+        value: function _delete() {
+          var confirmed = confirm('Delete this page?');
+          if (!confirmed) return;
+          this.pagesService.delete(this.name);
+          this.router.navigate(['/']);
         }
       }, {
         key: "navigateToPage",
@@ -6898,7 +6922,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
   /***/
   function _(module, exports, __webpack_require__) {
     module.exports = __webpack_require__(
-    /*! E:\Projects\_git\Epsil0neR\PcRemoteController\RemoteController\RemoteController.Client\ClientApp\src\main.ts */
+    /*! e:\Projects\_git\Epsil0neR\PcRemoteController\RemoteController\RemoteController.Client\ClientApp\src\main.ts */
     "./src/main.ts");
     /***/
   }
