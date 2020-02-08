@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { WebSocketService, PagesService, IPage } from 'src/core';
 
@@ -13,13 +13,22 @@ export class NavMenuComponent implements OnInit, OnDestroy {
   pages: IPage[];
   isConnected: boolean = false;
 
-  constructor(private pagesService: PagesService, private service: WebSocketService) {
+  constructor(
+    private pagesService: PagesService,
+    private service: WebSocketService,
+    private renderer: Renderer2) {
     this.subscriptions = [];
   }
 
   ngOnInit() {
     this.subscriptions.push(this.pagesService.pages.subscribe(value => this.pages = value));
     this.subscriptions.push(this.service.isConnected.subscribe(value => this.isConnected = value));
+
+    const sub = new Subscription(this.renderer.listen('document', 'click', (evt) => {
+      if (this.isExpanded)
+        this.isExpanded = false;
+    }));
+    this.subscriptions.push(sub);
   }
 
   ngOnDestroy(): void {
