@@ -5,6 +5,7 @@
 
         public App()
         {
+            IoC.RegisterInstance(Log.Logger);
             DomainExceptionHandler.HandleDomainExceptions();
         }
 

@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <PackageReference Include="Epsiloner.Core" Version="1.0.19" />
+    <PackageReference Include="Epsiloner.Wpf.Core" Version="1.0.16" />
     <PackageReference Include="NLog" Version="4.6.8" />
     <PackageReference Include="NLog.Config" Version="4.6.8" />
     <PackageReference Include="NLog.Schema" Version="4.6.8" />
@@ -20,6 +21,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="3.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.0.0" />
+    <PackageReference Include="Unity" Version="5.11.6" />
   </ItemGroup>
 
   <ItemGroup>
