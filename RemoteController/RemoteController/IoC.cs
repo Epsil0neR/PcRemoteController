@@ -1,7 +1,6 @@
 ﻿using System;
 using RemoteController.IoCs;
 using Unity;
-using Unity.Lifetime;
 
 namespace RemoteController
 {
@@ -16,6 +15,11 @@ namespace RemoteController
             return container;
         }
 
+        public static void Register<TFrom, TTo>() where TTo : TFrom
+        {
+            _container.RegisterType<TFrom, TTo>();
+        }
+
         public static T Resolve<T>()
         {
             return _container.Resolve<T>();
@@ -27,7 +31,7 @@ namespace RemoteController
         }
         public static TCast Resolve<TCast>(Type t)
         {
-            return (TCast) _container.Resolve(t);
+            return (TCast)_container.Resolve(t);
         }
 
         public static void Register<T>()
