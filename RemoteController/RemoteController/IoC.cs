@@ -11,6 +11,7 @@ namespace RemoteController
         private static IUnityContainer InitializeUnityContainer()
         {
             var container = new UnityContainer();
+            container.RegisterInstance(container);
             container.AddNewExtension<DisposeDisposablesExtension>();
             return container;
         }
