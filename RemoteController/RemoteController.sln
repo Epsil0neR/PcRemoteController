@@ -19,6 +19,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Angular", "Angular", "{5D0F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WindowsService", "WindowsService", "{C053F289-E8FD-482F-9190-DA6FB384CFEA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteController.Core", "RemoteController.Core\RemoteController.Core.csproj", "{E884C770-6A1D-4429-BDFC-E2A0A95E9FDD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,10 @@ Global
 		{BDC2001C-20AF-4B26-9350-D4FE0E65A717}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BDC2001C-20AF-4B26-9350-D4FE0E65A717}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BDC2001C-20AF-4B26-9350-D4FE0E65A717}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E884C770-6A1D-4429-BDFC-E2A0A95E9FDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E884C770-6A1D-4429-BDFC-E2A0A95E9FDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E884C770-6A1D-4429-BDFC-E2A0A95E9FDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E884C770-6A1D-4429-BDFC-E2A0A95E9FDD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

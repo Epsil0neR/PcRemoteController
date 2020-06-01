@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+
+    <Authors>Veniamin Lytkin @ Epsil0neR</Authors>
+    <Copyright>Copyright © Epsil0neR 2020</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Epsiloner.Core" Version="1.0.19" />
+    <PackageReference Include="Epsiloner.Wpf.Core" Version="1.0.16" />
+    <PackageReference Include="Unity" Version="5.11.6" />
+  </ItemGroup>
+</Project>
