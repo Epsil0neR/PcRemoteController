@@ -2,6 +2,7 @@
 using System.IO;
 using WindowsInput;
 using Microsoft.Extensions.Configuration;
+using RemoteController.Attributes;
 using RemoteController.Configs;
 using RemoteController.Informer;
 using RemoteController.IoCs;
@@ -47,16 +48,9 @@ namespace RemoteController
         {
             IoC.RegisterInstance(Log.Logger);
 
-            var c = CreateConfiguration();
-            IoC.RegisterInstance(c);
-
-            var fsc = new FileSystemConfig();
-            c.GetSection("FileSystem").Bind(fsc);
-            IoC.RegisterInstance(fsc);
-
-            var sc = new ServerConfig();
-            c.GetSection("Server").Bind(sc);
-            IoC.RegisterInstance(sc);
+            var configuration = CreateConfiguration();
+            IoC.RegisterInstance(configuration);
+            ConfigSectionAttribute.Init(configuration);
 
             IoC.Register<IManipulatorsManager, ManipulatorsManager>();
             IoC.RegisterSingleton(Factories.ManipulatorsManager);

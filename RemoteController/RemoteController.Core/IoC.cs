@@ -61,5 +61,9 @@ namespace RemoteController
         {
             _container.RegisterInstance(typeof(T), instance);
         }
+        public static void RegisterInstance(Type type, object instance)
+        {
+            _container.RegisterInstance(type, instance);
+        }
     }
 }
