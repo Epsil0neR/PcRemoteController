@@ -10,10 +10,8 @@ using WebSocketSharp.Server;
 
 namespace RemoteController.Service
 {
-    public class RemoteControllerService : ServiceControl
+    public class RemoteControllerService
     {
-        public IConfiguration Config { get; }
-
         public Logger Logger { get; }
         public ManipulatorsManager Manipulators { get; }
         public WsServer Server { get; }
@@ -25,14 +23,15 @@ namespace RemoteController.Service
         public ServerConfig ServerConfig { get; }
 
         public RemoteControllerService(Logger logger, IConfiguration config)
+            : this(logger, GetFileSystemConfig(config), GetServerConfig(config))
+        {
+        }
+
+        public RemoteControllerService(Logger logger, FileSystemConfig fileSystemConfig, ServerConfig serverConfig)
         {
             Logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            Config = config ?? throw new ArgumentNullException(nameof(config));
-
-            FileSystemConfig = new FileSystemConfig();
-            ServerConfig = new ServerConfig();
-            config.GetSection("FileSystem").Bind(FileSystemConfig);
-            config.GetSection("Server").Bind(ServerConfig);
+            FileSystemConfig = fileSystemConfig ?? throw new ArgumentNullException(nameof(fileSystemConfig));
+            ServerConfig = serverConfig ?? throw new ArgumentNullException(nameof(serverConfig));
 
             Manipulators = new ManipulatorsManager();
             Http = new HttpServer(ServerConfig.Port) { KeepClean = false };
@@ -79,6 +78,19 @@ namespace RemoteController.Service
             InformersManager.Stop();
 
             return true;
+        }
+
+        private static FileSystemConfig GetFileSystemConfig(IConfiguration configuration)
+        {
+            var rv = new FileSystemConfig();
+            configuration.GetSection("FileSystem").Bind(rv);
+            return rv;
+        }
+        private static ServerConfig GetServerConfig(IConfiguration configuration)
+        {
+            var rv = new ServerConfig();
+            configuration.GetSection("Server").Bind(rv);
+            return rv;
         }
     }
 }
