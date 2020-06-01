@@ -26,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\RemoteController.Core\RemoteController.Core.csproj" />
     <ProjectReference Include="..\RemoteController.Informer\RemoteController.Informer.csproj" />
     <ProjectReference Include="..\RemoteController.Manipulator\RemoteController.Manipulator.csproj" />
     <ProjectReference Include="..\RemoteController.Service\RemoteController.Service.csproj" />
