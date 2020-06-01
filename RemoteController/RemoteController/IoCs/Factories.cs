@@ -80,13 +80,13 @@ namespace RemoteController.IoCs
             return manipulatorsManager;
         }
 
-        private static void OnInformerChanged(object? sender, BaseInformer informer)
+        private static void OnInformerChanged(object sender, BaseInformer informer)
         {
             var server = IoC.Resolve<WsServer>();
             informer.Send(server);
         }
 
-        private static void ManipulatorsManagerOnItemStateChanged(object? sender, ManipulatorsItemEventArgs e)
+        private static void ManipulatorsManagerOnItemStateChanged(object sender, ManipulatorsItemEventArgs e)
         {
             var s = IoC.Resolve<WsService>();
             if (e.Inserted)
