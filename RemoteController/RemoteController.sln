@@ -13,7 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RemoteController.Informer",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RemoteController.Client", "RemoteController.Client\RemoteController.Client.csproj", "{75AF5556-5F1F-4D31-81E8-B9178AC292E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteController", "RemoteController\RemoteController.csproj", "{BDC2001C-20AF-4B26-9350-D4FE0E65A717}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RemoteController", "RemoteController\RemoteController.csproj", "{BDC2001C-20AF-4B26-9350-D4FE0E65A717}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Angular", "Angular", "{5D0FCEAA-AF1B-4588-8BD4-785D2916D0BB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WindowsService", "WindowsService", "{C053F289-E8FD-482F-9190-DA6FB384CFEA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,6 +52,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{37D73095-C548-4169-8E70-8D6F55B05344} = {C053F289-E8FD-482F-9190-DA6FB384CFEA}
+		{75AF5556-5F1F-4D31-81E8-B9178AC292E9} = {5D0FCEAA-AF1B-4588-8BD4-785D2916D0BB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {83FA6212-DC07-44E2-A96F-1B917481B3F7}
