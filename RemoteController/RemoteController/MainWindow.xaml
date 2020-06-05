@@ -6,10 +6,15 @@
         xmlns:local="clr-namespace:RemoteController"
         xmlns:vm="clr-namespace:RemoteController.ViewModels"
         xmlns:ioCs="clr-namespace:RemoteController.IoCs"
+        xmlns:webSocket="clr-namespace:RemoteController.WebSocket;assembly=RemoteController.WebSocket"
         mc:Ignorable="d"
         DataContext="{ioCs:IoC vm:MainViewModel}"
+        d:DataContext="{d:DesignInstance vm:MainViewModel}"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-
+        <TextBlock 
+            FontSize="22"
+            Margin="4"
+            Text="{Binding WsServer.ConnectionsCount, Mode=OneWay, StringFormat='Connections count: {0}'}"/>
     </Grid>
 </Window>

@@ -25,6 +25,15 @@ namespace RemoteController.Manipulator
 
     public class FileSystemManipulation : IManipulation
     {
+        public static IManipulation[] GetManipulations()
+        {
+            return new IManipulation[]
+            {
+                new FileSystemManipulation("FileSystem.List", FileSystemManipulationMode.List),
+                new FileSystemManipulation("FileSystem.Exec", FileSystemManipulationMode.Exec)
+            };
+        }
+
         public FileSystemManipulation(string name, FileSystemManipulationMode mode)
         {
             Name = name;

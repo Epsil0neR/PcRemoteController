@@ -1,14 +1,15 @@
 ﻿using System.Diagnostics;
 using System.IO;
+using System.Windows;
 using WindowsInput;
 using Microsoft.Extensions.Configuration;
 using RemoteController.Attributes;
 using RemoteController.Configs;
+using RemoteController.Configurations;
 using RemoteController.Informer;
 using RemoteController.IoCs;
 using RemoteController.Manipulator;
 using RemoteController.Manipulator.Contexts;
-using RemoteController.Service;
 using RemoteController.WebSocket;
 using WebSocketSharp.Server;
 
@@ -26,11 +27,16 @@ namespace RemoteController
 
             //TODO: Line 45: Configurator.Configure(Manipulators, Service, InformersManager);
             //TODO: Line 46: Configurator.Web(Http, Logger);
+        }
 
-            var http = IoC.Resolve<HttpServer>();
-            http.Start();
-            var server = IoC.Resolve<WsServer>();
-            server.StartServer();
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+
+            ManipulationConfiguration.Configure();
+
+            IoC.Resolve<HttpServer>().Start();
+            IoC.Resolve<WsServer>().StartServer();
         }
 
         /// <summary>
@@ -58,9 +64,7 @@ namespace RemoteController
             IoC.RegisterSingleton(Factories.WsServer);
             IoC.RegisterSingleton(Factories.WsService);
             IoC.RegisterSingleton(Factories.InformersManager);
-
-            //TODO: Get rid of RemoteControl.Service project reference:
-            IoC.RegisterSingleton<RemoteControllerService>();
+            IoC.RegisterSingleton<SoundInformer>();
         }
 
         private static void ConfigureInformers()

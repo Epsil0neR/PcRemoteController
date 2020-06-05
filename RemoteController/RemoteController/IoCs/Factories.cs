@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Threading.Tasks;
 using RemoteController.Configs;
 using RemoteController.Informer;
 using RemoteController.Manipulator;
@@ -28,7 +29,30 @@ namespace RemoteController.IoCs
         public static WsServer WsServer(IUnityContainer c)
         {
             var httpServer = c.Resolve<HttpServer>();
-            return new WsServer(httpServer, "/Testing");
+            var server = new WsServer(httpServer, "/Testing");
+            server.ClientConnected += ServerOnClientConnected;
+            return server;
+        }
+
+        private static void ServerOnClientConnected(object sender, EventArgs e)
+        {
+            var socket = sender as IWsSocket;
+            if (!(socket is WebSocketBehavior behavior))
+                return;
+
+            var task = Task.Delay(1000);
+            task.ConfigureAwait(false);
+            task.ContinueWith(t =>
+            {
+                if (behavior?.State != WebSocketState.Open)
+                    return;
+
+                if (IoC.Container.IsRegistered<InformersManager>())
+                {
+                    var informersManager = IoC.Resolve<InformersManager>();
+                    informersManager.Informers.Send(socket);
+                }
+            });
         }
 
         public static HttpServer HttpServer(IUnityContainer c)

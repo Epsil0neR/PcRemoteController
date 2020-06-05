@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <PackageReference Include="Epsiloner.Core" Version="1.0.19" />
-    <PackageReference Include="Epsiloner.Wpf.Core" Version="1.0.16" />
     <PackageReference Include="NLog" Version="4.6.8" />
     <PackageReference Include="NLog.Config" Version="4.6.8" />
     <PackageReference Include="NLog.Schema" Version="4.6.8" />
@@ -29,7 +28,6 @@
     <ProjectReference Include="..\RemoteController.Core\RemoteController.Core.csproj" />
     <ProjectReference Include="..\RemoteController.Informer\RemoteController.Informer.csproj" />
     <ProjectReference Include="..\RemoteController.Manipulator\RemoteController.Manipulator.csproj" />
-    <ProjectReference Include="..\RemoteController.Service\RemoteController.Service.csproj" />
     <ProjectReference Include="..\RemoteController.WebSocket\RemoteController.WebSocket.csproj" />
   </ItemGroup>
 

@@ -50,6 +50,17 @@ namespace RemoteController.Manipulator
             }
         }
 
+
+        public static IManipulation[] GetManipulations()
+        {
+            return new IManipulation[]
+            {
+                new KeyboardManipulation("Key", PressAction),
+                new KeyboardManipulation("Key.Down", KeyDownAction),
+                new KeyboardManipulation("Key.Up", KeyUpAction)
+            };
+        }
+
         public KeyboardManipulation(string name, Action<IKeyboardSimulator, string> action)
             : base(name, action) { }
 

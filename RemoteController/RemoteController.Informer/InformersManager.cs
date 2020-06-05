@@ -41,6 +41,11 @@ namespace RemoteController.Informer
                 informer.CheckForChanges();
         }
 
+        /// <summary>
+        /// Finds typed informer or returns null.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         public T Informer<T>() where T : BaseInformer
         {
             return _items.OfType<T>().FirstOrDefault();

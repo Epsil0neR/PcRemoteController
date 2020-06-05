@@ -1,14 +1,17 @@
-﻿using Epsiloner.Wpf.ViewModels;
-using RemoteController.Service;
+﻿using RemoteController.WebSocket;
 
 namespace RemoteController.ViewModels
 {
-    public class MainViewModel : ViewModel
+    public class MainViewModel
     {
         //public RemoteControllerService Service { get; }
 
-        public MainViewModel()
+        public WsServer WsServer { get; }
+
+
+        public MainViewModel(WsServer wsServer)
         {
+            WsServer = wsServer;
             //Service = service;
             //Service.Start(null);
         }
