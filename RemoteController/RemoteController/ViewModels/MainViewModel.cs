@@ -1,4 +1,6 @@
-﻿using RemoteController.WebSocket;
+﻿using System;
+using RemoteController.WebSocket;
+using WebSocketSharp.Server;
 
 namespace RemoteController.ViewModels
 {
@@ -11,7 +13,7 @@ namespace RemoteController.ViewModels
 
         public MainViewModel(WsServer wsServer)
         {
-            WsServer = wsServer;
+            WsServer = wsServer ?? throw  new ArgumentNullException(nameof(wsServer));
             //Service = service;
             //Service.Start(null);
         }

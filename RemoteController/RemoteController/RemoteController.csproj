@@ -12,16 +12,16 @@
 
 
   <ItemGroup>
-    <PackageReference Include="Epsiloner.Core" Version="1.0.19" />
-    <PackageReference Include="NLog" Version="4.6.8" />
-    <PackageReference Include="NLog.Config" Version="4.6.8" />
-    <PackageReference Include="NLog.Schema" Version="4.6.8" />
+    <PackageReference Include="Epsiloner.Core" Version="1.0.21" />
+    <PackageReference Include="NLog" Version="4.7.2" />
+    <PackageReference Include="NLog.Config" Version="4.7.2" />
+    <PackageReference Include="NLog.Schema" Version="4.7.2" />
 
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="3.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.0.0" />
-    <PackageReference Include="Unity" Version="5.11.6" />
+    <PackageReference Include="Unity" Version="5.11.7" />
   </ItemGroup>
 
   <ItemGroup>
