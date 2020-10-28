@@ -11,6 +11,9 @@ namespace RemoteController.WebSocket
         public event EventHandler<CloseEventArgs> Closed;
         public event EventHandler Opened;
 
+        public string AuthToken { get; private set; }
+        public bool IsAuthenticated { get; private set; }
+
         protected override void OnMessage(MessageEventArgs e)
         {
             Message?.Invoke(this, e);
@@ -29,6 +32,15 @@ namespace RemoteController.WebSocket
         public void SendAsync(Message data, Action<bool> completed)
         {
             base.SendAsync(JsonConvert.SerializeObject(data), completed);
+        }
+
+        public void Auth(string token)
+        {
+            if (string.IsNullOrWhiteSpace(token))
+                throw new ArgumentNullException(nameof(token));
+
+            AuthToken = token;
+            IsAuthenticated = true;
         }
 
         public new void SendAsync(string data, Action<bool> completed)

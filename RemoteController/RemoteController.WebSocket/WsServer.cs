@@ -41,8 +41,6 @@ namespace RemoteController.WebSocket
         /// </summary>
         public string Path { get; }
 
-        public string FullPath { get; }
-
         /// <summary>
         /// Parent HTTP server.
         /// </summary>

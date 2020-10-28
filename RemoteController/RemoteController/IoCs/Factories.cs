@@ -1,16 +1,15 @@
 ﻿using System;
-using System.Text;
 using System.Threading.Tasks;
 using RemoteController.Configs;
 using RemoteController.Informer;
 using RemoteController.Manipulator;
+using RemoteController.Services;
 using RemoteController.WebSocket;
 using Unity;
 using WebSocketSharp;
-using WebSocketSharp.Net;
 using WebSocketSharp.Server;
-using Logger = NLog.Logger;
 using Level = NLog.LogLevel;
+using Logger = NLog.Logger;
 
 namespace RemoteController.IoCs
 {
@@ -23,7 +22,64 @@ namespace RemoteController.IoCs
         {
             var wsServer = c.Resolve<WsServer>();
             var rv = new WsService(wsServer);
+
+            rv.RegisterDataTypeForAction<string>("Auth");
+            rv.RegisterHandlerForAction("Auth", AuthMessageHandler);
+            rv.AddActionFilter(AuthenticationCheck);
+
             return rv;
+        }
+
+        /// <summary>
+        /// Checks if message can be handler vai <see cref="RemoteController.WebSocket.WsService.RegisterHandlerForAction"/>.
+        /// </summary>
+        /// <param name="msg">Message</param>
+        /// <returns></returns>
+        private static bool AuthenticationCheck(Message msg)
+        {
+            return msg.Sender.IsAuthenticated || msg.Type != MessageType.Request || msg.ActionName.Equals("Auth", StringComparison.CurrentCultureIgnoreCase);
+        }
+
+        /// <summary>
+        /// Authentication message handler.
+        /// </summary>
+        /// <param name="msg"></param>
+        private static void AuthMessageHandler(Message msg)
+        {
+            var auth = IoC.Resolve<IAuthService>();
+            var token = msg.Data?.ToString();
+
+            // Check if sender already authenticated - in that case return error message to sender and exit message handler.
+            if (auth.IsAuthorized(msg.Sender.AuthToken))
+            {
+                var m = new Message
+                {
+                    ActionName = msg.ActionName,
+                    Hash = msg.Hash,
+                    Data = "Already authenticated connection.",
+                    Type = MessageType.Error
+                };
+                msg.Sender.Send(m);
+                return;
+            }
+
+            // If no token provided - generate new one and send back to client.
+            if (!auth.IsAuthorized(token))
+            {
+                token = Guid.NewGuid().ToString("N");
+
+                var m = new Message
+                {
+                    ActionName = msg.ActionName,
+                    Hash = msg.Hash,
+                    Data = token,
+                    Type = MessageType.Response
+                };
+                msg.Sender.Send(m);
+            }
+
+            if (auth.TryAuthorize(token))
+                msg.Sender.Auth(token);
         }
 
         public static WsServer WsServer(IUnityContainer c)
@@ -90,10 +146,18 @@ namespace RemoteController.IoCs
             return http;
         }
 
+        /// <summary>
+        /// Depends on <see cref="RemoteController.WebSocket.WsServer"/>.
+        /// </summary>
+        /// <param name="c"></param>
+        /// <returns></returns>
         public static InformersManager InformersManager(IUnityContainer c)
         {
             var informersManager = new InformersManager();
-            informersManager.InformerChanged += OnInformerChanged;
+            var server = c.Resolve<WsServer>();
+            informersManager.InformerChanged +=
+                (sender, informer) => informer.Send(server);
+
             return informersManager;
         }
 
@@ -102,12 +166,6 @@ namespace RemoteController.IoCs
             var manipulatorsManager = new ManipulatorsManager();
             manipulatorsManager.ItemStateChanged += ManipulatorsManagerOnItemStateChanged;
             return manipulatorsManager;
-        }
-
-        private static void OnInformerChanged(object sender, BaseInformer informer)
-        {
-            var server = IoC.Resolve<WsServer>();
-            informer.Send(server);
         }
 
         private static void ManipulatorsManagerOnItemStateChanged(object sender, ManipulatorsItemEventArgs e)
@@ -144,85 +202,5 @@ namespace RemoteController.IoCs
                 Type = MessageType.Response
             });
         }
-
-
     }
-
-    /// <summary>
-    /// HTTP server handlers.
-    /// </summary>
-    internal static class Http
-    {
-        public static void OnGetMultiPages(object sender, HttpRequestEventArgs e)
-        {
-            var req = e.Request;
-            var res = e.Response;
-            var path = req.Url.AbsolutePath;
-            if (path == "/")
-                path += "index.html";
-
-            if (!e.TryReadFile(path, out var contents))
-            {
-                res.StatusCode = (int)HttpStatusCode.NotFound;
-                return;
-            }
-
-            if (path.EndsWith(".html"))
-            {
-                res.ContentType = "text/html";
-                res.ContentEncoding = Encoding.UTF8;
-            }
-            else if (path.EndsWith(".js"))
-            {
-                res.ContentType = "application/javascript";
-                res.ContentEncoding = Encoding.UTF8;
-            }
-            else if (path.EndsWith(".css"))
-            {
-                res.ContentType = "text/css";
-                res.ContentEncoding = Encoding.UTF8;
-            }
-
-            res.WriteContent(contents);
-        }
-
-        public static void OnGetSinglePage(object sender, HttpRequestEventArgs e)
-        {
-            var req = e.Request;
-            var res = e.Response;
-            var path = req.Url.AbsolutePath;
-
-            if (e.TryReadFile(path, out var contents))
-            {
-                if (path.EndsWith(".html"))
-                {
-                    res.ContentType = "text/html";
-                    res.ContentEncoding = Encoding.UTF8;
-                }
-                else if (path.EndsWith(".js"))
-                {
-                    res.ContentType = "application/javascript";
-                    res.ContentEncoding = Encoding.UTF8;
-                }
-                else if (path.EndsWith(".css"))
-                {
-                    res.ContentType = "text/css";
-                    res.ContentEncoding = Encoding.UTF8;
-                }
-            }
-            else if (e.TryReadFile("/index.html", out contents))
-            {
-                res.ContentType = "text/html";
-                res.ContentEncoding = Encoding.UTF8;
-            }
-            else
-            {
-                res.StatusCode = (int)HttpStatusCode.NotFound;
-                return;
-            }
-
-            res.WriteContent(contents);
-        }
-    }
-
 }

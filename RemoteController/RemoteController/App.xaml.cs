@@ -3,6 +3,7 @@ using System.IO;
 using System.Windows;
 using WindowsInput;
 using Microsoft.Extensions.Configuration;
+using NLog;
 using RemoteController.Attributes;
 using RemoteController.Configs;
 using RemoteController.Configurations;
@@ -10,6 +11,7 @@ using RemoteController.Informer;
 using RemoteController.IoCs;
 using RemoteController.Manipulator;
 using RemoteController.Manipulator.Contexts;
+using RemoteController.Services;
 using RemoteController.WebSocket;
 using WebSocketSharp.Server;
 
@@ -36,7 +38,7 @@ namespace RemoteController
             ManipulationConfiguration.Configure();
 
             IoC.Resolve<HttpServer>().Start();
-            IoC.Resolve<WsServer>().StartServer();
+            IoC.Resolve<WsService>().Server.StartServer();
         }
 
         /// <summary>
@@ -53,12 +55,14 @@ namespace RemoteController
         private void ConfigureIoC()
         {
             IoC.RegisterInstance(Log.Logger);
+            IoC.RegisterInstance<ILogger>(Log.Logger);
 
             var configuration = CreateConfiguration();
             IoC.RegisterInstance(configuration);
             ConfigSectionAttribute.Init(configuration);
 
             IoC.Register<IManipulatorsManager, ManipulatorsManager>();
+            IoC.RegisterSingleton<IAuthService, AuthService>();
             IoC.RegisterSingleton(Factories.ManipulatorsManager);
             IoC.RegisterSingleton(Factories.HttpServer);
             IoC.RegisterSingleton(Factories.WsServer);
