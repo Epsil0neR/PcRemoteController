@@ -73,6 +73,7 @@ export class WebSocketService {
   private instance: WebSocket;
 
   public isConnected: BehaviorSubject<boolean>;
+  public isAuthorized: BehaviorSubject<boolean>;
   public logRaisingEvent: boolean = false;
   /**
    * Gets or sets auto-reconnect interval in ms. Minimum is 0 -> instant reconnect.
@@ -109,6 +110,7 @@ export class WebSocketService {
 
   constructor(public url: string) {
     this.isConnected = new BehaviorSubject<boolean>(false);
+    this.isAuthorized = new BehaviorSubject<boolean>(false);
   }
 
   public addHandler<K extends keyof WebSocketServiceEventMap>(name: K, data: (data: WebSocketServiceEventMap[K]) => any): void;

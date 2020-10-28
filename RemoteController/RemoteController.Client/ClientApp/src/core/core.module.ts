@@ -2,6 +2,7 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WebSocketService } from './services/web-socket.service';
 import { PagesService } from './services/pages.service';
+import { AuthService } from './services/auth.service';
 import { InformersStateService } from './services/informers-state.service';
 import { ControlsService } from './services/controls.service';
 import { BrowserModule } from '@angular/platform-browser';
@@ -14,6 +15,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { IconsFilterPipe } from './pipes/IconsFilterPipe';
 import { FormsModule } from '@angular/forms';
 import { EnumToArrayPipe } from './pipes/EnumToArrayPipe';
+import { WebSocketMessage } from './models/WebSocketMessage';
+import { WebSocketMessageType } from './models/WebSocketMessageType';
+import { makeid } from './utils/makeid';
 
 @NgModule({
   declarations: [
@@ -57,13 +61,14 @@ export class CoreModule {
         ControlsService,
         InformersStateService,
         PagesService,
-        { provide: WebSocketService, useFactory: WebSocketServiceProvider },
+        AuthService,
+        { provide: WebSocketService, useFactory: WebSocketServiceProvider, deps: [AuthService] },
       ]
     };
   }
 }
 
-export function WebSocketServiceProvider() {
+export function WebSocketServiceProvider(authService: AuthService) {
   const l = window.location;
   const url = `ws://${l.hostname}:6431/Testing`;
   console.log('URL: ', url);
@@ -71,5 +76,9 @@ export function WebSocketServiceProvider() {
   rv.logRaisingEvent = false;
   rv.open();
   console.log('Created WebSocketService: ', rv);
+
+  // Link with auth service.
+  authService.link(rv);
+
   return rv;
 }
