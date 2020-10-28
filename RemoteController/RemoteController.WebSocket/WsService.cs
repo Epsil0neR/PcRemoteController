@@ -148,12 +148,13 @@ namespace RemoteController.WebSocket
                 if (_actionNameToDataType.ContainsKey(actionName))
                 {
                     var type = _actionNameToDataType[actionName];
-                    var data = JsonConvert.DeserializeObject(msgOrig.Data.ToString(), type);
+                    var data = DeserializeData(msgOrig.Data, type);
                     msg = new Message(socket)
                     {
                         ActionName = msgOrig.ActionName,
                         Type = msgOrig.Type,
-                        Data = data
+                        Data = data,
+                        Hash = msgOrig.Hash
                     };
                 }
                 else
@@ -174,13 +175,37 @@ namespace RemoteController.WebSocket
             }
             catch (Exception e)
             {
-                var message = new Message()
+                var message = new Message
                 {
                     Type = MessageType.Response,
                     Data = "Received unknown data."
                 };
                 var text = JsonConvert.SerializeObject(message);
                 socket.Send(text);
+            }
+        }
+
+        /// <summary>
+        /// Safely deserializes data to requested type. If fails to deserialize - returns default value for that type.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        private static object DeserializeData(object data, Type type)
+        {
+            if (data == null)
+                return type.IsValueType ? Activator.CreateInstance(type) : null;
+
+            if (type.IsInstanceOfType(data))
+                return data;
+
+            try
+            {
+                return JsonConvert.DeserializeObject(data.ToString(), type);
+            }
+            catch (JsonReaderException)
+            {
+                return Activator.CreateInstance(type);
             }
         }
 
