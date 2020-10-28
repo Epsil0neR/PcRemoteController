@@ -37,8 +37,13 @@ namespace RemoteController
 
             ManipulationConfiguration.Configure();
 
-            IoC.Resolve<HttpServer>().Start();
-            IoC.Resolve<WsService>().Server.StartServer();
+            var serverConfig = IoC.Resolve<ServerConfig>();
+
+            if (serverConfig.AutoConnect) //TODO: Add way to start and stop manually server from GUI.
+            {
+                IoC.Resolve<HttpServer>().Start();
+                IoC.Resolve<WsService>().Server.StartServer();
+            }
         }
 
         /// <summary>
@@ -91,6 +96,7 @@ namespace RemoteController
                 fsc = IoC.Resolve<FileSystemContext>();
                 manager.SetContext(fsc);
             }
+
             fsc.Roots = config.Roots;
         }
 
