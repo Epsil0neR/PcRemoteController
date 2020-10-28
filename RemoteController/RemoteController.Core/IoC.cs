@@ -52,6 +52,11 @@ namespace RemoteController
             _container.RegisterSingleton<T>();
         }
 
+        public static void RegisterSingleton<TFrom, TTo>() where TTo: TFrom
+        {
+            _container.RegisterSingleton<TFrom, TTo>();
+        }
+
         public static void RegisterSingleton<T>(Func<IUnityContainer, T> factory)
         {
             _container.RegisterFactory<T>(c => factory(c), new ContainerControlledLifetimeManager());
