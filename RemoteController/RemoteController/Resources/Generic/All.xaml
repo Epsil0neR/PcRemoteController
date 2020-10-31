@@ -1,0 +1,11 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <ResourceDictionary.MergedDictionaries>
+
+        <!--Here are listed all generic resources only.-->
+
+        <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Generic/Colors.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Generic/Converters.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Generic/Images.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Generic/Typography.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>
