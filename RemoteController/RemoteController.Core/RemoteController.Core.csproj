@@ -2,10 +2,10 @@
 
   <PropertyGroup>
     <RootNamespace>RemoteController</RootNamespace>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
 
     <Authors>Veniamin Lytkin @ Epsil0neR</Authors>
     <Copyright>Copyright © Epsil0neR 2020</Copyright>
+    <TargetFrameworks>net472;netcoreapp3.1</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
