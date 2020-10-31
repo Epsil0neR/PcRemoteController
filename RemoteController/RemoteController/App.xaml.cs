@@ -1,5 +1,7 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using WindowsInput;
 using Microsoft.Extensions.Configuration;
@@ -12,6 +14,7 @@ using RemoteController.IoCs;
 using RemoteController.Manipulator;
 using RemoteController.Manipulator.Contexts;
 using RemoteController.Services;
+using RemoteController.ViewModels;
 using RemoteController.WebSocket;
 using WebSocketSharp.Server;
 
@@ -74,6 +77,9 @@ namespace RemoteController
             IoC.RegisterSingleton(Factories.WsService);
             IoC.RegisterSingleton(Factories.InformersManager);
             IoC.RegisterSingleton<SoundInformer>();
+
+            IoC.Register<IPageViewModel[]>(c => IoC.ResolveAll<IPageViewModel>().ToArray());
+            IoC.Register<IEnumerable<IPageViewModel>>(c => IoC.ResolveAll<IPageViewModel>().ToList());
         }
 
         private static void ConfigureInformers()

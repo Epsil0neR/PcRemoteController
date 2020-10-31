@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Windows.Input;
-using System.Windows.Media.Animation;
 using Epsiloner.Wpf.ViewModels;
 using NLog;
 using RemoteController.Configs;
 using RemoteController.WebSocket;
-using Unity;
 
 namespace RemoteController.ViewModels
 {
@@ -22,7 +20,8 @@ namespace RemoteController.ViewModels
             WsServer wsServer,
             ServerConfig serverConfig,
             FileSystemConfig fileSystemConfig,
-            ILogger logger)
+            ILogger logger,
+            IPageViewModel[] pages)
         {
             WsServer = wsServer ?? throw new ArgumentNullException(nameof(wsServer));
             ServerConfig = serverConfig ?? throw new ArgumentNullException(nameof(serverConfig));
@@ -77,5 +76,13 @@ namespace RemoteController.ViewModels
         public bool IsServerRunning { get; }
         public ICommand StopServerCommand { get; }
         public ICommand StartServerCommand { get; }
+    }
+
+    public class TestPageViewModel : BasePageViewModel
+    {
+        public TestPageViewModel()
+            : base("TEST")
+        {
+        }
     }
 }
