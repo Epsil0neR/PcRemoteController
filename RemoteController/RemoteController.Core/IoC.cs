@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using Unity;
 using Unity.Lifetime;
 
@@ -69,6 +72,29 @@ namespace RemoteController
         public static void RegisterInstance(Type type, object instance)
         {
             _container.RegisterInstance(type, instance);
+        }
+
+        public static IEnumerable<T> ResolveAll<T>() where T: class
+        {
+            var t = typeof(T);
+            var types = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(x => x.GetTypes())
+                .Where(x => t.IsAssignableFrom(x));
+
+            foreach (var type in types)
+            {
+                if (ReferenceEquals(t, type))
+                    continue;
+                
+                if (type.IsInterface)
+                    continue;
+
+                if (type.IsAbstract)
+                    continue;
+
+                if (Resolve(type) is T rv)
+                    yield return rv;
+            }
         }
     }
 }
