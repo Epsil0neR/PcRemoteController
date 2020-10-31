@@ -1,4 +1,10 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:c="clr-namespace:RemoteController.Converters">
+
+    <c:DebugConverter x:Key="Converter.Debug"/>
+    <c:DebugMultiConverter x:Key="Converter.DebugMulti"/>
+    <c:InverseBooleanConverter x:Key="Converter.InverseBoolean" />
+    <c:IsNotNullConverter x:Key="Converter.IsNotNull" />
+    <c:IsNullConverter x:Key="Converter.IsNull" />
 </ResourceDictionary>
