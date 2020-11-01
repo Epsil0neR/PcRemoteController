@@ -7,4 +7,6 @@
     <c:InverseBooleanConverter x:Key="Converter.InverseBoolean" />
     <c:IsNotNullConverter x:Key="Converter.IsNotNull" />
     <c:IsNullConverter x:Key="Converter.IsNull" />
+
+    <BooleanToVisibilityConverter x:Key="Converter.BooleanToVisibility" />
 </ResourceDictionary>
