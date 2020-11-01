@@ -363,17 +363,21 @@
                                                         VerticalAlignment="Center"  
                                                         Margin="4 3 0 3"  
                                                         FontSize="14"
+                                                        SnapsToDevicePixels="True"
                                                         Foreground="{TemplateBinding Foreground}"/>
 
                                                     <ContentPresenter
+                                                        x:Name="contentHeaderMenu"
                                                         WindowChrome.IsHitTestVisibleInChrome="True"
                                                         Content="{TemplateBinding HeaderMenu}" />
                                                     <ContentPresenter
+                                                        x:Name="contentHeaderLeft"
                                                         WindowChrome.IsHitTestVisibleInChrome="True"
                                                         Content="{TemplateBinding HeaderLeftContent}" />
                                                 </WrapPanel>
                                                 <ContentPresenter
                                                     Grid.Column="1"
+                                                    x:Name="contentHeaderRight"
                                                     WindowChrome.IsHitTestVisibleInChrome="True"
                                                     VerticalAlignment="Top"
                                                     Margin="2 4 2 2"
@@ -435,6 +439,19 @@
                         <Trigger Property="ShowTitle" Value="False">
                             <Setter TargetName="WindowTitleTextBlock" Property="Visibility" Value="Collapsed" />
                         </Trigger>
+                        <Trigger Property="HeaderMenu" Value="{x:Null}">
+                            <Setter TargetName="contentHeaderMenu" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <Trigger Property="HeaderLeftContent" Value="{x:Null}">
+                            <Setter TargetName="contentHeaderLeft" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <Trigger Property="HeaderRightContent" Value="{x:Null}">
+                            <Setter TargetName="contentHeaderRight" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <Trigger Property="Icon" Value="{x:Null}">
+                            <Setter TargetName="IconContainer" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+
                     </ControlTemplate.Triggers>
                     <ControlTemplate.Resources>
                         <Style TargetType="Menu" BasedOn="{StaticResource StyledWindow.Menu}" />

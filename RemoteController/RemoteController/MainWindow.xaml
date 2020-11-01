@@ -11,7 +11,7 @@
     Icon="icon.ico"
     DataContext="{ioCs:IoC vm:MainViewModel}"
     d:DataContext="{d:DesignInstance vm:MainViewModel}"
-    Title="MainWindow" 
+    Title="Remote PC controller" 
     Height="450" 
     Width="800">
     <StackPanel Orientation="Vertical">
