@@ -1,4 +1,84 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:s="clr-namespace:System;assembly=mscorlib">
+
+    <FontFamily x:Key="Font.Family.Default">Segoe UI</FontFamily>
+
+    <s:Double x:Key="Font.H1.Size">32</s:Double>
+    <s:Double x:Key="Font.H2.Size">24</s:Double>
+    <s:Double x:Key="Font.H3.Size">16</s:Double>
+    <s:Double x:Key="Font.H4.Size">14</s:Double>
+    <s:Double x:Key="Font.H5.Size">13</s:Double>
+    <s:Double x:Key="Font.H6.Size">12</s:Double>
+    <s:Double x:Key="Font.P.Size">10</s:Double>
+    <s:Double x:Key="Font.Medium.Size">10</s:Double>
+    <s:Double x:Key="Font.Small.Size">10</s:Double>
+    <s:Double x:Key="Font.Tiny.Size">8</s:Double>
+
+    <FontWeight x:Key="Font.H1.Weight">Bold</FontWeight>
+    <FontWeight x:Key="Font.H2.Weight">Bold</FontWeight>
+    <FontWeight x:Key="Font.H3.Weight">Bold</FontWeight>
+    <FontWeight x:Key="Font.H4.Weight">SemiBold</FontWeight>
+    <FontWeight x:Key="Font.H5.Weight">SemiBold</FontWeight>
+    <FontWeight x:Key="Font.H6.Weight">SemiBold</FontWeight>
+    <FontWeight x:Key="Font.P.Weight">Regular</FontWeight>
+    <FontWeight x:Key="Font.Medium.Weight">SemiBold</FontWeight>
+    <FontWeight x:Key="Font.Small.Weight">Regular</FontWeight>
+    <FontWeight x:Key="Font.Tiny.Weight">Regular</FontWeight>
+
+    <Style x:Key="Style.Font.Base">
+        <Setter Property="TextElement.FontFamily" Value="{StaticResource Font.Family.Default}" />
+    </Style>
+
+    <Style x:Key="Style.Font.H1" BasedOn="{StaticResource Style.Font.Base}">
+        <Setter Property="TextElement.FontSize" Value="{StaticResource Font.H1.Size}" />
+        <Setter Property="TextElement.FontWeight" Value="{StaticResource Font.H1.Weight}" />
+    </Style>
+
+    <Style x:Key="Style.Font.H2" BasedOn="{StaticResource Style.Font.Base}">
+        <Setter Property="TextElement.FontSize" Value="{StaticResource Font.H2.Size}" />
+        <Setter Property="TextElement.FontWeight" Value="{StaticResource Font.H2.Weight}" />
+    </Style>
+
+    <Style x:Key="Style.Font.H3" BasedOn="{StaticResource Style.Font.Base}">
+        <Setter Property="TextElement.FontSize" Value="{StaticResource Font.H3.Size}" />
+        <Setter Property="TextElement.FontWeight" Value="{StaticResource Font.H3.Weight}" />
+    </Style>
+
+    <Style x:Key="Style.Font.H4" BasedOn="{StaticResource Style.Font.Base}">
+        <Setter Property="TextElement.FontSize" Value="{StaticResource Font.H4.Size}" />
+        <Setter Property="TextElement.FontWeight" Value="{StaticResource Font.H4.Weight}" />
+    </Style>
+
+    <Style x:Key="Style.Font.H5" BasedOn="{StaticResource Style.Font.Base}">
+        <Setter Property="TextElement.FontSize" Value="{StaticResource Font.H5.Size}" />
+        <Setter Property="TextElement.FontWeight" Value="{StaticResource Font.H5.Weight}" />
+    </Style>
+
+    <Style x:Key="Style.Font.H6" BasedOn="{StaticResource Style.Font.Base}">
+        <Setter Property="TextElement.FontSize" Value="{StaticResource Font.H6.Size}" />
+        <Setter Property="TextElement.FontWeight" Value="{StaticResource Font.H6.Weight}" />
+    </Style>
+
+    <Style x:Key="Style.Font.P" BasedOn="{StaticResource Style.Font.Base}">
+        <Setter Property="TextElement.FontSize" Value="{StaticResource Font.P.Size}" />
+        <Setter Property="TextElement.FontWeight" Value="{StaticResource Font.P.Weight}" />
+    </Style>
+
+    <Style x:Key="Style.Font.Medium" BasedOn="{StaticResource Style.Font.Base}">
+        <Setter Property="TextElement.FontSize" Value="{StaticResource Font.Medium.Size}" />
+        <Setter Property="TextElement.FontWeight" Value="{StaticResource Font.Medium.Weight}" />
+    </Style>
+
+    <Style x:Key="Style.Font.Small" BasedOn="{StaticResource Style.Font.Base}">
+        <Setter Property="TextElement.FontSize" Value="{StaticResource Font.Small.Size}" />
+        <Setter Property="TextElement.FontWeight" Value="{StaticResource Font.Small.Weight}" />
+    </Style>
+
+    <Style x:Key="Style.Font.Tiny" BasedOn="{StaticResource Style.Font.Base}">
+        <Setter Property="TextElement.FontSize" Value="{StaticResource Font.Tiny.Size}" />
+        <Setter Property="TextElement.FontWeight" Value="{StaticResource Font.Tiny.Weight}" />
+    </Style>
+
 </ResourceDictionary>
