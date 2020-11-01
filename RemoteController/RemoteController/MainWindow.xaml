@@ -57,6 +57,7 @@
                             Orientation="Horizontal"
                             HorizontalAlignment="Right">
                             <Button
+                                Style="{StaticResource Button.Primary}"
                                 Content="Change directory" />
                             <Button
                                 Content="Remove" />

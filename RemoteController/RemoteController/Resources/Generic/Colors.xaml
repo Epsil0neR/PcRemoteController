@@ -5,10 +5,30 @@
 
     <!--Colors from: https://coolors.co/0267c1-->
     <Color x:Key="Color.Primary.Lightest">#36A0FD</Color>
+    <SolidColorBrush
+        x:Key="Brush.Primary.Lightest"
+        Color="{StaticResource Color.Primary.Lightest}"
+        o:Freeze="True" />
     <Color x:Key="Color.Primary.Lighter">#027FED</Color>
+    <SolidColorBrush
+        x:Key="Brush.Primary.Lighter"
+        Color="{StaticResource Color.Primary.Lighter}"
+        o:Freeze="True" />
     <Color x:Key="Color.Primary">#0267C1</Color>
+    <SolidColorBrush
+        x:Key="Brush.Primary"
+        Color="{StaticResource Color.Primary}"
+        o:Freeze="True" />
     <Color x:Key="Color.Primary.Darker">#0258A4</Color>
+    <SolidColorBrush
+        x:Key="Brush.Primary.Darker"
+        Color="{StaticResource Color.Primary.Darker}"
+        o:Freeze="True" />
     <Color x:Key="Color.Primary.Darkest">#01427B</Color>
+    <SolidColorBrush
+        x:Key="Brush.Primary.Darkest"
+        Color="{StaticResource Color.Primary.Darkest}"
+        o:Freeze="True" />
 
     <Color x:Key="Color.White">#FFFFFF</Color>
     <SolidColorBrush
