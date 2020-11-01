@@ -1,0 +1,24 @@
+﻿using System.Windows;
+using System.Windows.Shell;
+
+namespace RemoteController.Themes
+{
+    public partial class Generic
+    {
+        private void HeaderBackground_OnSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (!(sender is System.Windows.Shapes.Rectangle rectangle)) 
+                return;
+
+            //1. Find window
+            var window = Window.GetWindow(rectangle);
+
+            if (window == null)
+                return;
+
+            var chrome = WindowChrome.GetWindowChrome(window);
+            if (chrome != null)
+                chrome.CaptionHeight = rectangle.ActualHeight;
+        }
+    }
+}

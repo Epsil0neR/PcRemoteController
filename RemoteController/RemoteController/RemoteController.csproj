@@ -40,14 +40,15 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
 
+    <None Remove="*.ico" />
+    <Resource Include="*.ico" />
+
     <None Remove="settings.config" />
     <Content Include="settings.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
-  </ItemGroup>
 
-  <ItemGroup>
     <None Update="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
