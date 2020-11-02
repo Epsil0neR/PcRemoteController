@@ -11,14 +11,12 @@
     <Color x:Key="{x:Static ap:ResourceKeys+Colors.Background}">#FF2D2D30</Color>
     <Color x:Key="{x:Static ap:ResourceKeys+Colors.Highlight}">#FF3F3F41</Color>
     <Color x:Key="{x:Static ap:ResourceKeys+Colors.Active}">#FF007ACC</Color>
-    <Color x:Key="{x:Static ap:ResourceKeys+Colors.Critical}">#FFCC2200</Color>
     <Color x:Key="{x:Static ap:ResourceKeys+Colors.Foreground}">#FFF4F4F5</Color>
 
     <SolidColorBrush x:Key="{x:Static ap:ResourceKeys+Brushes.Background}" Color="{StaticResource {x:Static ap:ResourceKeys+Colors.Background}}"/>
     <SolidColorBrush x:Key="{x:Static ap:ResourceKeys+Brushes.Highlight}" Color="{StaticResource {x:Static ap:ResourceKeys+Colors.Highlight}}"/>
     <SolidColorBrush x:Key="{x:Static ap:ResourceKeys+Brushes.Active}" Color="{StaticResource {x:Static ap:ResourceKeys+Colors.Active}}"/>
     <SolidColorBrush x:Key="{x:Static ap:ResourceKeys+Brushes.Foreground}" Color="{StaticResource {x:Static ap:ResourceKeys+Colors.Foreground}}"/>
-    <SolidColorBrush x:Key="{x:Static ap:ResourceKeys+Brushes.Critical}" Color="{StaticResource {x:Static ap:ResourceKeys+Colors.Critical}}"/>
 
     <SolidColorBrush x:Key="StyledWindow.Menu.Colors.Hover" Color="#3E3E40" />
     <SolidColorBrush x:Key="StyledWindow.Menu.Colors.Border" Color="#333337" />
@@ -94,8 +92,8 @@
         <Setter Property="ToolTip" Value="Close" />
         <Setter Property="Command" Value="{Binding Source={x:Static SystemCommands.CloseWindowCommand}}" />
         <Style.Resources>
-            <SolidColorBrush x:Key="{x:Static ap:ResourceKeys+Brushes.Highlight}" Color="{StaticResource {x:Static controls:ResourceKeys+Colors.Critical}}" />
-            <SolidColorBrush x:Key="{x:Static ap:ResourceKeys+Brushes.Active}" Color="#A01B00"/>
+            <SolidColorBrush x:Key="{x:Static ap:ResourceKeys+Brushes.Highlight}" Color="{StaticResource Color.Danger}" />
+            <SolidColorBrush x:Key="{x:Static ap:ResourceKeys+Brushes.Active}" Color="{StaticResource Color.Danger.Darker}"/>
         </Style.Resources>
     </Style>
 

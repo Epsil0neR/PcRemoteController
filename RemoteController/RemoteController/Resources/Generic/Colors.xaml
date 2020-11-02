@@ -30,6 +30,22 @@
         Color="{StaticResource Color.Primary.Darkest}"
         o:Freeze="True" />
 
+    <Color x:Key="Color.Danger">#FFCC2200</Color>
+    <SolidColorBrush
+        x:Key="Brush.Danger"
+        Color="{StaticResource Color.Danger}"
+        o:Freeze="True" />
+    <Color x:Key="Color.Danger.Darker">#A01B00</Color>
+    <SolidColorBrush
+        x:Key="Brush.Danger.Darker"
+        Color="{StaticResource Color.Danger.Darker}"
+        o:Freeze="True" />
+    <Color x:Key="Color.Danger.Lighter">#FF370F</Color>
+    <SolidColorBrush
+        x:Key="Brush.Danger.Lighter"
+        Color="{StaticResource Color.Danger.Lighter}"
+        o:Freeze="True" />
+
     <Color x:Key="Color.White">#FFFFFF</Color>
     <SolidColorBrush
         x:Key="Brush.White"

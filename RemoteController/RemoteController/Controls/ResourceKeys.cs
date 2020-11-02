@@ -11,7 +11,6 @@
             /// Brush used for highlight active elements (window itself, action buttons)
             /// </summary>
             public static string Active { get; } = "StyledWindow.Brushes.Active";
-            public static string Critical { get; } = "StyledWindow.Brushes.Critical";
             public static string Foreground { get; } = "StyledWindow.Brushes.Foreground";
         }
 
@@ -20,7 +19,6 @@
             public static string Background { get; } = "StyledWindow.Colors.Background";
             public static string Highlight { get; } = "StyledWindow.Colors.Highlight";
             public static string Active { get; } = "StyledWindow.Colors.Active";
-            public static string Critical { get; } = "StyledWindow.Colors.Critical";
             public static string Foreground { get; } = "StyledWindow.Colors.Foreground";
         }
 
