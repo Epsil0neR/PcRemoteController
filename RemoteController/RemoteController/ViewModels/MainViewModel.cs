@@ -31,7 +31,6 @@ namespace RemoteController.ViewModels
 
         public MainViewModel(IPageViewModel[] pages)
         {
-
             Pages = pages ?? throw new ArgumentNullException(nameof(pages));
             Selected = Pages.FirstOrDefault();
 
@@ -40,7 +39,8 @@ namespace RemoteController.ViewModels
 
         private void Select(IPageViewModel page)
         {
-            Selected = page;
+            if (page != null)
+                Selected = page;
         }
     }
 

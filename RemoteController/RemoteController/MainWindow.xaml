@@ -58,7 +58,8 @@
         <ContentControl
             Grid.Column="1" 
             Background="Transparent"
-            Content="{Binding Selected, Mode=OneWay}"/>
+            Content="{Binding Selected, Mode=OneWay}"
+            Margin="8 0 0 0"/>
 
     </Grid>
 </c:StyledWindow>
