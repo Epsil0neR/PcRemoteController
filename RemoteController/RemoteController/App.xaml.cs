@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using WindowsInput;
+using Epsiloner.Wpf.Attributes;
 using Microsoft.Extensions.Configuration;
 using NLog;
 using RemoteController.Attributes;
@@ -26,6 +27,7 @@ namespace RemoteController
         {
             DomainExceptionHandler.HandleDomainExceptions();
             ConfigureIoC();
+            ViewForAttribute.ProceedRelatedAssemblies();
 
             ConfigureInformers();
             ConfigureManipulatorContexts();
