@@ -19,7 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Angular", "Angular", "{5D0F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WindowsService", "WindowsService", "{C053F289-E8FD-482F-9190-DA6FB384CFEA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteController.Core", "RemoteController.Core\RemoteController.Core.csproj", "{E884C770-6A1D-4429-BDFC-E2A0A95E9FDD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RemoteController.Core", "RemoteController.Core\RemoteController.Core.csproj", "{E884C770-6A1D-4429-BDFC-E2A0A95E9FDD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
