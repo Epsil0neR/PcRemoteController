@@ -1,5 +1,6 @@
 ﻿<c:StyledWindow 
     x:Class="RemoteController.MainWindow"
+    x:Name="mainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,68 +8,118 @@
     xmlns:vm="clr-namespace:RemoteController.ViewModels"
     xmlns:ioCs="clr-namespace:RemoteController.IoCs"
     xmlns:c="clr-namespace:RemoteController.Controls"
+    xmlns:e="http://schemas.epsiloner.git/wpf/"
+    xmlns:views="clr-namespace:RemoteController.Views"
     mc:Ignorable="d"
     Icon="icon.ico"
     DataContext="{ioCs:IoC vm:MainViewModel}"
     d:DataContext="{d:DesignInstance vm:MainViewModel}"
     Title="Remote PC controller" 
-    Height="450" 
+    Height="550" 
     Width="800">
-    <StackPanel Orientation="Vertical">
-        
-        <TextBlock 
-            FontSize="22"
-            Margin="4"
-            Text="{Binding ServerConfig.Port, Mode=OneWay, StringFormat='Server port: {0}'}"/>
-        
-        <TextBlock 
-            FontSize="22"
-            Margin="4"
-            Text="{Binding WsServer.ConnectionsCount, Mode=OneWay, StringFormat='Connections count: {0}'}"/>
-        
-        <ItemsControl
-            Margin="4"
-            ItemsSource="{Binding FileSystemConfig.Roots}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        
-                        <TextBlock
-                            Grid.Column="0"
-                            Grid.Row="0"
-                            FontSize="18" 
-                            Text="{Binding Key}"/>
-                        
-                        <TextBlock
-                            Grid.Column="0"
-                            Grid.Row="1"
-                            FontSize="14" 
-                            Text="{Binding Value}"/>
-                        
-                        <StackPanel
-                            Grid.Column="1"
-                            Grid.Row="0"
-                            Grid.RowSpan="2"
-                            Orientation="Horizontal"
-                            HorizontalAlignment="Right">
-                            <Button
-                                Style="{StaticResource Button.Primary}"
-                                Content="Change directory" />
-                            <Button
-                                Content="Remove" />
-                        </StackPanel>
-                    </Grid>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-            
-        </ItemsControl>
-    </StackPanel>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <ScrollViewer
+            Grid.Column="0"
+            VerticalScrollBarVisibility="Auto"
+            HorizontalScrollBarVisibility="Disabled">
+            <ItemsControl ItemsSource="{Binding Pages}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <views:PageButton
+                            Command="{Binding ElementName=mainWindow, Path=DataContext.SelectCommand}"
+                            CommandParameter="{Binding}">
+                            <views:PageButton.Style>
+                                <Style TargetType="views:PageButton" BasedOn="{StaticResource {x:Type views:PageButton}}">
+                                    <Style.Triggers>
+                                        <DataTrigger Value="True">
+                                            <DataTrigger.Binding>
+                                                <MultiBinding Converter="{StaticResource Converter.EqualsMulti}">
+                                                    <Binding/>
+                                                    <Binding ElementName="mainWindow" Path="DataContext.Selected" Mode="OneWay"/>
+                                                </MultiBinding>
+                                            </DataTrigger.Binding>
+
+                                            <Setter Property="Background" Value="{StaticResource Brush.Primary.Darkest}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </views:PageButton.Style>
+                        </views:PageButton>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+
+        <ContentControl
+            Grid.Column="1" 
+            Background="Transparent"
+            Content="{Binding Selected, Mode=OneWay}"/>
+
+        <StackPanel
+            Visibility="Collapsed"
+            Grid.Column="1"
+            Orientation="Vertical" >
+
+            <TextBlock 
+                FontSize="22"
+                Margin="4"
+                Text="{Binding ServerConfig.Port, Mode=OneWay, StringFormat='Server port: {0}'}"/>
+
+            <TextBlock 
+                FontSize="22"
+                Margin="4"
+                Text="{Binding WsServer.ConnectionsCount, Mode=OneWay, StringFormat='Connections count: {0}'}"/>
+
+            <ItemsControl
+                Margin="4"
+                ItemsSource="{Binding FileSystemConfig.Roots}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock
+                                Grid.Column="0"
+                                Grid.Row="0"
+                                FontSize="18" 
+                                Text="{Binding Key}"/>
+
+                            <TextBlock
+                                Grid.Column="0"
+                                Grid.Row="1"
+                                FontSize="14" 
+                                Text="{Binding Value}"/>
+
+                            <StackPanel
+                                Grid.Column="1"
+                                Grid.Row="0"
+                                Grid.RowSpan="2"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Right">
+                                <Button
+                                    Style="{StaticResource Button.Primary}"
+                                    Content="Change directory" />
+                                <Button
+                                    Content="Remove" />
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+
+            </ItemsControl>
+        </StackPanel>
+
+    </Grid>
 </c:StyledWindow>

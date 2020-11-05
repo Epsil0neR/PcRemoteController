@@ -5,5 +5,7 @@
 
         <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Styles/ButtonStyle.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Styles/ContentControlStyle.xaml" />
+
+        <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Views/All.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

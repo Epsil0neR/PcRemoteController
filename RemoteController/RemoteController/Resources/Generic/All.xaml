@@ -7,5 +7,6 @@
         <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Generic/Converters.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Generic/Images.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Generic/Typography.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Epsiloner.Wpf.SymbolIcons;component/Themes/Generic.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
