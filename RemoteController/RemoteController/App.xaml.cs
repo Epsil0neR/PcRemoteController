@@ -80,8 +80,8 @@ namespace RemoteController
             IoC.RegisterSingleton(Factories.InformersManager);
             IoC.RegisterSingleton<SoundInformer>();
 
-            IoC.Register<IPageViewModel[]>(c => IoC.ResolveAll<IPageViewModel>().ToArray());
-            IoC.Register<IEnumerable<IPageViewModel>>(c => IoC.ResolveAll<IPageViewModel>().ToList());
+            IoC.Register<IPageViewModel[]>(c => IoC.ResolveAll<IPageViewModel>().OrderBy(x=>x.Priority).ToArray());
+            IoC.Register<IEnumerable<IPageViewModel>>(c => IoC.ResolveAll<IPageViewModel>().OrderBy(x => x.Priority).ToList());
         }
 
         private static void ConfigureInformers()

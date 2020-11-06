@@ -6,10 +6,14 @@ namespace RemoteController.ViewModels
     {
         private bool _isSelected;
 
-        protected BasePageViewModel(string name)
+        protected BasePageViewModel(uint priority, string name)
         {
+            Priority = priority;
             Name = name;
         }
+
+        /// <inheritdoc />
+        public uint Priority { get; }
 
         /// <inheritdoc />
         public string Name { get; }

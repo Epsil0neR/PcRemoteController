@@ -5,6 +5,11 @@ namespace RemoteController.ViewModels
     public interface IPageViewModel : IViewModel
     {
         /// <summary>
+        /// Used to order pages by this property. Pages are sorted ascending.
+        /// </summary>
+        public uint Priority { get; }
+
+        /// <summary>
         /// Page name displayed in UI
         /// </summary>
         string Name { get; }

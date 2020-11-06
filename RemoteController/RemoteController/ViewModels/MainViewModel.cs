@@ -43,12 +43,4 @@ namespace RemoteController.ViewModels
                 Selected = page;
         }
     }
-
-    public class TestPageViewModel : BasePageViewModel
-    {
-        public TestPageViewModel()
-            : base("TEST")
-        {
-        }
-    }
 }
