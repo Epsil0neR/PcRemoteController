@@ -19,4 +19,13 @@ namespace RemoteController.ViewModels
         /// </summary>
         bool IsSelected { get; set; }
     }
+
+    public enum PagePriority:uint
+    {
+        Overview = 1,
+        Paths =0, //TODO: Move after overview.
+        
+        
+        Test = 100, // TODO: When there will be enough pages -> remove this page.
+    }
 }

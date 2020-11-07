@@ -64,6 +64,7 @@ namespace RemoteController
 
         private void ConfigureIoC()
         {
+            IoC.RegisterInstance(Dispatcher);
             IoC.RegisterInstance(Log.Logger);
             IoC.RegisterInstance<ILogger>(Log.Logger);
 

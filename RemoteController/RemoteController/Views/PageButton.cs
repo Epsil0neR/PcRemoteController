@@ -29,4 +29,17 @@ namespace RemoteController.Views
             });
         }
     }
+
+    [ViewFor(typeof(PathsManagerPageViewModel))]
+    public class PathsManagerPageView : Control
+    {
+        static PathsManagerPageView()
+        {
+            var t = typeof(PathsManagerPageView);
+            DefaultStyleKeyProperty.OverrideMetadata(t, new FrameworkPropertyMetadata
+            {
+                DefaultValue = t
+            });
+        }
+    }
 }
