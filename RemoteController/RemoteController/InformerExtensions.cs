@@ -4,7 +4,7 @@ using RemoteController.WebSocket;
 
 namespace RemoteController
 {
-    internal static class Extensions
+    internal static class InformerExtensions
     {
         /// <summary>
         /// Sends all <paramref name="informers"/> as messages to <paramref name="socket"/>.

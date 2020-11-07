@@ -14,8 +14,8 @@
     <d:FrameworkElement.DataContext>
         <x:Type Type="vm:PathsManagerPageViewModel" />
     </d:FrameworkElement.DataContext>
-    
-    <DataTemplate DataType="vm:PathViewModel" x:Key="PathViewModel.DataTemplate">
+
+    <DataTemplate x:Key="PathViewModel.DataTemplate" DataType="vm:PathViewModel">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -36,7 +36,7 @@
                 Grid.Column="0"
                 Grid.Row="1"
                 FontSize="14" 
-                Text="{Binding Path}"/>
+                Text="{Binding Path=Path}"/>
 
             <StackPanel
                 Grid.Column="1"
@@ -64,6 +64,28 @@
                     ItemsSource="{Binding Paths}"
                     ItemTemplate="{StaticResource PathViewModel.DataTemplate}"
                     Margin="4" />
+
+                <DockPanel 
+                    Margin="0 16 0 0"
+                    LastChildFill="True">
+                    <TextBlock 
+                        DockPanel.Dock="Left"
+                        VerticalAlignment="Center"
+                        Text="Name: " />
+                    <Button
+                        DockPanel.Dock="Right"
+                        Content="Add path"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource Button.Primary}"
+                        Command="{Binding AddPathCommand}"
+                        />
+                    <TextBox 
+                        DockPanel.Dock="Left"
+                        Margin="8 0"
+                        VerticalContentAlignment="Center"
+                        VerticalAlignment="Stretch"
+                        Text="{Binding NewPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </DockPanel>
             </StackPanel>
         </ScrollViewer>
     </ControlTemplate>
