@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows;
 using WindowsInput;
+using Epsiloner.OptionsModule;
 using Epsiloner.Wpf.Attributes;
 using Microsoft.Extensions.Configuration;
 using NLog;
@@ -72,6 +74,9 @@ namespace RemoteController
             IoC.RegisterInstance(configuration);
             ConfigSectionAttribute.Init(configuration);
 
+            ConfigureOptions();
+            Options.Current.Save();
+
             IoC.Register<IManipulatorsManager, ManipulatorsManager>();
             IoC.RegisterSingleton<IAuthService, AuthService>();
             IoC.RegisterSingleton(Factories.ManipulatorsManager);
@@ -124,6 +129,31 @@ namespace RemoteController
                 .AddJsonFile("settings.config", true, true)
                 .Build();
             return configuration;
+        }
+
+        private void ConfigureOptions()
+        {
+            var proc = Process.GetCurrentProcess();
+            var loc = proc.MainModule?.FileName;
+            var dir = Path.GetDirectoryName(loc);
+
+            var path = Path.Combine(dir, "Options");
+            var options = new Options(path, string.Empty)
+            {
+                HandlerForSectionLoad = HandlerForSectionLoad
+            };
+            options.Register<FileSystemConfig>();
+            options.Register<ServerConfig>();
+
+            Options.Current = options;
+            IoC.RegisterInstance(options);
+            IoC.RegisterInstance(options.Section<FileSystemConfig>());
+            IoC.RegisterInstance(options.Section<ServerConfig>());
+        }
+
+        private static void HandlerForSectionLoad(Type type, Exception ex)
+        {
+            Log.Logger.Error(ex, $"Failed to load option section of type {type.FullName}");
         }
     }
 }

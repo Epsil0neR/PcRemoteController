@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using Epsiloner.OptionsModule;
 using RemoteController.Attributes;
 
 namespace RemoteController.Configs
 {
     [ConfigSection("FileSystem")]
-    public class FileSystemConfig
+    public class FileSystemConfig : IOptionsSection
     {
-        public Dictionary<string, string> Roots { get; set; } = new Dictionary<string, string>();
+        public DictionaryOfStringToString Roots { get; set; } = new DictionaryOfStringToString();
     }
 }
