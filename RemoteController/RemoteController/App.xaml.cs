@@ -70,12 +70,7 @@ namespace RemoteController
             IoC.RegisterInstance(Log.Logger);
             IoC.RegisterInstance<ILogger>(Log.Logger);
 
-            var configuration = CreateConfiguration();
-            IoC.RegisterInstance(configuration);
-            ConfigSectionAttribute.Init(configuration);
-
             ConfigureOptions();
-            Options.Current.Save();
 
             IoC.Register<IManipulatorsManager, ManipulatorsManager>();
             IoC.RegisterSingleton<IAuthService, AuthService>();
@@ -112,23 +107,6 @@ namespace RemoteController
             }
 
             fsc.Roots = config.Roots;
-        }
-
-        /// <summary>
-        /// Configuration from JSON file.
-        /// </summary>
-        /// <returns></returns>
-        private IConfiguration CreateConfiguration()
-        {
-            var proc = Process.GetCurrentProcess();
-            var loc = proc.MainModule?.FileName;
-            var dir = Path.GetDirectoryName(loc);
-
-            var configuration = new ConfigurationBuilder()
-                .SetBasePath(dir)
-                .AddJsonFile("settings.config", true, true)
-                .Build();
-            return configuration;
         }
 
         private void ConfigureOptions()
