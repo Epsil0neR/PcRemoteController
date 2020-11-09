@@ -378,8 +378,8 @@
                                                     Grid.Column="1"
                                                     x:Name="contentHeaderRight"
                                                     WindowChrome.IsHitTestVisibleInChrome="True"
-                                                    VerticalAlignment="Top"
-                                                    Margin="2 4 2 2"
+                                                    VerticalAlignment="Stretch"
+                                                    Margin="2 0 2 0"
                                                     Content="{TemplateBinding HeaderRightContent}" />
                                             </Grid>
 

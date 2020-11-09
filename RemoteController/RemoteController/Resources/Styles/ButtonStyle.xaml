@@ -76,5 +76,24 @@
         </Style.Triggers>
     </Style>
 
+    <Style TargetType="Button" x:Key="Button.Danger" BasedOn="{StaticResource Button.Base}">
+        <Setter Property="Background" Value="{StaticResource Brush.Danger}" />
+        <Setter Property="Foreground" Value="{StaticResource Brush.White}" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{StaticResource Brush.Danger.Darker}" />
+            </Trigger>
+            <Trigger Property="IsStylusOver" Value="True">
+                <Setter Property="Background" Value="{StaticResource Brush.Danger.Darker}" />
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" Value="{StaticResource Brush.Danger.Darker}" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background" Value="{StaticResource Brush.Danger.Lighter}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
     <Style TargetType="Button" BasedOn="{StaticResource Button.Secondary}" />
 </ResourceDictionary>

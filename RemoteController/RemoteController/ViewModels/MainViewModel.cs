@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows.Input;
 using Epsiloner.Wpf.ViewModels;
 using GalaSoft.MvvmLight.CommandWpf;
+using RemoteController.WebSocket;
 
 namespace RemoteController.ViewModels
 {
@@ -14,6 +15,8 @@ namespace RemoteController.ViewModels
         /// All registered pages.
         /// </summary>
         public IPageViewModel[] Pages { get; }
+
+        public WsServer WsServer { get; }
 
         /// <summary>
         /// Currently selected page.
@@ -29,12 +32,28 @@ namespace RemoteController.ViewModels
         /// </summary>
         public ICommand SelectCommand { get; }
 
-        public MainViewModel(IPageViewModel[] pages)
+        public ICommand StartServerCommand { get; }
+        public ICommand StopServerCommand { get; }
+
+        public MainViewModel(IPageViewModel[] pages, WsServer wsServer)
         {
             Pages = pages ?? throw new ArgumentNullException(nameof(pages));
+            WsServer = wsServer;
             Selected = Pages.FirstOrDefault();
 
             SelectCommand = new RelayCommand<IPageViewModel>(Select);
+            StartServerCommand = new RelayCommand(StartServer);
+            StopServerCommand = new RelayCommand(StopServer);
+        }
+
+        private void StartServer()
+        {
+            WsServer.StartServer();
+        }
+
+        private void StopServer()
+        {
+            WsServer.StopServer();
         }
 
         private void Select(IPageViewModel page)

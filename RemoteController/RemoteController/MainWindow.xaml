@@ -17,6 +17,22 @@
     Title="Remote PC controller" 
     Height="550" 
     Width="800">
+    <c:StyledWindow.HeaderRightContent>
+        <Grid>
+            <Button 
+                Visibility="{Binding WsServer.IsStarted, Converter={StaticResource Converter.BooleanToVisibility}}"
+                Content="Connected"
+                Command="{Binding StopServerCommand}"
+                Style="{StaticResource Button.Primary}"
+                />
+            <Button 
+                Visibility="{Binding WsServer.IsStarted, Converter={StaticResource Converter.BooleanToInvisibility}}"
+                Content="Disconnected"
+                Command="{Binding StartServerCommand}"
+                Style="{StaticResource Button.Danger}"
+                />
+        </Grid>
+    </c:StyledWindow.HeaderRightContent>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>

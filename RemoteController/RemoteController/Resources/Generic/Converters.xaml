@@ -9,5 +9,9 @@
     <c:IsNullConverter x:Key="Converter.IsNull" />
     <c:EqualsMultiValueConverter x:Key="Converter.EqualsMulti" />
 
-    <BooleanToVisibilityConverter x:Key="Converter.BooleanToVisibility" />
+    <c:BooleanToVisibility x:Key="Converter.BooleanToVisibility" />
+    <c:BooleanToVisibility x:Key="Converter.BooleanToInvisibility" 
+                           TrueVisibility="Collapsed"
+                           FalseVisibility="Visible"
+                           NullVisibility="Visible"/>
 </ResourceDictionary>

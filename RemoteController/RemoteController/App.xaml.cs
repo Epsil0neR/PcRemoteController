@@ -48,8 +48,7 @@ namespace RemoteController
 
             if (serverConfig.AutoConnect) //TODO: Add way to start and stop manually server from GUI.
             {
-                IoC.Resolve<HttpServer>().Start();
-                IoC.Resolve<WsService>().Server.StartServer();
+                IoC.Resolve<WsServer>().StartServer();
             }
         }
 
