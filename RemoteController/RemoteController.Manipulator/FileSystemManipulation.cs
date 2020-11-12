@@ -66,12 +66,12 @@ namespace RemoteController.Manipulator
         {
             var c = manager.GetContext<FileSystemContext>();
             var root = GetRoot(path);
-            var rootKey = c.Roots.Keys.FirstOrDefault(x => string.Equals(root, x, StringComparison.InvariantCultureIgnoreCase));
+            var p = c.Roots.Find(root);
 
-            if (string.IsNullOrEmpty(rootKey) || !c.Roots.TryGetValue(rootKey, out var rootOrig))
+            if (p == null)
                 return false;
 
-            var pathOrig = GetOriginalPath(path, root, rootOrig);
+            var pathOrig = GetOriginalPath(path, root, p.Path);
 
             if (!File.Exists(pathOrig))
                 return false;
@@ -95,7 +95,7 @@ namespace RemoteController.Manipulator
 
             try
             {
-                var p = new Process
+                var process = new Process
                 {
                     StartInfo = new ProcessStartInfo
                     {
@@ -103,7 +103,7 @@ namespace RemoteController.Manipulator
                         FileName = pathOrig
                     }
                 };
-                p.Start();
+                process.Start();
                 return true;
             }
             catch
@@ -130,9 +130,9 @@ namespace RemoteController.Manipulator
             if (string.IsNullOrWhiteSpace(param))
             {
                 if (c.Roots.Count == 1)
-                    PopulateContent(rv, c, c.Roots.ElementAt(0).Key);
+                    PopulateContent(rv, c, c.Roots[0].Path);
                 else
-                    rv["folders"] = c.Roots.Keys;
+                    rv["folders"] = c.Roots.Select(x=>x.Name).ToArray();
 
                 return rv;
             }
@@ -146,20 +146,19 @@ namespace RemoteController.Manipulator
         {
             var path = Path.Combine(paths);
             var root = GetRoot(path);
-            var rootKey = contexts.Roots.Keys.FirstOrDefault(x => string.Equals(root, x, StringComparison.InvariantCultureIgnoreCase));
+            var p = contexts.Roots.Find(root);
 
-            if (string.IsNullOrEmpty(rootKey)
-                || !contexts.Roots.TryGetValue(rootKey, out var rootOrig))
+            if (p == null)
                 return;
 
-            var pathOrig = GetOriginalPath(path, root, rootOrig);
+            var pathOrig = GetOriginalPath(path, root, p.Path);
             var di = new DirectoryInfo(pathOrig);
-            if (!di.Exists || !di.FullName.StartsWith(rootOrig)) //TODO: Forbidden.
+            if (!di.Exists || !di.FullName.StartsWith(p.Path)) //TODO: Forbidden.
                 return;
 
             var folders = di.GetDirectories()
                 .FilterDirectories(contexts.FolderFilter)
-                .Select(x => x.FullName.Replace(rootOrig, rootKey))
+                .Select(x => x.FullName.Replace(p.Path, p.Name))
                 .ToList();
             if (folders.Any())
                 rv["folders"] = folders.Select(Path.GetFileName).ToList();
@@ -167,7 +166,7 @@ namespace RemoteController.Manipulator
             var fp = string.IsNullOrWhiteSpace(contexts.FileSearchPattern) ? "*" : contexts.FileSearchPattern;
             var files = di.GetFiles(fp, SearchOption.TopDirectoryOnly)
                 .FilterFiles(contexts.FileFilter)
-                .Select(x => x.FullName.Replace(rootOrig, rootKey))
+                .Select(x => x.FullName.Replace(p.Path, p.Name))
                 .ToList();
             if (files.Any())
                 rv["files"] = files.Select(Path.GetFileName).ToList();

@@ -47,10 +47,19 @@
                 <Button
                     Command="{Binding ChangePathCommand}"
                     Style="{StaticResource Button.Primary}"
-                    Content="Change directory" />
+                    ToolTip="Change directory">
+                    <e:SymbolMaterial 
+                        FontSize="24"
+                        Icon="FolderOpen"
+                        />
+                </Button>
                 <Button
                     Command="{Binding RemoveCommand}"
-                    Content="Remove" />
+                    ToolTip="Remove">
+                    <e:SymbolMaterial
+                        FontSize="24"
+                        Icon="DeleteForever" />
+                </Button>
             </StackPanel>
         </Grid>
     </DataTemplate>
@@ -120,7 +129,7 @@
                         Style="{StaticResource Button.Primary}">
                         <e:SymbolMaterial
                             FontSize="32"
-                            Icon="PlayArrow"
+                            Icon="LibraryAdd"
                             />
                     </Button>
                 </Grid>

@@ -71,7 +71,7 @@
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Background" Value="{StaticResource Brush.Primary.Lightest}" />
-                <Setter Property="Foreground" Value="{StaticResource Brush.Grey.37}" />
+                <Setter Property="Foreground" Value="{StaticResource Brush.Grey.DE}" />
             </Trigger>
         </Style.Triggers>
     </Style>

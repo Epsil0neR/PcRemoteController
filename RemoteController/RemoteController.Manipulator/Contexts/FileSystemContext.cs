@@ -8,7 +8,7 @@ namespace RemoteController.Manipulator.Contexts
         /// <summary>
         /// Dictionary of folder name to root.
         /// </summary>
-        public Dictionary<string, string> Roots { get; set; }
+        public FileSystemPaths Roots { get; set; }
 
         public Func<string, bool> FolderFilter { get; set; }
 

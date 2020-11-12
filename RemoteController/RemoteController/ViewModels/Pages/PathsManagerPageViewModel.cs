@@ -7,6 +7,7 @@ using Epsiloner.Wpf.Collections;
 using GalaSoft.MvvmLight.CommandWpf;
 using RemoteController.Configs;
 using RemoteController.Extensions;
+using RemoteController.Manipulator.Contexts;
 
 namespace RemoteController.ViewModels.Pages
 {
@@ -46,8 +47,8 @@ namespace RemoteController.ViewModels.Pages
                 Dispatcher = dispatcher
             };
 
-            foreach (var pair in FileSystemConfig.Roots)
-                Paths.Add(new PathViewModel(pair.Key, pair.Value, RemoveAction));
+            foreach (var path in FileSystemConfig.Roots)
+                Paths.Add(new PathViewModel(path.Name, path.Path, RemoveAction));
 
             AddPathCommand = new RelayCommand(AddPath, CanAddPath);
             SelectPathCommand = new RelayCommand(SelectPath);
@@ -81,7 +82,11 @@ namespace RemoteController.ViewModels.Pages
             var name = NameForNew;
             var path = PathForNew;
 
-            FileSystemConfig.Roots.Add(name, path);
+            FileSystemConfig.Roots.Add(new FileSystemPath
+            {
+                Name = name,
+                Path = path
+            });
             Options.Save();
 
             Paths.Add(new PathViewModel(name, path, RemoveAction));
@@ -95,7 +100,7 @@ namespace RemoteController.ViewModels.Pages
             if (string.IsNullOrWhiteSpace(NameForNew))
                 return false;
 
-            if (FileSystemConfig.Roots.ContainsKey(NameForNew))
+            if (FileSystemConfig.Roots.IsNameInUse(NameForNew))
                 return false;
 
             if (!NameForNew.IsValidRootName())
@@ -107,7 +112,10 @@ namespace RemoteController.ViewModels.Pages
         private void RemoveAction(PathViewModel path)
         {
             if (path != null && FileSystemConfig.Roots.Remove(path.Name))
+            {
                 Paths.Remove(path);
+                Options.Save();
+            }
         }
     }
 }
