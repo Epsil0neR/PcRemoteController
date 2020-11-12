@@ -52,18 +52,27 @@ namespace RemoteController.Manipulator.Contexts
     public class FileSystemPaths : List<FileSystemPath>
     {
         /// <summary>
-        /// Checks if specified <paramref name="name"/> is already in use.
+        /// Checks if specified <paramref name="name"/> can be added to this list.
+        /// Name must be unique per <see cref="FileSystemPaths"/>.
+        /// </summary>
+        /// <param name="name">Unique name.</param>
+        /// <returns></returns>
+        public bool CanAdd(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                return false;
+
+            if (!name.IsValidRootName())
+                return false;
+
+            return Find(name) == null;
+        }
+
+        /// <summary>
+        /// Finds <see cref="FileSystemPath"/> by <see cref="FileSystemPath.Name"/>.
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public bool IsNameInUse(string name)
-        {
-            if (string.IsNullOrWhiteSpace(name))
-                return true;
-
-            return Find(name) != null;
-        }
-
         public FileSystemPath Find(string name)
         {
             return this.FirstOrDefault(x => string.Equals(x.Name, name, StringComparison.InvariantCultureIgnoreCase));

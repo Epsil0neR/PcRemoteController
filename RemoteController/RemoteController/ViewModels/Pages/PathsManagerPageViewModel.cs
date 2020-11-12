@@ -97,16 +97,7 @@ namespace RemoteController.ViewModels.Pages
 
         private bool CanAddPath()
         {
-            if (string.IsNullOrWhiteSpace(NameForNew))
-                return false;
-
-            if (FileSystemConfig.Roots.IsNameInUse(NameForNew))
-                return false;
-
-            if (!NameForNew.IsValidRootName())
-                return false;
-
-            return true;
+            return FileSystemConfig.Roots.CanAdd(NameForNew);
         }
 
         private void RemoveAction(PathViewModel path)
