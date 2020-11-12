@@ -9,4 +9,8 @@
     <PackageReference Include="NLog" Version="4.7.5" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\RemoteController.Core\RemoteController.Core.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace RemoteController.Extensions
 {
@@ -13,6 +14,18 @@ namespace RemoteController.Extensions
                 return false;
 
             return true;
+        }
+
+        public static string ReplaceFirst(this string text, string search, string replace)
+        {
+            if (string.IsNullOrEmpty(text) || string.IsNullOrEmpty(search))
+                return text;
+
+            var pos = text.IndexOf(search, StringComparison.Ordinal);
+            if (pos < 0)
+                return text;
+
+            return text.Substring(0, pos) + replace + text.Substring(pos + search.Length);
         }
     }
 }

@@ -65,13 +65,12 @@ namespace RemoteController.Manipulator
         private bool Exec(IManipulatorsManager manager, string path)
         {
             var c = manager.GetContext<FileSystemContext>();
-            var root = GetRoot(path);
-            var p = c.Roots.Find(root);
+            var root = c.Roots.Find(GetRoot(path));
 
-            if (p == null)
+            if (root == null)
                 return false;
 
-            var pathOrig = GetOriginalPath(path, root, p.Path);
+            var pathOrig = root.ToActualPath(path);
 
             if (!File.Exists(pathOrig))
                 return false;
@@ -132,7 +131,7 @@ namespace RemoteController.Manipulator
                 if (c.Roots.Count == 1)
                     PopulateContent(rv, c, c.Roots[0].Path);
                 else
-                    rv["folders"] = c.Roots.Select(x=>x.Name).ToArray();
+                    rv["folders"] = c.Roots.Select(x => x.Name).ToArray();
 
                 return rv;
             }
@@ -145,20 +144,19 @@ namespace RemoteController.Manipulator
         private void PopulateContent(Dictionary<string, IEnumerable<string>> rv, FileSystemContext contexts, params string[] paths)
         {
             var path = Path.Combine(paths);
-            var root = GetRoot(path);
-            var p = contexts.Roots.Find(root);
+            var root = contexts.Roots.Find(GetRoot(path));
 
-            if (p == null)
+            if (root == null)
                 return;
 
-            var pathOrig = GetOriginalPath(path, root, p.Path);
+            var pathOrig = root.ToActualPath(path);
             var di = new DirectoryInfo(pathOrig);
-            if (!di.Exists || !di.FullName.StartsWith(p.Path)) //TODO: Forbidden.
+            if (!di.Exists || !di.FullName.StartsWith(root.Path)) //TODO: Forbidden.
                 return;
 
             var folders = di.GetDirectories()
                 .FilterDirectories(contexts.FolderFilter)
-                .Select(x => x.FullName.Replace(p.Path, p.Name))
+                .Select(x => root.ToFakePath(x.FullName))
                 .ToList();
             if (folders.Any())
                 rv["folders"] = folders.Select(Path.GetFileName).ToList();
@@ -166,7 +164,7 @@ namespace RemoteController.Manipulator
             var fp = string.IsNullOrWhiteSpace(contexts.FileSearchPattern) ? "*" : contexts.FileSearchPattern;
             var files = di.GetFiles(fp, SearchOption.TopDirectoryOnly)
                 .FilterFiles(contexts.FileFilter)
-                .Select(x => x.FullName.Replace(p.Path, p.Name))
+                .Select(x => root.ToFakePath(x.FullName))
                 .ToList();
             if (files.Any())
                 rv["files"] = files.Select(Path.GetFileName).ToList();
@@ -188,17 +186,6 @@ namespace RemoteController.Manipulator
 
             return rv;
         }
-
-        private string GetOriginalPath(string path, string rootFake, string rootOrig)
-        {
-            if (string.Equals(path, rootFake, StringComparison.InvariantCultureIgnoreCase))
-                return rootOrig;
-
-            var relative = path.Substring(rootFake.Length + 1);
-            var rv = Path.Combine(rootOrig, relative);
-            return rv;
-        }
-
     }
 
     internal static class FileSystemManipulationHelpers
