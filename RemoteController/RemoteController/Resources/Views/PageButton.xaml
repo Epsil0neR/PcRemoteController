@@ -31,7 +31,7 @@
 
         <TextBlock 
             Grid.Column="1"
-            Text="{Binding Priority, Converter={StaticResource Converter.EnumToDescription}}"
+            Text="{Binding Name, Converter={StaticResource Converter.EnumToDescription}}"
             VerticalAlignment="Center"
             HorizontalAlignment="Left"/>
 
