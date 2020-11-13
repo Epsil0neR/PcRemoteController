@@ -6,7 +6,7 @@ namespace RemoteController.ViewModels
     public interface IPageViewModel : IViewModel
     {
         /// <summary>
-        /// Used to order pages by this property. Pages are sorted ascending.
+        /// Used to order pages by this property and display this as name for page. Pages are sorted ascending.
         /// </summary>
         public PageName Name { get; }
 
@@ -19,6 +19,7 @@ namespace RemoteController.ViewModels
     public enum PageName:uint
     {
         Overview = 1,
+
         Paths = 5, //TODO: Move after overview.
         
         [Description("Random text")]
