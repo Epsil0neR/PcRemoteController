@@ -37,7 +37,7 @@ namespace RemoteController.ViewModels.Pages
             FileSystemConfig fileSystemConfig,
             Options options,
             Dispatcher dispatcher)
-            : base(PagePriority.Paths, "Paths")
+            : base(PagePriority.Paths)
         {
             FileSystemConfig = fileSystemConfig;
             Options = options;
