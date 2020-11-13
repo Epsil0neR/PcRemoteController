@@ -34,14 +34,46 @@
             Text="{Binding Name, Converter={StaticResource Converter.EnumToDescription}}"
             VerticalAlignment="Center"
             HorizontalAlignment="Left"/>
-
     </Grid>
+    <DataTemplate x:Key="PageButton.DataTemplate" DataType="vm:IPageViewModel">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <!--TODO: Bind image to DC.-->
+            <e:SymbolMaterial
+                x:Name="symbol"
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                Margin="0 4 0 0"
+                Icon="LabelImportant"/>
+
+            <TextBlock 
+                Grid.Column="1"
+                Text="{Binding Name, Converter={StaticResource Converter.EnumToDescription}}"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Left"/>
+        </Grid>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding Name}" Value="{x:Static vm:PageName.Overview}">
+                <Setter TargetName="symbol" Property="Icon" Value="Home" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Name}" Value="{x:Static vm:PageName.Paths}">
+                <Setter TargetName="symbol" Property="Icon" Value="Folder" />
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
     <Style TargetType="v:PageButton" BasedOn="{StaticResource Button.Primary}">
         <Setter Property="Width" Value="200" />
         <Setter Property="Height" Value="60" />
         <Setter Property="FontSize" Value="20" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
 
-        <Setter Property="Content" Value="{StaticResource PageButton.Content}" />
+        <Setter Property="ContentTemplate" Value="{StaticResource PageButton.DataTemplate}" />
+        <Setter Property="Content" Value="{Binding}" />
+        <Setter Property="ContentTemplateSelector" Value="{x:Null}" />
     </Style>
 </ResourceDictionary>

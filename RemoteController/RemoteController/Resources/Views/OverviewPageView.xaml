@@ -25,14 +25,32 @@
                 Orientation="Vertical" >
 
                 <TextBlock 
-                    FontSize="22"
+                    Style="{StaticResource Style.Font.H3}"
                     Margin="4"
                     Text="{Binding ServerConfig.Port, Mode=OneWay, StringFormat='Server port: {0}'}"/>
 
                 <TextBlock 
-                    FontSize="22"
+                    Style="{StaticResource Style.Font.H3}"
                     Margin="4"
                     Text="{Binding WsServer.ConnectionsCount, Mode=OneWay, StringFormat='Connections count: {0}'}"/>
+
+                <StackPanel 
+                    Margin="4"
+                    Orientation="Horizontal">
+                    <TextBlock 
+                        Style="{StaticResource Style.Font.H3}"
+                        Text="Auto-start"
+                    />
+                    <CheckBox
+                        VerticalAlignment="Center"
+                        Margin="4 0"
+                        IsChecked="{Binding AutoConnect, Mode=TwoWay}">
+                        <CheckBox.LayoutTransform>
+                            <ScaleTransform ScaleX="1.2" ScaleY="1.2" CenterX="0" CenterY="0" />
+                        </CheckBox.LayoutTransform>
+                    </CheckBox>
+                </StackPanel>
+
             </StackPanel>
         </ScrollViewer>
     </ControlTemplate>

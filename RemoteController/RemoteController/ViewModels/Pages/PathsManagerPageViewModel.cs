@@ -85,7 +85,7 @@ namespace RemoteController.ViewModels.Pages
             };
 
             FileSystemConfig.Roots.Add(path);
-            Options.Save();
+            Options.Save(FileSystemConfig);
 
             Paths.Add(new PathViewModel(path, RemoveAction));
 
@@ -103,7 +103,7 @@ namespace RemoteController.ViewModels.Pages
             if (path != null && FileSystemConfig.Roots.Remove(path.Path))
             {
                 Paths.Remove(path);
-                Options.Save();
+                Options.Save(FileSystemConfig);
             }
         }
     }

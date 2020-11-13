@@ -20,9 +20,10 @@ namespace RemoteController.ViewModels
     {
         Overview = 1,
 
-        Paths = 5, //TODO: Move after overview.
-        
+        Paths = 5,
+
+        // TODO: When there will be enough pages -> remove this test page.
         [Description("Random text")]
-        Test = 100, // TODO: When there will be enough pages -> remove this page.
+        Test = 100, 
     }
 }
