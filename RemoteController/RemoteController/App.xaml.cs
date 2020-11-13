@@ -4,12 +4,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows;
-using WindowsInput;
 using Epsiloner.OptionsModule;
 using Epsiloner.Wpf.Attributes;
-using Microsoft.Extensions.Configuration;
 using NLog;
-using RemoteController.Attributes;
 using RemoteController.Configs;
 using RemoteController.Configurations;
 using RemoteController.Informer;
@@ -19,7 +16,7 @@ using RemoteController.Manipulator.Contexts;
 using RemoteController.Services;
 using RemoteController.ViewModels;
 using RemoteController.WebSocket;
-using WebSocketSharp.Server;
+using WindowsInput;
 
 namespace RemoteController
 {
@@ -80,7 +77,7 @@ namespace RemoteController
             IoC.RegisterSingleton(Factories.InformersManager);
             IoC.RegisterSingleton<SoundInformer>();
 
-            IoC.Register<IPageViewModel[]>(c => IoC.ResolveAll<IPageViewModel>().OrderBy(x=>x.Priority).ToArray());
+            IoC.Register<IPageViewModel[]>(c => IoC.ResolveAll<IPageViewModel>().OrderBy(x => x.Priority).ToArray());
             IoC.Register<IEnumerable<IPageViewModel>>(c => IoC.ResolveAll<IPageViewModel>().OrderBy(x => x.Priority).ToList());
         }
 

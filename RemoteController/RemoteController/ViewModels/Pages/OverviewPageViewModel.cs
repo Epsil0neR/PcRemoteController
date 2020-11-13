@@ -17,7 +17,7 @@ namespace RemoteController.ViewModels.Pages
             WsServer wsServer,
             ServerConfig serverConfig,
             FileSystemConfig fileSystemConfig)
-            : base((uint)PagePriority.Overview, "Overview")
+            : base(PagePriority.Overview, "Overview")
         {
             WsServer = wsServer ?? throw new ArgumentNullException(nameof(wsServer));
             ServerConfig = serverConfig ?? throw new ArgumentNullException(nameof(serverConfig));

@@ -7,7 +7,7 @@ namespace RemoteController.ViewModels
         /// <summary>
         /// Used to order pages by this property. Pages are sorted ascending.
         /// </summary>
-        public uint Priority { get; }
+        public PagePriority Priority { get; }
 
         /// <summary>
         /// Page name displayed in UI
@@ -23,7 +23,7 @@ namespace RemoteController.ViewModels
     public enum PagePriority:uint
     {
         Overview = 1,
-        Paths =0, //TODO: Move after overview.
+        Paths = 5, //TODO: Move after overview.
         
         
         Test = 100, // TODO: When there will be enough pages -> remove this page.

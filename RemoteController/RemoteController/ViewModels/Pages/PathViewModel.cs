@@ -3,15 +3,22 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using Epsiloner.Wpf.ViewModels;
 using GalaSoft.MvvmLight.CommandWpf;
+using RemoteController.Manipulator.Contexts;
 
 namespace RemoteController.ViewModels.Pages
 {
     public class PathViewModel : ViewModel
     {
         private readonly Action<PathViewModel> _removeAction;
+        private readonly FileSystemPath _data;
         private string _path;
+        private string _name;
 
-        public string Name { get; }
+        public string Name
+        {
+            get => _name;
+            set => Set(ref _name, value);
+        }
 
         public string Path
         {
@@ -22,14 +29,14 @@ namespace RemoteController.ViewModels.Pages
         public ICommand ChangePathCommand { get; }
         public ICommand RemoveCommand { get; }
 
-        /// <param name="name">Displayed path to client.</param>
         /// <param name="path">Actual path.</param>
         /// <param name="removeAction">Action for removing this item.</param>
-        public PathViewModel(string name, string path, Action<PathViewModel> removeAction)
+        public PathViewModel(FileSystemPath path, Action<PathViewModel> removeAction)
         {
+            _data = path;
             _removeAction = removeAction;
-            Name = name;
-            Path = path;
+            Name = path.Name;
+            Path = path.Path;
             ChangePathCommand = new RelayCommand(ChangePath);
             RemoveCommand = new RelayCommand(Remove);
         }
@@ -43,7 +50,9 @@ namespace RemoteController.ViewModels.Pages
             };
             var res = dlg.ShowDialog();
             if (res == DialogResult.OK)
-                Path = dlg.SelectedPath;
+            {
+                _data.Path = Path = dlg.SelectedPath;
+            }
         }
 
         private void Remove()

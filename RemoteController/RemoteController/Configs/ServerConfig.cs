@@ -1,9 +1,7 @@
 ﻿using Epsiloner.OptionsModule;
-using RemoteController.Attributes;
 
 namespace RemoteController.Configs
 {
-    [ConfigSection("Server")]
     public class ServerConfig : IOptionsSection
     {
         public bool AutoConnect { get; set; }

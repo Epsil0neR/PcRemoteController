@@ -3,7 +3,7 @@
     public class TestPageViewModel : BasePageViewModel
     {
         public TestPageViewModel()
-            : base((uint)PagePriority.Test, "TEST")
+            : base(PagePriority.Test, "TEST")
         {
         }
     }

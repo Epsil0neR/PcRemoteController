@@ -6,7 +6,6 @@ using Epsiloner.OptionsModule;
 using Epsiloner.Wpf.Collections;
 using GalaSoft.MvvmLight.CommandWpf;
 using RemoteController.Configs;
-using RemoteController.Extensions;
 using RemoteController.Manipulator.Contexts;
 
 namespace RemoteController.ViewModels.Pages
@@ -38,7 +37,7 @@ namespace RemoteController.ViewModels.Pages
             FileSystemConfig fileSystemConfig,
             Options options,
             Dispatcher dispatcher)
-            : base((uint)PagePriority.Paths, "Paths")
+            : base(PagePriority.Paths, "Paths")
         {
             FileSystemConfig = fileSystemConfig;
             Options = options;
@@ -48,7 +47,7 @@ namespace RemoteController.ViewModels.Pages
             };
 
             foreach (var path in FileSystemConfig.Roots)
-                Paths.Add(new PathViewModel(path.Name, path.Path, RemoveAction));
+                Paths.Add(new PathViewModel(path, RemoveAction));
 
             AddPathCommand = new RelayCommand(AddPath, CanAddPath);
             SelectPathCommand = new RelayCommand(SelectPath);
@@ -79,17 +78,16 @@ namespace RemoteController.ViewModels.Pages
                 return;
             }
 
-            var name = NameForNew;
-            var path = PathForNew;
-
-            FileSystemConfig.Roots.Add(new FileSystemPath
+            var path = new FileSystemPath
             {
-                Name = name,
-                Path = path
-            });
+                Name = NameForNew,
+                Path = PathForNew
+            };
+
+            FileSystemConfig.Roots.Add(path);
             Options.Save();
 
-            Paths.Add(new PathViewModel(name, path, RemoveAction));
+            Paths.Add(new PathViewModel(path, RemoveAction));
 
             NameForNew = string.Empty;
             PathForNew = string.Empty;
@@ -102,7 +100,7 @@ namespace RemoteController.ViewModels.Pages
 
         private void RemoveAction(PathViewModel path)
         {
-            if (path != null && FileSystemConfig.Roots.Remove(path.Name))
+            if (path != null && FileSystemConfig.Roots.Remove(path.Path))
             {
                 Paths.Remove(path);
                 Options.Save();
