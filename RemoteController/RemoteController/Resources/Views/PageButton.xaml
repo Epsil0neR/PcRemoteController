@@ -42,7 +42,6 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <!--TODO: Bind image to DC.-->
             <e:SymbolMaterial
                 x:Name="symbol"
                 Grid.Column="0"
