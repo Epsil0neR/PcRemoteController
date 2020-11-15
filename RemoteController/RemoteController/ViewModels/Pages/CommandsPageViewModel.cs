@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Threading;
 using Epsiloner.OptionsModule;
 using Epsiloner.Wpf.Collections;
-using Epsiloner.Wpf.ViewModels;
 using RemoteController.Configs;
 using RemoteController.Manipulator;
 
@@ -12,21 +10,6 @@ namespace RemoteController.ViewModels.Pages
 {
     public class CommandsPageViewModel : BasePageViewModel
     {
-        private class Context
-        {
-            public CmdManipulation Manipulation { get; }
-            public ManipulationCommand Config { get; }
-            public CommandViewModel ViewModel { get; }
-
-            public Context(ManipulationCommand config)
-            {
-                Config = config;
-                Manipulation = new CmdManipulation(config.Name, config.Data, config.AllowArgument, config.ShowCmdWindow, config.WaitForExecution);
-                ViewModel = new CommandViewModel();
-            }
-        }
-        private readonly List<Context> _contexts = new List<Context>();
-
         public Options Options { get; }
         public CommandsConfig Config { get; }
         public IManipulatorsManager Manager { get; }
@@ -47,19 +30,25 @@ namespace RemoteController.ViewModels.Pages
 
             Commands = new ObservableCollection<CommandViewModel>()
             {
-                Dispatcher =  dispatcher ?? throw new ArgumentNullException(nameof(dispatcher))
+                Dispatcher = dispatcher ?? throw new ArgumentNullException(nameof(dispatcher))
             };
+            Commands.RegisterHandler(CommandHandler);
 
             ProceedConfig();
+        }
+
+        private void CommandHandler(bool inserted, CommandViewModel item, int index)
+        {
+            if (inserted)
+                Manager.Add(item.Manipulation);
+            else
+                Manager.Remove(item.Manipulation);
         }
 
         private void ProceedConfig()
         {
             //1. Remove old manipulations.
-            foreach (var item in _contexts)
-                Manager.Remove(item.Manipulation);
-
-            _contexts.Clear(); 
+            Commands.Clear();
 
             //2. Check which config items are invalid and remove them.
             var invalidCommands = Config.Where(x => !Validator.Validate(x)).ToList();
@@ -74,13 +63,10 @@ namespace RemoteController.ViewModels.Pages
             {
                 if (c.Mode == ManipulationCommandType.Code)
                 {
-                    var context = new Context(c);
-                    Manager.Add(context.Manipulation);
-                    _contexts.Add(context);
+                    var vm = new CommandViewModel(c);
+                    Commands.Add(vm);
                 }
             }
         }
     }
-
-    public class CommandViewModel: ViewModel {}
 }
