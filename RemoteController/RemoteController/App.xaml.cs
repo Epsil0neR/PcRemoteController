@@ -118,11 +118,13 @@ namespace RemoteController
             };
             options.Register<FileSystemConfig>();
             options.Register<ServerConfig>();
+            options.Register<CommandsConfig>();
 
             Options.Current = options;
             IoC.RegisterInstance(options);
             IoC.RegisterInstance(options.Section<FileSystemConfig>());
             IoC.RegisterInstance(options.Section<ServerConfig>());
+            IoC.RegisterInstance(options.Section<CommandsConfig>());
         }
 
         private static void HandlerForSectionLoad(Type type, Exception ex)

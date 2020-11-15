@@ -62,6 +62,9 @@
             <DataTrigger Binding="{Binding Name}" Value="{x:Static vm:PageName.Paths}">
                 <Setter TargetName="symbol" Property="Icon" Value="Folder" />
             </DataTrigger>
+            <DataTrigger Binding="{Binding Name}" Value="{x:Static vm:PageName.Commands}">
+                <Setter TargetName="symbol" Property="Icon" Value="Code" />
+            </DataTrigger>
         </DataTemplate.Triggers>
     </DataTemplate>
 
