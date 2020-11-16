@@ -28,6 +28,11 @@
         /// </summary>
         public bool AllowArgument { get; set; }
 
+        /// <summary>
+        /// Indicates if command is enabled.
+        /// </summary>
+        private bool IsEnabled { get; set; }
+
         public bool ShowCmdWindow { get; set; } = true;
 
         public bool WaitForExecution { get; set; } = true;

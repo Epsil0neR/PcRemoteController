@@ -6,5 +6,6 @@
         <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Views/PageButton.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Views/OverviewPageView.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Views/PathsManagerView.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Views/CommandsPageView.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

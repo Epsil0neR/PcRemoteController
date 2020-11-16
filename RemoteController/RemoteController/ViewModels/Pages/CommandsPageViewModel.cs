@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq;
+using System.Windows.Input;
 using System.Windows.Threading;
 using Epsiloner.OptionsModule;
 using Epsiloner.Wpf.Collections;
+using GalaSoft.MvvmLight.CommandWpf;
 using RemoteController.Configs;
 using RemoteController.Manipulator;
 
@@ -15,6 +17,8 @@ namespace RemoteController.ViewModels.Pages
         public IManipulatorsManager Manager { get; }
 
         public ObservableCollection<CommandViewModel> Commands { get; }
+
+        public ICommand TestCommand { get; }
 
         public CommandsPageViewModel(
             Dispatcher dispatcher,
@@ -34,13 +38,31 @@ namespace RemoteController.ViewModels.Pages
             };
             Commands.RegisterHandler(CommandHandler);
 
+            if (Config.Count == 0)
+            {
+                var c = new ManipulationCommand()
+                {
+                    Name = "cmd.Test",
+                    Data = "msg %username% Your message here",
+                    ShowCmdWindow = true
+                };
+                Config.Add(c);
+            }
+
+            TestCommand = new RelayCommand(Test);
+
             ProceedConfig();
+        }
+
+        private void Test()
+        {
+           var t = Manager.TryExecute("cmd.test");
         }
 
         private void CommandHandler(bool inserted, CommandViewModel item, int index)
         {
             if (inserted)
-                Manager.Add(item.Manipulation);
+                Manager.Add(item.Manipulation); //TODO: Wrap into try..catch as name can be in use.
             else
                 Manager.Remove(item.Manipulation);
         }
@@ -61,6 +83,7 @@ namespace RemoteController.ViewModels.Pages
             //3. Populate manipulator manager with items from config.
             foreach (var c in Config)
             {
+                //TODO: Add support for commands with File mode.
                 if (c.Mode == ManipulationCommandType.Code)
                 {
                     var vm = new CommandViewModel(c);

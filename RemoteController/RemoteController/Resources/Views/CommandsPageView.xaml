@@ -13,7 +13,7 @@
         <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Styles/ButtonStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
     <d:FrameworkElement.DataContext>
-        <x:Type Type="vm:OverviewPageViewModel" />
+        <x:Type Type="vm:CommandsPageViewModel" />
     </d:FrameworkElement.DataContext>
 
 
@@ -25,6 +25,7 @@
                 Orientation="Vertical" >
 
                 <!--TODO-->
+                <Button Content="TEST" Command="{Binding TestCommand}" />
 
             </StackPanel>
         </ScrollViewer>
