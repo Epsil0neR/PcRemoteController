@@ -5,11 +5,11 @@ using RemoteController.ViewModels.Pages;
 
 namespace RemoteController.Views
 {
-    public class Pages : Button
+    public class PageButton : Button
     {
-        static Pages()
+        static PageButton()
         {
-            var t = typeof(Pages);
+            var t = typeof(PageButton);
             DefaultStyleKeyProperty.OverrideMetadata(t, new FrameworkPropertyMetadata
             {
                 DefaultValue = t
