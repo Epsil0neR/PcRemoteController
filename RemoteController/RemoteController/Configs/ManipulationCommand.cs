@@ -31,7 +31,7 @@
         /// <summary>
         /// Indicates if command is enabled.
         /// </summary>
-        private bool IsEnabled { get; set; }
+        public bool IsEnabled { get; set; }
 
         public bool ShowCmdWindow { get; set; } = true;
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -61,15 +62,16 @@ namespace RemoteController.ViewModels.Pages
 
         private void CommandHandler(bool inserted, CommandViewModel item, int index)
         {
-            if (inserted)
-                Manager.Add(item.Manipulation); //TODO: Wrap into try..catch as name can be in use.
-            else
+            if (!inserted)
                 Manager.Remove(item.Manipulation);
+            else if (Config.IsEnabled && item.Config.IsEnabled)
+                Manager.Add(item.Manipulation); //TODO: Wrap into try..catch as name can be in use.
         }
 
         private void ProceedConfig()
         {
             //1. Remove old manipulations.
+            Config.PropertyChanged -= ConfigOnPropertyChanged;
             Commands.Clear();
 
             //2. Check which config items are invalid and remove them.
@@ -90,6 +92,16 @@ namespace RemoteController.ViewModels.Pages
                     Commands.Add(vm);
                 }
             }
+
+            Config.PropertyChanged += ConfigOnPropertyChanged;
+        }
+
+        private void ConfigOnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName != nameof(CommandsConfig.IsEnabled))
+                return;
+
+
         }
     }
 }
