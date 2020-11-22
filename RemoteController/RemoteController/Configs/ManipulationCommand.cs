@@ -1,4 +1,6 @@
-﻿namespace RemoteController.Configs
+﻿using System.ComponentModel;
+
+namespace RemoteController.Configs
 {
     public enum ManipulationCommandType
     {
@@ -26,15 +28,25 @@
         /// <summary>
         /// Indicates if command supports argument at end of code or file.
         /// </summary>
+        [DefaultValue(false)]
         public bool AllowArgument { get; set; }
 
         /// <summary>
         /// Indicates if command is enabled.
         /// </summary>
-        public bool IsEnabled { get; set; }
+        [DefaultValue(true)]
+        public bool IsEnabled { get; set; } = true;
 
+        /// <summary>
+        /// Working directory for CMD process. If empty - will be used application directory.
+        /// </summary>
+        [DefaultValue(null)]
+        public string WorkingDirectory { get; set; }
+
+        [DefaultValue(true)]
         public bool ShowCmdWindow { get; set; } = true;
 
+        [DefaultValue(true)]
         public bool WaitForExecution { get; set; } = true;
     }
 }

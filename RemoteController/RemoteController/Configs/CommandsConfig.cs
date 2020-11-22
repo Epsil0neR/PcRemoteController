@@ -9,7 +9,7 @@ namespace RemoteController.Configs
     public class CommandsConfig : List<ManipulationCommand>, IOptionsSection, INotifyPropertyChanged
     {
         private readonly ViewModelUtil _vm;
-        private bool _isEnabled;
+        private bool _isEnabled = true;
 
         public event PropertyChangedEventHandler PropertyChanged;
 

@@ -1,7 +1,14 @@
-﻿namespace RemoteController.Manipulator
+﻿using System;
+
+namespace RemoteController.Manipulator
 {
     public interface IManipulatorsManager
     {
+        /// <summary>
+        /// Raised when <see cref="IManipulation"/> is added or removed from manager.
+        /// </summary>
+        event EventHandler<ManipulatorsItemEventArgs> ItemStateChanged;
+
         /// <summary>
         /// Gets context for specified mode
         /// </summary>
@@ -28,6 +35,8 @@
         /// Adds manipulation for managing.
         /// </summary>
         /// <param name="manipulation"></param>
+        /// <exception cref="ArgumentException">Name is empty or whitespace.</exception>
+        /// <exception cref="ArgumentException">Manipulation with same name already registered..</exception>
         void Add(IManipulation manipulation);
 
         /// <summary>
@@ -35,5 +44,12 @@
         /// </summary>
         /// <param name="manipulation"></param>
         bool Remove(IManipulation manipulation);
+
+        /// <summary>
+        /// Finds manipulation by name.
+        /// </summary>
+        /// <param name="name">Manipulation name.</param>
+        /// <returns></returns>
+        IManipulation Find(string name);
     }
 }

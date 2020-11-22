@@ -44,28 +44,36 @@ namespace RemoteController.ViewModels.Pages
                 var c = new ManipulationCommand()
                 {
                     Name = "cmd.Test",
-                    Data = "msg %username% Your message here",
+                    Data = "git status",//"msg %username% Your message here",
                     ShowCmdWindow = true
                 };
                 Config.Add(c);
+                Options.Save(Config);
             }
 
             TestCommand = new RelayCommand(Test);
 
+            Manager.ItemStateChanged += ManagerOnItemStateChanged;
             ProceedConfig();
         }
 
         private void Test()
         {
-           var t = Manager.TryExecute("cmd.test");
+            var t = Manager.TryExecute("cmd.Test");
         }
 
         private void CommandHandler(bool inserted, CommandViewModel item, int index)
         {
             if (!inserted)
+            {
                 Manager.Remove(item.Manipulation);
-            else if (Config.IsEnabled && item.Config.IsEnabled)
-                Manager.Add(item.Manipulation); //TODO: Wrap into try..catch as name can be in use.
+                item.IsWorking = false;
+            }
+            else if (Config.IsEnabled && item.Config.IsEnabled && Manager.Find(item.Manipulation.Name) == null)
+            {
+                Manager.Add(item.Manipulation);
+                item.IsWorking = true;
+            }
         }
 
         private void ProceedConfig()
@@ -101,7 +109,30 @@ namespace RemoteController.ViewModels.Pages
             if (e.PropertyName != nameof(CommandsConfig.IsEnabled))
                 return;
 
+            if (Config.IsEnabled)
+            {
+                //IsEnabled == true  -> Add all enabled Command manipulations to manager.
+                foreach (var command in Commands)
+                    CommandHandler(true, command, -1);
+            }
+            else
+            {
+                //IsEnabled == false -> Remove from manager all manipulations that belongs to this page.
+                foreach (var command in Commands)
+                    CommandHandler(false, command, -1);
+            }
+        }
 
+        private void ManagerOnItemStateChanged(object sender, ManipulatorsItemEventArgs e)
+        {
+            if (e.Inserted)
+                return;
+
+            var vm = Commands.FirstOrDefault(x => ReferenceEquals(x.Manipulation, e.Manipulation));
+            if (vm == null)
+                return;
+
+            vm.IsWorking = false;
         }
     }
 }

@@ -164,7 +164,7 @@ namespace RemoteController.IoCs
 
         public static ManipulatorsManager ManipulatorsManager(IUnityContainer c)
         {
-            var manipulatorsManager = new ManipulatorsManager();
+            var manipulatorsManager = new ManipulatorsManager(Log.Logger);
             manipulatorsManager.ItemStateChanged += ManipulatorsManagerOnItemStateChanged;
             return manipulatorsManager;
         }
