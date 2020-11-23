@@ -16,18 +16,41 @@
         <x:Type Type="vm:CommandsPageViewModel" />
     </d:FrameworkElement.DataContext>
 
+    <DataTemplate x:Key="CommandViewModel.DataTemplate" DataType="vm:CommandViewModel">
+        <TextBlock Text="{Binding Config.Name}" />
+    </DataTemplate>
 
     <ControlTemplate TargetType="v:CommandsPageView" x:Key="CommandsPageView.Template">
         <ScrollViewer
             HorizontalScrollBarVisibility="Auto"
             VerticalScrollBarVisibility="Auto">
-            <StackPanel
-                Orientation="Vertical" >
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-                <!--TODO-->
-                <Button Content="TEST" Command="{Binding TestCommand}" />
+                <Button 
+                    Grid.Row="0"
+                    Content="TEST" 
+                    Command="{Binding TestCommand}" />
 
-            </StackPanel>
+                <ItemsControl
+                    Grid.Row="1"
+                    ItemsSource="{Binding Commands, Mode=OneWay}"
+                    ItemTemplate="{StaticResource CommandViewModel.DataTemplate}"
+                    />
+
+                <Button 
+                    Grid.Row="2"
+                    Style="{StaticResource Button.Primary}"
+                    Height="40"
+                    Content="Add command..."
+                    HorizontalAlignment="Right"
+                    Margin="0 8 0 0"
+                    />
+            </Grid>
         </ScrollViewer>
     </ControlTemplate>
 
