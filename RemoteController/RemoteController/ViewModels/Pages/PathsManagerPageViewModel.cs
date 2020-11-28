@@ -1,37 +1,26 @@
-﻿using System.IO;
-using System.Windows.Forms;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using System.Windows.Threading;
 using Epsiloner.OptionsModule;
 using Epsiloner.Wpf.Collections;
 using GalaSoft.MvvmLight.CommandWpf;
 using RemoteController.Configs;
-using RemoteController.Manipulator.Contexts;
 
 namespace RemoteController.ViewModels.Pages
 {
     public class PathsManagerPageViewModel : BasePageViewModel
     {
-        private string _nameForNew;
-        private string _pathForNew;
+        private CreatePathViewModel _createPath;
         public FileSystemConfig FileSystemConfig { get; }
         public Options Options { get; }
         public ObservableCollection<PathViewModel> Paths { get; }
 
-        public string NameForNew
+        public CreatePathViewModel CreatePath
         {
-            get => _nameForNew;
-            set => Set(ref _nameForNew, value);
+            get => _createPath;
+            set => Set(ref _createPath, value);
         }
 
-        public string PathForNew
-        {
-            get => _pathForNew;
-            set => Set(ref _pathForNew, value);
-        }
-
-        public RelayCommand AddPathCommand { get; }
-        public ICommand SelectPathCommand { get; }
+        public ICommand CreatePathCommand { get; }
 
         public PathsManagerPageViewModel(
             FileSystemConfig fileSystemConfig,
@@ -49,53 +38,33 @@ namespace RemoteController.ViewModels.Pages
             foreach (var path in FileSystemConfig.Roots)
                 Paths.Add(new PathViewModel(path, RemoveAction));
 
-            AddPathCommand = new RelayCommand(AddPath, CanAddPath);
-            SelectPathCommand = new RelayCommand(SelectPath);
+            CreatePathCommand = new RelayCommand(CreatePathCommandHandler);
         }
 
-        private void SelectPath()
+        private void CreatePathCommandHandler()
         {
-            using var dlg = new FolderBrowserDialog
-            {
-                ShowNewFolderButton = true,
-                Description = $"Select directory that will be associated with '{NameForNew}'.",
-                SelectedPath = PathForNew,
-            };
-            var res = dlg.ShowDialog();
-            if (res != DialogResult.OK)
-                return;
-            PathForNew = dlg.SelectedPath;
+            CreatePath = new CreatePathViewModel(
+                () => CreatePath = null,
+                CreatePathSubmit,
+                IsNameValid);
         }
 
-        private void AddPath()
+        private bool IsNameValid(string name)
         {
-            if (!CanAddPath())
+            return FileSystemConfig.Roots.CanAdd(name);
+        }
+
+        private void CreatePathSubmit()
+        {
+            if (CreatePath == null)
                 return;
 
-            if (!Directory.Exists(PathForNew))
-            {
-                PathForNew = string.Empty;
-                return;
-            }
-
-            var path = new FileSystemPath
-            {
-                Name = NameForNew,
-                Path = PathForNew
-            };
-
+            var path = CreatePath.ToFileSystemPath();
+            CreatePath = null;
             FileSystemConfig.Roots.Add(path);
             Options.Save(FileSystemConfig);
 
             Paths.Add(new PathViewModel(path, RemoveAction));
-
-            NameForNew = string.Empty;
-            PathForNew = string.Empty;
-        }
-
-        private bool CanAddPath()
-        {
-            return FileSystemConfig.Roots.CanAdd(NameForNew);
         }
 
         private void RemoveAction(PathViewModel path)

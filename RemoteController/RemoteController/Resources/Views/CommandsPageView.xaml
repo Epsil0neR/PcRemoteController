@@ -6,6 +6,7 @@
     xmlns:v="clr-namespace:RemoteController.Views"
     xmlns:vm="clr-namespace:RemoteController.ViewModels.Pages"
     xmlns:e="http://schemas.epsiloner.git/wpf/"
+    xmlns:vms="clr-namespace:RemoteController.ViewModels"
     mc:Ignorable="d" 
     >
     <ResourceDictionary.MergedDictionaries>
@@ -16,7 +17,7 @@
         <x:Type Type="vm:CommandsPageViewModel" />
     </d:FrameworkElement.DataContext>
 
-    <DataTemplate x:Key="CommandViewModel.DataTemplate" DataType="vm:CommandViewModel">
+    <DataTemplate x:Key="CommandViewModel.DataTemplate" DataType="vms:CommandViewModel">
         <Grid 
             x:Name="root"
             Background="Transparent"
@@ -128,7 +129,7 @@
                     Style="{StaticResource Button.Primary}"
                     Height="{StaticResource Sizes.Control.Large}"
                     FontSize="16"
-                    Content="Add command ..."
+                    Content="Add command..."
                     HorizontalAlignment="Right"
                     Margin="0 8 0 0"
                     />

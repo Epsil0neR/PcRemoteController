@@ -2,7 +2,7 @@
 using RemoteController.Configs;
 using RemoteController.Manipulator;
 
-namespace RemoteController.ViewModels.Pages
+namespace RemoteController.ViewModels
 {
     public class CommandViewModel : ViewModel
     {

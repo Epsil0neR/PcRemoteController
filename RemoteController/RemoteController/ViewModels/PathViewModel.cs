@@ -5,7 +5,7 @@ using Epsiloner.Wpf.ViewModels;
 using GalaSoft.MvvmLight.CommandWpf;
 using RemoteController.Manipulator.Contexts;
 
-namespace RemoteController.ViewModels.Pages
+namespace RemoteController.ViewModels
 {
     public class PathViewModel : ViewModel
     {

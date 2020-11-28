@@ -6,6 +6,7 @@
     xmlns:v="clr-namespace:RemoteController.Views"
     xmlns:vm="clr-namespace:RemoteController.ViewModels.Pages"
     xmlns:e="http://schemas.epsiloner.git/wpf/"
+    xmlns:vms="clr-namespace:RemoteController.ViewModels"
     mc:Ignorable="d">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Generic/All.xaml" />
@@ -15,7 +16,7 @@
         <x:Type Type="vm:PathsManagerPageViewModel" />
     </d:FrameworkElement.DataContext>
 
-    <DataTemplate x:Key="PathViewModel.DataTemplate" DataType="vm:PathViewModel">
+    <DataTemplate x:Key="PathViewModel.DataTemplate" DataType="vms:PathViewModel">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -64,79 +65,161 @@
             </StackPanel>
         </Grid>
     </DataTemplate>
-    
-    <ControlTemplate TargetType="v:PathsManagerPageView" x:Key="PathsManagerPageView.Template">
-        <ScrollViewer
-            HorizontalScrollBarVisibility="Auto"
-            VerticalScrollBarVisibility="Auto">
-            <StackPanel>
-                <ItemsControl
-                    ItemsSource="{Binding Paths}"
-                    ItemTemplate="{StaticResource PathViewModel.DataTemplate}" />
 
-                <Grid Margin="0 12 0 0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
+    <DataTemplate x:Key="CreatePathViewModel.DataTemplate" DataType="vms:CreatePathViewModel">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
 
-                    <TextBlock 
-                        Grid.Column="0"
-                        Grid.Row="0"
-                        Width="40"
-                        VerticalAlignment="Center"
-                        Text="Name: " />
-                    <TextBlock 
-                        Grid.Column="0"
-                        Grid.Row="1"
-                        Width="40"
-                        VerticalAlignment="Center"
-                        Text="Path: " />
+            <TextBlock 
+                Grid.Column="0"
+                Grid.Row="0"
+                Width="40"
+                VerticalAlignment="Center"
+                Text="Name: " />
+            <TextBlock 
+                Grid.Column="0"
+                Grid.Row="1"
+                Width="40"
+                VerticalAlignment="Center"
+                Text="Path: " />
 
-                    <TextBox 
-                        Grid.Column="1"
-                        Grid.Row="0"
-                        Height="{StaticResource Sizes.Control.Small}"
-                        Margin="0 0 0 0"
-                        VerticalContentAlignment="Center"
-                        VerticalAlignment="Stretch"
-                        Text="{Binding NameForNew, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBox 
+                Grid.Column="1"
+                Grid.Row="0"
+                Height="{StaticResource Sizes.Control.Small}"
+                Margin="0 0 0 0"
+                VerticalContentAlignment="Center"
+                VerticalAlignment="Stretch"
+                Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-                    <Button
-                        Grid.Column="1"
-                        Grid.Row="1"
-                        Height="{StaticResource Sizes.Control.Small}"
-                        Padding="4 0"
-                        Background="White"
-                        Foreground="Black"
-                        HorizontalContentAlignment="Left"
-                        VerticalContentAlignment="Center"
-                        Command="{Binding SelectPathCommand}"
-                        Content="{Binding PathForNew, TargetNullValue='Browse...'}"
-                        />
+            <Button
+                Grid.Column="1"
+                Grid.Row="1"
+                Height="{StaticResource Sizes.Control.Small}"
+                Padding="4 0"
+                Background="White"
+                Foreground="Black"
+                BorderBrush="#FFABADB3"
+                BorderThickness="1"
+                HorizontalContentAlignment="Left"
+                VerticalContentAlignment="Center"
+                Command="{Binding ChoosePathCommand}"
+                Content="{Binding Path=Path, TargetNullValue='Browse...'}"
+                />
 
-                    <Button
-                        Grid.Column="2"
-                        Grid.Row="0"
-                        Grid.RowSpan="2"
-                        Margin="4 0 0 0"
-                        Command="{Binding AddPathCommand}"
-                        Style="{StaticResource Button.Primary}">
+            <TextBlock
+                Grid.Row="2"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Text="{Binding ValidationErrorMessage}"
+                Margin="0 4"
+                Foreground="{StaticResource Brush.Danger}"
+                Style="{StaticResource Style.Font.H4}" />
+
+            <StackPanel
+                Grid.Column="0"
+                Grid.Row="3"
+                Grid.ColumnSpan="2"
+                Margin="4 4 0 0"
+                Orientation="Horizontal"
+                HorizontalAlignment="Right"
+                >
+
+                <Button
+                    Command="{Binding CancelCommand}">
+                    <StackPanel Orientation="Horizontal">
                         <e:SymbolMaterial
                             FontSize="32"
-                            Icon="LibraryAdd"
+                            Icon="Cancel"
                             />
-                    </Button>
-                </Grid>
+                        <TextBlock 
+                            Text="Cancel" 
+                            Margin="4 0 0 0"
+                            Style="{StaticResource Style.Font.H3}"
+                            VerticalAlignment="Center" />
+                    </StackPanel>
+                </Button>
+
+                <Button
+                    Command="{Binding SubmitCommand}"
+                    Style="{StaticResource Button.Primary}"
+                    Margin="8 0 0 0">
+                    <StackPanel Orientation="Horizontal">
+                        <e:SymbolMaterial
+                            FontSize="32"
+                            Icon="CheckCircleOutline"
+                            />
+                        <TextBlock 
+                            Text="Create" 
+                            Margin="4 0 0 0"
+                            Style="{StaticResource Style.Font.H3}"
+                            VerticalAlignment="Center" />
+                    </StackPanel>
+                </Button>
+
             </StackPanel>
-        </ScrollViewer>
+
+        </Grid>
+    </DataTemplate>
+
+    <ControlTemplate TargetType="v:PathsManagerPageView" x:Key="PathsManagerPageView.Template">
+        <Grid>
+            <Grid
+                x:Name="viewDefault"
+                >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <ScrollViewer
+                    HorizontalScrollBarVisibility="Auto"
+                    VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <ItemsControl
+                            ItemsSource="{Binding Paths}"
+                            ItemTemplate="{StaticResource PathViewModel.DataTemplate}" />
+
+                    </StackPanel>
+                </ScrollViewer>
+                <Grid 
+                    Grid.Row="1"
+                    Margin="0 12 0 0">
+                    <Button 
+                        VerticalAlignment="Bottom"
+                        Style="{StaticResource Button.Primary}"
+                        Height="{StaticResource Sizes.Control.Large}"
+                        Command="{Binding CreatePathCommand}"
+                        FontSize="16"
+                        Content="Add path..."
+                        HorizontalAlignment="Right"
+                        Margin="0 8 0 0"
+                    />
+                </Grid>
+            </Grid>
+            <ContentControl 
+                x:Name="viewCreation"
+                Content="{Binding CreatePath, Mode=OneWay}"
+                ContentTemplate="{StaticResource CreatePathViewModel.DataTemplate}"
+                Visibility="Collapsed"
+                />
+        </Grid>
+        <ControlTemplate.Triggers>
+            <DataTrigger Binding="{Binding CreatePath, Converter={StaticResource Converter.IsNotNull}}" Value="True">
+                <Setter TargetName="viewDefault" Property="Visibility" Value="Collapsed" />
+                <Setter TargetName="viewCreation" Property="Visibility" Value="Visible" />
+            </DataTrigger>
+        </ControlTemplate.Triggers>
     </ControlTemplate>
-    
+
     <Style TargetType="v:PathsManagerPageView">
         <Setter Property="Template" Value="{StaticResource PathsManagerPageView.Template}" />
     </Style>
