@@ -55,6 +55,7 @@
                 </Button>
                 <Button
                     Command="{Binding RemoveCommand}"
+                    Style="{StaticResource Button.Danger}"
                     ToolTip="Remove">
                     <e:SymbolMaterial
                         FontSize="24"
@@ -71,8 +72,7 @@
             <StackPanel>
                 <ItemsControl
                     ItemsSource="{Binding Paths}"
-                    ItemTemplate="{StaticResource PathViewModel.DataTemplate}"
-                    Margin="4" />
+                    ItemTemplate="{StaticResource PathViewModel.DataTemplate}" />
 
                 <Grid Margin="0 12 0 0">
                     <Grid.ColumnDefinitions>
@@ -101,7 +101,7 @@
                     <TextBox 
                         Grid.Column="1"
                         Grid.Row="0"
-                        Height="24"
+                        Height="{StaticResource Sizes.Control.Small}"
                         Margin="0 0 0 0"
                         VerticalContentAlignment="Center"
                         VerticalAlignment="Stretch"
@@ -110,7 +110,7 @@
                     <Button
                         Grid.Column="1"
                         Grid.Row="1"
-                        Height="24"
+                        Height="{StaticResource Sizes.Control.Small}"
                         Padding="4 0"
                         Background="White"
                         Foreground="Black"

@@ -51,4 +51,10 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Page Update="Resources\Generic\Sizes.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
 </Project>

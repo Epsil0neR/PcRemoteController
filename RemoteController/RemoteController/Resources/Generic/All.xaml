@@ -3,6 +3,7 @@
 
         <!--Here are listed all generic resources only.-->
 
+        <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Generic/Sizes.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Generic/Colors.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Generic/Converters.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Generic/Images.xaml" />
