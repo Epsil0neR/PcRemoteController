@@ -37,7 +37,7 @@ namespace RemoteController.IoCs
         /// <returns></returns>
         private static bool AuthenticationCheck(Message msg)
         {
-            return true;
+            //return true;
             return msg.Sender.IsAuthenticated || msg.Type != MessageType.Request || msg.ActionName.Equals("Auth", StringComparison.CurrentCultureIgnoreCase);
         }
 
@@ -80,6 +80,8 @@ namespace RemoteController.IoCs
             }
 
             if (auth.TryAuthorize(token))
+                msg.Sender.Auth(token);
+            else if (auth.Register(token, string.Empty, string.Empty))
                 msg.Sender.Auth(token);
         }
 
@@ -158,6 +160,8 @@ namespace RemoteController.IoCs
             var server = c.Resolve<WsServer>();
             informersManager.InformerChanged +=
                 (sender, informer) => informer.Send(server);
+
+            informersManager.Start();
 
             return informersManager;
         }

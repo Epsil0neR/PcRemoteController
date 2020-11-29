@@ -1613,18 +1613,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm2015/common.js");
 /* harmony import */ var _services_web_socket_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./services/web-socket.service */ "./src/core/services/web-socket.service.ts");
 /* harmony import */ var _services_pages_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./services/pages.service */ "./src/core/services/pages.service.ts");
-/* harmony import */ var _services_informers_state_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./services/informers-state.service */ "./src/core/services/informers-state.service.ts");
-/* harmony import */ var _services_controls_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./services/controls.service */ "./src/core/services/controls.service.ts");
-/* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm2015/platform-browser.js");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm2015/http.js");
-/* harmony import */ var _directives_auto_focus_directive__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./directives/auto-focus.directive */ "./src/core/directives/auto-focus.directive.ts");
-/* harmony import */ var _components_control_column_editor_control_column_editor_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/control-column-editor/control-column-editor.component */ "./src/core/components/control-column-editor/control-column-editor.component.ts");
-/* harmony import */ var _pipes_column_class_name_pipe__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./pipes/column-class-name.pipe */ "./src/core/pipes/column-class-name.pipe.ts");
-/* harmony import */ var _components_icon_selector_icon_selector_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/icon-selector/icon-selector.component */ "./src/core/components/icon-selector/icon-selector.component.ts");
-/* harmony import */ var _fortawesome_angular_fontawesome__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @fortawesome/angular-fontawesome */ "./node_modules/@fortawesome/angular-fontawesome/fesm2015/angular-fontawesome.js");
-/* harmony import */ var _pipes_IconsFilterPipe__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./pipes/IconsFilterPipe */ "./src/core/pipes/IconsFilterPipe.ts");
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm2015/forms.js");
-/* harmony import */ var _pipes_EnumToArrayPipe__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./pipes/EnumToArrayPipe */ "./src/core/pipes/EnumToArrayPipe.ts");
+/* harmony import */ var _services_auth_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./services/auth.service */ "./src/core/services/auth.service.ts");
+/* harmony import */ var _services_informers_state_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./services/informers-state.service */ "./src/core/services/informers-state.service.ts");
+/* harmony import */ var _services_controls_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./services/controls.service */ "./src/core/services/controls.service.ts");
+/* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm2015/platform-browser.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm2015/http.js");
+/* harmony import */ var _directives_auto_focus_directive__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./directives/auto-focus.directive */ "./src/core/directives/auto-focus.directive.ts");
+/* harmony import */ var _components_control_column_editor_control_column_editor_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/control-column-editor/control-column-editor.component */ "./src/core/components/control-column-editor/control-column-editor.component.ts");
+/* harmony import */ var _pipes_column_class_name_pipe__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./pipes/column-class-name.pipe */ "./src/core/pipes/column-class-name.pipe.ts");
+/* harmony import */ var _components_icon_selector_icon_selector_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/icon-selector/icon-selector.component */ "./src/core/components/icon-selector/icon-selector.component.ts");
+/* harmony import */ var _fortawesome_angular_fontawesome__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @fortawesome/angular-fontawesome */ "./node_modules/@fortawesome/angular-fontawesome/fesm2015/angular-fontawesome.js");
+/* harmony import */ var _pipes_IconsFilterPipe__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./pipes/IconsFilterPipe */ "./src/core/pipes/IconsFilterPipe.ts");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm2015/forms.js");
+/* harmony import */ var _pipes_EnumToArrayPipe__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./pipes/EnumToArrayPipe */ "./src/core/pipes/EnumToArrayPipe.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1651,15 +1652,17 @@ var CoreModule_1;
 
 
 
+
 let CoreModule = CoreModule_1 = class CoreModule {
     static forRoot() {
         return {
             ngModule: CoreModule_1,
             providers: [
-                _services_controls_service__WEBPACK_IMPORTED_MODULE_5__["ControlsService"],
-                _services_informers_state_service__WEBPACK_IMPORTED_MODULE_4__["InformersStateService"],
+                _services_controls_service__WEBPACK_IMPORTED_MODULE_6__["ControlsService"],
+                _services_informers_state_service__WEBPACK_IMPORTED_MODULE_5__["InformersStateService"],
                 _services_pages_service__WEBPACK_IMPORTED_MODULE_3__["PagesService"],
-                { provide: _services_web_socket_service__WEBPACK_IMPORTED_MODULE_2__["WebSocketService"], useFactory: WebSocketServiceProvider },
+                _services_auth_service__WEBPACK_IMPORTED_MODULE_4__["AuthService"],
+                { provide: _services_web_socket_service__WEBPACK_IMPORTED_MODULE_2__["WebSocketService"], useFactory: WebSocketServiceProvider, deps: [_services_auth_service__WEBPACK_IMPORTED_MODULE_4__["AuthService"]] },
             ]
         };
     }
@@ -1667,41 +1670,41 @@ let CoreModule = CoreModule_1 = class CoreModule {
 CoreModule = CoreModule_1 = __decorate([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["NgModule"])({
         declarations: [
-            _directives_auto_focus_directive__WEBPACK_IMPORTED_MODULE_8__["AutoFocusDirective"],
-            _components_control_column_editor_control_column_editor_component__WEBPACK_IMPORTED_MODULE_9__["ControlColumnEditorComponent"],
-            _pipes_column_class_name_pipe__WEBPACK_IMPORTED_MODULE_10__["ColumnClassNamePipe"],
-            _pipes_EnumToArrayPipe__WEBPACK_IMPORTED_MODULE_15__["EnumToArrayPipe"],
-            _pipes_IconsFilterPipe__WEBPACK_IMPORTED_MODULE_13__["IconsFilterPipe"],
-            _components_icon_selector_icon_selector_component__WEBPACK_IMPORTED_MODULE_11__["IconSelectorComponent"],
+            _directives_auto_focus_directive__WEBPACK_IMPORTED_MODULE_9__["AutoFocusDirective"],
+            _components_control_column_editor_control_column_editor_component__WEBPACK_IMPORTED_MODULE_10__["ControlColumnEditorComponent"],
+            _pipes_column_class_name_pipe__WEBPACK_IMPORTED_MODULE_11__["ColumnClassNamePipe"],
+            _pipes_EnumToArrayPipe__WEBPACK_IMPORTED_MODULE_16__["EnumToArrayPipe"],
+            _pipes_IconsFilterPipe__WEBPACK_IMPORTED_MODULE_14__["IconsFilterPipe"],
+            _components_icon_selector_icon_selector_component__WEBPACK_IMPORTED_MODULE_12__["IconSelectorComponent"],
         ],
         imports: [
-            _fortawesome_angular_fontawesome__WEBPACK_IMPORTED_MODULE_12__["FontAwesomeModule"],
-            _angular_forms__WEBPACK_IMPORTED_MODULE_14__["FormsModule"],
-            _angular_platform_browser__WEBPACK_IMPORTED_MODULE_6__["BrowserModule"].withServerTransition({ appId: 'ng-cli-universal' }),
-            _angular_common_http__WEBPACK_IMPORTED_MODULE_7__["HttpClientModule"],
+            _fortawesome_angular_fontawesome__WEBPACK_IMPORTED_MODULE_13__["FontAwesomeModule"],
+            _angular_forms__WEBPACK_IMPORTED_MODULE_15__["FormsModule"],
+            _angular_platform_browser__WEBPACK_IMPORTED_MODULE_7__["BrowserModule"].withServerTransition({ appId: 'ng-cli-universal' }),
+            _angular_common_http__WEBPACK_IMPORTED_MODULE_8__["HttpClientModule"],
             _angular_common__WEBPACK_IMPORTED_MODULE_1__["CommonModule"]
         ],
         providers: [
-            _services_controls_service__WEBPACK_IMPORTED_MODULE_5__["ControlsService"],
-            _services_informers_state_service__WEBPACK_IMPORTED_MODULE_4__["InformersStateService"],
+            _services_controls_service__WEBPACK_IMPORTED_MODULE_6__["ControlsService"],
+            _services_informers_state_service__WEBPACK_IMPORTED_MODULE_5__["InformersStateService"],
             _services_pages_service__WEBPACK_IMPORTED_MODULE_3__["PagesService"],
             _services_web_socket_service__WEBPACK_IMPORTED_MODULE_2__["WebSocketService"],
-            _pipes_column_class_name_pipe__WEBPACK_IMPORTED_MODULE_10__["ColumnClassNamePipe"],
-            _pipes_IconsFilterPipe__WEBPACK_IMPORTED_MODULE_13__["IconsFilterPipe"],
-            _pipes_EnumToArrayPipe__WEBPACK_IMPORTED_MODULE_15__["EnumToArrayPipe"],
+            _pipes_column_class_name_pipe__WEBPACK_IMPORTED_MODULE_11__["ColumnClassNamePipe"],
+            _pipes_IconsFilterPipe__WEBPACK_IMPORTED_MODULE_14__["IconsFilterPipe"],
+            _pipes_EnumToArrayPipe__WEBPACK_IMPORTED_MODULE_16__["EnumToArrayPipe"],
         ],
         exports: [
-            _directives_auto_focus_directive__WEBPACK_IMPORTED_MODULE_8__["AutoFocusDirective"],
-            _components_control_column_editor_control_column_editor_component__WEBPACK_IMPORTED_MODULE_9__["ControlColumnEditorComponent"],
-            _pipes_column_class_name_pipe__WEBPACK_IMPORTED_MODULE_10__["ColumnClassNamePipe"],
-            _pipes_EnumToArrayPipe__WEBPACK_IMPORTED_MODULE_15__["EnumToArrayPipe"],
-            _pipes_IconsFilterPipe__WEBPACK_IMPORTED_MODULE_13__["IconsFilterPipe"],
-            _components_icon_selector_icon_selector_component__WEBPACK_IMPORTED_MODULE_11__["IconSelectorComponent"],
+            _directives_auto_focus_directive__WEBPACK_IMPORTED_MODULE_9__["AutoFocusDirective"],
+            _components_control_column_editor_control_column_editor_component__WEBPACK_IMPORTED_MODULE_10__["ControlColumnEditorComponent"],
+            _pipes_column_class_name_pipe__WEBPACK_IMPORTED_MODULE_11__["ColumnClassNamePipe"],
+            _pipes_EnumToArrayPipe__WEBPACK_IMPORTED_MODULE_16__["EnumToArrayPipe"],
+            _pipes_IconsFilterPipe__WEBPACK_IMPORTED_MODULE_14__["IconsFilterPipe"],
+            _components_icon_selector_icon_selector_component__WEBPACK_IMPORTED_MODULE_12__["IconSelectorComponent"],
         ]
     })
 ], CoreModule);
 
-function WebSocketServiceProvider() {
+function WebSocketServiceProvider(authService) {
     const l = window.location;
     const url = `ws://${l.hostname}:6431/Testing`;
     console.log('URL: ', url);
@@ -1709,6 +1712,8 @@ function WebSocketServiceProvider() {
     rv.logRaisingEvent = false;
     rv.open();
     console.log('Created WebSocketService: ', rv);
+    // Link with auth service.
+    authService.link(rv);
     return rv;
 }
 
@@ -2207,6 +2212,96 @@ ColumnClassNamePipe = __decorate([
 
 /***/ }),
 
+/***/ "./src/core/services/auth.service.ts":
+/*!*******************************************!*\
+  !*** ./src/core/services/auth.service.ts ***!
+  \*******************************************/
+/*! exports provided: AuthService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AuthService", function() { return AuthService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var _models_WebSocketMessage__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../models/WebSocketMessage */ "./src/core/models/WebSocketMessage.ts");
+/* harmony import */ var _models_WebSocketMessageType__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../models/WebSocketMessageType */ "./src/core/models/WebSocketMessageType.ts");
+/* harmony import */ var _utils_makeid__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/makeid */ "./src/core/utils/makeid.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __importDefault = (undefined && undefined.__importDefault) || function (mod) {
+  return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+var AuthService_1;
+
+
+
+
+let AuthService = AuthService_1 = class AuthService {
+    constructor() { }
+    setToken(token) {
+        if (typeof token === 'string' || token instanceof String)
+            token = token.length > 0 ? token : null;
+        else
+            token = null;
+        localStorage.setItem(AuthService_1.__key, token === null ? '' : token);
+    }
+    clearToken() {
+        localStorage.removeItem(AuthService_1.__key);
+    }
+    /**
+     * Gets authorization token or null if not authorized.
+     */
+    getToken() {
+        const token = localStorage.getItem(AuthService_1.__key);
+        if (typeof token === 'string' || token instanceof String)
+            return token.length > 0 ? token : null;
+        return null;
+    }
+    link(webSocketService) {
+        webSocketService.addMessageHandler(AuthService_1.ActionAuth, (m) => {
+            // Store auth token.
+            if (this.getToken() === null && m.Data instanceof String || typeof m.Data === 'string')
+                this.setToken(m.Data);
+            webSocketService.isAuthorized.next(true);
+        });
+        webSocketService.isConnected.subscribe(value => {
+            if (value !== true) {
+                webSocketService.isAuthorized.next(false);
+                return;
+            }
+            this.auth(webSocketService);
+        });
+    }
+    auth(webSocketService) {
+        const token = this.getToken();
+        webSocketService.send(new _models_WebSocketMessage__WEBPACK_IMPORTED_MODULE_1__["WebSocketMessage"]({
+            a: AuthService_1.ActionAuth,
+            t: _models_WebSocketMessageType__WEBPACK_IMPORTED_MODULE_2__["WebSocketMessageType"].Request,
+            d: token,
+            h: Object(_utils_makeid__WEBPACK_IMPORTED_MODULE_3__["makeid"])()
+        }));
+    }
+};
+AuthService.__key = 'rc.auth';
+AuthService.ActionAuth = 'Auth';
+AuthService = AuthService_1 = __decorate([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
+        providedIn: 'root'
+    }),
+    __metadata("design:paramtypes", [])
+], AuthService);
+
+
+
+/***/ }),
+
 /***/ "./src/core/services/controls.service.ts":
 /*!***********************************************!*\
   !*** ./src/core/services/controls.service.ts ***!
@@ -2677,6 +2772,7 @@ let WebSocketService = class WebSocketService {
         this.__filters = [];
         this.logRaisingEvent = false;
         this.isConnected = new rxjs__WEBPACK_IMPORTED_MODULE_2__["BehaviorSubject"](false);
+        this.isAuthorized = new rxjs__WEBPACK_IMPORTED_MODULE_2__["BehaviorSubject"](false);
     }
     /**
      * Gets or sets auto-reconnect interval in ms. Minimum is 0 -> instant reconnect.
@@ -4390,7 +4486,7 @@ VolumeModule = VolumeModule_1 = __decorate([
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! e:\Projects\_git\Epsil0neR\PcRemoteController\RemoteController\RemoteController.Client\ClientApp\src\main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! E:\Projects\_git\Epsil0neR\PcRemoteController\RemoteController\RemoteController.Client\ClientApp\src\main.ts */"./src/main.ts");
 
 
 /***/ })

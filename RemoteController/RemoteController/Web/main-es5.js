@@ -2541,73 +2541,79 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony import */
 
 
-    var _services_informers_state_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
+    var _services_auth_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
+    /*! ./services/auth.service */
+    "./src/core/services/auth.service.ts");
+    /* harmony import */
+
+
+    var _services_informers_state_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
     /*! ./services/informers-state.service */
     "./src/core/services/informers-state.service.ts");
     /* harmony import */
 
 
-    var _services_controls_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
+    var _services_controls_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(
     /*! ./services/controls.service */
     "./src/core/services/controls.service.ts");
     /* harmony import */
 
 
-    var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(
+    var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(
     /*! @angular/platform-browser */
     "./node_modules/@angular/platform-browser/fesm2015/platform-browser.js");
     /* harmony import */
 
 
-    var _angular_common_http__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(
+    var _angular_common_http__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(
     /*! @angular/common/http */
     "./node_modules/@angular/common/fesm2015/http.js");
     /* harmony import */
 
 
-    var _directives_auto_focus_directive__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(
+    var _directives_auto_focus_directive__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(
     /*! ./directives/auto-focus.directive */
     "./src/core/directives/auto-focus.directive.ts");
     /* harmony import */
 
 
-    var _components_control_column_editor_control_column_editor_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(
+    var _components_control_column_editor_control_column_editor_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(
     /*! ./components/control-column-editor/control-column-editor.component */
     "./src/core/components/control-column-editor/control-column-editor.component.ts");
     /* harmony import */
 
 
-    var _pipes_column_class_name_pipe__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(
+    var _pipes_column_class_name_pipe__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(
     /*! ./pipes/column-class-name.pipe */
     "./src/core/pipes/column-class-name.pipe.ts");
     /* harmony import */
 
 
-    var _components_icon_selector_icon_selector_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(
+    var _components_icon_selector_icon_selector_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(
     /*! ./components/icon-selector/icon-selector.component */
     "./src/core/components/icon-selector/icon-selector.component.ts");
     /* harmony import */
 
 
-    var _fortawesome_angular_fontawesome__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(
+    var _fortawesome_angular_fontawesome__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(
     /*! @fortawesome/angular-fontawesome */
     "./node_modules/@fortawesome/angular-fontawesome/fesm2015/angular-fontawesome.js");
     /* harmony import */
 
 
-    var _pipes_IconsFilterPipe__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(
+    var _pipes_IconsFilterPipe__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(
     /*! ./pipes/IconsFilterPipe */
     "./src/core/pipes/IconsFilterPipe.ts");
     /* harmony import */
 
 
-    var _angular_forms__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(
+    var _angular_forms__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(
     /*! @angular/forms */
     "./node_modules/@angular/forms/fesm2015/forms.js");
     /* harmony import */
 
 
-    var _pipes_EnumToArrayPipe__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(
+    var _pipes_EnumToArrayPipe__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(
     /*! ./pipes/EnumToArrayPipe */
     "./src/core/pipes/EnumToArrayPipe.ts");
 
@@ -2641,9 +2647,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         value: function forRoot() {
           return {
             ngModule: CoreModule_1,
-            providers: [_services_controls_service__WEBPACK_IMPORTED_MODULE_5__["ControlsService"], _services_informers_state_service__WEBPACK_IMPORTED_MODULE_4__["InformersStateService"], _services_pages_service__WEBPACK_IMPORTED_MODULE_3__["PagesService"], {
+            providers: [_services_controls_service__WEBPACK_IMPORTED_MODULE_6__["ControlsService"], _services_informers_state_service__WEBPACK_IMPORTED_MODULE_5__["InformersStateService"], _services_pages_service__WEBPACK_IMPORTED_MODULE_3__["PagesService"], _services_auth_service__WEBPACK_IMPORTED_MODULE_4__["AuthService"], {
               provide: _services_web_socket_service__WEBPACK_IMPORTED_MODULE_2__["WebSocketService"],
-              useFactory: WebSocketServiceProvider
+              useFactory: WebSocketServiceProvider,
+              deps: [_services_auth_service__WEBPACK_IMPORTED_MODULE_4__["AuthService"]]
             }]
           };
         }
@@ -2653,22 +2660,24 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }();
 
     CoreModule = CoreModule_1 = __decorate([Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["NgModule"])({
-      declarations: [_directives_auto_focus_directive__WEBPACK_IMPORTED_MODULE_8__["AutoFocusDirective"], _components_control_column_editor_control_column_editor_component__WEBPACK_IMPORTED_MODULE_9__["ControlColumnEditorComponent"], _pipes_column_class_name_pipe__WEBPACK_IMPORTED_MODULE_10__["ColumnClassNamePipe"], _pipes_EnumToArrayPipe__WEBPACK_IMPORTED_MODULE_15__["EnumToArrayPipe"], _pipes_IconsFilterPipe__WEBPACK_IMPORTED_MODULE_13__["IconsFilterPipe"], _components_icon_selector_icon_selector_component__WEBPACK_IMPORTED_MODULE_11__["IconSelectorComponent"]],
-      imports: [_fortawesome_angular_fontawesome__WEBPACK_IMPORTED_MODULE_12__["FontAwesomeModule"], _angular_forms__WEBPACK_IMPORTED_MODULE_14__["FormsModule"], _angular_platform_browser__WEBPACK_IMPORTED_MODULE_6__["BrowserModule"].withServerTransition({
+      declarations: [_directives_auto_focus_directive__WEBPACK_IMPORTED_MODULE_9__["AutoFocusDirective"], _components_control_column_editor_control_column_editor_component__WEBPACK_IMPORTED_MODULE_10__["ControlColumnEditorComponent"], _pipes_column_class_name_pipe__WEBPACK_IMPORTED_MODULE_11__["ColumnClassNamePipe"], _pipes_EnumToArrayPipe__WEBPACK_IMPORTED_MODULE_16__["EnumToArrayPipe"], _pipes_IconsFilterPipe__WEBPACK_IMPORTED_MODULE_14__["IconsFilterPipe"], _components_icon_selector_icon_selector_component__WEBPACK_IMPORTED_MODULE_12__["IconSelectorComponent"]],
+      imports: [_fortawesome_angular_fontawesome__WEBPACK_IMPORTED_MODULE_13__["FontAwesomeModule"], _angular_forms__WEBPACK_IMPORTED_MODULE_15__["FormsModule"], _angular_platform_browser__WEBPACK_IMPORTED_MODULE_7__["BrowserModule"].withServerTransition({
         appId: 'ng-cli-universal'
-      }), _angular_common_http__WEBPACK_IMPORTED_MODULE_7__["HttpClientModule"], _angular_common__WEBPACK_IMPORTED_MODULE_1__["CommonModule"]],
-      providers: [_services_controls_service__WEBPACK_IMPORTED_MODULE_5__["ControlsService"], _services_informers_state_service__WEBPACK_IMPORTED_MODULE_4__["InformersStateService"], _services_pages_service__WEBPACK_IMPORTED_MODULE_3__["PagesService"], _services_web_socket_service__WEBPACK_IMPORTED_MODULE_2__["WebSocketService"], _pipes_column_class_name_pipe__WEBPACK_IMPORTED_MODULE_10__["ColumnClassNamePipe"], _pipes_IconsFilterPipe__WEBPACK_IMPORTED_MODULE_13__["IconsFilterPipe"], _pipes_EnumToArrayPipe__WEBPACK_IMPORTED_MODULE_15__["EnumToArrayPipe"]],
-      exports: [_directives_auto_focus_directive__WEBPACK_IMPORTED_MODULE_8__["AutoFocusDirective"], _components_control_column_editor_control_column_editor_component__WEBPACK_IMPORTED_MODULE_9__["ControlColumnEditorComponent"], _pipes_column_class_name_pipe__WEBPACK_IMPORTED_MODULE_10__["ColumnClassNamePipe"], _pipes_EnumToArrayPipe__WEBPACK_IMPORTED_MODULE_15__["EnumToArrayPipe"], _pipes_IconsFilterPipe__WEBPACK_IMPORTED_MODULE_13__["IconsFilterPipe"], _components_icon_selector_icon_selector_component__WEBPACK_IMPORTED_MODULE_11__["IconSelectorComponent"]]
+      }), _angular_common_http__WEBPACK_IMPORTED_MODULE_8__["HttpClientModule"], _angular_common__WEBPACK_IMPORTED_MODULE_1__["CommonModule"]],
+      providers: [_services_controls_service__WEBPACK_IMPORTED_MODULE_6__["ControlsService"], _services_informers_state_service__WEBPACK_IMPORTED_MODULE_5__["InformersStateService"], _services_pages_service__WEBPACK_IMPORTED_MODULE_3__["PagesService"], _services_web_socket_service__WEBPACK_IMPORTED_MODULE_2__["WebSocketService"], _pipes_column_class_name_pipe__WEBPACK_IMPORTED_MODULE_11__["ColumnClassNamePipe"], _pipes_IconsFilterPipe__WEBPACK_IMPORTED_MODULE_14__["IconsFilterPipe"], _pipes_EnumToArrayPipe__WEBPACK_IMPORTED_MODULE_16__["EnumToArrayPipe"]],
+      exports: [_directives_auto_focus_directive__WEBPACK_IMPORTED_MODULE_9__["AutoFocusDirective"], _components_control_column_editor_control_column_editor_component__WEBPACK_IMPORTED_MODULE_10__["ControlColumnEditorComponent"], _pipes_column_class_name_pipe__WEBPACK_IMPORTED_MODULE_11__["ColumnClassNamePipe"], _pipes_EnumToArrayPipe__WEBPACK_IMPORTED_MODULE_16__["EnumToArrayPipe"], _pipes_IconsFilterPipe__WEBPACK_IMPORTED_MODULE_14__["IconsFilterPipe"], _components_icon_selector_icon_selector_component__WEBPACK_IMPORTED_MODULE_12__["IconSelectorComponent"]]
     })], CoreModule);
 
-    function WebSocketServiceProvider() {
+    function WebSocketServiceProvider(authService) {
       var l = window.location;
       var url = "ws://".concat(l.hostname, ":6431/Testing");
       console.log('URL: ', url);
       var rv = new _services_web_socket_service__WEBPACK_IMPORTED_MODULE_2__["WebSocketService"](url);
       rv.logRaisingEvent = false;
       rv.open();
-      console.log('Created WebSocketService: ', rv);
+      console.log('Created WebSocketService: ', rv); // Link with auth service.
+
+      authService.link(rv);
       return rv;
     }
     /***/
@@ -3508,6 +3517,144 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
   },
 
   /***/
+  "./src/core/services/auth.service.ts":
+  /*!*******************************************!*\
+    !*** ./src/core/services/auth.service.ts ***!
+    \*******************************************/
+
+  /*! exports provided: AuthService */
+
+  /***/
+  function srcCoreServicesAuthServiceTs(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+
+    __webpack_require__.r(__webpack_exports__);
+    /* harmony export (binding) */
+
+
+    __webpack_require__.d(__webpack_exports__, "AuthService", function () {
+      return AuthService;
+    });
+    /* harmony import */
+
+
+    var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
+    /*! @angular/core */
+    "./node_modules/@angular/core/fesm2015/core.js");
+    /* harmony import */
+
+
+    var _models_WebSocketMessage__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
+    /*! ../models/WebSocketMessage */
+    "./src/core/models/WebSocketMessage.ts");
+    /* harmony import */
+
+
+    var _models_WebSocketMessageType__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
+    /*! ../models/WebSocketMessageType */
+    "./src/core/models/WebSocketMessageType.ts");
+    /* harmony import */
+
+
+    var _utils_makeid__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
+    /*! ../utils/makeid */
+    "./src/core/utils/makeid.ts");
+
+    var __decorate = undefined && undefined.__decorate || function (decorators, target, key, desc) {
+      var c = arguments.length,
+          r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+          d;
+      if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) {
+        if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+      }
+      return c > 3 && r && Object.defineProperty(target, key, r), r;
+    };
+
+    var __metadata = undefined && undefined.__metadata || function (k, v) {
+      if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+    };
+
+    var __importDefault = undefined && undefined.__importDefault || function (mod) {
+      return mod && mod.__esModule ? mod : {
+        "default": mod
+      };
+    };
+
+    var AuthService_1;
+
+    var AuthService = AuthService_1 =
+    /*#__PURE__*/
+    function () {
+      function AuthService() {
+        _classCallCheck(this, AuthService);
+      }
+
+      _createClass(AuthService, [{
+        key: "setToken",
+        value: function setToken(token) {
+          if (typeof token === 'string' || token instanceof String) token = token.length > 0 ? token : null;else token = null;
+          localStorage.setItem(AuthService_1.__key, token === null ? '' : token);
+        }
+      }, {
+        key: "clearToken",
+        value: function clearToken() {
+          localStorage.removeItem(AuthService_1.__key);
+        }
+        /**
+         * Gets authorization token or null if not authorized.
+         */
+
+      }, {
+        key: "getToken",
+        value: function getToken() {
+          var token = localStorage.getItem(AuthService_1.__key);
+          if (typeof token === 'string' || token instanceof String) return token.length > 0 ? token : null;
+          return null;
+        }
+      }, {
+        key: "link",
+        value: function link(webSocketService) {
+          var _this6 = this;
+
+          webSocketService.addMessageHandler(AuthService_1.ActionAuth, function (m) {
+            // Store auth token.
+            if (_this6.getToken() === null && m.Data instanceof String || typeof m.Data === 'string') _this6.setToken(m.Data);
+            webSocketService.isAuthorized.next(true);
+          });
+          webSocketService.isConnected.subscribe(function (value) {
+            if (value !== true) {
+              webSocketService.isAuthorized.next(false);
+              return;
+            }
+
+            _this6.auth(webSocketService);
+          });
+        }
+      }, {
+        key: "auth",
+        value: function auth(webSocketService) {
+          var token = this.getToken();
+          webSocketService.send(new _models_WebSocketMessage__WEBPACK_IMPORTED_MODULE_1__["WebSocketMessage"]({
+            a: AuthService_1.ActionAuth,
+            t: _models_WebSocketMessageType__WEBPACK_IMPORTED_MODULE_2__["WebSocketMessageType"].Request,
+            d: token,
+            h: Object(_utils_makeid__WEBPACK_IMPORTED_MODULE_3__["makeid"])()
+          }));
+        }
+      }]);
+
+      return AuthService;
+    }();
+
+    AuthService.__key = 'rc.auth';
+    AuthService.ActionAuth = 'Auth';
+    AuthService = AuthService_1 = __decorate([Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
+      providedIn: 'root'
+    }), __metadata("design:paramtypes", [])], AuthService);
+    /***/
+  },
+
+  /***/
   "./src/core/services/controls.service.ts":
   /*!***********************************************!*\
     !*** ./src/core/services/controls.service.ts ***!
@@ -3578,13 +3725,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }, {
         key: "views",
         value: function views(ref, items) {
-          var _this6 = this;
+          var _this7 = this;
 
           if (!ref || !items) return [];
           ref.clear();
           var rv = [];
           items.forEach(function (item) {
-            var control = _this6.generateView(ref, item);
+            var control = _this7.generateView(ref, item);
 
             if (!!control) rv.push(control);
           });
@@ -3617,12 +3764,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }, {
         key: "editors",
         value: function editors(ref, items) {
-          var _this7 = this;
+          var _this8 = this;
 
           if (!ref || !items) return [];
           var rv = [];
           items.forEach(function (item) {
-            var control = _this7.generateEditor(ref, item);
+            var control = _this8.generateEditor(ref, item);
 
             if (!!control) rv.push(control);
           });
@@ -3766,14 +3913,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /*#__PURE__*/
     function () {
       function InformersStateService(service) {
-        var _this8 = this;
+        var _this9 = this;
 
         _classCallCheck(this, InformersStateService);
 
         this.service = service;
         this.handlers = {
           'Informer.Sound': function InformerSound(msg) {
-            return _this8.onSound(msg);
+            return _this9.onSound(msg);
           }
         };
         this.Sound = new rxjs__WEBPACK_IMPORTED_MODULE_1__["BehaviorSubject"](null);
@@ -4133,7 +4280,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /*#__PURE__*/
     function () {
       function WebSocketService(url) {
-        var _this9 = this;
+        var _this10 = this;
 
         _classCallCheck(this, WebSocketService);
 
@@ -4148,22 +4295,22 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         this.__messageHandlers = {};
         this.__instnaceHandlers = {
           'close': function close(e) {
-            _this9.raiseEvent('close', e);
+            _this10.raiseEvent('close', e);
 
             if (e.code !== 1000) // 1000 is a CLOSE_NORMAL, on which client don't need to reconnect.
-              _this9.reconnect();
+              _this10.reconnect();
 
-            _this9.raiseEvent('connection', false);
+            _this10.raiseEvent('connection', false);
 
-            _this9.isConnected.next(false);
+            _this10.isConnected.next(false);
           },
           'error': function error(e) {
-            _this9.raiseEvent('error', e);
+            _this10.raiseEvent('error', e);
 
-            if (e.code === 'ECONNREFUSED' || e.reason === 'ECONNREFUSED') _this9.reconnect();
+            if (e.code === 'ECONNREFUSED' || e.reason === 'ECONNREFUSED') _this10.reconnect();
           },
           'message': function message(e) {
-            _this9.raiseEvent('message.raw', e);
+            _this10.raiseEvent('message.raw', e);
 
             try {
               var data = JSON.parse(e.data);
@@ -4172,30 +4319,31 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
               if (msg === null) return;
 
-              _this9.raiseEvent('message.received', msg);
+              _this10.raiseEvent('message.received', msg);
 
-              if (!_this9.__filters.every(function (f) {
+              if (!_this10.__filters.every(function (f) {
                 return f(msg) !== false;
               })) return;
 
-              _this9.raiseMessage(msg);
+              _this10.raiseMessage(msg);
             } catch (e) {
-              _this9.raiseEvent('error.message', e);
+              _this10.raiseEvent('error.message', e);
 
-              _this9.raiseEvent('error', e);
+              _this10.raiseEvent('error', e);
             }
           },
           'open': function open(e) {
-            _this9.raiseEvent('open', e);
+            _this10.raiseEvent('open', e);
 
-            _this9.raiseEvent('connection', true);
+            _this10.raiseEvent('connection', true);
 
-            _this9.isConnected.next(true);
+            _this10.isConnected.next(true);
           }
         };
         this.__filters = [];
         this.logRaisingEvent = false;
         this.isConnected = new rxjs__WEBPACK_IMPORTED_MODULE_2__["BehaviorSubject"](false);
+        this.isAuthorized = new rxjs__WEBPACK_IMPORTED_MODULE_2__["BehaviorSubject"](false);
       }
       /**
        * Gets or sets auto-reconnect interval in ms. Minimum is 0 -> instant reconnect.
@@ -4299,14 +4447,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }, {
         key: "reconnect",
         value: function reconnect() {
-          var _this10 = this;
+          var _this11 = this;
 
           this.close(); // Check if auto-reconnect is limited.
 
           if (this.__autoReconnectTries >= 0 && this.__autoReconnectTry >= this.__autoReconnectTries) return;
           this.__autoReconnectTry++;
           if (this.autoReconnectInterval > 0) setTimeout(function () {
-            return _this10.open();
+            return _this11.open();
           }, this.autoReconnectInterval);else this.open();
         }
       }, {
@@ -4878,35 +5026,35 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       _inherits(FileSystemComponent, _src_core__WEBPACK_IM);
 
       function FileSystemComponent(service, pathsService) {
-        var _this11;
+        var _this12;
 
         _classCallCheck(this, FileSystemComponent);
 
-        _this11 = _possibleConstructorReturn(this, _getPrototypeOf(FileSystemComponent).call(this));
-        _this11.service = service;
-        _this11.pathsService = pathsService;
-        _this11.messageHandlers = null;
-        _this11.initialized = false;
-        _this11.files = null;
-        _this11.folders = null;
-        _this11.paths = null;
-        _this11.path = '';
-        _this11.maxHeight = 0;
-        _this11.iconFolder = _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_1__["faFolder"];
-        _this11.iconFile = _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_1__["faFile"];
-        _this11.messageHandlers = {
+        _this12 = _possibleConstructorReturn(this, _getPrototypeOf(FileSystemComponent).call(this));
+        _this12.service = service;
+        _this12.pathsService = pathsService;
+        _this12.messageHandlers = null;
+        _this12.initialized = false;
+        _this12.files = null;
+        _this12.folders = null;
+        _this12.paths = null;
+        _this12.path = '';
+        _this12.maxHeight = 0;
+        _this12.iconFolder = _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_1__["faFolder"];
+        _this12.iconFile = _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_1__["faFile"];
+        _this12.messageHandlers = {
           'FileSystem.List': function FileSystemList(m) {
-            return _this11.onFileSystemList(m);
+            return _this12.onFileSystemList(m);
           }
         };
-        _this11.socketId = _this11.pathsService.generateId();
-        return _this11;
+        _this12.socketId = _this12.pathsService.generateId();
+        return _this12;
       }
 
       _createClass(FileSystemComponent, [{
         key: "ngOnInit",
         value: function ngOnInit() {
-          var _this12 = this;
+          var _this13 = this;
 
           for (var action in this.messageHandlers) {
             if (!this.messageHandlers.hasOwnProperty(action)) continue;
@@ -4917,7 +5065,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           this.subscription = this.service.isConnected.subscribe(function (value) {
             if (!value) return;
 
-            _this12.goToPath(!!_this12.path ? _this12.path : '');
+            _this13.goToPath(!!_this13.path ? _this13.path : '');
           });
           this.initialized = true;
         }
@@ -5963,25 +6111,25 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       _inherits(KeyComponent, _src_core__WEBPACK_IM2);
 
       function KeyComponent(webSocketService) {
-        var _this13;
+        var _this14;
 
         _classCallCheck(this, KeyComponent);
 
-        _this13 = _possibleConstructorReturn(this, _getPrototypeOf(KeyComponent).call(this));
-        _this13.webSocketService = webSocketService;
+        _this14 = _possibleConstructorReturn(this, _getPrototypeOf(KeyComponent).call(this));
+        _this14.webSocketService = webSocketService;
         /**
          * Data that will be sent to server on click.
          */
 
-        _this13.data = null;
-        _this13.title = '';
-        _this13.icon = null;
-        _this13.showIconWithTitle = false;
-        _this13.mode = _Models_KeyControlMode__WEBPACK_IMPORTED_MODULE_2__["KeyControlMode"].Press;
-        _this13.isKeyDown = false;
-        _this13.repeat = 100;
-        _this13.repeatHandler = null;
-        return _this13;
+        _this14.data = null;
+        _this14.title = '';
+        _this14.icon = null;
+        _this14.showIconWithTitle = false;
+        _this14.mode = _Models_KeyControlMode__WEBPACK_IMPORTED_MODULE_2__["KeyControlMode"].Press;
+        _this14.isKeyDown = false;
+        _this14.repeat = 100;
+        _this14.repeatHandler = null;
+        return _this14;
       }
 
       _createClass(KeyComponent, [{
@@ -6018,7 +6166,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }, {
         key: "onTouchstart",
         value: function onTouchstart() {
-          var _this14 = this;
+          var _this15 = this;
 
           if (this.isKeyDown) return;
 
@@ -6038,7 +6186,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
               this.isKeyDown = true;
               this.repeatHandler = setInterval(function () {
-                _this14.send('key');
+                _this15.send('key');
               }, this.repeat);
           }
         }
@@ -6603,32 +6751,32 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       _inherits(VolumeComponent, _src_core__WEBPACK_IM3);
 
       function VolumeComponent(webSocketService, informers) {
-        var _this15;
+        var _this16;
 
         _classCallCheck(this, VolumeComponent);
 
-        _this15 = _possibleConstructorReturn(this, _getPrototypeOf(VolumeComponent).call(this));
-        _this15.webSocketService = webSocketService;
-        _this15.informers = informers;
-        _this15.subs = [];
-        _this15.isEnabled = false;
-        return _this15;
+        _this16 = _possibleConstructorReturn(this, _getPrototypeOf(VolumeComponent).call(this));
+        _this16.webSocketService = webSocketService;
+        _this16.informers = informers;
+        _this16.subs = [];
+        _this16.isEnabled = false;
+        return _this16;
       }
 
       _createClass(VolumeComponent, [{
         key: "ngOnInit",
         value: function ngOnInit() {
-          var _this16 = this;
+          var _this17 = this;
 
           this.subs.push(this.informers.Sound.subscribe(function (value) {
-            var input = _this16.input.nativeElement;
+            var input = _this17.input.nativeElement;
             if (!!value) input.value = value.OutputVolume;
-            _this16.isEnabled = !!value && !value.OutputIsMuted && _this16.webSocketService.isConnected.getValue();
+            _this17.isEnabled = !!value && !value.OutputIsMuted && _this17.webSocketService.isConnected.getValue();
           }));
           this.subs.push(this.webSocketService.isConnected.subscribe(function (x) {
-            var sound = _this16.informers.Sound.getValue();
+            var sound = _this17.informers.Sound.getValue();
 
-            _this16.isEnabled = x && !!sound && !sound.OutputIsMuted;
+            _this17.isEnabled = x && !!sound && !sound.OutputIsMuted;
           }));
         }
       }, {
@@ -6922,7 +7070,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
   /***/
   function _(module, exports, __webpack_require__) {
     module.exports = __webpack_require__(
-    /*! e:\Projects\_git\Epsil0neR\PcRemoteController\RemoteController\RemoteController.Client\ClientApp\src\main.ts */
+    /*! E:\Projects\_git\Epsil0neR\PcRemoteController\RemoteController\RemoteController.Client\ClientApp\src\main.ts */
     "./src/main.ts");
     /***/
   }
