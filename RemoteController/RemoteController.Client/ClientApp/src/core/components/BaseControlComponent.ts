@@ -1,5 +1,6 @@
-import { Input } from '@angular/core';
+import { Input, Directive } from '@angular/core';
 
+@Directive()
 export class BaseControlComponent {
   private _col: number = 12;
   protected colMax: number = 12;

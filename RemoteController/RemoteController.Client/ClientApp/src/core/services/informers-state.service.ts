@@ -4,6 +4,7 @@ import { WebSocketMessage } from '../models/WebSocketMessage';
 import { WebSocketService } from './web-socket.service';
 import { WebSocketMessageType } from '../models/WebSocketMessageType';
 import { makeid } from '../utils/makeid';
+import { IInformerSound } from '../models/IInformerSound';
 
 @Injectable({
   providedIn: 'root'

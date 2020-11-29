@@ -36,7 +36,7 @@ export class VolumeModule {
 
   static readonly controlKey: string = 'vol';
 
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<VolumeModule> {
     return {
       ngModule: VolumeModule,
       providers: [

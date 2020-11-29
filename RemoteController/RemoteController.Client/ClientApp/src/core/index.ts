@@ -8,6 +8,7 @@ export * from './models/IControl';
 export * from './models/IControlEditor';
 export * from './models/IControlViewer';
 export * from './models/IPage';
+export * from './models/IInformerSound';
 export * from './models/PageDetails';
 export * from './models/WebSocketMessage';
 export * from './models/WebSocketMessageType';

@@ -40,7 +40,7 @@ export class KeyModule {
 
   static readonly controlKey: string = 'key';
 
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<KeyModule> {
     return {
       ngModule: KeyModule,
       providers: [

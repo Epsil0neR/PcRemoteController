@@ -44,7 +44,7 @@ export class FileSystemModule {
 
   static readonly controlKey: string = 'fs';
 
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<FileSystemModule> {
     return {
       ngModule: FileSystemModule,
       providers: [

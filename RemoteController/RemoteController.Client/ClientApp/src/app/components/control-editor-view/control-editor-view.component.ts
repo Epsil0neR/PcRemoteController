@@ -22,7 +22,7 @@ export class ControlEditorViewComponent {
   @Output()
   public openEditor = new EventEmitter(true);
 
-  private onClick() {
+  public onClick() {
     this.openEditor.emit();
   }
 }

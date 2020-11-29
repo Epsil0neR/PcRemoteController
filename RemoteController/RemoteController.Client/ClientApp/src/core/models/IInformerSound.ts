@@ -1,4 +1,4 @@
-interface IInformerSound {
+export interface IInformerSound {
   InputDevice: string;
   InputDeviceList: string[];
   InputIsMuted: boolean;
