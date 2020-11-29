@@ -37,7 +37,6 @@ namespace RemoteController.IoCs
         /// <returns></returns>
         private static bool AuthenticationCheck(Message msg)
         {
-            //return true;
             return msg.Sender.IsAuthenticated || msg.Type != MessageType.Request || msg.ActionName.Equals("Auth", StringComparison.CurrentCultureIgnoreCase);
         }
 
