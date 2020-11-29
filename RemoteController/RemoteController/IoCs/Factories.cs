@@ -37,7 +37,12 @@ namespace RemoteController.IoCs
         /// <returns></returns>
         private static bool AuthenticationCheck(Message msg)
         {
-            return msg.Sender.IsAuthenticated || msg.Type != MessageType.Request || msg.ActionName.Equals("Auth", StringComparison.CurrentCultureIgnoreCase);
+            var rv = msg.Sender.IsAuthenticated || msg.Type != MessageType.Request || msg.ActionName.Equals("Auth", StringComparison.CurrentCultureIgnoreCase);
+
+            if (!rv)
+                Log.Logger.Warn($"Received unauthorized message: Sender:{msg.Sender}, Action:{msg.ActionName}, Type:{msg.Type}.");
+
+            return rv;
         }
 
         /// <summary>
