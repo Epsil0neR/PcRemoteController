@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { VolumeEditorComponent } from './volume-editor.component';
 
@@ -6,7 +6,7 @@ describe('VolumeEditorComponent', () => {
   let component: VolumeEditorComponent;
   let fixture: ComponentFixture<VolumeEditorComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ VolumeEditorComponent ]
     })

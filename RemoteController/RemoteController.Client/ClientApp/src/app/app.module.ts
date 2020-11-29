@@ -49,7 +49,8 @@ import { ControlEditorViewComponent } from './components/control-editor-view/con
       { path: 'edit/:name', component: PageEditorComponent },
       { path: 'p/:name', component: PageComponent },
       { path: 'icon', component: IconSelectorComponent }
-    ]),
+      ],
+      { relativeLinkResolution: 'legacy' }),
     CoreModule.forRoot(),
     KeyModule.forRoot(),
     VolumeModule.forRoot(),
