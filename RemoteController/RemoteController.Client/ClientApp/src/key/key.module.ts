@@ -20,10 +20,6 @@ import { FormsModule } from '@angular/forms';
   exports: [
     KeyComponent,
     KeyEditorComponent
-  ],
-  entryComponents: [
-    KeyComponent,
-    KeyEditorComponent
   ]
 })
 export class KeyModule {

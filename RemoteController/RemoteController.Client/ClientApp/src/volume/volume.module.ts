@@ -16,10 +16,6 @@ import { VolumeEditorComponent } from './volume-editor-component/volume-editor.c
   exports: [
     VolumeComponent,
     VolumeEditorComponent
-  ],
-  entryComponents: [
-    VolumeComponent,
-    VolumeEditorComponent
   ]
 })
 export class VolumeModule {

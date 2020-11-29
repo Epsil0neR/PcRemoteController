@@ -24,11 +24,7 @@ import { FormsModule } from '@angular/forms';
   exports: [
     FileSystemComponent,
     FileSystemEditorComponent,
-  ],
-  entryComponents: [
-    FileSystemComponent,
-    FileSystemEditorComponent,
-  ],
+  ]
 })
 export class FileSystemModule {
   constructor(controls: ControlsService) {
