@@ -1,10 +1,13 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Data;
+using System.IO;
 using System.Linq;
 using System.Windows.Input;
 using System.Windows.Threading;
 using Epsiloner.OptionsModule;
 using Epsiloner.Wpf.Collections;
+using Epsiloner.Wpf.ViewModels;
 using GalaSoft.MvvmLight.CommandWpf;
 using RemoteController.Configs;
 using RemoteController.Manipulator;
@@ -13,6 +16,7 @@ namespace RemoteController.ViewModels.Pages
 {
     public class CommandsPageViewModel : BasePageViewModel
     {
+        private CreateCommandViewModel _create;
         public Options Options { get; }
         public CommandsConfig Config { get; }
         public IManipulatorsManager Manager { get; }
@@ -20,6 +24,8 @@ namespace RemoteController.ViewModels.Pages
         public ObservableCollection<CommandViewModel> Commands { get; }
 
         public ICommand TestCommand { get; }
+
+        public object CreateCommand { get; }
 
         public CommandsPageViewModel(
             Dispatcher dispatcher,
@@ -52,9 +58,41 @@ namespace RemoteController.ViewModels.Pages
             }
 
             TestCommand = new RelayCommand(Test);
+            CreateCommand = new RelayCommand(CreateCommandHandler);
 
             Manager.ItemStateChanged += ManagerOnItemStateChanged;
             ProceedConfig();
+        }
+
+        private void CreateCommandHandler()
+        {
+            Create = new CreateCommandViewModel(
+                () => Create = null,
+                SubmitAction, 
+                NameValidator
+                );
+        }
+
+        private bool NameValidator(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                return false;
+            if (Manager.Find(name) != null)
+                return false;
+
+            return true;
+        }
+
+        private void SubmitAction()
+        {
+
+            Create = null;
+        }
+
+        public CreateCommandViewModel Create
+        {
+            get => _create;
+            private set => Set(ref _create, value);
         }
 
         private void Test()
@@ -133,6 +171,90 @@ namespace RemoteController.ViewModels.Pages
                 return;
 
             vm.IsWorking = false;
+        }
+    }
+
+    public class CreateCommandViewModel : ViewModel
+    {
+        private readonly Action _submitAction;
+        private readonly Func<string, bool> _nameValidator;
+        private string _validationErrorMessage;
+        private string _name;
+        private ManipulationCommandType _type = ManipulationCommandType.Code;
+        private string _code;
+        private string _filePath;
+
+        public string ValidationErrorMessage
+        {
+            get => _validationErrorMessage;
+            private set => Set(ref _validationErrorMessage, value);
+        }
+
+        public string Name
+        {
+            get => _name;
+            set => Set(ref _name, value);
+        }
+
+        public ManipulationCommandType Type
+        {
+            get => _type;
+            set => Set(ref _type, value);
+        }
+
+        public string Code
+        {
+            get => _code;
+            set => Set(ref _code, value);
+        }
+
+        public string FilePath
+        {
+            get => _filePath;
+            set => Set(ref _filePath, value);
+        }
+        public ICommand CancelCommand { get; }
+        public ICommand SubmitCommand { get; }
+
+        public CreateCommandViewModel(Action cancelAction, Action submitAction, Func<string, bool> nameValidator)
+        {
+            _submitAction = submitAction ?? throw new ArgumentNullException(nameof(submitAction));
+            _nameValidator = nameValidator ?? throw new ArgumentNullException(nameof(nameValidator));
+
+            CancelCommand = new RelayCommand(cancelAction ?? throw new ArgumentNullException(nameof(cancelAction)));
+            SubmitCommand = new RelayCommand(Submit, CanSubmit);
+        }
+
+        private void Submit()
+        {
+            if (!CanSubmit())
+                return;
+
+            _submitAction();
+        }
+
+        private bool CanSubmit()
+        {
+            if (!_nameValidator(Name))
+            {
+                ValidationErrorMessage = "Name is not valid. It must be non empty and unique to not conflict with other manipulations.";
+                return false;
+            }
+
+            if (Type == ManipulationCommandType.Code && string.IsNullOrWhiteSpace(Code))
+            {
+                ValidationErrorMessage = "Code cannot be empty.";
+                return false;
+            }
+
+            if (Type == ManipulationCommandType.File && !File.Exists(FilePath))
+            {
+                ValidationErrorMessage = "File not found.";
+                return false;
+            }
+
+            ValidationErrorMessage = null;
+            return true;
         }
     }
 }

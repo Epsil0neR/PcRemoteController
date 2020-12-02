@@ -102,39 +102,110 @@
         </DataTemplate.Triggers>
     </DataTemplate>
 
-    <ControlTemplate TargetType="v:CommandsPageView" x:Key="CommandsPageView.Template">
-        <ScrollViewer
-            HorizontalScrollBarVisibility="Auto"
-            VerticalScrollBarVisibility="Auto">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
+    <DataTemplate x:Key="CreateCommandViewModel.DataTemplate" DataType="vm:CreateCommandViewModel">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-                <Button 
-                    Grid.Row="0"
-                    Content="TEST" 
-                    Command="{Binding TestCommand}" />
+            <StackPanel
+                Grid.Row="3"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Margin="4 4 0 0"
+                Orientation="Horizontal"
+                HorizontalAlignment="Right">
+                <Button
+                    Command="{Binding CancelCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <e:SymbolMaterial
+                            FontSize="32"
+                            Icon="Cancel"
+                        />
+                        <TextBlock 
+                            Text="Cancel" 
+                            Margin="4 0 0 0"
+                            Style="{StaticResource Style.Font.H3}"
+                            VerticalAlignment="Center" />
+                    </StackPanel>
+                </Button>
 
-                <ItemsControl
-                    Grid.Row="1"
-                    ItemsSource="{Binding Commands, Mode=OneWay}"
-                    ItemTemplate="{StaticResource CommandViewModel.DataTemplate}"
-                    />
-
-                <Button 
-                    Grid.Row="2"
+                <Button
+                    Command="{Binding SubmitCommand}"
                     Style="{StaticResource Button.Primary}"
-                    Height="{StaticResource Sizes.Control.Large}"
-                    FontSize="16"
-                    Content="Add command..."
-                    HorizontalAlignment="Right"
-                    Margin="0 8 0 0"
-                    />
-            </Grid>
-        </ScrollViewer>
+                    Margin="8 0 0 0">
+                    <StackPanel Orientation="Horizontal">
+                        <e:SymbolMaterial
+                            FontSize="32"
+                            Icon="CheckCircleOutline"
+                        />
+                        <TextBlock 
+                            Text="Create" 
+                            Margin="4 0 0 0"
+                            Style="{StaticResource Style.Font.H3}"
+                            VerticalAlignment="Center" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+
+        </Grid>
+    </DataTemplate>
+
+    <ControlTemplate TargetType="v:CommandsPageView" x:Key="CommandsPageView.Template">
+        <Grid>
+            <ScrollViewer
+                x:Name="viewDefault"
+                HorizontalScrollBarVisibility="Auto"
+                VerticalScrollBarVisibility="Auto">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Button 
+                        Grid.Row="0"
+                        Content="TEST" 
+                        Command="{Binding TestCommand}" />
+
+                    <ItemsControl
+                        Grid.Row="1"
+                        ItemsSource="{Binding Commands, Mode=OneWay}"
+                        ItemTemplate="{StaticResource CommandViewModel.DataTemplate}"
+                        />
+
+                    <Button 
+                        Grid.Row="2"
+                        Style="{StaticResource Button.Primary}"
+                        Height="{StaticResource Sizes.Control.Large}"
+                        Command="{Binding CreateCommand, Mode=OneWay}"
+                        FontSize="16"
+                        Content="Add command..."
+                        HorizontalAlignment="Right"
+                        Margin="0 8 0 0"
+                        />
+                </Grid>
+            </ScrollViewer>
+            <ContentControl 
+                x:Name="viewCreation"
+                Content="{Binding Create, Mode=OneWay}"
+                ContentTemplate="{StaticResource CreateCommandViewModel.DataTemplate}"
+                Visibility="Collapsed"/>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <DataTrigger Binding="{Binding Create, Converter={StaticResource Converter.IsNotNull}}" Value="True">
+                <Setter TargetName="viewDefault" Property="Visibility" Value="Collapsed" />
+                <Setter TargetName="viewCreation" Property="Visibility" Value="Visible" />
+            </DataTrigger>
+        </ControlTemplate.Triggers>
     </ControlTemplate>
 
     <Style TargetType="v:CommandsPageView">
