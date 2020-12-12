@@ -12,7 +12,6 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
-
   <ItemGroup>
     <PackageReference Include="Epsiloner.Core" Version="1.0.21" />
     <PackageReference Include="Epsiloner.OptionsModule" Version="0.3.9" />
@@ -49,12 +48,6 @@
     <None Update="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Resources\Generic\Sizes.xaml">
-      <SubType>Designer</SubType>
-    </Page>
   </ItemGroup>
 
 </Project>
