@@ -1,0 +1,44 @@
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Generic/All.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Styles/Separator.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Styles/MenuItem.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <ControlTemplate TargetType="ContextMenu" x:Key="ContextMenu.Template">
+        <Border 
+            x:Name="Border"
+            Padding="{TemplateBinding Padding}"
+            Background="{StaticResource Brush.Grey.3}"
+            BorderBrush="{StaticResource Brush.Grey.8}"
+            BorderThickness="1">
+            <StackPanel 
+                IsItemsHost="True" 
+                KeyboardNavigation.DirectionalNavigation="Cycle" />
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="HasDropShadow" Value="true">
+                <Setter TargetName="Border" Property="CornerRadius" Value="0" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <Style TargetType="ContextMenu" x:Key="ContextMenu.Default">
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <!--<Setter Property="OverridesDefaultStyle" Value="True" />-->
+        <Setter Property="Grid.IsSharedSizeScope" Value="true" />
+        <Setter Property="HasDropShadow" Value="True" />
+        <Setter Property="Template" Value="{StaticResource ContextMenu.Template}" />
+        <Setter Property="Padding" Value="0" />
+        <Style.Resources>
+            <Style TargetType="MenuItem" BasedOn="{StaticResource MenuItem.Default}">
+                <Setter Property="MinHeight" Value="28" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="FontSize" Value="13" />
+            </Style>
+        </Style.Resources>
+    </Style>
+    <Style TargetType="ContextMenu" BasedOn="{StaticResource ContextMenu.Default}" />
+</ResourceDictionary>

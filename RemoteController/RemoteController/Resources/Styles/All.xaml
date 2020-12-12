@@ -1,0 +1,11 @@
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Styles/Separator.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Styles/ButtonStyle.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Styles/ContentControlStyle.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Styles/MenuItem.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Styles/ContextMenu.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>
