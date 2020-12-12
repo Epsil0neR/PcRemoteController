@@ -6,6 +6,7 @@
     xmlns:controls="clr-namespace:RemoteController.Controls">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Generic/All.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Styles/MenuItem.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <Color x:Key="{x:Static ap:ResourceKeys+Colors.Background}">#FF2D2D30</Color>
@@ -21,7 +22,6 @@
     <SolidColorBrush x:Key="StyledWindow.Menu.Colors.Hover" Color="#3E3E40" />
     <SolidColorBrush x:Key="StyledWindow.Menu.Colors.Border" Color="#333337" />
     <SolidColorBrush x:Key="StyledWindow.Menu.Colors.Background" Color="{StaticResource {x:Static ap:ResourceKeys+Colors.Background}}" />
-    <SolidColorBrush x:Key="StyledWindow.MenuItem.Colors.Hover" Color="#333334" />
 
     <SolidColorBrush x:Key="{x:Static ap:ResourceKeys.TitleBackgroundKey}" Color="{StaticResource {x:Static ap:ResourceKeys+Colors.Background}}" />
 
@@ -97,188 +97,27 @@
         </Style.Resources>
     </Style>
 
-    <Style x:Key="StyledWindow.Separator" TargetType="Separator">
-        <Setter Property="Margin" Value="0,3,0,3" />
-        <Setter Property="Background" Value="{StaticResource StyledWindow.Menu.Colors.Border}" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="Separator">
-                    <Grid>
-                        <Rectangle Height="1" Stroke="{TemplateBinding Background}" />
-                    </Grid>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="StyledWindow.MenuItem" TargetType="MenuItem">
-        <Setter Property="Foreground" Value="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type Menu}}}"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type MenuItem}">
-                    <Border x:Name="Border"
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition x:Name="Col0" MinWidth="17" Width="Auto" SharedSizeGroup="MenuItemIconColumnGroup"/>
-                                <ColumnDefinition Width="Auto" SharedSizeGroup="MenuTextColumnGroup"/>
-                                <ColumnDefinition Width="Auto" SharedSizeGroup="MenuItemIGTColumnGroup"/>
-                                <ColumnDefinition x:Name="Col3" Width="14"/>
-                            </Grid.ColumnDefinitions>
-
-                            <!-- ContentPresenter to show an Icon if needed -->
-                            <ContentPresenter Grid.Column="0" Margin="4,0,6,0" x:Name="Icon" VerticalAlignment="Center" ContentSource="Icon"/>
-
-                            <!-- Glyph is a checkmark if needed for a checkable menu -->
-                            <Grid Grid.Column="0" Visibility="Hidden" Margin="4,0,6,0" x:Name="GlyphPanel" VerticalAlignment="Center">
-                                <Path x:Name="GlyphPanelpath" VerticalAlignment="Center" Fill="{TemplateBinding Foreground}" Data="M0,2 L0,4.8 L2.5,7.4 L7.1,2.8 L7.1,0 L2.5,4.6 z" FlowDirection="LeftToRight"/>
-                            </Grid>
-
-                            <!-- Content for the menu text etc -->
-                            <ContentPresenter Grid.Column="1"
-                                          Margin="{TemplateBinding Padding}"
-                                          x:Name="HeaderHost"
-                                          RecognizesAccessKey="True"
-                                          ContentSource="Header"/>
-
-                            <!-- Content for the menu IGT -->
-                            <ContentPresenter Grid.Column="2"
-                                          Margin="8,1,8,1"
-                                          x:Name="IGTHost"
-                                          ContentSource="InputGestureText"
-                                          VerticalAlignment="Center"/>
-
-                            <!-- Arrow drawn path which points to the next level of the menu -->
-                            <Grid Grid.Column="3" Margin="4,0,6,0" x:Name="ArrowPanel" VerticalAlignment="Center">
-                                <Path 
-                                    x:Name="ArrowPanelPath" 
-                                    HorizontalAlignment="Right" 
-                                    VerticalAlignment="Center" 
-                                    Fill="{TemplateBinding Foreground}"
-                                    Data="M0,0 L0,8 L4,4 z"/>
-                            </Grid>
-
-                            <!-- The Popup is the body of the menu which expands down or across depending on the level of the item -->
-                            <Popup 
-                                Grid.Column="0"
-                                Grid.ColumnSpan="4"
-                                IsOpen="{Binding Path=IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}" 
-                                Placement="Right" 
-                                x:Name="SubMenuPopup" 
-                                Focusable="false" 
-                                PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}">
-                                <Border 
-                                    x:Name="SubMenuBorder" 
-                                    BorderBrush="{DynamicResource StyledWindow.Menu.Colors.Border}" 
-                                    Background="{DynamicResource StyledWindow.Menu.Colors.Background}"
-                                    BorderThickness="1" 
-                                    SnapsToDevicePixels="True"
-                                    Padding="2,2,2,2">
-                                    <Grid x:Name="SubMenu" Grid.IsSharedSizeScope="True">
-                                        <!-- StackPanel holds children of the menu. This is set by IsItemsHost=True -->
-                                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle"/>
-                                    </Grid>
-                                </Border>
-                            </Popup>
-                        </Grid>
-                    </Border>
-
-                    <!-- These triggers re-configure the four arrangements of MenuItem to show different levels of menu via Role -->
-                    <ControlTemplate.Triggers>
-                        <!-- Role = TopLevelHeader : this is the root menu item in a menu; the Popup expands down -->
-                        <Trigger Property="Role" Value="TopLevelHeader">
-                            <Setter Property="Padding" Value="6,1,6,1"/>
-                            <Setter Property="Placement" Value="Bottom" TargetName="SubMenuPopup"/>
-                            <Setter Property="MinWidth" Value="0" TargetName="Col0"/>
-                            <Setter Property="Width" Value="Auto" TargetName="Col3"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="Icon"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="GlyphPanel"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="IGTHost"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="ArrowPanel"/>
-                        </Trigger>
-
-                        <!-- Role = TopLevelItem :  this is a child menu item from the top level without any child items-->
-                        <Trigger Property="Role" Value="TopLevelItem">
-                            <Setter Property="Padding" Value="6,1,6,1"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="ArrowPanel"/>
-                        </Trigger>
-
-                        <!-- Role = SubMenuHeader : this is a child menu item which does not have children -->
-                        <Trigger Property="Role" Value="SubmenuHeader">
-                            <Setter Property="DockPanel.Dock" Value="Top"/>
-                            <Setter Property="Padding" Value="0,2,0,2"/>
-                        </Trigger>
-
-                        <!-- Role = SubMenuItem : this is a child menu item which has children-->
-                        <Trigger Property="Role" Value="SubmenuItem">
-                            <Setter Property="DockPanel.Dock" Value="Top"/>
-                            <Setter Property="Padding" Value="0,2,0,2"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="ArrowPanel"/>
-                        </Trigger>
-                        <Trigger Property="IsSuspendingPopupAnimation" Value="true">
-                            <Setter Property="PopupAnimation" Value="None" TargetName="SubMenuPopup"/>
-                        </Trigger>
-
-                        <!-- If no Icon is present the we collapse the Icon Content -->
-                        <Trigger Property="Icon" Value="{x:Null}">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="Icon"/>
-                        </Trigger>
-
-                        <!-- The GlyphPanel contains the CheckMark -->
-                        <Trigger Property="IsChecked" Value="true">
-                            <Setter Property="Visibility" Value="Visible" TargetName="GlyphPanel"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="Icon"/>
-                        </Trigger>
-                        <!-- Using the system colors for the Menu Highlight and IsEnabled-->
-                        <Trigger Property="IsHighlighted" Value="true">
-                            <Setter Property="Background" Value="{StaticResource StyledWindow.MenuItem.Colors.Hover}" TargetName="Border"/>
-                            <Setter TargetName="ArrowPanelPath" Property="Fill" Value="{DynamicResource StyledWindow.Brushes.Active}" />
-                            <!--<Setter Property="Foreground" Value="Black"/>-->
-                        </Trigger>
-
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="Role" Value="TopLevelItem" />
-                                <Condition Property="IsHighlighted" Value="True" />
-                            </MultiTrigger.Conditions>
-
-                            <Setter Property="Background" Value="{StaticResource StyledWindow.Menu.Colors.Hover}" TargetName="Border"/>
-                        </MultiTrigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="Role" Value="TopLevelHeader" />
-                                <Condition Property="IsHighlighted" Value="True" />
-                            </MultiTrigger.Conditions>
-
-                            <Setter Property="Background" Value="{StaticResource StyledWindow.Menu.Colors.Hover}" TargetName="Border"/>
-                        </MultiTrigger>
-
-                        <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Foreground" Value="LightGray"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
     <Style x:Key="StyledWindow.Menu" TargetType="Menu">
         <Setter Property="IsMainMenu" Value="True" />
         <Setter Property="Background" Value="{Binding Background, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" />
         <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" />
         <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
-                    <WrapPanel/>
+                    <WrapPanel />
                 </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
         <Style.Resources>
-            <Style TargetType="Separator" x:Key="{x:Static MenuItem.SeparatorStyleKey}" BasedOn="{StaticResource StyledWindow.Separator}"></Style>
-            <Style TargetType="MenuItem" BasedOn="{StaticResource StyledWindow.MenuItem}"></Style>
+            <Style TargetType="Separator" x:Key="{x:Static MenuItem.SeparatorStyleKey}" BasedOn="{StaticResource Separator.Vertical}">
+                <Setter Property="Height" Value="14" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="Margin" Value="4 0" />
+                <Setter Property="Background" Value="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" />
+            </Style>
+            <Style TargetType="MenuItem" BasedOn="{StaticResource MenuItem.Default}" />
         </Style.Resources>
     </Style>
 
