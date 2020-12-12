@@ -93,7 +93,9 @@
                     Padding="0">
                     <Grid x:Name="SubMenu" Grid.IsSharedSizeScope="True">
                         <!-- StackPanel holds children of the menu. This is set by IsItemsHost=True -->
-                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle"/>
+                        <StackPanel 
+                            IsItemsHost="True" 
+                            KeyboardNavigation.DirectionalNavigation="Cycle"/>
                     </Grid>
                 </Border>
             </Popup>

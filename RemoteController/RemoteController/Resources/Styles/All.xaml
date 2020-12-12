@@ -7,5 +7,8 @@
         <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Styles/ContentControlStyle.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Styles/MenuItem.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Styles/ContextMenu.xaml" />
+
+        <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Styles/ApplicationButton.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Styles/StyledWidnnow.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
