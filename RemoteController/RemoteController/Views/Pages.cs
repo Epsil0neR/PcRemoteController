@@ -57,18 +57,4 @@ namespace RemoteController.Views
         }
 
     }
-
-    //TODO: Remove this test page.
-    [ViewFor(typeof(TestPageViewModel))]
-    public class TestPageView : Control
-    {
-        static TestPageView()
-        {
-            var t = typeof(TestPageView);
-            DefaultStyleKeyProperty.OverrideMetadata(t, new FrameworkPropertyMetadata
-            {
-                DefaultValue = t
-            });
-        }
-    }
 }

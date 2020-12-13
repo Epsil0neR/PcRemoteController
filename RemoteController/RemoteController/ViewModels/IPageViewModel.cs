@@ -23,9 +23,5 @@ namespace RemoteController.ViewModels
         Paths = 5,
 
         Commands = 10,
-
-        // TODO: When there will be enough pages -> remove this test page.
-        [Description("Random text")]
-        Test = 100, 
     }
 }
