@@ -39,7 +39,7 @@ namespace RemoteController.ViewModels
         {
             Pages = pages ?? throw new ArgumentNullException(nameof(pages));
             WsServer = wsServer;
-            Selected = Pages.FirstOrDefault(x => x.Name == PageName.Paths);
+            Selected = Pages.FirstOrDefault(x => x.Name == PageName.Test);
 
             SelectCommand = new RelayCommand<IPageViewModel>(Select);
             StartServerCommand = new RelayCommand(StartServer);

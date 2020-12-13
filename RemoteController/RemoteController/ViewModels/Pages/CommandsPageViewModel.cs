@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Data;
 using System.IO;
 using System.Linq;
 using System.Windows.Input;
@@ -68,7 +67,7 @@ namespace RemoteController.ViewModels.Pages
         {
             Create = new CreateCommandViewModel(
                 () => Create = null,
-                SubmitAction, 
+                SubmitAction,
                 NameValidator
                 );
         }

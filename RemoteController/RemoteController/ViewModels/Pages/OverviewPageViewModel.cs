@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
 using Epsiloner.OptionsModule;
-using NAudio.Dsp;
 using RemoteController.Configs;
 using RemoteController.WebSocket;
 

@@ -33,6 +33,39 @@
                 />
         </Grid>
     </c:StyledWindow.HeaderRightContent>
+    <c:StyledWindow.HeaderMenu>
+        <Menu>
+            <MenuItem Header="item 1">
+                <MenuItem Header="1-0" />
+                <Separator />
+                <MenuItem Header="1-1" />
+                <Separator />
+                <MenuItem Header="1-2">
+                    <MenuItem Header="Item 1-2-1" />
+                    <MenuItem Header="Item 1-2-2" />
+                    <Separator />
+                    <MenuItem Header="Item 1-2-3" />
+                </MenuItem>
+            </MenuItem>
+            <Separator />
+            <MenuItem Header="item 2">
+                <MenuItem Header="2-1" />
+                <MenuItem Header="2-2" />
+            </MenuItem>
+            <MenuItem Header="item 3">
+                <MenuItem Header="3-1" />
+                <MenuItem Header="3-2" />
+            </MenuItem>
+            <MenuItem Header="item 4">
+                <MenuItem Header="4-1" />
+                <MenuItem Header="4-2" />
+            </MenuItem>
+            <MenuItem Header="item 5">
+                <MenuItem Header="5-1" />
+                <MenuItem Header="5-2" />
+            </MenuItem>
+        </Menu>
+    </c:StyledWindow.HeaderMenu>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>

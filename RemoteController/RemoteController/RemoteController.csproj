@@ -44,10 +44,20 @@
 
     <None Remove="*.ico" />
     <Resource Include="*.ico" />
+    <Compile Update="Resources\Styles\StyledWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
 
     <None Update="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Resources\Styles\StyledWindow.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
 
 </Project>
