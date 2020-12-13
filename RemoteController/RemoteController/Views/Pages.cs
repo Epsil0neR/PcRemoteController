@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using Epsiloner.Wpf.Attributes;
+using RemoteController.ViewModels;
 using RemoteController.ViewModels.Pages;
 
 namespace RemoteController.Views
@@ -55,5 +56,19 @@ namespace RemoteController.Views
             });
         }
 
+    }
+
+    //TODO: Remove this test page.
+    [ViewFor(typeof(TestPageViewModel))]
+    public class TestPageView : Control
+    {
+        static TestPageView()
+        {
+            var t = typeof(TestPageView);
+            DefaultStyleKeyProperty.OverrideMetadata(t, new FrameworkPropertyMetadata
+            {
+                DefaultValue = t
+            });
+        }
     }
 }

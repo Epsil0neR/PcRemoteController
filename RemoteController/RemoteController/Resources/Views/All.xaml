@@ -1,4 +1,6 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:v="clr-namespace:RemoteController.Views">
     <ResourceDictionary.MergedDictionaries>
 
         <!--Here are listed all view related resources only.-->
@@ -8,4 +10,36 @@
         <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Views/PathsManagerView.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Views/CommandsPageView.xaml" />
     </ResourceDictionary.MergedDictionaries>
+
+    <ControlTemplate TargetType="v:TestPageView" x:Key="TestPageView.Template">
+        <ScrollViewer>
+            <StackPanel Orientation="Vertical">
+                <Button 
+                    Content="Button with tooltip" 
+                    ToolTip="Text for tooltip">
+                    <Button.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Item 1">
+                                <!--<MenuItem.Icon>
+                                    <Image Source="../../icon.ico" />
+                                </MenuItem.Icon>-->
+                            </MenuItem>
+                            <MenuItem Header="Item with sub-menu">
+                                <MenuItem Header="Sub item 1" />
+                                <MenuItem Header="Sub item 2" />
+                                <Separator />
+                                <MenuItem Header="Sub item 3" />
+                            </MenuItem>
+                            <Separator />
+                            <MenuItem Header="Item 3"/>
+                        </ContextMenu>
+                    </Button.ContextMenu>
+                </Button>
+            </StackPanel>
+        </ScrollViewer>
+    </ControlTemplate>
+
+    <Style TargetType="v:TestPageView">
+        <Setter Property="Template" Value="{StaticResource TestPageView.Template}" />
+    </Style>
 </ResourceDictionary>

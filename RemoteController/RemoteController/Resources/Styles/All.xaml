@@ -9,6 +9,6 @@
         <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Styles/ContextMenu.xaml" />
 
         <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Styles/ApplicationButton.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Styles/StyledWidnnow.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Styles/StyledWindow.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
