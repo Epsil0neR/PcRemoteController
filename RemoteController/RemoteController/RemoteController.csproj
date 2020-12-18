@@ -2,9 +2,10 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net472</TargetFramework>
+    <TargetFramework>net5.0-windows</TargetFramework>
     <RuntimeIdentifier>win10-x64</RuntimeIdentifier>
     <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
 
     <Authors>Veniamin Lytkin @ Epsil0neR</Authors>
     <Copyright>Copyright © Epsil0neR 2020</Copyright>
