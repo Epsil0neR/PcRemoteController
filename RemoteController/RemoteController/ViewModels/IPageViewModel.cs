@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using Epsiloner.Wpf.ViewModels;
+﻿using Epsiloner.Wpf.ViewModels;
 
 namespace RemoteController.ViewModels
 {
@@ -14,9 +13,21 @@ namespace RemoteController.ViewModels
         /// Indicates if page is currently selected.
         /// </summary>
         bool IsSelected { get; set; }
+
+        bool UnSelecting() => true;
+
+        void UnSelected()
+        {
+            IsSelected = false;
+        }
+
+        void Selected()
+        {
+            IsSelected = true;
+        }
     }
 
-    public enum PageName:uint
+    public enum PageName : uint
     {
         Overview = 1,
 

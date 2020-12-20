@@ -49,10 +49,10 @@ namespace RemoteController.ViewModels
                 ShowNewFolderButton = true
             };
             var res = dlg.ShowDialog();
-            if (res == DialogResult.OK)
-            {
-                _data.Path = Path = dlg.SelectedPath;
-            }
+            if (res != DialogResult.OK)
+                return;
+
+            _data.Path = Path = dlg.SelectedPath;
         }
 
         private void Remove()

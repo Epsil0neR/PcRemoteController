@@ -1,7 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Threading;
 using Epsiloner.OptionsModule;
@@ -38,7 +40,7 @@ namespace RemoteController.ViewModels.Pages
             Config = config ?? throw new ArgumentNullException(nameof(config));
             Manager = manager ?? throw new ArgumentNullException(nameof(manager));
 
-            Commands = new ObservableCollection<CommandViewModel>()
+            Commands = new ObservableCollection<CommandViewModel>
             {
                 Dispatcher = dispatcher ?? throw new ArgumentNullException(nameof(dispatcher))
             };
@@ -46,7 +48,7 @@ namespace RemoteController.ViewModels.Pages
 
             if (Config.Count == 0)
             {
-                var c = new ManipulationCommand()
+                var c = new ManipulationCommand
                 {
                     Name = "cmd.Test",
                     Data = "git status",//"msg %username% Your message here",
@@ -84,6 +86,15 @@ namespace RemoteController.ViewModels.Pages
 
         private void SubmitAction()
         {
+            if (Create == null)
+                return;
+
+            var command = Create.ToManipulationCommand();
+            Config.Add(command);
+            Options.Save(Config);
+
+            var vm = new CommandViewModel(command);
+            Commands.Add(vm);
 
             Create = null;
         }
@@ -96,7 +107,8 @@ namespace RemoteController.ViewModels.Pages
 
         private void Test()
         {
-            var t = Manager.TryExecute("cmd.Test");
+            var result = Manager.TryExecute("cmd.Test");
+            Debugger.Break();
         }
 
         private void CommandHandler(bool inserted, CommandViewModel item, int index)
@@ -130,12 +142,8 @@ namespace RemoteController.ViewModels.Pages
             //3. Populate manipulator manager with items from config.
             foreach (var c in Config)
             {
-                //TODO: Add support for commands with File mode.
-                if (c.Mode == ManipulationCommandType.Code)
-                {
-                    var vm = new CommandViewModel(c);
-                    Commands.Add(vm);
-                }
+                var vm = new CommandViewModel(c);
+                Commands.Add(vm);
             }
 
             Config.PropertyChanged += ConfigOnPropertyChanged;
@@ -182,6 +190,9 @@ namespace RemoteController.ViewModels.Pages
         private ManipulationCommandType _type = ManipulationCommandType.Code;
         private string _code;
         private string _filePath;
+        private string _workingDirectory;
+        private bool _isHidden;
+        private bool _waitForExecution;
 
         public string ValidationErrorMessage
         {
@@ -212,6 +223,28 @@ namespace RemoteController.ViewModels.Pages
             get => _filePath;
             set => Set(ref _filePath, value);
         }
+
+        public string WorkingDirectory
+        {
+            get => _workingDirectory;
+            set => Set(ref _workingDirectory, value);
+        }
+
+        public bool IsHidden
+        {
+            get => _isHidden;
+            set => Set(ref _isHidden, value);
+        }
+
+        public bool WaitForExecution
+        {
+            get => _waitForExecution;
+            set => Set(ref _waitForExecution, value);
+        }
+
+        public ICommand SelectFileCommand { get; }
+        public ICommand SelectWorkingDirectoryCommand { get; }
+        public ICommand ClearWorkingDirectoryCommand { get; }
         public ICommand CancelCommand { get; }
         public ICommand SubmitCommand { get; }
 
@@ -220,8 +253,43 @@ namespace RemoteController.ViewModels.Pages
             _submitAction = submitAction ?? throw new ArgumentNullException(nameof(submitAction));
             _nameValidator = nameValidator ?? throw new ArgumentNullException(nameof(nameValidator));
 
+            SelectFileCommand = new RelayCommand(SelectFile);
+            SelectWorkingDirectoryCommand = new RelayCommand(SelectWorkingDirectory);
+            ClearWorkingDirectoryCommand = new RelayCommand(() => WorkingDirectory = null);
             CancelCommand = new RelayCommand(cancelAction ?? throw new ArgumentNullException(nameof(cancelAction)));
             SubmitCommand = new RelayCommand(Submit, CanSubmit);
+        }
+
+        private void SelectFile()
+        {
+            using var browser = new OpenFileDialog
+            {
+                Multiselect = false,
+                InitialDirectory = string.IsNullOrWhiteSpace(FilePath)
+                    ? WorkingDirectory
+                    : Path.GetDirectoryName(FilePath)
+            };
+
+            var result = browser.ShowDialog();
+            if (result != DialogResult.OK)
+                return;
+
+            FilePath = browser.FileName;
+        }
+
+        private void SelectWorkingDirectory()
+        {
+            using var browser = new FolderBrowserDialog
+            {
+                SelectedPath = WorkingDirectory,
+                ShowNewFolderButton = true
+            };
+
+            var result = browser.ShowDialog();
+            if (result != DialogResult.OK)
+                return;
+
+            WorkingDirectory = browser.SelectedPath;
         }
 
         private void Submit()
@@ -252,8 +320,31 @@ namespace RemoteController.ViewModels.Pages
                 return false;
             }
 
+            if (!string.IsNullOrWhiteSpace(WorkingDirectory) && !Directory.Exists(WorkingDirectory))
+            {
+                ValidationErrorMessage = "Working directory does not exist.";
+                return false;
+            }
+
             ValidationErrorMessage = null;
             return true;
+        }
+
+        public ManipulationCommand ToManipulationCommand()
+        {
+            var rv = new ManipulationCommand
+            {
+                Name = Name,
+                WorkingDirectory = WorkingDirectory,
+                IsEnabled = true,
+                AllowArgument = false,//TODO: Not implemented in UI
+                Mode = Type,
+                ShowCmdWindow = !IsHidden,
+                Data = Type == ManipulationCommandType.Code ? Code : FilePath,
+                WaitForExecution = WaitForExecution
+            };
+
+            return rv;
         }
     }
 }

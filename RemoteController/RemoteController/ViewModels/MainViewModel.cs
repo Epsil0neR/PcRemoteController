@@ -39,7 +39,7 @@ namespace RemoteController.ViewModels
         {
             Pages = pages ?? throw new ArgumentNullException(nameof(pages));
             WsServer = wsServer;
-            Selected = Pages.FirstOrDefault(x => x.Name == PageName.Overview);
+            Selected = Pages.FirstOrDefault(x => x.Name == PageName.Commands);
 
             SelectCommand = new RelayCommand<IPageViewModel>(Select);
             StartServerCommand = new RelayCommand(StartServer);
@@ -58,8 +58,17 @@ namespace RemoteController.ViewModels
 
         private void Select(IPageViewModel page)
         {
-            if (page != null)
-                Selected = page;
+            if (ReferenceEquals(_selected, page))
+                return;
+
+            if (_selected?.UnSelecting() == false)
+                return;
+
+            var old = _selected;
+            Selected = page;
+
+            old?.UnSelected();
+            page?.Selected();
         }
     }
 }

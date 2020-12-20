@@ -10,7 +10,7 @@
     >
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Generic/All.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Styles/ButtonStyle.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Styles/Button.xaml" />
     </ResourceDictionary.MergedDictionaries>
     <d:FrameworkElement.DataContext>
         <x:Type Type="vm:OverviewPageViewModel" />

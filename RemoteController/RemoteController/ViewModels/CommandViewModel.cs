@@ -13,7 +13,7 @@ namespace RemoteController.ViewModels
         public CommandViewModel(ManipulationCommand config)
         {
             Config = config;
-            Manipulation = new CmdManipulation(config.Name, config.Data, config.AllowArgument, config.WorkingDirectory, config.ShowCmdWindow, config.WaitForExecution);
+            Manipulation = new CmdManipulation(config.Name, config.Data, config.AllowArgument, config.WorkingDirectory, !config.ShowCmdWindow, config.WaitForExecution);
         }
 
         public bool IsWorking

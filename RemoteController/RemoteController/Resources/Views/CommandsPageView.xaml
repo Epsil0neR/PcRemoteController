@@ -7,11 +7,14 @@
     xmlns:vm="clr-namespace:RemoteController.ViewModels.Pages"
     xmlns:e="http://schemas.epsiloner.git/wpf/"
     xmlns:vms="clr-namespace:RemoteController.ViewModels"
+    xmlns:utils="clr-namespace:RemoteController.Utils"
+    xmlns:configs="clr-namespace:RemoteController.Configs"
+    xmlns:helpers="clr-namespace:RemoteController.Helpers"
     mc:Ignorable="d" 
     >
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Generic/All.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Styles/ButtonStyle.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Styles/Button.xaml" />
     </ResourceDictionary.MergedDictionaries>
     <d:FrameworkElement.DataContext>
         <x:Type Type="vm:CommandsPageViewModel" />
@@ -105,18 +108,138 @@
     <DataTemplate x:Key="CreateCommandViewModel.DataTemplate" DataType="vm:CreateCommandViewModel">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="110" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" MinHeight="28" />
+                <RowDefinition Height="Auto" MinHeight="28" />
+                <RowDefinition Height="Auto" MinHeight="28" />
+                <RowDefinition Height="Auto" MinHeight="28" />
+                <RowDefinition Height="Auto" MinHeight="28" />
+                <RowDefinition Height="*" MinHeight="28" />
+                <RowDefinition Height="Auto" MinHeight="28" />
+                <RowDefinition Height="Auto" MinHeight="28" />
             </Grid.RowDefinitions>
 
-            <StackPanel
+            <TextBlock 
+                Grid.Column="0"
+                Grid.Row="0"
+                VerticalAlignment="Center"
+                Text="Name" />
+            <TextBox 
+                Grid.Column="1"
+                Grid.Row="0"
+                VerticalContentAlignment="Center"
+                Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                />
+
+            <TextBlock 
+                Grid.Column="0"
+                Grid.Row="1"
+                VerticalAlignment="Center"
+                Text="Working directory" />
+            <DockPanel 
+                Grid.Column="1"
+                Grid.Row="1"
+                LastChildFill="True">
+                <Button 
+                    DockPanel.Dock="Right"
+                    Style="{StaticResource Button.Danger}"
+                    ToolTip="Clear working directory"
+                    Command="{Binding ClearWorkingDirectoryCommand}"
+                    helpers:VisibilityHelper.IsVisible="{Binding WorkingDirectory, Converter={StaticResource Converter.IsNotNull}}">
+                    <e:SymbolMaterial Icon="Clear" />
+                </Button>
+
+                <Button
+                    Command="{Binding SelectWorkingDirectoryCommand}"
+                    ToolTip="Select working directory..."
+                    Content="{Binding WorkingDirectory, TargetNullValue='Select working directory...'}" />
+            </DockPanel>
+
+            <TextBlock 
+                Grid.Column="0"
+                Grid.Row="2"
+                VerticalAlignment="Center"
+                Text="Type" />
+            <ComboBox
+                Grid.Column="1"
+                Grid.Row="2"
+                ItemsSource="{utils:EnumToItemsSource configs:ManipulationCommandType}"
+                VerticalContentAlignment="Center"
+                DisplayMemberPath="DisplayName"
+                SelectedValuePath="Value"
+                SelectedValue="{Binding Type, Mode=TwoWay}" />
+
+            <TextBlock 
+                Grid.Column="0"
                 Grid.Row="3"
+                VerticalAlignment="Center"
+                ToolTip="Indicates if CMD window will be hidden or shown."
+                Text="Is hidden" />
+            <CheckBox
+                Grid.Column="1"
+                Grid.Row="3"
+                VerticalAlignment="Center"
+                ToolTip="Indicates if CMD window will be hidden or shown."
+                IsThreeState="False"
+                IsChecked="{Binding IsHidden, Mode=TwoWay}" />
+
+            <TextBlock 
+                Grid.Column="0"
+                Grid.Row="4"
+                VerticalAlignment="Center"
+                ToolTip="Indicates if CMD command execution should be waited."
+                Text="Wait" />
+            <CheckBox
+                Grid.Column="1"
+                Grid.Row="4"
+                VerticalAlignment="Center"
+                ToolTip="Indicates if CMD command execution should be waited."
+                IsThreeState="False"
+                IsChecked="{Binding WaitForExecution, Mode=TwoWay}" />
+
+
+            <TextBox
+                Grid.Column="0"
+                Grid.Row="5"
+                Grid.ColumnSpan="2"
+                AcceptsReturn="True"
+                AcceptsTab="True"
+                helpers:VisibilityHelper.IsVisible="{Binding Type, Converter={StaticResource Converter.Equals}, ConverterParameter={x:Static configs:ManipulationCommandType.Code}}"
+                VerticalScrollBarVisibility="Auto"
+                HorizontalScrollBarVisibility="Auto"
+                Text="{Binding Code, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+            <TextBlock 
+                Grid.Column="0"
+                Grid.Row="5"
+                VerticalAlignment="Top"
+                helpers:VisibilityHelper.IsVisible="{Binding Type, Converter={StaticResource Converter.Equals}, ConverterParameter={x:Static configs:ManipulationCommandType.File}}"
+                Text="File:" />
+            <Button
+                Grid.Column="1"
+                Grid.Row="5"
+                VerticalAlignment="Top"
+                helpers:VisibilityHelper.IsVisible="{Binding Type, Converter={StaticResource Converter.Equals}, ConverterParameter={x:Static configs:ManipulationCommandType.File}}"
+                Command="{Binding SelectFileCommand}"
+                Content="{Binding FilePath, TargetNullValue='Select file...'}" />
+
+            <TextBlock 
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Grid.Row="6"
+                VerticalAlignment="Center"
+                Margin="8"
+                Text="{Binding ValidationErrorMessage}"
+                helpers:VisibilityHelper.IsCollapsed="{Binding ValidationErrorMessage, Converter={StaticResource Converter.IsNull}}"
+                Foreground="{StaticResource Brush.Danger.Lighter}"
+                Style="{StaticResource Style.Font.H5}"
+                TextWrapping="Wrap">
+            </TextBlock>
+            <StackPanel
+                Grid.Row="7"
                 Grid.Column="0"
                 Grid.ColumnSpan="2"
                 Margin="4 4 0 0"
@@ -154,7 +277,6 @@
                     </StackPanel>
                 </Button>
             </StackPanel>
-
         </Grid>
     </DataTemplate>
 
