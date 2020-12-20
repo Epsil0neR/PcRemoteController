@@ -8,6 +8,7 @@
     <c:IsNotNullConverter x:Key="Converter.IsNotNull" />
     <c:IsNullConverter x:Key="Converter.IsNull" />
     <c:EqualsMultiValueConverter x:Key="Converter.EqualsMulti" />
+    <c:EqualsValueConverter x:Key="Converter.Equals" />
 
     <c:BooleanToVisibility x:Key="Converter.BooleanToVisibility" />
     <c:BooleanToVisibility x:Key="Converter.BooleanToInvisibility" 
