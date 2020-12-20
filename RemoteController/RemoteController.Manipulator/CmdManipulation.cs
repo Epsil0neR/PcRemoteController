@@ -55,13 +55,18 @@ namespace RemoteController.Manipulator
             var arguments = $@"/C {_command}";
             if (_supportParam)
                 arguments = $"{arguments} \"{param}\"";
+
+            var dir = DefaultWorkingDirectory;
+            if (!string.IsNullOrWhiteSpace(_workingDirectory) && Directory.Exists(_workingDirectory))
+                dir = _workingDirectory;
+
             Process proc = new Process // https://stackoverflow.com/a/22869734/1763586
             {
                 StartInfo =
                 {
                     FileName = @"C:\Windows\System32\cmd.exe",
                     Arguments = arguments,
-                    WorkingDirectory = DefaultWorkingDirectory,
+                    WorkingDirectory = dir,
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                 }
