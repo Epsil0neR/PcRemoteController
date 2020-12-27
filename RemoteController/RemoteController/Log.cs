@@ -18,7 +18,7 @@ namespace RemoteController
         /// <summary>
         /// Direct exposure on instantiate ILogger from NLog
         /// </summary>
-        public static Logger Logger { get; } = LogManager.GetLogger("general");
+        public static Logger Logger { get; } = LogManager.GetLogger("File");
 
         public static string PathToLogsDirectory { get; }
     }
