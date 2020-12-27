@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+import { from } from 'rxjs';
 import { WebSocketService } from 'src/core';
+import { WakeLockSentinel, Navigator } from 'src/@types/WakeLock'
 
 @Component({
   selector: 'app-root',
@@ -16,5 +18,21 @@ export class AppComponent {
 
       this.service.open();
     });
+
+    this.keepWake();
+  }
+
+  private async keepWake() {
+    let wakeLock: WakeLockSentinel = null;
+    const n:Navigator = <any>navigator;
+    if ('wakeLock' in n) {
+      wakeLock = await n.wakeLock.request('screen');
+
+      document.addEventListener('visibilitychange', async () => {
+        if (wakeLock !== null && document.visibilityState === 'visible') {
+          wakeLock = await n.wakeLock.request('screen');
+        }
+      });
+    }
   }
 }
