@@ -27,6 +27,7 @@ namespace RemoteController.IoCs
             if (path.EndsWith(".html"))
             {
                 res.ContentType = "text/html";
+                res.AddHeader("Feature-Policy", "wake-lock '*'");
                 res.ContentEncoding = Encoding.UTF8;
             }
             else if (path.EndsWith(".js"))
@@ -54,6 +55,7 @@ namespace RemoteController.IoCs
                 if (path.EndsWith(".html"))
                 {
                     res.ContentType = "text/html";
+                    res.AddHeader("Feature-Policy", "wake-lock '*'");
                     res.ContentEncoding = Encoding.UTF8;
                 }
                 else if (path.EndsWith(".js"))
@@ -70,6 +72,7 @@ namespace RemoteController.IoCs
             else if (e.TryReadFile("/index.html", out contents))
             {
                 res.ContentType = "text/html";
+                res.AddHeader("Feature-Policy", "wake-lock '*'");
                 res.ContentEncoding = Encoding.UTF8;
             }
             else
