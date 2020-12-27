@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using RemoteController.Configs;
 using RemoteController.Informer;
@@ -122,10 +123,18 @@ namespace RemoteController.IoCs
         {
             var config = c.Resolve<ServerConfig>();
             var log = IoC.Resolve<Logger>();
-            var http = new HttpServer(config.Port)
+            var cert = new X509Certificate2(
+                @"E:\Projects\_git\Epsil0neR\PcRemoteController\RemoteController\RemoteController\bin\Debug\net5.0-windows\win10-x64/RemoteController.pfx",
+                "{0x719dca02,0xb331,0x45fb,{0xb8,0xd1,0xbb,0x39,0xec,0x5d,0x39,0x8b}}");
+            var http = new HttpServer(config.Port, true)
             {
-                KeepClean = true
+                KeepClean = true,
+                SslConfiguration =
+                {
+                    ServerCertificate = cert,
+                },
             };
+
 
             http.Log.Output = (data, s) =>
             {
