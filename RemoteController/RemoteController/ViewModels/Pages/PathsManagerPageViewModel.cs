@@ -49,6 +49,12 @@ namespace RemoteController.ViewModels.Pages
                 IsNameValid);
         }
 
+        public override void UnSelected()
+        {
+            base.UnSelected();
+            CreatePath = null;
+        }
+
         private bool IsNameValid(string name)
         {
             return FileSystemConfig.Roots.CanAdd(name);

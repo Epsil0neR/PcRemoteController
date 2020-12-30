@@ -20,5 +20,15 @@ namespace RemoteController.ViewModels
             get => _isSelected;
             set => Set(ref _isSelected, value);
         }
+
+        public virtual void UnSelected()
+        {
+            IsSelected = false;
+        }
+
+        public virtual void Selected()
+        {
+            IsSelected = true;
+        }
     }
 }

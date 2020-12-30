@@ -16,15 +16,9 @@ namespace RemoteController.ViewModels
 
         bool UnSelecting() => true;
 
-        void UnSelected()
-        {
-            IsSelected = false;
-        }
+        void UnSelected();
 
-        void Selected()
-        {
-            IsSelected = true;
-        }
+        void Selected();
     }
 
     public enum PageName : uint

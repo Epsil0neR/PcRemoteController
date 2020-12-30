@@ -65,6 +65,12 @@ namespace RemoteController.ViewModels.Pages
             ProceedConfig();
         }
 
+        public override void UnSelected()
+        {
+            base.UnSelected();
+            Create = null;
+        }
+
         private void CreateCommandHandler()
         {
             Create = new CreateCommandViewModel(
