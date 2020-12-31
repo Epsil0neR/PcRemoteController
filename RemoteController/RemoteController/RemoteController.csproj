@@ -11,6 +11,7 @@
     <Copyright>Copyright © Epsil0neR 2020</Copyright>
     <LangVersion>9</LangVersion>
     <IsPackable>false</IsPackable>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
