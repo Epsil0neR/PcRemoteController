@@ -71,6 +71,8 @@
                 Orientation="Horizontal">
                 <Button
                     Style="{StaticResource Button.Primary}"
+                    Command="{Binding EditCommand}"
+                    CommandParameter="{Binding}"
                     ToolTip="Configure">
                     <e:SymbolMaterial 
                         FontSize="24"
@@ -79,6 +81,8 @@
                 <Button
                     VerticalAlignment="Stretch"
                     Style="{StaticResource Button.Danger}"
+                    Command="{Binding DeleteCommand}"
+                    CommandParameter="{Binding}"
                     ToolTip="Remove">
                     <e:SymbolMaterial
                         FontSize="24"
@@ -266,11 +270,13 @@
                     Margin="8 0 0 0">
                     <StackPanel Orientation="Horizontal">
                         <e:SymbolMaterial
+                            x:Name="submitIcon"
                             FontSize="32"
                             Icon="CheckCircleOutline"
                         />
                         <TextBlock 
                             Text="Create" 
+                            x:Name="submitText"
                             Margin="4 0 0 0"
                             Style="{StaticResource Style.Font.H3}"
                             VerticalAlignment="Center" />
@@ -278,6 +284,13 @@
                 </Button>
             </StackPanel>
         </Grid>
+
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding Existing, Converter={StaticResource Converter.IsNotNull}}" Value="True">
+                <!--<Setter TargetName="submitIcon" Property="Icon" Value="" />-->
+                <Setter TargetName="submitText" Property="Text" Value="Update" />
+            </DataTrigger>
+        </DataTemplate.Triggers>
     </DataTemplate>
 
     <ControlTemplate TargetType="v:CommandsPageView" x:Key="CommandsPageView.Template">
@@ -318,12 +331,12 @@
             </ScrollViewer>
             <ContentControl 
                 x:Name="viewCreation"
-                Content="{Binding Create, Mode=OneWay}"
+                Content="{Binding CreateOrEdit, Mode=OneWay}"
                 ContentTemplate="{StaticResource CreateCommandViewModel.DataTemplate}"
                 Visibility="Collapsed"/>
         </Grid>
         <ControlTemplate.Triggers>
-            <DataTrigger Binding="{Binding Create, Converter={StaticResource Converter.IsNotNull}}" Value="True">
+            <DataTrigger Binding="{Binding CreateOrEdit, Converter={StaticResource Converter.IsNotNull}}" Value="True">
                 <Setter TargetName="viewDefault" Property="Visibility" Value="Collapsed" />
                 <Setter TargetName="viewCreation" Property="Visibility" Value="Visible" />
             </DataTrigger>

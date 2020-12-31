@@ -17,7 +17,10 @@ namespace RemoteController.ViewModels.Pages
 {
     public class CommandsPageViewModel : BasePageViewModel
     {
-        private CreateCommandViewModel _create;
+        private CreateCommandViewModel _createOrEdit;
+        private RelayCommand<CommandViewModel> _editCommand;
+        private RelayCommand<CommandViewModel> _deleteCommand;
+
         public Options Options { get; }
         public CommandsConfig Config { get; }
         public IManipulatorsManager Manager { get; }
@@ -46,6 +49,9 @@ namespace RemoteController.ViewModels.Pages
             };
             Commands.RegisterHandler(CommandHandler);
 
+            _editCommand = new RelayCommand<CommandViewModel>(EditCommand);
+            _deleteCommand = new RelayCommand<CommandViewModel>(DeleteCommand);
+
             if (Config.Count == 0)
             {
                 var c = new ManipulationCommand
@@ -65,16 +71,48 @@ namespace RemoteController.ViewModels.Pages
             ProceedConfig();
         }
 
+        private void DeleteCommand(CommandViewModel command)
+        {
+            if (Config.Remove(command.Config))
+            {
+                Commands.Remove(command);
+                Options.Save(Config);
+            }
+        }
+
         public override void UnSelected()
         {
             base.UnSelected();
-            Create = null;
+            CreateOrEdit = null;
+        }
+
+        private void EditCommand(CommandViewModel command)
+        {
+            var c = command.Config;
+            CreateOrEdit = new CreateCommandViewModel(
+                () => CreateOrEdit = null,
+                UpdateAction,
+                NameValidator
+            )
+            {
+                Existing = command,
+                Name = c.Name,
+                WorkingDirectory = c.WorkingDirectory,
+                WaitForExecution = c.WaitForExecution,
+                IsHidden = !c.ShowCmdWindow,
+                Type = c.Mode
+            };
+
+            if (c.Mode == ManipulationCommandType.Code)
+                CreateOrEdit.Code = c.Data;
+            if (c.Mode == ManipulationCommandType.File)
+                CreateOrEdit.FilePath = c.Data;
         }
 
         private void CreateCommandHandler()
         {
-            Create = new CreateCommandViewModel(
-                () => Create = null,
+            CreateOrEdit = new CreateCommandViewModel(
+                () => CreateOrEdit = null,
                 SubmitAction,
                 NameValidator
                 );
@@ -82,6 +120,9 @@ namespace RemoteController.ViewModels.Pages
 
         private bool NameValidator(string name)
         {
+            if (CreateOrEdit?.Existing != null && CreateOrEdit.Existing.Config.Name == name)
+                return true;
+
             if (string.IsNullOrWhiteSpace(name))
                 return false;
             if (Manager.Find(name) != null)
@@ -92,23 +133,45 @@ namespace RemoteController.ViewModels.Pages
 
         private void SubmitAction()
         {
-            if (Create == null)
+            if (CreateOrEdit == null)
                 return;
 
-            var command = Create.ToManipulationCommand();
+            var command = CreateOrEdit.ToManipulationCommand();
             Config.Add(command);
             Options.Save(Config);
 
-            var vm = new CommandViewModel(command);
+            var vm = new CommandViewModel(command, _editCommand, _deleteCommand);
             Commands.Add(vm);
 
-            Create = null;
+            CreateOrEdit = null;
         }
 
-        public CreateCommandViewModel Create
+        private void UpdateAction()
         {
-            get => _create;
-            private set => Set(ref _create, value);
+            if (CreateOrEdit == null)
+                return;
+
+            if (CreateOrEdit.Existing == null)
+            {
+                Debugger.Break();
+                SubmitAction();
+                return;
+            }
+
+            if (!CreateOrEdit.Update())
+                return;
+
+            var command = CreateOrEdit.Existing;
+            command.Update(Manager);
+
+            CreateOrEdit = null;
+            Options.Save(Config);
+        }
+
+        public CreateCommandViewModel CreateOrEdit
+        {
+            get => _createOrEdit;
+            private set => Set(ref _createOrEdit, value);
         }
 
         private void Test()
@@ -148,7 +211,7 @@ namespace RemoteController.ViewModels.Pages
             //3. Populate manipulator manager with items from config.
             foreach (var c in Config)
             {
-                var vm = new CommandViewModel(c);
+                var vm = new CommandViewModel(c, _editCommand, _deleteCommand);
                 Commands.Add(vm);
             }
 
@@ -176,14 +239,14 @@ namespace RemoteController.ViewModels.Pages
 
         private void ManagerOnItemStateChanged(object sender, ManipulatorsItemEventArgs e)
         {
-            if (e.Inserted)
+            if (e.Manipulation is not CmdManipulation cmd)
                 return;
 
-            var vm = Commands.FirstOrDefault(x => ReferenceEquals(x.Manipulation, e.Manipulation));
+            var vm = Commands.FirstOrDefault(x => ReferenceEquals(x.Manipulation, cmd));
             if (vm == null)
                 return;
 
-            vm.IsWorking = false;
+            vm.IsWorking = e.Inserted;
         }
     }
 
@@ -199,6 +262,7 @@ namespace RemoteController.ViewModels.Pages
         private string _workingDirectory;
         private bool _isHidden;
         private bool _waitForExecution;
+        private CommandViewModel _existing;
 
         public string ValidationErrorMessage
         {
@@ -246,6 +310,12 @@ namespace RemoteController.ViewModels.Pages
         {
             get => _waitForExecution;
             set => Set(ref _waitForExecution, value);
+        }
+
+        public CommandViewModel Existing
+        {
+            get => _existing;
+            set => Set(ref _existing, value);
         }
 
         public ICommand SelectFileCommand { get; }
@@ -349,6 +419,50 @@ namespace RemoteController.ViewModels.Pages
                 Data = Type == ManipulationCommandType.Code ? Code : FilePath,
                 WaitForExecution = WaitForExecution
             };
+
+            return rv;
+        }
+
+        public bool Update()
+        {
+            if (Existing == null)
+                return false;
+
+            var rv = false;
+
+            bool Check<T>(T configValue, T newValue)
+            {
+                if (Equals(configValue, newValue))
+                    return false;
+
+                rv = true;
+                return true;
+            }
+
+            var c = Existing.Config;
+            if (Check(c.Name, Name))
+                c.Name = Name;
+
+            if (Check(c.WorkingDirectory, WorkingDirectory))
+                c.WorkingDirectory = WorkingDirectory;
+
+            if (Check(c.IsEnabled, true))
+                c.IsEnabled = true; //TODO
+            
+            if (Check(c.AllowArgument, false))
+                c.AllowArgument = false; // TODO
+
+            if (Check(c.Mode, Type))
+                c.Mode = Type;
+            if (Check(c.ShowCmdWindow, !IsHidden))
+                c.ShowCmdWindow = !IsHidden;
+
+            var data = Type == ManipulationCommandType.Code ? Code : FilePath;
+            if (Check(c.Data, data))
+                c.Data = data;
+
+            if (Check(c.WaitForExecution, WaitForExecution))
+                c.WaitForExecution = WaitForExecution;
 
             return rv;
         }
