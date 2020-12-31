@@ -17,9 +17,10 @@ namespace RemoteController.ViewModels.Pages
 {
     public class CommandsPageViewModel : BasePageViewModel
     {
+        private readonly RelayCommand<CommandViewModel> _editCommand;
+        private readonly RelayCommand<CommandViewModel> _deleteCommand;
+
         private CreateCommandViewModel _createOrEdit;
-        private RelayCommand<CommandViewModel> _editCommand;
-        private RelayCommand<CommandViewModel> _deleteCommand;
 
         public Options Options { get; }
         public CommandsConfig Config { get; }
