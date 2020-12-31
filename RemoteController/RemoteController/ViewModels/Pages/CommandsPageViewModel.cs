@@ -239,7 +239,7 @@ namespace RemoteController.ViewModels.Pages
 
         private void ManagerOnItemStateChanged(object sender, ManipulatorsItemEventArgs e)
         {
-            if (e.Manipulation is not CmdManipulation cmd)
+            if (!(e.Manipulation is CmdManipulation cmd))
                 return;
 
             var vm = Commands.FirstOrDefault(x => ReferenceEquals(x.Manipulation, cmd));
