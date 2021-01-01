@@ -1,13 +1,8 @@
 ﻿using System.ComponentModel;
+using RemoteController.Manipulator;
 
 namespace RemoteController.Configs
 {
-    public enum ManipulationCommandType
-    {
-        Code,
-        File
-    }
-
     public class ManipulationCommand
     {
         /// <summary>
@@ -48,5 +43,17 @@ namespace RemoteController.Configs
 
         [DefaultValue(true)]
         public bool WaitForExecution { get; set; } = true;
+
+        public CmdManipulation ToManipulation()
+        {
+            return new CmdManipulation(
+                Name,
+                Mode,
+                Data,
+                AllowArgument,
+                WorkingDirectory,
+                !ShowCmdWindow,
+                WaitForExecution);
+        }
     }
 }

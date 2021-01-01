@@ -20,7 +20,7 @@ namespace RemoteController.ViewModels
             )
         {
             Config = config;
-            Manipulation = CreateManipulation();
+            Manipulation = Config.ToManipulation();
             EditCommand = editCommand;
             DeleteCommand = deleteCommand;
         }
@@ -34,20 +34,9 @@ namespace RemoteController.ViewModels
         public void Update(IManipulatorsManager manager)
         {
             manager.Remove(Manipulation);
-            Manipulation = CreateManipulation();
+            Manipulation = Config.ToManipulation();
             manager.Add(Manipulation);
             RaisePropertyChanged(nameof(Config));
-        }
-
-        private CmdManipulation CreateManipulation()
-        {
-            return new CmdManipulation(
-                Config.Name, 
-                Config.Data, 
-                Config.AllowArgument, 
-                Config.WorkingDirectory, 
-                !Config.ShowCmdWindow, 
-                Config.WaitForExecution);
         }
     }
 }

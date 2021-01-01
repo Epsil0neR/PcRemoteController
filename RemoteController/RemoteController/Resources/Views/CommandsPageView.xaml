@@ -8,8 +8,8 @@
     xmlns:e="http://schemas.epsiloner.git/wpf/"
     xmlns:vms="clr-namespace:RemoteController.ViewModels"
     xmlns:utils="clr-namespace:RemoteController.Utils"
-    xmlns:configs="clr-namespace:RemoteController.Configs"
     xmlns:helpers="clr-namespace:RemoteController.Helpers"
+    xmlns:manipulator="clr-namespace:RemoteController.Manipulator;assembly=RemoteController.Manipulator"
     mc:Ignorable="d" 
     >
     <ResourceDictionary.MergedDictionaries>
@@ -170,7 +170,7 @@
             <ComboBox
                 Grid.Column="1"
                 Grid.Row="2"
-                ItemsSource="{utils:EnumToItemsSource configs:ManipulationCommandType}"
+                ItemsSource="{utils:EnumToItemsSource manipulator:ManipulationCommandType}"
                 VerticalContentAlignment="Center"
                 DisplayMemberPath="DisplayName"
                 SelectedValuePath="Value"
@@ -211,7 +211,7 @@
                 Grid.ColumnSpan="2"
                 AcceptsReturn="True"
                 AcceptsTab="True"
-                helpers:VisibilityHelper.IsVisible="{Binding Type, Converter={StaticResource Converter.Equals}, ConverterParameter={x:Static configs:ManipulationCommandType.Code}}"
+                helpers:VisibilityHelper.IsVisible="{Binding Type, Converter={StaticResource Converter.Equals}, ConverterParameter={x:Static manipulator:ManipulationCommandType.Code}}"
                 VerticalScrollBarVisibility="Auto"
                 HorizontalScrollBarVisibility="Auto"
                 Text="{Binding Code, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -220,13 +220,13 @@
                 Grid.Column="0"
                 Grid.Row="5"
                 VerticalAlignment="Top"
-                helpers:VisibilityHelper.IsVisible="{Binding Type, Converter={StaticResource Converter.Equals}, ConverterParameter={x:Static configs:ManipulationCommandType.File}}"
+                helpers:VisibilityHelper.IsVisible="{Binding Type, Converter={StaticResource Converter.Equals}, ConverterParameter={x:Static manipulator:ManipulationCommandType.File}}"
                 Text="File:" />
             <Button
                 Grid.Column="1"
                 Grid.Row="5"
                 VerticalAlignment="Top"
-                helpers:VisibilityHelper.IsVisible="{Binding Type, Converter={StaticResource Converter.Equals}, ConverterParameter={x:Static configs:ManipulationCommandType.File}}"
+                helpers:VisibilityHelper.IsVisible="{Binding Type, Converter={StaticResource Converter.Equals}, ConverterParameter={x:Static manipulator:ManipulationCommandType.File}}"
                 Command="{Binding SelectFileCommand}"
                 Content="{Binding FilePath, TargetNullValue='Select file...'}" />
 
