@@ -46,8 +46,6 @@ namespace RemoteController.WebSocket
         /// </summary>
         public HttpServer Http { get; }
 
-        public HttpServer HttpRedirect { get; }
-
         public bool IsStarted
         {
             get => _isStarted;
@@ -88,23 +86,7 @@ namespace RemoteController.WebSocket
             : this(path)
         {
             Http = server;
-
-            if (Http.IsSecure)
-            {
-                HttpRedirect = new HttpServer(Http.Port, false)
-                {
-                    KeepClean = true,
-                    ReuseAddress = true
-                };
-                HttpRedirect.OnConnect += HttpRedirectOnOnConnect;
-            }
-
             Init();
-        }
-
-        private void HttpRedirectOnOnConnect(object? sender, HttpRequestEventArgs e)
-        {
-            
         }
 
         #endregion
@@ -202,7 +184,6 @@ namespace RemoteController.WebSocket
         public void StopServer()
         {
             Http.Stop(CloseStatusCode.Normal, "Requested to stop server.");
-            HttpRedirect?.Stop(CloseStatusCode.Normal, "Requested to stop server.");
             IsStarted = false;
         }
         #endregion
@@ -233,7 +214,6 @@ namespace RemoteController.WebSocket
                 try
                 {
                     Http.Start();
-                    HttpRedirect?.Start();
                 }
                 catch (Exception)
                 {
