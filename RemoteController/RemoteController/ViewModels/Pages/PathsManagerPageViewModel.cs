@@ -75,7 +75,7 @@ namespace RemoteController.ViewModels.Pages
 
         private void RemoveAction(PathViewModel path)
         {
-            if (path != null && FileSystemConfig.Roots.Remove(path.Path))
+            if (path != null && FileSystemConfig.Roots.Remove(path.Name))
             {
                 Paths.Remove(path);
                 Options.Save(FileSystemConfig);
