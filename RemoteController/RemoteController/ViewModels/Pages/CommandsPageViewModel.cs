@@ -17,9 +17,6 @@ namespace RemoteController.ViewModels.Pages
 {
     public class CommandsPageViewModel : BasePageViewModel
     {
-        private readonly RelayCommand<CommandViewModel> _editCommand;
-        private readonly RelayCommand<CommandViewModel> _deleteCommand;
-
         private CreateCommandViewModel _createOrEdit;
 
         public Options Options { get; }
@@ -49,9 +46,6 @@ namespace RemoteController.ViewModels.Pages
                 Dispatcher = dispatcher ?? throw new ArgumentNullException(nameof(dispatcher))
             };
             Commands.RegisterHandler(CommandHandler);
-
-            _editCommand = new RelayCommand<CommandViewModel>(EditCommand);
-            _deleteCommand = new RelayCommand<CommandViewModel>(DeleteCommand);
 
             if (Config.Count == 0)
             {
@@ -141,7 +135,7 @@ namespace RemoteController.ViewModels.Pages
             Config.Add(command);
             Options.Save(Config);
 
-            var vm = new CommandViewModel(command, _editCommand, _deleteCommand);
+            var vm = new CommandViewModel(command, EditCommand, DeleteCommand);
             Commands.Add(vm);
 
             CreateOrEdit = null;
@@ -212,7 +206,7 @@ namespace RemoteController.ViewModels.Pages
             //3. Populate manipulator manager with items from config.
             foreach (var c in Config)
             {
-                var vm = new CommandViewModel(c, _editCommand, _deleteCommand);
+                var vm = new CommandViewModel(c, EditCommand, DeleteCommand);
                 Commands.Add(vm);
             }
 

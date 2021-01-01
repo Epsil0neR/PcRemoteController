@@ -1,4 +1,6 @@
-﻿using Epsiloner.Wpf.ViewModels;
+﻿using System;
+using System.Windows.Input;
+using Epsiloner.Wpf.ViewModels;
 using GalaSoft.MvvmLight.CommandWpf;
 using RemoteController.Configs;
 using RemoteController.Manipulator;
@@ -7,28 +9,43 @@ namespace RemoteController.ViewModels
 {
     public class CommandViewModel : ViewModel
     {
+        private readonly Action<CommandViewModel> _editAction;
+        private readonly Action<CommandViewModel> _deleteAction;
+
         private bool _isWorking;
         public CmdManipulation Manipulation { get; private set; }
         public ManipulationCommand Config { get; }
-        public RelayCommand<CommandViewModel> EditCommand { get; }
-        public RelayCommand<CommandViewModel> DeleteCommand { get; }
-
-        public CommandViewModel(
-            ManipulationCommand config,
-            RelayCommand<CommandViewModel> editCommand,
-            RelayCommand<CommandViewModel> deleteCommand
-            )
-        {
-            Config = config;
-            Manipulation = Config.ToManipulation();
-            EditCommand = editCommand;
-            DeleteCommand = deleteCommand;
-        }
+        public ICommand EditCommand { get; }
+        public ICommand DeleteCommand { get; }
 
         public bool IsWorking
         {
             get => _isWorking;
             set => Set(ref _isWorking, value);
+        }
+
+        public CommandViewModel(
+            ManipulationCommand config,
+            Action<CommandViewModel> editAction,
+            Action<CommandViewModel> deleteAction
+            )
+        {
+            _editAction = editAction;
+            _deleteAction = deleteAction;
+            Config = config;
+            Manipulation = Config.ToManipulation();
+            EditCommand = new RelayCommand(Edit);
+            DeleteCommand = new RelayCommand(Delete);
+        }
+
+        private void Edit()
+        {
+            _editAction(this);
+        }
+
+        private void Delete()
+        {
+            _deleteAction(this);
         }
 
         public void Update(IManipulatorsManager manager)
