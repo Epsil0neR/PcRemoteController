@@ -26,7 +26,7 @@ namespace RemoteController.Manipulator
             if (_contexts.TryGetValue(t, out var rv))
                 return (T)rv;
 
-            return default(T);
+            return default;
         }
 
         /// <inheritdoc />

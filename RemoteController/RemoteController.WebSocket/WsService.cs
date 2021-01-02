@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using WebSocketSharp;
+using Logger = NLog.Logger;
 
 namespace RemoteController.WebSocket
 {
@@ -16,10 +17,12 @@ namespace RemoteController.WebSocket
         public event EventHandler<Message> UnhandledMessage;
 
         public WsServer Server { get; }
+        public Logger Logger { get; }
 
-        public WsService(WsServer server)
+        public WsService(WsServer server, Logger logger)
         {
             Server = server;
+            Logger = logger;
             Server.Message += ServerOnMessage;
         }
 
@@ -182,6 +185,7 @@ namespace RemoteController.WebSocket
                 };
                 var text = JsonConvert.SerializeObject(message);
                 socket.Send(text);
+                Logger.Error(e, $"Failed to handle WebSocket message: {evt.Data}");
             }
         }
 
