@@ -105,7 +105,7 @@ namespace RemoteController
             fsc.Roots = config.Roots;
         }
 
-        private void ConfigureOptions()
+        private static void ConfigureOptions()
         {
             var proc = Process.GetCurrentProcess();
             var loc = proc.MainModule?.FileName;
