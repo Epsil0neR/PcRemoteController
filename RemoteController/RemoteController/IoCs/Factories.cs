@@ -22,7 +22,8 @@ namespace RemoteController.IoCs
         public static WsService WsService(IUnityContainer c)
         {
             var wsServer = c.Resolve<WsServer>();
-            var rv = new WsService(wsServer);
+            var logger = c.Resolve<Logger>();
+            var rv = new WsService(wsServer, logger);
 
             rv.RegisterDataTypeForAction<string>("Auth");
             rv.RegisterHandlerForAction("Auth", AuthMessageHandler);
