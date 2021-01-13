@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -59,11 +60,21 @@ namespace RemoteController.ViewModels.Pages
                 Options.Save(Config);
             }
 
+            Manager.Add(new CustomManipulation<List<string>>("cmd.list", CmdListHandler));
+
             TestCommand = new RelayCommand(Test);
             CreateCommand = new RelayCommand(CreateCommandHandler);
 
             Manager.ItemStateChanged += ManagerOnItemStateChanged;
             ProceedConfig();
+        }
+
+        private List<string> CmdListHandler(IManipulatorsManager manager, string param)
+        {
+            return Commands
+                .Where(x => x.IsWorking)
+                .Select(x => x.Config.Name)
+                .ToList();
         }
 
         private void DeleteCommand(CommandViewModel command)
@@ -443,7 +454,7 @@ namespace RemoteController.ViewModels.Pages
 
             if (Check(c.IsEnabled, true))
                 c.IsEnabled = true; //TODO
-            
+
             if (Check(c.AllowArgument, false))
                 c.AllowArgument = false; // TODO
 
