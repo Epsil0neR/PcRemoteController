@@ -28,18 +28,38 @@ namespace RemoteController.Informer
         {
             _manager = manager ?? throw new ArgumentNullException(nameof(manager));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _cooldown = new EventCooldown(TimeSpan.FromMilliseconds(250), () => CheckForChanges());
+            _cooldown = new EventCooldown(
+                TimeSpan.FromMilliseconds(250),
+                () => Check(),
+                TimeSpan.FromSeconds(1));
 
             _manager.ItemStateChanged += ManagerOnItemStateChanged;
         }
 
-        private void ManagerOnItemStateChanged(object? sender, ManipulatorsItemEventArgs e)
+        private void ManagerOnItemStateChanged(object sender, ManipulatorsItemEventArgs e)
         {
             if (_started)
                 _cooldown.Accumulate();
         }
 
         public override bool CheckForChanges()
+        {
+            _cooldown.Cancel();
+            return Check();
+        }
+
+        public override void Start()
+        {
+            _started = true;
+        }
+
+        public override void Stop()
+        {
+            _started = false;
+            _cooldown.Cancel();
+        }
+
+        private bool Check()
         {
             var changed = false;
             try
@@ -59,17 +79,6 @@ namespace RemoteController.Informer
             if (changed)
                 RaiseChanged();
             return changed;
-        }
-
-        public override void Start()
-        {
-            _started = true;
-        }
-
-        public override void Stop()
-        {
-            _started = false;
-            _cooldown.Cancel();
         }
     }
 }
