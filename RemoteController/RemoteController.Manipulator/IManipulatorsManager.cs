@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace RemoteController.Manipulator
 {
@@ -51,5 +52,12 @@ namespace RemoteController.Manipulator
         /// <param name="name">Manipulation name.</param>
         /// <returns></returns>
         IManipulation Find(string name);
+
+        /// <summary>
+        /// Finds all manipulations of specified type.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        IEnumerable<T> FindAll<T>() where T: IManipulation;
     }
 }

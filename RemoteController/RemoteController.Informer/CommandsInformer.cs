@@ -1,0 +1,75 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Epsiloner.Cooldowns;
+using NLog;
+using RemoteController.Manipulator;
+
+namespace RemoteController.Informer
+{
+    public class CommandsInformer : BaseInformer
+    {
+        private readonly EventCooldown _cooldown;
+        private readonly IManipulatorsManager _manager;
+        private readonly Logger _logger;
+
+        private IList<string> _commands;
+        private bool _started;
+
+        /// <inheritdoc />
+        public override string Name => "Commands";
+
+        /// <summary>
+        /// List of available commands.
+        /// </summary>
+        public IEnumerable<string> Commands => _commands;
+
+        public CommandsInformer(IManipulatorsManager manager, Logger logger)
+        {
+            _manager = manager ?? throw new ArgumentNullException(nameof(manager));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _cooldown = new EventCooldown(TimeSpan.FromMilliseconds(250), () => CheckForChanges());
+
+            _manager.ItemStateChanged += ManagerOnItemStateChanged;
+        }
+
+        private void ManagerOnItemStateChanged(object? sender, ManipulatorsItemEventArgs e)
+        {
+            if (_started)
+                _cooldown.Accumulate();
+        }
+
+        public override bool CheckForChanges()
+        {
+            var changed = false;
+            try
+            {
+                var commands = _manager
+                    .FindAll<CmdManipulation>()
+                    .Select(x => x.Name)
+                    .ToList();
+
+                changed = SetList(ref _commands, commands);
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "Failed to check for CommandsInformer changes.");
+            }
+
+            if (changed)
+                RaiseChanged();
+            return changed;
+        }
+
+        public override void Start()
+        {
+            _started = true;
+        }
+
+        public override void Stop()
+        {
+            _started = false;
+            _cooldown.Cancel();
+        }
+    }
+}

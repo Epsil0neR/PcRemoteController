@@ -67,6 +67,12 @@ namespace RemoteController.Manipulator
         }
 
         /// <inheritdoc />
+        public IEnumerable<T> FindAll<T>() where T : IManipulation
+        {
+            return _manipulations.OfType<T>();
+        }
+
+        /// <inheritdoc />
         public object TryExecute(string name, string param)
         {
             var m = Find(name);

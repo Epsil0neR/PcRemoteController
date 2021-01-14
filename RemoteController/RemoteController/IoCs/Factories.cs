@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using RemoteController.Configs;
@@ -96,6 +97,7 @@ namespace RemoteController.IoCs
             var httpServer = c.Resolve<HttpServer>();
             var server = new WsServer(httpServer, "/Testing");
             server.ClientConnected += ServerOnClientConnected;
+
             return server;
         }
 
@@ -133,6 +135,7 @@ namespace RemoteController.IoCs
                 SslConfiguration =
                 {
                     ServerCertificate = cert,
+                    EnabledSslProtocols = SslProtocols.Tls12
                 },
             };
 

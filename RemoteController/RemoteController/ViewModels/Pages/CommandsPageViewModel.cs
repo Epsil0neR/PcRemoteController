@@ -60,21 +60,11 @@ namespace RemoteController.ViewModels.Pages
                 Options.Save(Config);
             }
 
-            Manager.Add(new CustomManipulation<List<string>>("cmd.list", CmdListHandler));
-
             TestCommand = new RelayCommand(Test);
             CreateCommand = new RelayCommand(CreateCommandHandler);
 
             Manager.ItemStateChanged += ManagerOnItemStateChanged;
             ProceedConfig();
-        }
-
-        private List<string> CmdListHandler(IManipulatorsManager manager, string param)
-        {
-            return Commands
-                .Where(x => x.IsWorking)
-                .Select(x => x.Config.Name)
-                .ToList();
         }
 
         private void DeleteCommand(CommandViewModel command)

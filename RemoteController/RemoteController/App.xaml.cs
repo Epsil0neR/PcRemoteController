@@ -76,6 +76,7 @@ namespace RemoteController
             IoC.RegisterSingleton(Factories.WsService);
             IoC.RegisterSingleton(Factories.InformersManager);
             IoC.RegisterSingleton<SoundInformer>();
+            IoC.RegisterSingleton<CommandsInformer>();
 
             IoC.Register<IPageViewModel[]>(c => IoC.ResolveAll<IPageViewModel>().OrderBy(x => x.Name).ToArray());
             IoC.Register<IEnumerable<IPageViewModel>>(c => IoC.ResolveAll<IPageViewModel>().OrderBy(x => x.Name).ToList());
@@ -85,6 +86,7 @@ namespace RemoteController
         {
             var manager = IoC.Resolve<InformersManager>();
             manager.Register<SoundInformer>();
+            manager.Register<CommandsInformer>();
         }
 
         private static void ConfigureManipulatorContexts()
