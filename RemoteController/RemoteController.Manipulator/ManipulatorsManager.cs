@@ -78,19 +78,19 @@ namespace RemoteController.Manipulator
             var m = Find(name);
             if (m == null)
             {
-                _logger.Info($"Manipulation not found. Name:${name}, Param:${param}");
+                _logger.Info($"Manipulation not found. Name:{name}, Param:{param}");
                 return false;
             }
 
             try
             {
                 var rv = m.Execute(this, param);
-                _logger.Info($"Manipulation succeeded. Name:${name}, Param:${param}, Result:${rv}");
+                _logger.Info($"Manipulation succeeded. Name:{name}, Param:{param}, Result:{rv}");
                 return rv;
             }
             catch(Exception ex)
             {
-                _logger.Error(ex, $"Manipulation failed. Name:${name}, Param:${param}");
+                _logger.Error(ex, $"Manipulation failed. Name:{name}, Param:{param}");
                 return false;
             }
         }
