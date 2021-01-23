@@ -66,7 +66,7 @@ namespace RemoteController
             if (exception == null)
                 return;
 
-            Log.Logger.Log(LogLevel.Fatal, exception);
+            Log.ShortLogger.Log(LogLevel.Fatal, exception);
         }
 
     }
