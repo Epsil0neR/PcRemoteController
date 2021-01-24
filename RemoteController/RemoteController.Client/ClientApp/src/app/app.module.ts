@@ -18,6 +18,7 @@ import { CoreModule, IconSelectorComponent } from 'src/core';
 import { KeyModule } from 'src/key';
 import { VolumeModule } from 'src/volume';
 import { FileSystemModule } from 'src/file-system';
+import { CommandModule } from 'src/command';
 import { ControlEditorComponent } from './components/control-editor/control-editor.component';
 import { CreateControlComponent } from './components/create-control/create-control.component';
 import { ControlViewComponent } from './components/control-view/control-view.component';
@@ -49,12 +50,13 @@ import { ControlEditorViewComponent } from './components/control-editor-view/con
       { path: 'edit/:name', component: PageEditorComponent },
       { path: 'p/:name', component: PageComponent },
       { path: 'icon', component: IconSelectorComponent }
-      ],
+    ],
       { relativeLinkResolution: 'legacy' }),
     CoreModule.forRoot(),
     KeyModule.forRoot(),
     VolumeModule.forRoot(),
-    FileSystemModule.forRoot()
+    FileSystemModule.forRoot(),
+    CommandModule.forRoot(),
   ],
   providers: [
     EnumToArrayPipe,

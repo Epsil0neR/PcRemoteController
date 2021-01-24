@@ -1,0 +1,51 @@
+<div [hidden]="!!showIconPicker">
+  <rc-control-column-editor *ngIf="!!data" [(value)]="data.col"></rc-control-column-editor>
+
+  <div class="form-group" *ngIf="!!data">
+    <label>Command</label>
+    <select
+      [ngModel]="command"
+      (ngModelChange)="onCommandChange($event)"
+      class="form-control">
+      <option *ngFor="let x of commands" [ngValue]='x'>{{x}}</option>
+    </select>
+  </div>
+
+  <div class="form-group" *ngIf="!!data">
+    <label>
+      <input
+        type="checkbox"
+        [checked]="iconWithText"
+        (change)="iconWithText = !iconWithText"/>
+      With text
+    </label>
+  </div>
+
+  <div class="form-group" *ngIf="!!iconWithText">
+    <label>
+      Text
+    </label>
+    <input
+      type="text"
+      class="form-control"
+      [(ngModel)]="text" />
+    </div>
+
+  <div class="form-group" *ngIf="!!data">
+    <label class="col-3">
+      Icon:
+    </label>
+    <span class="col-3">
+      <fa-icon *ngIf="!!icon" [icon]="icon" class="fa-lg"></fa-icon>
+      <span *ngIf="!icon">None</span>
+    </span>
+    <button class="btn btn-primary col-6" (click)="showIconPicker = true">Change</button>
+  </div>
+</div>
+
+<rc-icon-selector
+  [hidden]="!showIconPicker"
+  showEmpty='true'
+  [icon]="icon"
+  (iconChange)='changeIcon($event)'
+></rc-icon-selector>

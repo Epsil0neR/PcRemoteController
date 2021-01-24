@@ -42,7 +42,7 @@ export class KeyComponent
     const r = +data.r;
     this.repeat = !isNaN(r) && r > 0 ? r : 100;
 
-    // TODO: Load all relevant data.
+    // Load all relevant data.
     return true;
   }
 
@@ -57,7 +57,8 @@ export class KeyComponent
     this.webSocketService.send(m);
   }
 
-  @HostListener('click') onClick() {
+  @HostListener('click')
+  onClick() {
     if (this.mode === KeyControlMode.Press)
       this.send('key');
   }

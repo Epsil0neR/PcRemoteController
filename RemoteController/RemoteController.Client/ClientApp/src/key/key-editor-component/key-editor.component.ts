@@ -48,6 +48,7 @@ export class KeyEditorComponent
       this.mode = KeyControlMode.Press;
       this.repeat = this.repeatDefault;
     }
+    this.showIconPicker = false;
     return true;
   }
   save(): IControl {

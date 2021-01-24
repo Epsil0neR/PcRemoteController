@@ -1,0 +1,7 @@
+<button
+  [disabled]="!isCommandAvailable"
+  [title]="!isCommandAvailable ? 'Command is not available' : title"
+  class="btn btn-light">
+  <fa-icon *ngIf="!!icon" [icon]="icon" class="fa-3x"></fa-icon>
+  <span *ngIf="showIconWithTitle">{{title.toUpperCase()}}</span>
+</button>

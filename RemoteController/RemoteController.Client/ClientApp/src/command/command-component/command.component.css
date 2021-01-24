@@ -1,0 +1,12 @@
+:host {
+  display: block;
+}
+
+button {
+  width: 100%;
+  height: 86px;
+}
+
+button > span {
+  font-size: 40px;
+}
