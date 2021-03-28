@@ -11,23 +11,23 @@
     <Copyright>Copyright © Epsil0neR 2020</Copyright>
     <LangVersion>9</LangVersion>
     <IsPackable>false</IsPackable>
-    <Version>1.2.0</Version>
-    <ApplicationIcon>$(Version)</ApplicationIcon>
+    <Version>1.2.1</Version>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
     <AssemblyVersion>$(Version)</AssemblyVersion>
     <FileVersion>$(Version)</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="BouncyCastle.NetCore" Version="1.8.8" />
-    <PackageReference Include="Epsiloner.Core" Version="1.0.21" />
-    <PackageReference Include="Epsiloner.OptionsModule" Version="0.3.9" />
-    <PackageReference Include="Epsiloner.Wpf.Core" Version="1.0.16" />
-    <PackageReference Include="Epsiloner.Wpf.SymbolIcons" Version="1.0.0" />
-    <PackageReference Include="MvvmLightLibs" Version="5.4.1.1" />
-    <PackageReference Include="NLog" Version="4.7.5" />
-    <PackageReference Include="NLog.Config" Version="4.7.5" />
-    <PackageReference Include="NLog.Schema" Version="4.7.5" />
-    <PackageReference Include="Unity" Version="5.11.7" />
+    <PackageReference Include="Epsiloner.Core" Version="1.0.22" />
+    <PackageReference Include="Epsiloner.OptionsModule" Version="0.4.0" />
+    <PackageReference Include="Epsiloner.Wpf.Core" Version="1.2.0" />
+    <PackageReference Include="Epsiloner.Wpf.SymbolIcons" Version="1.0.1" />
+    <PackageReference Include="MvvmLightLibsStd10" Version="5.4.1.1" />
+    <PackageReference Include="NLog" Version="4.7.9" />
+    <PackageReference Include="NLog.Config" Version="4.7.9" />
+    <PackageReference Include="NLog.Schema" Version="4.7.9" />
+    <PackageReference Include="Unity" Version="5.11.10" />
   </ItemGroup>
 
   <ItemGroup>
