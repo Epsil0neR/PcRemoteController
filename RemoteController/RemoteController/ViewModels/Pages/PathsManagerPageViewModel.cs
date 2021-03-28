@@ -2,7 +2,7 @@
 using System.Windows.Threading;
 using Epsiloner.OptionsModule;
 using Epsiloner.Wpf.Collections;
-using GalaSoft.MvvmLight.CommandWpf;
+using GalaSoft.MvvmLight.Command;
 using RemoteController.Configs;
 
 namespace RemoteController.ViewModels.Pages

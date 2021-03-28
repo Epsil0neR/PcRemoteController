@@ -10,7 +10,7 @@ using System.Windows.Threading;
 using Epsiloner.OptionsModule;
 using Epsiloner.Wpf.Collections;
 using Epsiloner.Wpf.ViewModels;
-using GalaSoft.MvvmLight.CommandWpf;
+using GalaSoft.MvvmLight.Command;
 using RemoteController.Configs;
 using RemoteController.Manipulator;
 

@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using System.Windows.Input;
 using Epsiloner.Wpf.ViewModels;
-using GalaSoft.MvvmLight.CommandWpf;
+using GalaSoft.MvvmLight.Command;
 using RemoteController.Manipulator.Contexts;
 
 namespace RemoteController.ViewModels
