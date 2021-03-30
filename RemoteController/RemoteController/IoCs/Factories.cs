@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
@@ -127,7 +128,7 @@ namespace RemoteController.IoCs
             var config = c.Resolve<ServerConfig>();
             var log = IoC.Resolve<Logger>();
             var cert = new X509Certificate2(
-                @"E:\Projects\_git\Epsil0neR\PcRemoteController\RemoteController\RemoteController\bin\Debug\net5.0-windows\win10-x64/RemoteController.pfx",
+                Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "RemoteController.pfx"),
                 "{0x719dca02,0xb331,0x45fb,{0xb8,0xd1,0xbb,0x39,0xec,0x5d,0x39,0x8b}}");
             var http = new HttpServer(config.Port, true)
             {
