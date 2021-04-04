@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { PagesService } from 'src/core';
 
 @Component({
@@ -10,7 +11,10 @@ import { PagesService } from 'src/core';
 export class PageCreateComponent implements OnInit {
   title = '';
 
-  constructor(private pagesService: PagesService) { }
+  constructor(
+    private router: Router,
+    private pagesService: PagesService
+  ) { }
 
   ngOnInit() { }
 
@@ -23,5 +27,10 @@ export class PageCreateComponent implements OnInit {
     const details = this.pagesService.create(this.title);
     console.log('Created: ', details);
 
+    this.navigateToPage();
+  }
+
+  navigateToPage() {
+    this.router.navigate(['/', 'p', this.title]);
   }
 }
