@@ -1,4 +1,5 @@
 export const environment = {
     production: true,
-    wsHost: "ws://localhost:6431/Testing"
+    wsHost: "ws://localhost:6431/Testing",
+    port: 443
 };

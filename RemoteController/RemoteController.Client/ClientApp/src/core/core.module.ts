@@ -18,6 +18,7 @@ import { EnumToArrayPipe } from './pipes/EnumToArrayPipe';
 import { WebSocketMessage } from './models/WebSocketMessage';
 import { WebSocketMessageType } from './models/WebSocketMessageType';
 import { makeid } from './utils/makeid';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ export class CoreModule {
 export function WebSocketServiceProvider(authService: AuthService) {
   const l = window.location;
   const protocol = document.location.protocol == 'https:' ? 'wss:' : 'ws:';
-  const url = `${protocol}//${l.hostname}:6431/Testing`;
+  const port = environment.port;
+  const url = `${protocol}//${l.hostname}:${port}/Testing`;
   console.log('URL: ', url);
   const rv = new WebSocketService(url);
   rv.logRaisingEvent = false;
