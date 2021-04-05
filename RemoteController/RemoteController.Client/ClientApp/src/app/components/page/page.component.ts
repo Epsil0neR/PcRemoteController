@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { PageDetails, PagesService } from 'src/core';
+import { PageDetails, PagesService, WakeLockService } from 'src/core';
 
 /**
  * Represents page with controls and listeners.
@@ -21,10 +21,11 @@ export class PageComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private pagesService: PagesService,
     private router: Router,
+    private wakeLockService: WakeLockService
   ) { }
 
   ngOnInit() {
-    this.sub = this.route.params.subscribe(params => {
+    this.sub = this.route.params.subscribe(async params => {
       this.name = params['name'];
 
       const details = this.pagesService.details(this.name);
@@ -33,11 +34,18 @@ export class PageComponent implements OnInit, OnDestroy {
         this.router.navigate(['/']);
       } else {
         this.details = details;
+
+        if (details.wakeLock) {
+          await this.wakeLockService.lock();
+        }
       }
     });
   }
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
+
+    if (this.details?.wakeLock)
+      this.wakeLockService.releaseLock();
   }
 }

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { WebSocketService } from './services/web-socket.service';
 import { PagesService } from './services/pages.service';
 import { AuthService } from './services/auth.service';
+import { WakeLockService } from './services/wake-lock.service';
 import { InformersStateService } from './services/informers-state.service';
 import { ControlsService } from './services/controls.service';
 import { BrowserModule } from '@angular/platform-browser';
@@ -40,6 +41,8 @@ import { environment } from 'src/environments/environment';
     ControlsService,
     InformersStateService,
     PagesService,
+    WakeLockService,
+    AuthService,
     WebSocketService,
     ColumnClassNamePipe,
     IconsFilterPipe,
@@ -62,6 +65,7 @@ export class CoreModule {
         ControlsService,
         InformersStateService,
         PagesService,
+        WakeLockService,
         AuthService,
         { provide: WebSocketService, useFactory: WebSocketServiceProvider, deps: [AuthService] },
       ]

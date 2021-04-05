@@ -8,6 +8,16 @@
         class="form-control form-control-lg"
       />
     </div>
+    <div class="form-group">
+      <label class="list-group-item">
+        <input
+          type="checkbox"
+          [(ngModel)]="wakeLock"
+          class="form-check-input "
+        />
+        Wake lock
+      </label>
+    </div>
     <div [sortablejs]="controls" [sortablejsOptions]="{ delay: 100 }">
       <rc-control-editor-view
         *ngFor="let c of controls"

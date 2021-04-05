@@ -15,6 +15,7 @@ export * from './models/WebSocketMessageType';
 export * from './services/controls.service';
 export * from './services/informers-state.service';
 export * from './services/pages.service';
+export * from './services/wake-lock.service';
 export * from './services/web-socket.service';
 export * from './utils/findIcon';
 export * from './utils/makeid';

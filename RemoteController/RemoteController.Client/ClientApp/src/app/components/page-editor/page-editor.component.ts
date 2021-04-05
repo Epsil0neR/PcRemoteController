@@ -17,6 +17,7 @@ export class PageEditorComponent implements OnInit {
   public controls: IControl[] = [];
   public show = true;
   public showCreateControl = false;
+  public wakeLock = false;
 
   @ViewChild(ControlEditorComponent, { static: true }) controlEditor: ControlEditorComponent;
   @ViewChild(CreateControlComponent, { static: true }) controlCreator: CreateControlComponent;
@@ -37,8 +38,8 @@ export class PageEditorComponent implements OnInit {
         this.router.navigate(['/']);
       } else {
         this.title = details.title;
+        this.wakeLock = !!details.wakeLock;
         this.controls = [...details.controls];
-
       }
     });
     this.sub.unsubscribe();
@@ -81,6 +82,7 @@ export class PageEditorComponent implements OnInit {
     const details: PageDetails = new PageDetails();
     details.controls = this.controls;
     details.title = this.title;
+    details.wakeLock = !!this.wakeLock;
     this.pagesService.update(this.name, details);
 
     this.navigateToPage();

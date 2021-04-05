@@ -2,6 +2,7 @@ import { IControl } from './IControl';
 
 export class PageDetails {
   public title: string = '';
+  public wakeLock: boolean = false;
   public controls: IControl[] = [
     <any>{
       name: 'key',
@@ -106,6 +107,7 @@ export class PageDetails {
 
     const pd = new PageDetails();
     pd.title = dto.title;
+    pd.wakeLock = !!dto.wakeLock;
     pd.controls = (<IControl[]>(dto.controls)).map(this.parseControl);
     return pd;
   }
@@ -117,6 +119,7 @@ export class PageDetails {
   public toDto() {
     return {
       title: this.title,
+      wakeLock: !!this.wakeLock,
       controls: this.controls.map(this.controlToDto),
     };
   }
