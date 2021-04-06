@@ -5,6 +5,6 @@ namespace RemoteController.Configs
     public class ServerConfig : IOptionsSection
     {
         public bool AutoConnect { get; set; }
-        public ushort Port { get; set; } = 6431;
+        public ushort Port { get; set; } = 443;
     }
 }

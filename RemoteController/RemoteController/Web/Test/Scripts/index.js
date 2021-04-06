@@ -1,4 +1,4 @@
-﻿var url = "ws://localhost:6431/Testing";
+﻿var url = "wss://localhost:443/Testing";
 var storage_url = localStorage.getItem('url');
 if (storage_url !== null)
     url = storage_url;
