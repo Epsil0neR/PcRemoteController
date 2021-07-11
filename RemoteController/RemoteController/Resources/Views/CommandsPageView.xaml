@@ -301,24 +301,18 @@
                 VerticalScrollBarVisibility="Auto">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <Button 
-                        Grid.Row="0"
-                        Content="TEST" 
-                        Command="{Binding TestCommand}" />
-
                     <ItemsControl
-                        Grid.Row="1"
+                        Grid.Row="0"
                         ItemsSource="{Binding Commands, Mode=OneWay}"
                         ItemTemplate="{StaticResource CommandViewModel.DataTemplate}"
                         />
 
                     <Button 
-                        Grid.Row="2"
+                        Grid.Row="1"
                         Style="{StaticResource Button.Primary}"
                         Height="{StaticResource Sizes.Control.Large}"
                         Command="{Binding CreateCommand, Mode=OneWay}"

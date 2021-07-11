@@ -26,8 +26,6 @@ namespace RemoteController.ViewModels.Pages
 
         public ObservableCollection<CommandViewModel> Commands { get; }
 
-        public ICommand TestCommand { get; }
-
         public object CreateCommand { get; }
 
         public CommandsPageViewModel(
@@ -60,7 +58,6 @@ namespace RemoteController.ViewModels.Pages
                 Options.Save(Config);
             }
 
-            TestCommand = new RelayCommand(Test);
             CreateCommand = new RelayCommand(CreateCommandHandler);
 
             Manager.ItemStateChanged += ManagerOnItemStateChanged;
@@ -168,12 +165,6 @@ namespace RemoteController.ViewModels.Pages
         {
             get => _createOrEdit;
             private set => Set(ref _createOrEdit, value);
-        }
-
-        private void Test()
-        {
-            var result = Manager.TryExecute("cmd.Test");
-            Debugger.Break();
         }
 
         private void CommandHandler(bool inserted, CommandViewModel item, int index)
