@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using Epsiloner.OptionsModule;
 using RemoteController.Configs;
+using RemoteController.Utils;
 using RemoteController.WebSocket;
 
 namespace RemoteController.ViewModels.Pages
@@ -9,6 +10,7 @@ namespace RemoteController.ViewModels.Pages
     public class OverviewPageViewModel : BasePageViewModel
     {
         private bool _autoConnect;
+        private bool _startupWithOs;
         public WsServer WsServer { get; } //TODO: Remove
         public ServerConfig ServerConfig { get; } //TODO: Remove
         public FileSystemConfig FileSystemConfig { get; } //TODO: Remove
@@ -28,6 +30,28 @@ namespace RemoteController.ViewModels.Pages
             }
         }
 
+        public bool StartupWithOs
+        {
+            get => _startupWithOs;
+            set
+            {
+                if (Set(ref _startupWithOs, value))
+                {
+                    var changed = ServerConfig.StartupWithOs != value;
+                    ServerConfig.StartupWithOs = value;
+                    Options.Save(ServerConfig);
+
+                    if (!changed)
+                        return;
+
+                    if (value)
+                        AppStartupUtils.AddToStartup();
+                    else
+                        AppStartupUtils.RemoveFromStartup();
+                }
+            }
+        }
+
         public OverviewPageViewModel(
             WsServer wsServer,
             ServerConfig serverConfig,
@@ -41,6 +65,7 @@ namespace RemoteController.ViewModels.Pages
             Options = options;
 
             AutoConnect = ServerConfig.AutoConnect;
+            StartupWithOs = ServerConfig.StartupWithOs;
         }
 
         /// <summary>

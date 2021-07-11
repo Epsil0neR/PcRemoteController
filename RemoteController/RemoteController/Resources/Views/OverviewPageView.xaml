@@ -51,6 +51,23 @@
                     </CheckBox>
                 </StackPanel>
 
+                <StackPanel 
+                    Margin="4"
+                    Orientation="Horizontal">
+                    <TextBlock 
+                        Style="{StaticResource Style.Font.H3}"
+                        Text="Launch app with Windows"
+                    />
+                    <CheckBox
+                        VerticalAlignment="Center"
+                        Margin="4 0"
+                        IsChecked="{Binding StartupWithOs, Mode=TwoWay}">
+                        <CheckBox.LayoutTransform>
+                            <ScaleTransform ScaleX="1.2" ScaleY="1.2" CenterX="0" CenterY="0" />
+                        </CheckBox.LayoutTransform>
+                    </CheckBox>
+                </StackPanel>
+
             </StackPanel>
         </ScrollViewer>
     </ControlTemplate>

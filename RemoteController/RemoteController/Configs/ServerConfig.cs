@@ -6,5 +6,6 @@ namespace RemoteController.Configs
     {
         public bool AutoConnect { get; set; }
         public ushort Port { get; set; } = 443;
+        public bool StartupWithOs { get; set; }
     }
 }
