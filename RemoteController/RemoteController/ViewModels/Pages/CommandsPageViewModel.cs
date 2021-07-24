@@ -1,18 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Windows.Forms;
-using System.Windows.Input;
-using System.Windows.Threading;
-using Epsiloner.OptionsModule;
+﻿using Epsiloner.OptionsModule;
 using Epsiloner.Wpf.Collections;
 using Epsiloner.Wpf.ViewModels;
 using GalaSoft.MvvmLight.Command;
 using RemoteController.Configs;
 using RemoteController.Manipulator;
+using System;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Windows.Forms;
+using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace RemoteController.ViewModels.Pages
 {
@@ -44,20 +44,7 @@ namespace RemoteController.ViewModels.Pages
             {
                 Dispatcher = dispatcher ?? throw new ArgumentNullException(nameof(dispatcher))
             };
-            Commands.RegisterHandler(CommandHandler);
-
-            if (Config.Count == 0)
-            {
-                var c = new ManipulationCommand
-                {
-                    Name = "cmd.Test",
-                    Data = "git status",//"msg %username% Your message here",
-                    ShowCmdWindow = true
-                };
-                Config.Add(c);
-                Options.Save(Config);
-            }
-
+            Commands.RegisterHandler(CommandsHandler);
             CreateCommand = new RelayCommand(CreateCommandHandler);
 
             Manager.ItemStateChanged += ManagerOnItemStateChanged;
@@ -96,10 +83,17 @@ namespace RemoteController.ViewModels.Pages
                 Type = c.Mode
             };
 
-            if (c.Mode == ManipulationCommandType.Code)
-                CreateOrEdit.Code = c.Data;
-            if (c.Mode == ManipulationCommandType.File)
-                CreateOrEdit.FilePath = c.Data;
+            switch (c.Mode)
+            {
+                case ManipulationCommandType.File:
+                case ManipulationCommandType.PowerShell:
+                    CreateOrEdit.FilePath = c.Data;
+                    break;
+                case ManipulationCommandType.Code:
+                default:
+                    CreateOrEdit.Code = c.Data;
+                    break;
+            }
         }
 
         private void CreateCommandHandler()
@@ -167,7 +161,7 @@ namespace RemoteController.ViewModels.Pages
             private set => Set(ref _createOrEdit, value);
         }
 
-        private void CommandHandler(bool inserted, CommandViewModel item, int index)
+        private void CommandsHandler(bool inserted, CommandViewModel item, int index)
         {
             if (!inserted)
             {
@@ -214,13 +208,13 @@ namespace RemoteController.ViewModels.Pages
             {
                 //IsEnabled == true  -> Add all enabled Command manipulations to manager.
                 foreach (var command in Commands)
-                    CommandHandler(true, command, -1);
+                    CommandsHandler(true, command, -1);
             }
             else
             {
                 //IsEnabled == false -> Remove from manager all manipulations that belongs to this page.
                 foreach (var command in Commands)
-                    CommandHandler(false, command, -1);
+                    CommandsHandler(false, command, -1);
             }
         }
 
@@ -241,6 +235,7 @@ namespace RemoteController.ViewModels.Pages
     {
         private readonly Action _submitAction;
         private readonly Func<string, bool> _nameValidator;
+        private readonly RelayCommand _submitCommand;
         private string _validationErrorMessage;
         private string _name;
         private ManipulationCommandType _type = ManipulationCommandType.Code;
@@ -309,7 +304,7 @@ namespace RemoteController.ViewModels.Pages
         public ICommand SelectWorkingDirectoryCommand { get; }
         public ICommand ClearWorkingDirectoryCommand { get; }
         public ICommand CancelCommand { get; }
-        public ICommand SubmitCommand { get; }
+        public ICommand SubmitCommand => _submitCommand;
 
         public CreateCommandViewModel(Action cancelAction, Action submitAction, Func<string, bool> nameValidator)
         {
@@ -320,7 +315,21 @@ namespace RemoteController.ViewModels.Pages
             SelectWorkingDirectoryCommand = new RelayCommand(SelectWorkingDirectory);
             ClearWorkingDirectoryCommand = new RelayCommand(() => WorkingDirectory = null);
             CancelCommand = new RelayCommand(cancelAction ?? throw new ArgumentNullException(nameof(cancelAction)));
-            SubmitCommand = new RelayCommand(Submit, CanSubmit);
+            _submitCommand = new RelayCommand(Submit, CanSubmit);
+        }
+
+        protected new bool Set<T>(
+            ref T backingField,
+            T newValue,
+            [CallerMemberName] string propertyName = null,
+            params string[] dependingPropertyNames)
+        {
+            if (!base.Set(ref backingField, newValue, propertyName, dependingPropertyNames)) 
+                return false;
+
+            _submitCommand.RaiseCanExecuteChanged();
+
+            return true;
         }
 
         private void SelectFile()
@@ -377,7 +386,7 @@ namespace RemoteController.ViewModels.Pages
                 return false;
             }
 
-            if (Type == ManipulationCommandType.File && !File.Exists(FilePath))
+            if (Type is ManipulationCommandType.File or ManipulationCommandType.PowerShell && !File.Exists(FilePath))
             {
                 ValidationErrorMessage = "File not found.";
                 return false;

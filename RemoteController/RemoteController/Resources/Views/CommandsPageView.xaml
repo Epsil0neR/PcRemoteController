@@ -220,15 +220,41 @@
                 Grid.Column="0"
                 Grid.Row="5"
                 VerticalAlignment="Top"
-                helpers:VisibilityHelper.IsVisible="{Binding Type, Converter={StaticResource Converter.Equals}, ConverterParameter={x:Static manipulator:ManipulationCommandType.File}}"
-                Text="File:" />
+                Text="File:">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Type}" Value="{x:Static manipulator:ManipulationCommandType.File}">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Type}" Value="{x:Static manipulator:ManipulationCommandType.PowerShell}">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
             <Button
                 Grid.Column="1"
                 Grid.Row="5"
                 VerticalAlignment="Top"
-                helpers:VisibilityHelper.IsVisible="{Binding Type, Converter={StaticResource Converter.Equals}, ConverterParameter={x:Static manipulator:ManipulationCommandType.File}}"
                 Command="{Binding SelectFileCommand}"
-                Content="{Binding FilePath, TargetNullValue='Select file...'}" />
+                Content="{Binding FilePath, TargetNullValue='Select file...'}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Type}" Value="{x:Static manipulator:ManipulationCommandType.File}">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Type}" Value="{x:Static manipulator:ManipulationCommandType.PowerShell}">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
 
             <TextBlock 
                 Grid.Column="0"

@@ -7,7 +7,8 @@ namespace RemoteController.Manipulator
     public enum ManipulationCommandType
     {
         Code,
-        File
+        File,
+        PowerShell
     }
 
     /// <summary>
@@ -67,6 +68,8 @@ namespace RemoteController.Manipulator
                     return ExecuteCode(manager, param);
                 case ManipulationCommandType.File:
                     return ExecuteFile(manager, param);
+                case ManipulationCommandType.PowerShell:
+                    return ExecutePowerShell(manager, param);
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -107,7 +110,6 @@ namespace RemoteController.Manipulator
 
         private object ExecuteFile(IManipulatorsManager manager, string param)
         {
-            //TODO: Check if _data exists.
             if (!File.Exists(_data))
                 return false;
 
@@ -121,6 +123,42 @@ namespace RemoteController.Manipulator
                 {
                     FileName = _data,
                     Arguments = _supportParam && !string.IsNullOrEmpty(param) ? param : string.Empty,
+                    WorkingDirectory = dir,
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                }
+            };
+
+            if (_hidden)
+                proc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+
+            proc.Start();
+            var output = proc.StandardOutput.ReadToEnd();
+            if (_wait)
+                proc.WaitForExit();
+
+            return output;
+        }
+
+        private object ExecutePowerShell(IManipulatorsManager manager, string param)
+        {
+            if (!File.Exists(_data))
+                return false;
+
+            var dir = DefaultWorkingDirectory;
+            if (!string.IsNullOrWhiteSpace(_workingDirectory) && Directory.Exists(_workingDirectory))
+                dir = _workingDirectory;
+
+            var arguments = $"-ExecutionPolicy Bypass -File \"{_data}\"";
+            if (_supportParam)
+                arguments = $"{arguments} \"{param}\"";
+
+            Process proc = new Process // https://stackoverflow.com/a/22869734/1763586
+            {
+                StartInfo =
+                {
+                    FileName = @"powershell.exe",
+                    Arguments = arguments,
                     WorkingDirectory = dir,
                     UseShellExecute = false,
                     RedirectStandardOutput = true,

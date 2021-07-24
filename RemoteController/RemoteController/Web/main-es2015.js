@@ -3728,7 +3728,7 @@ CoreModule.ɵinj = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjecto
 function WebSocketServiceProvider(authService) {
     const l = window.location;
     const protocol = document.location.protocol == 'https:' ? 'wss:' : 'ws:';
-    const port = src_environments_environment__WEBPACK_IMPORTED_MODULE_18__["environment"].port;
+    const port = document.location.port;
     const url = `${protocol}//${l.hostname}:${port}/Testing`;
     console.log('URL: ', url);
     const rv = new _services_web_socket_service__WEBPACK_IMPORTED_MODULE_2__["WebSocketService"](url);

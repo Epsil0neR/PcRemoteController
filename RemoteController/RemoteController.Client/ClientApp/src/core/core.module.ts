@@ -76,7 +76,7 @@ export class CoreModule {
 export function WebSocketServiceProvider(authService: AuthService) {
   const l = window.location;
   const protocol = document.location.protocol == 'https:' ? 'wss:' : 'ws:';
-  const port = environment.port;
+  const port = document.location.port;
   const url = `${protocol}//${l.hostname}:${port}/Testing`;
   console.log('URL: ', url);
   const rv = new WebSocketService(url);
