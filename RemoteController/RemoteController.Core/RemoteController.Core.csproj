@@ -6,6 +6,7 @@
     <Authors>Veniamin Lytkin @ Epsil0neR</Authors>
     <Copyright>Copyright © Epsil0neR 2020</Copyright>
     <TargetFrameworks>net6.0</TargetFrameworks>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
