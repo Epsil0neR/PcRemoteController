@@ -1,4 +1,4 @@
-﻿using Epsiloner.OptionsModule;
+using Epsiloner.OptionsModule;
 using Epsiloner.Wpf.Attributes;
 using NLog;
 using RemoteController.Configs;
@@ -13,12 +13,9 @@ using RemoteController.WebSocket;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows;
-using System.Windows.Forms;
-using RemoteController.Utils;
 using WindowsInput;
 
 namespace RemoteController

@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using Epsiloner.Wpf.Attributes;
-using RemoteController.ViewModels;
 using RemoteController.ViewModels.Pages;
 
 namespace RemoteController.Views
