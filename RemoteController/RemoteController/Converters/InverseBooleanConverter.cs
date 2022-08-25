@@ -2,28 +2,27 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace RemoteController.Converters
+namespace RemoteController.Converters;
+
+public sealed class InverseBooleanConverter : IValueConverter
 {
-    public sealed class InverseBooleanConverter : IValueConverter
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (targetType != typeof(bool) && targetType != typeof(bool?))
-                throw new InvalidOperationException("The target must be a boolean");
+        if (targetType != typeof(bool) && targetType != typeof(bool?))
+            throw new InvalidOperationException("The target must be a boolean");
 
-            if (value == null)
-                value = true;
+        if (value == null)
+            value = true;
 
-            var result = !(bool)value;
-            return result;
-        }
+        var result = !(bool)value;
+        return result;
+    }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (targetType != typeof(bool) && targetType != typeof(bool?))
-                throw new InvalidOperationException("The target must be a boolean");
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        if (targetType != typeof(bool) && targetType != typeof(bool?))
+            throw new InvalidOperationException("The target must be a boolean");
 
-            return value != null && !(bool)value;
-        }
+        return value != null && !(bool)value;
     }
 }

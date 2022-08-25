@@ -5,80 +5,79 @@ using Epsiloner.Cooldowns;
 using NLog;
 using RemoteController.Manipulator;
 
-namespace RemoteController.Informer
+namespace RemoteController.Informer;
+
+public class CommandsInformer : BaseInformer
 {
-    public class CommandsInformer : BaseInformer
+    private readonly EventCooldown _cooldown;
+    private readonly IManipulatorsManager _manager;
+    private readonly Logger _logger;
+
+    private IList<string> _commands;
+    private bool _started;
+
+    /// <inheritdoc />
+    public override string Name => "Commands";
+
+    /// <summary>
+    /// List of available commands.
+    /// </summary>
+    public IEnumerable<string> Commands => _commands;
+
+    public CommandsInformer(IManipulatorsManager manager, Logger logger)
     {
-        private readonly EventCooldown _cooldown;
-        private readonly IManipulatorsManager _manager;
-        private readonly Logger _logger;
+        _manager = manager ?? throw new ArgumentNullException(nameof(manager));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        _cooldown = new EventCooldown(
+            TimeSpan.FromMilliseconds(250),
+            () => Check(),
+            TimeSpan.FromSeconds(1));
 
-        private IList<string> _commands;
-        private bool _started;
+        _manager.ItemStateChanged += ManagerOnItemStateChanged;
+    }
 
-        /// <inheritdoc />
-        public override string Name => "Commands";
+    private void ManagerOnItemStateChanged(object sender, ManipulatorsItemEventArgs e)
+    {
+        if (_started)
+            _cooldown.Accumulate();
+    }
 
-        /// <summary>
-        /// List of available commands.
-        /// </summary>
-        public IEnumerable<string> Commands => _commands;
+    public override bool CheckForChanges()
+    {
+        _cooldown.Cancel();
+        return Check();
+    }
 
-        public CommandsInformer(IManipulatorsManager manager, Logger logger)
+    public override void Start()
+    {
+        _started = true;
+    }
+
+    public override void Stop()
+    {
+        _started = false;
+        _cooldown.Cancel();
+    }
+
+    private bool Check()
+    {
+        var changed = false;
+        try
         {
-            _manager = manager ?? throw new ArgumentNullException(nameof(manager));
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _cooldown = new EventCooldown(
-                TimeSpan.FromMilliseconds(250),
-                () => Check(),
-                TimeSpan.FromSeconds(1));
+            var commands = _manager
+                .FindAll<CmdManipulation>()
+                .Select(x => x.Name)
+                .ToList();
 
-            _manager.ItemStateChanged += ManagerOnItemStateChanged;
+            changed = SetList(ref _commands, commands);
+        }
+        catch (Exception e)
+        {
+            _logger.Error(e, "Failed to check for CommandsInformer changes.");
         }
 
-        private void ManagerOnItemStateChanged(object sender, ManipulatorsItemEventArgs e)
-        {
-            if (_started)
-                _cooldown.Accumulate();
-        }
-
-        public override bool CheckForChanges()
-        {
-            _cooldown.Cancel();
-            return Check();
-        }
-
-        public override void Start()
-        {
-            _started = true;
-        }
-
-        public override void Stop()
-        {
-            _started = false;
-            _cooldown.Cancel();
-        }
-
-        private bool Check()
-        {
-            var changed = false;
-            try
-            {
-                var commands = _manager
-                    .FindAll<CmdManipulation>()
-                    .Select(x => x.Name)
-                    .ToList();
-
-                changed = SetList(ref _commands, commands);
-            }
-            catch (Exception e)
-            {
-                _logger.Error(e, "Failed to check for CommandsInformer changes.");
-            }
-
-            if (changed)
-                RaiseChanged();
-            return changed;
-        }
+        if (changed)
+            RaiseChanged();
+        return changed;
     }
 }

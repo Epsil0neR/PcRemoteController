@@ -1,6 +1,5 @@
-﻿namespace RemoteController.Themes
+﻿namespace RemoteController.Themes;
+
+public partial class Generic
 {
-    public partial class Generic
-    {
-    }
 }

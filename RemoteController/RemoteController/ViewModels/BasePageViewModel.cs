@@ -1,34 +1,33 @@
 ﻿using Epsiloner.Wpf.ViewModels;
 
-namespace RemoteController.ViewModels
+namespace RemoteController.ViewModels;
+
+public abstract class BasePageViewModel : ViewModel, IPageViewModel
 {
-    public abstract class BasePageViewModel : ViewModel, IPageViewModel
+    private bool _isSelected;
+
+    protected BasePageViewModel(PageName name)
     {
-        private bool _isSelected;
+        Name = name;
+    }
 
-        protected BasePageViewModel(PageName name)
-        {
-            Name = name;
-        }
+    /// <inheritdoc />
+    public PageName Name { get; }
 
-        /// <inheritdoc />
-        public PageName Name { get; }
+    /// <inheritdoc />
+    public bool IsSelected
+    {
+        get => _isSelected;
+        set => Set(ref _isSelected, value);
+    }
 
-        /// <inheritdoc />
-        public bool IsSelected
-        {
-            get => _isSelected;
-            set => Set(ref _isSelected, value);
-        }
+    public virtual void UnSelected()
+    {
+        IsSelected = false;
+    }
 
-        public virtual void UnSelected()
-        {
-            IsSelected = false;
-        }
-
-        public virtual void Selected()
-        {
-            IsSelected = true;
-        }
+    public virtual void Selected()
+    {
+        IsSelected = true;
     }
 }

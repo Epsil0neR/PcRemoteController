@@ -5,70 +5,69 @@ using Epsiloner.Wpf.ViewModels;
 using GalaSoft.MvvmLight.Command;
 using RemoteController.WebSocket;
 
-namespace RemoteController.ViewModels
+namespace RemoteController.ViewModels;
+
+public class MainViewModel : ViewModel
 {
-    public class MainViewModel : ViewModel
+    private IPageViewModel _selected;
+
+    /// <summary>
+    /// All registered pages.
+    /// </summary>
+    public IPageViewModel[] Pages { get; }
+
+    public WsServer WsServer { get; }
+
+    /// <summary>
+    /// Currently selected page.
+    /// </summary>
+    public IPageViewModel Selected
     {
-        private IPageViewModel _selected;
+        get => _selected;
+        set => Set(ref _selected, value);
+    }
 
-        /// <summary>
-        /// All registered pages.
-        /// </summary>
-        public IPageViewModel[] Pages { get; }
+    /// <summary>
+    /// Command to select <see cref="IPageViewModel"/>.
+    /// </summary>
+    public ICommand SelectCommand { get; }
 
-        public WsServer WsServer { get; }
+    public ICommand StartServerCommand { get; }
+    public ICommand StopServerCommand { get; }
 
-        /// <summary>
-        /// Currently selected page.
-        /// </summary>
-        public IPageViewModel Selected
-        {
-            get => _selected;
-            set => Set(ref _selected, value);
-        }
+    public MainViewModel(IPageViewModel[] pages, WsServer wsServer)
+    {
+        Pages = pages ?? throw new ArgumentNullException(nameof(pages));
+        WsServer = wsServer;
+        Selected = Pages.FirstOrDefault(x => x.Name == PageName.Commands);
 
-        /// <summary>
-        /// Command to select <see cref="IPageViewModel"/>.
-        /// </summary>
-        public ICommand SelectCommand { get; }
+        SelectCommand = new RelayCommand<IPageViewModel>(Select);
+        StartServerCommand = new RelayCommand(StartServer);
+        StopServerCommand = new RelayCommand(StopServer);
+    }
 
-        public ICommand StartServerCommand { get; }
-        public ICommand StopServerCommand { get; }
+    private void StartServer()
+    {
+        WsServer.StartServer();
+    }
 
-        public MainViewModel(IPageViewModel[] pages, WsServer wsServer)
-        {
-            Pages = pages ?? throw new ArgumentNullException(nameof(pages));
-            WsServer = wsServer;
-            Selected = Pages.FirstOrDefault(x => x.Name == PageName.Commands);
+    private void StopServer()
+    {
+        WsServer.StopServer();
+    }
 
-            SelectCommand = new RelayCommand<IPageViewModel>(Select);
-            StartServerCommand = new RelayCommand(StartServer);
-            StopServerCommand = new RelayCommand(StopServer);
-        }
+    private void Select(IPageViewModel page)
+    {
+        if (ReferenceEquals(_selected, page))
+            return;
 
-        private void StartServer()
-        {
-            WsServer.StartServer();
-        }
+        if (_selected?.UnSelecting() == false)
+            return;
 
-        private void StopServer()
-        {
-            WsServer.StopServer();
-        }
+        var old = _selected;
+        Selected = page;
 
-        private void Select(IPageViewModel page)
-        {
-            if (ReferenceEquals(_selected, page))
-                return;
-
-            if (_selected?.UnSelecting() == false)
-                return;
-
-            var old = _selected;
-            Selected = page;
-
-            old?.UnSelected();
-            page?.Selected();
-        }
+        old?.UnSelected();
+        page?.Selected();
     }
 }

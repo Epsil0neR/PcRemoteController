@@ -3,61 +3,60 @@ using Newtonsoft.Json;
 using WebSocketSharp;
 using WebSocketSharp.Server;
 
-namespace RemoteController.WebSocket
+namespace RemoteController.WebSocket;
+
+internal class WsSocket : WebSocketBehavior, IWsSocket
 {
-    internal class WsSocket : WebSocketBehavior, IWsSocket
+    public event EventHandler<MessageEventArgs> Message;
+    public event EventHandler<CloseEventArgs> Closed;
+    public event EventHandler Opened;
+
+    public string AuthToken { get; private set; }
+    public bool IsAuthenticated { get; private set; }
+
+    protected override void OnMessage(MessageEventArgs e)
     {
-        public event EventHandler<MessageEventArgs> Message;
-        public event EventHandler<CloseEventArgs> Closed;
-        public event EventHandler Opened;
+        Message?.Invoke(this, e);
+    }
 
-        public string AuthToken { get; private set; }
-        public bool IsAuthenticated { get; private set; }
+    public void Send(Message data)
+    {
+        base.Send(JsonConvert.SerializeObject(data));
+    }
 
-        protected override void OnMessage(MessageEventArgs e)
-        {
-            Message?.Invoke(this, e);
-        }
+    public new void Send(string data)
+    {
+        base.Send(data);
+    }
 
-        public void Send(Message data)
-        {
-            base.Send(JsonConvert.SerializeObject(data));
-        }
+    public void SendAsync(Message data, Action<bool> completed)
+    {
+        base.SendAsync(JsonConvert.SerializeObject(data), completed);
+    }
 
-        public new void Send(string data)
-        {
-            base.Send(data);
-        }
+    public void Auth(string token)
+    {
+        if (string.IsNullOrWhiteSpace(token))
+            throw new ArgumentNullException(nameof(token));
 
-        public void SendAsync(Message data, Action<bool> completed)
-        {
-            base.SendAsync(JsonConvert.SerializeObject(data), completed);
-        }
+        AuthToken = token;
+        IsAuthenticated = true;
+    }
 
-        public void Auth(string token)
-        {
-            if (string.IsNullOrWhiteSpace(token))
-                throw new ArgumentNullException(nameof(token));
+    public new void SendAsync(string data, Action<bool> completed)
+    {
+        base.SendAsync(data, completed);
+    }
 
-            AuthToken = token;
-            IsAuthenticated = true;
-        }
+    protected override void OnClose(CloseEventArgs e)
+    {
+        base.OnClose(e);
+        Closed?.Invoke(this, e);
+    }
 
-        public new void SendAsync(string data, Action<bool> completed)
-        {
-            base.SendAsync(data, completed);
-        }
-
-        protected override void OnClose(CloseEventArgs e)
-        {
-            base.OnClose(e);
-            Closed?.Invoke(this, e);
-        }
-
-        protected override void OnOpen()
-        {
-            base.OnOpen();
-            Opened?.Invoke(this, EventArgs.Empty);
-        }
+    protected override void OnOpen()
+    {
+        base.OnOpen();
+        Opened?.Invoke(this, EventArgs.Empty);
     }
 }

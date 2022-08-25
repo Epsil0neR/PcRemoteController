@@ -2,40 +2,39 @@
 using RemoteController.Informer;
 using RemoteController.Manipulator;
 
-namespace RemoteController.Configurations
+namespace RemoteController.Configurations;
+
+public static class ManipulationConfiguration
 {
-    public static class ManipulationConfiguration
+    public static void Configure()
     {
-        public static void Configure()
+        var manager = IoC.Resolve<IManipulatorsManager>();
+        var soundInformer = IoC.Resolve<SoundInformer>();
+
+        FileSystemManipulation.GetManipulations().AddTo(manager);
+        KeyboardManipulation.GetManipulations().AddTo(manager);
+        MouseManipulation.GetManipulations().AddTo(manager);
+
+        manager.Add(new CustomManipulation<SoundInformer>(soundInformer.GetActionName(), () => soundInformer.CheckForChanges() ? null : soundInformer));
+        manager.Add(new CustomManipulation<bool>("Sound.Output.Volume", input =>
         {
-            var manager = IoC.Resolve<IManipulatorsManager>();
-            var soundInformer = IoC.Resolve<SoundInformer>();
+            if (!int.TryParse(input, out var volume))
+                return false;
 
-            FileSystemManipulation.GetManipulations().AddTo(manager);
-            KeyboardManipulation.GetManipulations().AddTo(manager);
-            MouseManipulation.GetManipulations().AddTo(manager);
-
-            manager.Add(new CustomManipulation<SoundInformer>(soundInformer.GetActionName(), () => soundInformer.CheckForChanges() ? null : soundInformer));
-            manager.Add(new CustomManipulation<bool>("Sound.Output.Volume", input =>
-            {
-                if (!int.TryParse(input, out var volume))
-                    return false;
-
-                return soundInformer.ChangeOutputVolume(volume);
-            }));
-            manager.Add(new CustomManipulation<bool>("Sound.Input.Volume", input =>
-            {
-                if (!int.TryParse(input, out var volume))
-                    return false;
-
-                return soundInformer.ChangeInputVolume(volume);
-            }));
-        }
-
-        private static void AddTo(this IEnumerable<IManipulation> manipulations, IManipulatorsManager manager)
+            return soundInformer.ChangeOutputVolume(volume);
+        }));
+        manager.Add(new CustomManipulation<bool>("Sound.Input.Volume", input =>
         {
-            foreach (var manipulation in manipulations)
-                manager.Add(manipulation);
-        }
+            if (!int.TryParse(input, out var volume))
+                return false;
+
+            return soundInformer.ChangeInputVolume(volume);
+        }));
+    }
+
+    private static void AddTo(this IEnumerable<IManipulation> manipulations, IManipulatorsManager manager)
+    {
+        foreach (var manipulation in manipulations)
+            manager.Add(manipulation);
     }
 }

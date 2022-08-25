@@ -18,135 +18,134 @@ using System.Linq;
 using System.Windows;
 using WindowsInput;
 
-namespace RemoteController
+namespace RemoteController;
+
+public partial class App
 {
-    public partial class App
+    public App()
     {
-        public App()
+        DomainExceptionHandler.HandleDomainExceptions();
+        ConfigureIoC();
+        ViewForAttribute.ProceedRelatedAssemblies();
+
+        ConfigureInformers();
+        ConfigureManipulatorContexts();
+
+        //TODO: Line 45: Configurator.Configure(Manipulators, Service, InformersManager);
+        //TODO: Line 46: Configurator.Web(Http, Logger);
+    }
+
+    protected override void OnStartup(StartupEventArgs e)
+    {
+        base.OnStartup(e);
+
+        ManipulationConfiguration.Configure();
+
+        var serverConfig = IoC.Resolve<ServerConfig>();
+
+        if (serverConfig.AutoConnect) //TODO: Add way to start and stop manually server from GUI.
         {
-            DomainExceptionHandler.HandleDomainExceptions();
-            ConfigureIoC();
-            ViewForAttribute.ProceedRelatedAssemblies();
+            IoC.Resolve<WsServer>().StartServer();
+        }
+    }
 
-            ConfigureInformers();
-            ConfigureManipulatorContexts();
+    protected override void OnExit(ExitEventArgs e)
+    {
+        IoC.Container.Dispose();
+        base.OnExit(e);
+    }
 
-            //TODO: Line 45: Configurator.Configure(Manipulators, Service, InformersManager);
-            //TODO: Line 46: Configurator.Web(Http, Logger);
+    public static Stream GetIconStream()
+    {
+        var key = "RemoteController.icon.ico";
+        var asm = typeof(App).Assembly;
+        return asm.GetManifestResourceStream(key);
+    }
+
+    /// <summary>
+    /// Log method used by NLog. DO NOT REMOVE IT unless it also removed in NLog.config file.
+    /// </summary>
+    /// <param name="level"></param>
+    /// <param name="message"></param>
+    // ReSharper disable once UnusedMember.Global
+    public static void LogMethod(string level, string message)
+    {
+        // TODO;
+    }
+
+    private void ConfigureIoC()
+    {
+        IoC.RegisterInstance(Dispatcher);
+        IoC.RegisterInstance(Log.Logger);
+        IoC.RegisterInstance<ILogger>(Log.Logger);
+
+        ConfigureOptions();
+
+        IoC.Register<IManipulatorsManager, ManipulatorsManager>();
+        IoC.RegisterSingleton<IAuthService, AuthService>();
+        IoC.RegisterSingleton(Factories.ManipulatorsManager);
+        IoC.RegisterSingleton(Factories.HttpServer);
+        IoC.RegisterSingleton(Factories.WsServer);
+        IoC.RegisterSingleton(Factories.WsService);
+        IoC.RegisterSingleton(Factories.InformersManager);
+        IoC.RegisterSingleton<SoundInformer>();
+        IoC.RegisterSingleton<CommandsInformer>();
+
+        IoC.Register<IPageViewModel[]>(c => IoC.ResolveAll<IPageViewModel>().OrderBy(x => x.Name).ToArray());
+        IoC.Register<IEnumerable<IPageViewModel>>(c => IoC.ResolveAll<IPageViewModel>().OrderBy(x => x.Name).ToList());
+    }
+
+    private static void ConfigureInformers()
+    {
+        var manager = IoC.Resolve<InformersManager>();
+        manager.Register<SoundInformer>();
+        manager.Register<CommandsInformer>();
+    }
+
+    private static void ConfigureManipulatorContexts()
+    {
+        var manager = IoC.Resolve<IManipulatorsManager>();
+        var input = IoC.Resolve<InputSimulator>();
+        manager.SetContext(input.Keyboard);
+        manager.SetContext(input.Mouse);
+
+        var fsc = manager.GetContext<FileSystemContext>();
+        var config = IoC.Resolve<FileSystemConfig>();
+        if (fsc == null)
+        {
+            fsc = IoC.Resolve<FileSystemContext>();
+            manager.SetContext(fsc);
         }
 
-        protected override void OnStartup(StartupEventArgs e)
+        fsc.Roots = config.Roots;
+    }
+
+    private static void ConfigureOptions()
+    {
+        var proc = Process.GetCurrentProcess();
+        var loc = proc.MainModule?.FileName;
+        var dir = Path.GetDirectoryName(loc);
+
+        var path = Path.Combine(dir, "Options");
+        var options = new Options(path, string.Empty)
         {
-            base.OnStartup(e);
+            HandlerForSectionLoad = HandlerForSectionLoad
+        };
+        options.Register<FileSystemConfig>();
+        options.Register<ServerConfig>();
+        options.Register<CommandsConfig>();
+        options.Register<PlayListsConfig>();
 
-            ManipulationConfiguration.Configure();
+        Options.Current = options;
+        IoC.RegisterInstance(options);
+        IoC.RegisterInstance(options.Section<FileSystemConfig>());
+        IoC.RegisterInstance(options.Section<ServerConfig>());
+        IoC.RegisterInstance(options.Section<CommandsConfig>());
+        IoC.RegisterInstance(options.Section<PlayListsConfig>());
+    }
 
-            var serverConfig = IoC.Resolve<ServerConfig>();
-
-            if (serverConfig.AutoConnect) //TODO: Add way to start and stop manually server from GUI.
-            {
-                IoC.Resolve<WsServer>().StartServer();
-            }
-        }
-
-        protected override void OnExit(ExitEventArgs e)
-        {
-            IoC.Container.Dispose();
-            base.OnExit(e);
-        }
-
-        public static Stream GetIconStream()
-        {
-            var key = "RemoteController.icon.ico";
-            var asm = typeof(App).Assembly;
-            return asm.GetManifestResourceStream(key);
-        }
-
-        /// <summary>
-        /// Log method used by NLog. DO NOT REMOVE IT unless it also removed in NLog.config file.
-        /// </summary>
-        /// <param name="level"></param>
-        /// <param name="message"></param>
-        // ReSharper disable once UnusedMember.Global
-        public static void LogMethod(string level, string message)
-        {
-            // TODO;
-        }
-
-        private void ConfigureIoC()
-        {
-            IoC.RegisterInstance(Dispatcher);
-            IoC.RegisterInstance(Log.Logger);
-            IoC.RegisterInstance<ILogger>(Log.Logger);
-
-            ConfigureOptions();
-
-            IoC.Register<IManipulatorsManager, ManipulatorsManager>();
-            IoC.RegisterSingleton<IAuthService, AuthService>();
-            IoC.RegisterSingleton(Factories.ManipulatorsManager);
-            IoC.RegisterSingleton(Factories.HttpServer);
-            IoC.RegisterSingleton(Factories.WsServer);
-            IoC.RegisterSingleton(Factories.WsService);
-            IoC.RegisterSingleton(Factories.InformersManager);
-            IoC.RegisterSingleton<SoundInformer>();
-            IoC.RegisterSingleton<CommandsInformer>();
-
-            IoC.Register<IPageViewModel[]>(c => IoC.ResolveAll<IPageViewModel>().OrderBy(x => x.Name).ToArray());
-            IoC.Register<IEnumerable<IPageViewModel>>(c => IoC.ResolveAll<IPageViewModel>().OrderBy(x => x.Name).ToList());
-        }
-
-        private static void ConfigureInformers()
-        {
-            var manager = IoC.Resolve<InformersManager>();
-            manager.Register<SoundInformer>();
-            manager.Register<CommandsInformer>();
-        }
-
-        private static void ConfigureManipulatorContexts()
-        {
-            var manager = IoC.Resolve<IManipulatorsManager>();
-            var input = IoC.Resolve<InputSimulator>();
-            manager.SetContext(input.Keyboard);
-            manager.SetContext(input.Mouse);
-
-            var fsc = manager.GetContext<FileSystemContext>();
-            var config = IoC.Resolve<FileSystemConfig>();
-            if (fsc == null)
-            {
-                fsc = IoC.Resolve<FileSystemContext>();
-                manager.SetContext(fsc);
-            }
-
-            fsc.Roots = config.Roots;
-        }
-
-        private static void ConfigureOptions()
-        {
-            var proc = Process.GetCurrentProcess();
-            var loc = proc.MainModule?.FileName;
-            var dir = Path.GetDirectoryName(loc);
-
-            var path = Path.Combine(dir, "Options");
-            var options = new Options(path, string.Empty)
-            {
-                HandlerForSectionLoad = HandlerForSectionLoad
-            };
-            options.Register<FileSystemConfig>();
-            options.Register<ServerConfig>();
-            options.Register<CommandsConfig>();
-            options.Register<PlayListsConfig>();
-
-            Options.Current = options;
-            IoC.RegisterInstance(options);
-            IoC.RegisterInstance(options.Section<FileSystemConfig>());
-            IoC.RegisterInstance(options.Section<ServerConfig>());
-            IoC.RegisterInstance(options.Section<CommandsConfig>());
-            IoC.RegisterInstance(options.Section<PlayListsConfig>());
-        }
-
-        private static void HandlerForSectionLoad(Type type, Exception ex)
-        {
-            Log.Logger.Error(ex, $"Failed to load option section of type {type.FullName}");
-        }
+    private static void HandlerForSectionLoad(Type type, Exception ex)
+    {
+        Log.Logger.Error(ex, $"Failed to load option section of type {type.FullName}");
     }
 }
