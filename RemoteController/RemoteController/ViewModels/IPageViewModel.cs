@@ -1,4 +1,5 @@
-﻿using Epsiloner.Wpf.ViewModels;
+﻿using System.ComponentModel;
+using Epsiloner.Wpf.ViewModels;
 
 namespace RemoteController.ViewModels
 {
@@ -28,5 +29,8 @@ namespace RemoteController.ViewModels
         Paths = 5,
 
         Commands = 10,
+
+        [Description("Play lists")]
+        PlayList = 20,
     }
 }
