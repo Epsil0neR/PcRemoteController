@@ -266,8 +266,7 @@
                 helpers:VisibilityHelper.IsCollapsed="{Binding ValidationErrorMessage, Converter={StaticResource Converter.IsNull}}"
                 Foreground="{StaticResource Brush.Danger.Lighter}"
                 Style="{StaticResource Style.Font.H5}"
-                TextWrapping="Wrap">
-            </TextBlock>
+                TextWrapping="Wrap" />
             <StackPanel
                 Grid.Row="7"
                 Grid.Column="0"

@@ -8,7 +8,6 @@
     xmlns:vm="clr-namespace:RemoteController.ViewModels"
     xmlns:ioCs="clr-namespace:RemoteController.IoCs"
     xmlns:c="clr-namespace:RemoteController.Controls"
-    xmlns:e="http://schemas.epsiloner.git/wpf/"
     xmlns:views="clr-namespace:RemoteController.Views"
     xmlns:tb="http://www.hardcodet.net/taskbar"
     mc:Ignorable="d"
@@ -17,6 +16,29 @@
     Title="Remote PC controller" 
     Height="550" 
     Width="800">
+    <c:StyledWindow.Resources>
+        <Style x:Key="Custom.PageButton.Selectable" TargetType="views:PageButton" BasedOn="{StaticResource {x:Type views:PageButton}}">
+            <Style.Triggers>
+                <DataTrigger Value="True">
+                    <DataTrigger.Binding>
+                        <MultiBinding Converter="{StaticResource Converter.EqualsMulti}">
+                            <Binding/>
+                            <Binding ElementName="mainWindow" Path="DataContext.Selected" Mode="OneWay"/>
+                        </MultiBinding>
+                    </DataTrigger.Binding>
+
+                    <Setter Property="Background" Value="{StaticResource Brush.Primary.Darkest}" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <DataTemplate x:Key="Custom.PageButton.DataTemplate">
+            <views:PageButton
+                Command="{Binding ElementName=mainWindow, Path=DataContext.SelectCommand}"
+                CommandParameter="{Binding}" 
+                Style="{StaticResource Custom.PageButton.Selectable}" />
+        </DataTemplate>
+    </c:StyledWindow.Resources>
     <c:StyledWindow.HeaderRightContent>
         <Grid>
             <Button 
@@ -60,32 +82,9 @@
 	            Grid.Column="0"
 	            VerticalScrollBarVisibility="Auto"
 	            HorizontalScrollBarVisibility="Disabled">
-	            <ItemsControl ItemsSource="{Binding Pages}">
-	                <ItemsControl.ItemTemplate>
-	                    <DataTemplate>
-	                        <views:PageButton
-	                            Command="{Binding ElementName=mainWindow, Path=DataContext.SelectCommand}"
-	                            CommandParameter="{Binding}">
-	                            <views:PageButton.Style>
-	                                <Style TargetType="views:PageButton" BasedOn="{StaticResource {x:Type views:PageButton}}">
-	                                    <Style.Triggers>
-	                                        <DataTrigger Value="True">
-	                                            <DataTrigger.Binding>
-	                                                <MultiBinding Converter="{StaticResource Converter.EqualsMulti}">
-	                                                    <Binding/>
-	                                                    <Binding ElementName="mainWindow" Path="DataContext.Selected" Mode="OneWay"/>
-	                                                </MultiBinding>
-	                                            </DataTrigger.Binding>
-
-	                                            <Setter Property="Background" Value="{StaticResource Brush.Primary.Darkest}" />
-	                                        </DataTrigger>
-	                                    </Style.Triggers>
-	                                </Style>
-	                            </views:PageButton.Style>
-	                        </views:PageButton>
-	                    </DataTemplate>
-	                </ItemsControl.ItemTemplate>
-	            </ItemsControl>
+	            <ItemsControl 
+                    ItemsSource="{Binding Pages}" 
+                    ItemTemplate="{StaticResource Custom.PageButton.DataTemplate}" />
 	        </ScrollViewer>
 
 	        <ContentControl

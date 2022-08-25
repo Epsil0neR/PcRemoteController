@@ -1,4 +1,4 @@
-using Epsiloner.OptionsModule;
+﻿using Epsiloner.OptionsModule;
 using Epsiloner.Wpf.Attributes;
 using NLog;
 using RemoteController.Configs;
@@ -134,12 +134,14 @@ namespace RemoteController
             options.Register<FileSystemConfig>();
             options.Register<ServerConfig>();
             options.Register<CommandsConfig>();
+            options.Register<PlayListsConfig>();
 
             Options.Current = options;
             IoC.RegisterInstance(options);
             IoC.RegisterInstance(options.Section<FileSystemConfig>());
             IoC.RegisterInstance(options.Section<ServerConfig>());
             IoC.RegisterInstance(options.Section<CommandsConfig>());
+            IoC.RegisterInstance(options.Section<PlayListsConfig>());
         }
 
         private static void HandlerForSectionLoad(Type type, Exception ex)

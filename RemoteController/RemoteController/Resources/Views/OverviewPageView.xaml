@@ -5,7 +5,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:v="clr-namespace:RemoteController.Views"
     xmlns:vm="clr-namespace:RemoteController.ViewModels.Pages"
-    xmlns:e="http://schemas.epsiloner.git/wpf/"
     mc:Ignorable="d" 
     >
     <ResourceDictionary.MergedDictionaries>
