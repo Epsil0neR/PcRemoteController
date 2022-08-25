@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Windows;
-using Epsiloner.OptionsModule;
+﻿using Epsiloner.OptionsModule;
 using Epsiloner.Wpf.Attributes;
 using NLog;
 using RemoteController.Configs;
@@ -16,6 +10,15 @@ using RemoteController.Manipulator.Contexts;
 using RemoteController.Services;
 using RemoteController.ViewModels;
 using RemoteController.WebSocket;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Windows;
+using System.Windows.Forms;
+using RemoteController.Utils;
 using WindowsInput;
 
 namespace RemoteController
@@ -47,6 +50,19 @@ namespace RemoteController
             {
                 IoC.Resolve<WsServer>().StartServer();
             }
+        }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            IoC.Container.Dispose();
+            base.OnExit(e);
+        }
+
+        public static Stream GetIconStream()
+        {
+            var key = "RemoteController.icon.ico";
+            var asm = typeof(App).Assembly;
+            return asm.GetManifestResourceStream(key);
         }
 
         /// <summary>

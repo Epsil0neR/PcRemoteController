@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -24,6 +24,7 @@
     <PackageReference Include="Epsiloner.Wpf.Core" Version="1.2.0" />
     <PackageReference Include="Epsiloner.Wpf.Behaviors" Version="1.1.0" />
     <PackageReference Include="Epsiloner.Wpf.SymbolIcons" Version="1.0.1" />
+    <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
     <PackageReference Include="MvvmLightLibsStd10" Version="5.4.1.1" />
     <PackageReference Include="NLog" Version="4.7.9" />
     <PackageReference Include="NLog.Config" Version="4.7.9" />
@@ -46,6 +47,8 @@
 
     <None Remove="*.ico" />
     <Resource Include="*.ico" />
+    <Resource Remove="icon.ico" />
+    <EmbeddedResource Include="icon.ico" />
     <Compile Update="Resources\Styles\StyledWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

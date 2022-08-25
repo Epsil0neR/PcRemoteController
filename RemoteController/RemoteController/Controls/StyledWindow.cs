@@ -1,10 +1,14 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Markup;
 
 namespace RemoteController.Controls
 {
+    [DefaultProperty("Content")]
+    [ContentProperty("Content")]
     public class StyledWindow : Window
     {
         static StyledWindow()
