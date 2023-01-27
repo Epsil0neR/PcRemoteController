@@ -14,6 +14,7 @@ public static class ManipulationConfiguration
         FileSystemManipulation.GetManipulations().AddTo(manager);
         KeyboardManipulation.GetManipulations().AddTo(manager);
         MouseManipulation.GetManipulations().AddTo(manager);
+        SoundDeviceManipulation.GetManipulations().AddTo(manager);
 
         manager.Add(new CustomManipulation<SoundInformer>(soundInformer.GetActionName(), () => soundInformer.CheckForChanges() ? null : soundInformer));
         manager.Add(new CustomManipulation<bool>("Sound.Output.Volume", input =>

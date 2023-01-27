@@ -32,4 +32,7 @@ public enum PageName : uint
 
     [Description("Play lists")]
     PlayList = 20,
+
+    [Description("Sound devices")]
+    SoundDevices = 30
 }

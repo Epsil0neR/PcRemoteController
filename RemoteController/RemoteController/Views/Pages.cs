@@ -56,13 +56,25 @@ public class CommandsPageView : Control
     }
 }
 
-
 [ViewFor(typeof(PlayListPageViewModel))]
 public class PlayListPageView : Control
 {
     static PlayListPageView()
     {
         var t = typeof(PlayListPageView);
+        DefaultStyleKeyProperty.OverrideMetadata(t, new FrameworkPropertyMetadata
+        {
+            DefaultValue = t
+        });
+    }
+}
+
+[ViewFor(typeof(SoundDevicesPageViewModel))]
+public class SoundDevicesPageView : Control
+{
+    static SoundDevicesPageView()
+    {
+        var t = typeof(SoundDevicesPageView);
         DefaultStyleKeyProperty.OverrideMetadata(t, new FrameworkPropertyMetadata
         {
             DefaultValue = t

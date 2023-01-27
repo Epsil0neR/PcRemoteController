@@ -65,6 +65,9 @@
             <DataTrigger Binding="{Binding Name}" Value="{x:Static vm:PageName.Commands}">
                 <Setter TargetName="symbol" Property="Icon" Value="Code" />
             </DataTrigger>
+            <DataTrigger Binding="{Binding Name}" Value="{x:Static vm:PageName.SoundDevices}">
+                <Setter TargetName="symbol" Property="Icon" Value="VolumeUp" />
+            </DataTrigger>
         </DataTemplate.Triggers>
     </DataTemplate>
 

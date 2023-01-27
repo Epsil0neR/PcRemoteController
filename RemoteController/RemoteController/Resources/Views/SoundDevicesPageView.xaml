@@ -1,0 +1,25 @@
+<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:v="clr-namespace:RemoteController.Views"
+    xmlns:vm="clr-namespace:RemoteController.ViewModels.Pages"
+    mc:Ignorable="d" 
+    >
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Generic/All.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Styles/Button.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    <d:FrameworkElement.DataContext>
+        <x:Type Type="vm:SoundDevicesPageViewModel" />
+    </d:FrameworkElement.DataContext>
+
+    <ControlTemplate TargetType="v:SoundDevicesPageView" x:Key="SoundDevicesPageView.Template">
+        <TextBlock Text="Hello sound devices" />
+    </ControlTemplate>
+
+    <Style TargetType="v:SoundDevicesPageView">
+        <Setter Property="Template" Value="{StaticResource SoundDevicesPageView.Template}" />
+    </Style>
+</ResourceDictionary>
