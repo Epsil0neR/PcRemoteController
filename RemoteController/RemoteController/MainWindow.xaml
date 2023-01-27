@@ -45,7 +45,7 @@
                 Visibility="{Binding WsServer.IsStarted, Converter={StaticResource Converter.BooleanToVisibility}}"
                 Content="Connected"
                 Command="{Binding StopServerCommand}"
-                Style="{StaticResource Button.Primary}"
+                Style="{StaticResource Button.Primary}" 
                 />
             <Button 
                 Visibility="{Binding WsServer.IsStarted, Converter={StaticResource Converter.BooleanToInvisibility}}"
@@ -55,43 +55,41 @@
                 />
         </Grid>
     </c:StyledWindow.HeaderRightContent>
-    <c:StyledWindow.Content>
-	    <Grid>
-	        <Grid.ColumnDefinitions>
-	            <ColumnDefinition Width="Auto"/>
-	            <ColumnDefinition/>
-	        </Grid.ColumnDefinitions>
+	<Grid>
+	    <Grid.ColumnDefinitions>
+	        <ColumnDefinition Width="Auto"/>
+	        <ColumnDefinition/>
+	    </Grid.ColumnDefinitions>
 
-		    <tb:TaskbarIcon
-			    x:Name="tray"
-			    Visibility="Visible"
-			    ToolTipText="Testing"
-			    MenuActivation="RightClick"
-			    DoubleClickCommand="{Binding DoubleClickCommand}"
-			    d:DataContext="{d:DesignInstance vm:MainWindowTrayViewModel}">
-			    <tb:TaskbarIcon.ContextMenu>
-				    <ContextMenu>
-					    <MenuItem Header="Remote PC controller" Command="{Binding ApplicationNameCommand}" />
-					    <Separator />
-					    <MenuItem Header="Exit" Command="{Binding ExitCommand}" />
-				    </ContextMenu>
-			    </tb:TaskbarIcon.ContextMenu>
-		    </tb:TaskbarIcon>
+		<tb:TaskbarIcon
+			x:Name="tray"
+			Visibility="Visible"
+			ToolTipText="Testing"
+			MenuActivation="RightClick"
+			DoubleClickCommand="{Binding DoubleClickCommand}"
+			d:DataContext="{d:DesignInstance vm:MainWindowTrayViewModel}">
+			<tb:TaskbarIcon.ContextMenu>
+				<ContextMenu>
+					<MenuItem Header="Remote PC controller" Command="{Binding ApplicationNameCommand}" />
+					<Separator />
+					<MenuItem Header="Exit" Command="{Binding ExitCommand}" />
+				</ContextMenu>
+			</tb:TaskbarIcon.ContextMenu>
+		</tb:TaskbarIcon>
 
-			<ScrollViewer
-	            Grid.Column="0"
-	            VerticalScrollBarVisibility="Auto"
-	            HorizontalScrollBarVisibility="Disabled">
-	            <ItemsControl 
-                    ItemsSource="{Binding Pages}" 
-                    ItemTemplate="{StaticResource Custom.PageButton.DataTemplate}" />
-	        </ScrollViewer>
+		<ScrollViewer
+	        Grid.Column="0"
+	        VerticalScrollBarVisibility="Auto"
+	        HorizontalScrollBarVisibility="Disabled">
+	        <ItemsControl 
+                ItemsSource="{Binding Pages}" 
+                ItemTemplate="{StaticResource Custom.PageButton.DataTemplate}" />
+	    </ScrollViewer>
 
-	        <ContentControl
-	            Grid.Column="1" 
-	            Background="Transparent"
-	            Content="{Binding Selected, Mode=OneWay}"
-	            Margin="8 0 0 0"/>
-	    </Grid>
-    </c:StyledWindow.Content>
+	    <ContentControl
+	        Grid.Column="1" 
+	        Background="Transparent"
+	        Content="{Binding Selected, Mode=OneWay}"
+	        Margin="8 0 0 0"/>
+	</Grid>
 </c:StyledWindow>

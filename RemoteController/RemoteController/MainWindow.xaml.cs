@@ -11,11 +11,24 @@ public partial class MainWindow
     public MainWindow()
     {
         InitializeComponent();
+
         using var stream = App.GetIconStream();
+        InitializeIcon(stream);
+        InitializeTrayIcon(stream);
+
+        WindowStateProperty.AddOwner(typeof(MainWindow),
+            new FrameworkPropertyMetadata(WindowStatePropertyChangedCallback));
+    }
+
+    private void InitializeIcon(Stream stream)
+    {
         Icon = ConvertToImage(stream);
+    }
+
+    private void InitializeTrayIcon(Stream stream)
+    {
         tray.Icon = ConvertToIcon(stream);
         tray.DataContext = new MainWindowTrayViewModel(this);
-        WindowStateProperty.AddOwner(typeof(MainWindow), new FrameworkPropertyMetadata(WindowStatePropertyChangedCallback));
     }
 
     private void WindowStatePropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)

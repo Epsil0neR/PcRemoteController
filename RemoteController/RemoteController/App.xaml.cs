@@ -55,12 +55,7 @@ public partial class App
         base.OnExit(e);
     }
 
-    public static Stream GetIconStream()
-    {
-        var key = "RemoteController.icon.ico";
-        var asm = typeof(App).Assembly;
-        return asm.GetManifestResourceStream(key);
-    }
+    public static Stream GetIconStream() => typeof(App).Assembly.GetManifestResourceStream("RemoteController.icon.ico");
 
     /// <summary>
     /// Log method used by NLog. DO NOT REMOVE IT unless it also removed in NLog.config file.

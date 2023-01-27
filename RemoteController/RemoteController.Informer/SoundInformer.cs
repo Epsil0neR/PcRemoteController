@@ -186,7 +186,7 @@ public class SoundInformer : BaseInformer
         _cooldown = new EventCooldown(TimeSpan.FromMilliseconds(5000), () =>
         {
             CheckForChanges();
-            _cooldown.Accumulate();
+            _cooldown!.Accumulate();
         });
     }
 }

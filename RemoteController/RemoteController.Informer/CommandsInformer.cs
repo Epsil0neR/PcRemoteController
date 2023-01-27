@@ -7,6 +7,9 @@ using RemoteController.Manipulator;
 
 namespace RemoteController.Informer;
 
+/// <summary>
+/// Manages what commands are available for web-clients over WebSocket connection.
+/// </summary>
 public class CommandsInformer : BaseInformer
 {
     private readonly EventCooldown _cooldown;

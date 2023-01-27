@@ -45,15 +45,12 @@ public class FileSystemManipulation : IManipulation
 
     public object Execute(IManipulatorsManager manager, string param)
     {
-        switch (Mode)
+        return Mode switch
         {
-            case FileSystemManipulationMode.Exec:
-                return Exec(manager, param);
-            case FileSystemManipulationMode.List:
-                return List(manager, param);
-            default:
-                return null;
-        }
+            FileSystemManipulationMode.Exec => Exec(manager, param),
+            FileSystemManipulationMode.List => List(manager, param),
+            _ => null
+        };
     }
 
     /// <summary>
