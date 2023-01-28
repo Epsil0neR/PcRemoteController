@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel;
+using Epsiloner.Wpf;
+using Epsiloner.Wpf.Glyphs;
 using Epsiloner.Wpf.ViewModels;
 
 namespace RemoteController.ViewModels;
@@ -9,6 +11,11 @@ public interface IPageViewModel : IViewModel
     /// Used to order pages by this property and display this as name for page. Pages are sorted ascending.
     /// </summary>
     public PageName Name { get; }
+
+    /// <summary>
+    /// Icon to represent this page.
+    /// </summary>
+    public MaterialDesignIcon Icon { get; }
 
     /// <summary>
     /// Indicates if page is currently selected.

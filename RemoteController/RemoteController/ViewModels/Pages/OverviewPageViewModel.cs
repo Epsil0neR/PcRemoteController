@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 using Epsiloner.OptionsModule;
+using Epsiloner.Wpf.Glyphs;
 using RemoteController.Configs;
 using RemoteController.Utils;
 using RemoteController.WebSocket;
@@ -57,7 +58,7 @@ public class OverviewPageViewModel : BasePageViewModel
         ServerConfig serverConfig,
         FileSystemConfig fileSystemConfig,
         Options options)
-        : base(PageName.Overview)
+        : base(PageName.Overview, MaterialDesignIcon.Home)
     {
         WsServer = wsServer ?? throw new ArgumentNullException(nameof(wsServer));
         ServerConfig = serverConfig ?? throw new ArgumentNullException(nameof(serverConfig));

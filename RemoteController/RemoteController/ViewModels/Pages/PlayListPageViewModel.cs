@@ -1,12 +1,12 @@
 ﻿using System.Windows.Threading;
 using Epsiloner.OptionsModule;
+using Epsiloner.Wpf.Glyphs;
 using RemoteController.Configs;
 
 namespace RemoteController.ViewModels.Pages;
 
 public class PlayListPageViewModel : BasePageViewModel
 {
-    
     public Dispatcher Dispatcher { get; }
     
     public Options Options { get; }

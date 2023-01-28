@@ -13,6 +13,7 @@ using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Threading;
+using Epsiloner.Wpf.Glyphs;
 
 namespace RemoteController.ViewModels.Pages;
 
@@ -34,7 +35,7 @@ public class CommandsPageViewModel : BasePageViewModel
         CommandsConfig config,
         IManipulatorsManager manager
     )
-        : base(PageName.Commands)
+        : base(PageName.Commands, MaterialDesignIcon.Code)
     {
         Options = options ?? throw new ArgumentNullException(nameof(options));
         Config = config ?? throw new ArgumentNullException(nameof(config));

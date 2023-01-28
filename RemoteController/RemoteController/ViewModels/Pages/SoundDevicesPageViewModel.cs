@@ -1,9 +1,11 @@
-﻿namespace RemoteController.ViewModels.Pages;
+﻿using Epsiloner.Wpf.Glyphs;
+
+namespace RemoteController.ViewModels.Pages;
 
 public class SoundDevicesPageViewModel : BasePageViewModel
 {
     public SoundDevicesPageViewModel()
-        : base(PageName.SoundDevices)
+        : base(PageName.SoundDevices, MaterialDesignIcon.VolumeUp)
     {
     }
 }

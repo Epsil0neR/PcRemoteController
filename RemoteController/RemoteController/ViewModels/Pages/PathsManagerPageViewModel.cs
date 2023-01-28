@@ -2,6 +2,7 @@
 using System.Windows.Threading;
 using Epsiloner.OptionsModule;
 using Epsiloner.Wpf.Collections;
+using Epsiloner.Wpf.Glyphs;
 using GalaSoft.MvvmLight.Command;
 using RemoteController.Configs;
 
@@ -26,7 +27,7 @@ public class PathsManagerPageViewModel : BasePageViewModel
         FileSystemConfig fileSystemConfig,
         Options options,
         Dispatcher dispatcher)
-        : base(PageName.Paths)
+        : base(PageName.Paths, MaterialDesignIcon.Folder)
     {
         FileSystemConfig = fileSystemConfig;
         Options = options;

@@ -43,11 +43,10 @@
             </Grid.ColumnDefinitions>
 
             <e:SymbolMaterial
-                x:Name="symbol"
                 Grid.Column="0"
                 VerticalAlignment="Center"
                 Margin="0 4 0 0"
-                Icon="LabelImportant"/>
+                Icon="{Binding Icon, Mode=OneWay}"/>
 
             <TextBlock 
                 Grid.Column="1"
@@ -55,20 +54,6 @@
                 VerticalAlignment="Center"
                 HorizontalAlignment="Left"/>
         </Grid>
-        <DataTemplate.Triggers>
-            <DataTrigger Binding="{Binding Name}" Value="{x:Static vm:PageName.Overview}">
-                <Setter TargetName="symbol" Property="Icon" Value="Home" />
-            </DataTrigger>
-            <DataTrigger Binding="{Binding Name}" Value="{x:Static vm:PageName.Paths}">
-                <Setter TargetName="symbol" Property="Icon" Value="Folder" />
-            </DataTrigger>
-            <DataTrigger Binding="{Binding Name}" Value="{x:Static vm:PageName.Commands}">
-                <Setter TargetName="symbol" Property="Icon" Value="Code" />
-            </DataTrigger>
-            <DataTrigger Binding="{Binding Name}" Value="{x:Static vm:PageName.SoundDevices}">
-                <Setter TargetName="symbol" Property="Icon" Value="VolumeUp" />
-            </DataTrigger>
-        </DataTemplate.Triggers>
     </DataTemplate>
 
     <Style TargetType="v:PageButton" BasedOn="{StaticResource Button.Primary}">

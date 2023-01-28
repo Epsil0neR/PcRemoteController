@@ -1,4 +1,5 @@
-﻿using Epsiloner.Wpf.ViewModels;
+﻿using Epsiloner.Wpf.Glyphs;
+using Epsiloner.Wpf.ViewModels;
 
 namespace RemoteController.ViewModels;
 
@@ -6,13 +7,17 @@ public abstract class BasePageViewModel : ViewModel, IPageViewModel
 {
     private bool _isSelected;
 
-    protected BasePageViewModel(PageName name)
+    protected BasePageViewModel(PageName name, MaterialDesignIcon icon = MaterialDesignIcon.LabelImportant)
     {
         Name = name;
+        Icon = icon;
     }
 
     /// <inheritdoc />
     public PageName Name { get; }
+
+    /// <inheritdoc />
+    public MaterialDesignIcon Icon { get; }
 
     /// <inheritdoc />
     public bool IsSelected
