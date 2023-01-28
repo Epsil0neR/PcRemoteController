@@ -32,7 +32,7 @@
             </Style.Triggers>
         </Style>
 
-        <DataTemplate x:Key="Custom.PageButton.DataTemplate">
+        <DataTemplate x:Key="Custom.PageButton.DataTemplate" DataType="{x:Type vm:IPageViewModel}">
             <views:PageButton
                 Command="{Binding ElementName=mainWindow, Path=DataContext.SelectCommand}"
                 CommandParameter="{Binding}" 
