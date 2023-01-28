@@ -3,20 +3,14 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-    xmlns:v="clr-namespace:RemoteController.Views"
     xmlns:vm="clr-namespace:RemoteController.ViewModels.Pages"
-    mc:Ignorable="d" 
-    >
+    mc:Ignorable="d">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Generic/All.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Styles/Button.xaml" />
     </ResourceDictionary.MergedDictionaries>
-    <d:FrameworkElement.DataContext>
-        <x:Type Type="vm:OverviewPageViewModel" />
-    </d:FrameworkElement.DataContext>
 
-
-    <ControlTemplate TargetType="v:OverviewPageView" x:Key="OverviewPageView.Template">
+    <DataTemplate DataType="{x:Type vm:OverviewPageViewModel}">
         <ScrollViewer
             HorizontalScrollBarVisibility="Auto"
             VerticalScrollBarVisibility="Auto">
@@ -69,9 +63,5 @@
 
             </StackPanel>
         </ScrollViewer>
-    </ControlTemplate>
-    
-    <Style TargetType="v:OverviewPageView">
-        <Setter Property="Template" Value="{StaticResource OverviewPageView.Template}" />
-    </Style>
+    </DataTemplate>
 </ResourceDictionary>

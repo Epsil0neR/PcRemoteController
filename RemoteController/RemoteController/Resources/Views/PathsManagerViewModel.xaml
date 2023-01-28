@@ -3,7 +3,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-    xmlns:v="clr-namespace:RemoteController.Views"
     xmlns:vm="clr-namespace:RemoteController.ViewModels.Pages"
     xmlns:e="http://schemas.epsiloner.git/wpf/"
     xmlns:vms="clr-namespace:RemoteController.ViewModels"
@@ -12,9 +11,6 @@
         <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Generic/All.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Styles/Button.xaml" />
     </ResourceDictionary.MergedDictionaries>
-    <d:FrameworkElement.DataContext>
-        <x:Type Type="vm:PathsManagerPageViewModel" />
-    </d:FrameworkElement.DataContext>
 
     <DataTemplate x:Key="PathViewModel.DataTemplate" DataType="vms:PathViewModel">
         <Grid>
@@ -171,7 +167,7 @@
         </Grid>
     </DataTemplate>
 
-    <ControlTemplate TargetType="v:PathsManagerPageView" x:Key="PathsManagerPageView.Template">
+    <DataTemplate DataType="{x:Type vm:PathsManagerPageViewModel}">
         <Grid>
             <Grid
                 x:Name="viewDefault"
@@ -212,15 +208,11 @@
                 Visibility="Collapsed"
                 />
         </Grid>
-        <ControlTemplate.Triggers>
+        <DataTemplate.Triggers>
             <DataTrigger Binding="{Binding CreatePath, Converter={StaticResource Converter.IsNotNull}}" Value="True">
                 <Setter TargetName="viewDefault" Property="Visibility" Value="Collapsed" />
                 <Setter TargetName="viewCreation" Property="Visibility" Value="Visible" />
             </DataTrigger>
-        </ControlTemplate.Triggers>
-    </ControlTemplate>
-
-    <Style TargetType="v:PathsManagerPageView">
-        <Setter Property="Template" Value="{StaticResource PathsManagerPageView.Template}" />
-    </Style>
+        </DataTemplate.Triggers>
+    </DataTemplate>
 </ResourceDictionary>

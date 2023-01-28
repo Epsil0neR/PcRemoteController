@@ -90,6 +90,7 @@
 	        Grid.Column="1" 
 	        Background="Transparent"
 	        Content="{Binding Selected, Mode=OneWay}"
+            ContentTemplateSelector="{x:Null}"
 	        Margin="8 0 0 0"/>
 	</Grid>
 </c:StyledWindow>

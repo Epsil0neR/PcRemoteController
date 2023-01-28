@@ -5,10 +5,10 @@
         <!--Here are listed all view related resources only.-->
 
         <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Views/PageButton.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Views/OverviewPageView.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Views/PathsManagerView.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Views/CommandsPageView.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Views/PlayListsPageView.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Views/SoundDevicesPageView.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Views/OverviewPageViewModel.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Views/PathsManagerViewModel.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Views/CommandsPageViewModel.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Views/PlayListsPageViewModel.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Views/SoundDevicesPageViewModel.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
