@@ -17,6 +17,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using WindowsInput;
+using RemoteController.Sound;
 
 namespace RemoteController;
 
@@ -85,6 +86,7 @@ public partial class App
         IoC.RegisterSingleton(Factories.InformersManager);
         IoC.RegisterSingleton<SoundInformer>();
         IoC.RegisterSingleton<CommandsInformer>();
+        IoC.RegisterSingleton<PolicyConfigClient>();
 
         IoC.Register<IPageViewModel[]>(c => IoC.ResolveAll<IPageViewModel>().OrderBy(x => x.Name).ToArray());
         IoC.Register<IEnumerable<IPageViewModel>>(c => IoC.ResolveAll<IPageViewModel>().OrderBy(x => x.Name).ToList());
@@ -119,8 +121,7 @@ public partial class App
     {
         var proc = Process.GetCurrentProcess();
         var loc = proc.MainModule?.FileName;
-        var dir = Path.GetDirectoryName(loc);
-
+        var dir = Path.GetDirectoryName(loc)!;
         var path = Path.Combine(dir, "Options");
         var options = new Options(path, string.Empty)
         {
@@ -130,6 +131,7 @@ public partial class App
         options.Register<ServerConfig>();
         options.Register<CommandsConfig>();
         options.Register<PlayListsConfig>();
+        options.Register<SoundDevicesConfig>();
 
         Options.Current = options;
         IoC.RegisterInstance(options);
@@ -137,6 +139,7 @@ public partial class App
         IoC.RegisterInstance(options.Section<ServerConfig>());
         IoC.RegisterInstance(options.Section<CommandsConfig>());
         IoC.RegisterInstance(options.Section<PlayListsConfig>());
+        IoC.RegisterInstance(options.Section<SoundDevicesConfig>());
     }
 
     private static void HandlerForSectionLoad(Type type, Exception ex)

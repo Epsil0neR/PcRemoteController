@@ -70,49 +70,47 @@ public class SoundInformer : BaseInformer
     /// <inheritdoc />
     public override bool CheckForChanges()
     {
-        using (var enumer = new MMDeviceEnumerator())
+        using var enumerator = new MMDeviceEnumerator();
+        var outputList = enumerator.EnumerateAudioEndPoints(DataFlow.Render, DeviceState.Active).ToList();
+        var output = enumerator.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
+        var inputList = enumerator.EnumerateAudioEndPoints(DataFlow.Capture, DeviceState.Active).ToList();
+        var input = enumerator.GetDefaultAudioEndpoint(DataFlow.Capture, Role.Communications);
+        var changedOutput = Set(ref _outputDevice, output.FriendlyName);
+        var changedInput = Set(ref _inputDevice, input.FriendlyName);
+        var changes = new[]
         {
-            var outputList = enumer.EnumerateAudioEndPoints(DataFlow.Render, DeviceState.Active).ToList();
-            var output = enumer.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
-            var inputList = enumer.EnumerateAudioEndPoints(DataFlow.Capture, DeviceState.Active).ToList();
-            var input = enumer.GetDefaultAudioEndpoint(DataFlow.Capture, Role.Communications);
-            var changedOutput = Set(ref _outputDevice, output.FriendlyName);
-            var changedInput = Set(ref _inputDevice, input.FriendlyName);
-            var changes = new[]
-            {
-                changedOutput,
-                Set(ref _outputVolume, (int)(output.AudioEndpointVolume.MasterVolumeLevelScalar * 100)),
-                Set(ref _outputIsMuted, output.AudioEndpointVolume.Mute),
-                SetList(ref _outputDeviceList, outputList.Select(x => x.FriendlyName)),
+            changedOutput,
+            Set(ref _outputVolume, (int)(output.AudioEndpointVolume.MasterVolumeLevelScalar * 100)),
+            Set(ref _outputIsMuted, output.AudioEndpointVolume.Mute),
+            SetList(ref _outputDeviceList, outputList.Select(x => x.FriendlyName)),
 
-                changedInput,
-                Set(ref _inputVolume, (int)(input.AudioEndpointVolume.MasterVolumeLevelScalar * 100)),
-                Set(ref _inputIsMuted, output.AudioEndpointVolume.Mute),
-                SetList(ref _inputDeviceList, inputList.Select(x=>x.FriendlyName)),
-            };
+            changedInput,
+            Set(ref _inputVolume, (int)(input.AudioEndpointVolume.MasterVolumeLevelScalar * 100)),
+            Set(ref _inputIsMuted, output.AudioEndpointVolume.Mute),
+            SetList(ref _inputDeviceList, inputList.Select(x=>x.FriendlyName)),
+        };
 
-            if (!changes.Any(x => x))
-                return false;
+        if (!changes.Any(x => x))
+            return false;
 
-            if (changedOutput)
-            {
-                if (_output != null)
-                    _output.AudioEndpointVolume.OnVolumeNotification -= OutputOnOnVolumeNotification;
-                _output?.Dispose();
-                _output = output;
-                if (_output != null)
-                    _output.AudioEndpointVolume.OnVolumeNotification += OutputOnOnVolumeNotification;
-            }
+        if (changedOutput)
+        {
+            if (_output != null)
+                _output.AudioEndpointVolume.OnVolumeNotification -= OutputOnOnVolumeNotification;
+            _output?.Dispose();
+            _output = output;
+            if (_output != null)
+                _output.AudioEndpointVolume.OnVolumeNotification += OutputOnOnVolumeNotification;
+        }
 
-            if (changedInput)
-            {
-                if (_input != null)
-                    _input.AudioEndpointVolume.OnVolumeNotification -= InputOnOnVolumeNotification;
-                _input?.Dispose();
-                _input = input;
-                if (_input != null)
-                    _input.AudioEndpointVolume.OnVolumeNotification += InputOnOnVolumeNotification;
-            }
+        if (changedInput)
+        {
+            if (_input != null)
+                _input.AudioEndpointVolume.OnVolumeNotification -= InputOnOnVolumeNotification;
+            _input?.Dispose();
+            _input = input;
+            if (_input != null)
+                _input.AudioEndpointVolume.OnVolumeNotification += InputOnOnVolumeNotification;
         }
 
         RaiseChanged();
@@ -130,8 +128,7 @@ public class SoundInformer : BaseInformer
 
     private bool ChangeVolume(ref MMDevice device, int volume)
     {
-
-        if (volume < 0 || volume > 100)
+        if (volume is < 0 or > 100)
             return false; // Do nothing if value exceeds.
 
         if (device == null)
@@ -142,7 +139,7 @@ public class SoundInformer : BaseInformer
             if (device == null)
                 return false; // Do nothing if there are no output device.
         }
-
+        
         device.AudioEndpointVolume.MasterVolumeLevelScalar = volume / 100f;
         return true;
     }

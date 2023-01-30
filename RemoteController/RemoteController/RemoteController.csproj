@@ -15,6 +15,7 @@
     <ApplicationIcon>icon.ico</ApplicationIcon>
     <AssemblyVersion>$(Version)</AssemblyVersion>
     <FileVersion>$(Version)</FileVersion>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>

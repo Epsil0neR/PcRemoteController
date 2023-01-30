@@ -1,6 +1,5 @@
 ﻿using System.Windows.Threading;
 using Epsiloner.OptionsModule;
-using Epsiloner.Wpf.Glyphs;
 using RemoteController.Configs;
 
 namespace RemoteController.ViewModels.Pages;

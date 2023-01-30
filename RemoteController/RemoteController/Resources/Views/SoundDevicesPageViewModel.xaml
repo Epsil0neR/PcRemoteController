@@ -11,6 +11,34 @@
     </ResourceDictionary.MergedDictionaries>
 
     <DataTemplate DataType="{x:Type vm:SoundDevicesPageViewModel}">
-        <TextBlock Text="Hello sound devices view model" />
+        <StackPanel 
+            x:Name="root"
+            Orientation="Vertical">
+            <TextBlock 
+                Text="Hello sound devices view model" 
+                Margin="0 0 0 16"/>
+
+            <ItemsControl ItemsSource="{Binding OutputDevices}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type vm:SoundDeviceItem}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+                            <CheckBox
+                                Grid.Column="0" 
+                                IsChecked="{Binding IsSelected, Mode=TwoWay}" />
+                            <Button
+                                Grid.Column="1"
+                                Command="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl, Mode=FindAncestor}, Path=DataContext.SetOutputDeviceCommand}"
+                                CommandParameter="{Binding Name}"
+                                Content="{Binding Name}" />
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
     </DataTemplate>
 </ResourceDictionary>

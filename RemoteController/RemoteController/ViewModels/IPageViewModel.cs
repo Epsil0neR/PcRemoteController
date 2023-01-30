@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using Epsiloner.Wpf;
 using Epsiloner.Wpf.Glyphs;
 using Epsiloner.Wpf.ViewModels;
 
