@@ -39,7 +39,10 @@ public class MainViewModel : ViewModel
     {
         Pages = pages ?? throw new ArgumentNullException(nameof(pages));
         WsServer = wsServer;
-        Selected = Pages.FirstOrDefault(x => x.Name == PageName.Commands);
+        Selected = Pages.FirstOrDefault(x => x.Name == PageName.Overview);
+#if DEBUG
+        Selected = Pages.FirstOrDefault(x => x.Name == PageName.SoundDevices);
+#endif
 
         SelectCommand = new RelayCommand<IPageViewModel>(Select);
         StartServerCommand = new RelayCommand(StartServer);
