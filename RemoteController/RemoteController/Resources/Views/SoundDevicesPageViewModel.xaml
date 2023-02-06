@@ -4,6 +4,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:vm="clr-namespace:RemoteController.ViewModels.Pages"
+    xmlns:controls="clr-namespace:RemoteController.Controls"
     mc:Ignorable="d">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/RemoteController;component/Resources/Generic/All.xaml" />
@@ -17,6 +18,8 @@
             <TextBlock 
                 Text="Hello sound devices view model" 
                 Margin="0 0 0 16"/>
+
+            <controls:GestureEditor />
 
             <ItemsControl ItemsSource="{Binding OutputDevices}">
                 <ItemsControl.ItemTemplate>

@@ -16,6 +16,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using RemoteController.Keyboard;
 using WindowsInput;
 using RemoteController.Sound;
 
@@ -87,6 +88,8 @@ public partial class App
         IoC.RegisterSingleton<SoundInformer>();
         IoC.RegisterSingleton<CommandsInformer>();
         IoC.RegisterSingleton<PolicyConfigClient>();
+        IoC.RegisterSingleton<KeyboardHookManager>();
+        IoC.RegisterSingleton<ShortcutsService>();
 
         IoC.Register<IPageViewModel[]>(c => IoC.ResolveAll<IPageViewModel>().OrderBy(x => x.Name).ToArray());
         IoC.Register<IEnumerable<IPageViewModel>>(c => IoC.ResolveAll<IPageViewModel>().OrderBy(x => x.Name).ToList());
@@ -127,6 +130,7 @@ public partial class App
         {
             HandlerForSectionLoad = HandlerForSectionLoad
         };
+        
         options.Register<FileSystemConfig>();
         options.Register<ServerConfig>();
         options.Register<CommandsConfig>();

@@ -147,15 +147,16 @@ public class PolicyConfigClient
 
     public PolicyConfigClient()
     {
-        _PolicyConfig = new _PolicyConfigClient() as IPolicyConfig;
+        var policyConfigClient = new _PolicyConfigClient();
+        _PolicyConfig = policyConfigClient as IPolicyConfig;
         if (_PolicyConfig != null)
             return;
 
-        _PolicyConfigVista = new _PolicyConfigClient() as IPolicyConfigVista;
+        _PolicyConfigVista = policyConfigClient as IPolicyConfigVista;
         if (_PolicyConfigVista != null)
             return;
 
-        _PolicyConfig10 = new _PolicyConfigClient() as IPolicyConfig10;
+        _PolicyConfig10 = policyConfigClient as IPolicyConfig10;
     }
 
     public void SetDefaultEndpoint(string devID, ERole eRole)
