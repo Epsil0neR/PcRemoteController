@@ -27,6 +27,11 @@ public class ShortcutsService
 
     public KeyboardHookManager KeyboardHookManager { get; }
 
+    /// <summary>
+    /// Shortcuts service can be paused during editing gestures.
+    /// </summary>
+    public bool IsPaused { get; set; }
+
     public readonly Dictionary<Gesture, ShortcutAction> _registrations = new();
 
     public ShortcutsService(KeyboardHookManager keyboardHookManager)
@@ -100,6 +105,9 @@ public class ShortcutsService
                 _modifierKeys |= ModifierKeys.Windows;
                 return;
         }
+
+        if (IsPaused)
+            return;
 
         var pair = _registrations.FirstOrDefault(x => x.Key.Matches(key, _modifierKeys));
         if (pair.Value is null)

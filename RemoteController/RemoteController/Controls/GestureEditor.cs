@@ -3,12 +3,14 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using Epsiloner.Wpf.Gestures;
+using RemoteController.Services;
 
 namespace RemoteController.Controls
 {
-    public class GestureEditor: TextBox
+    public class GestureEditor : TextBox
     {
         private ModifierKeys _modifierKeys = ModifierKeys.None;
+        private bool _isPausing;
 
         public static readonly DependencyProperty GestureProperty =
             DependencyProperty.Register(
@@ -21,10 +23,22 @@ namespace RemoteController.Controls
                 )
             );
 
+        public static readonly DependencyProperty ShortcutsServiceProperty =
+            DependencyProperty.Register(
+                nameof(ShortcutsService),
+                typeof(ShortcutsService),
+                typeof(GestureEditor));
+
         public Gesture? Gesture
         {
             get => (Gesture?)GetValue(GestureProperty);
             set => SetValue(GestureProperty, value);
+        }
+
+        public ShortcutsService? ShortcutsService
+        {
+            get => (ShortcutsService)GetValue(ShortcutsServiceProperty);
+            set => SetValue(ShortcutsServiceProperty, value);
         }
 
         public GestureEditor()
@@ -36,7 +50,7 @@ namespace RemoteController.Controls
             IsReadOnlyCaretVisible = false;
             IsReadOnly = true;
             IsUndoEnabled = false;
-            //PreviewKeyDown += OnPreviewKeyDown;
+            ShortcutsService = IoC.Resolve<ShortcutsService>();
 
             var b = new Binding(nameof(Gesture))
             {
@@ -45,9 +59,30 @@ namespace RemoteController.Controls
                 Mode = BindingMode.OneWay
             };
             BindingOperations.SetBinding(this, TextProperty, b);
-            
+
+
             AddHandler(PreviewKeyDownEvent, new KeyEventHandler(OnPreviewKeyDown), true);
             AddHandler(PreviewKeyUpEvent, new KeyEventHandler(OnPreviewKeyUp), true);
+            GotFocus += OnGotFocus;
+            LostFocus += OnLostFocus;
+        }
+
+        private void OnLostFocus(object sender, RoutedEventArgs e)
+        {
+            if (ShortcutsService is null || !_isPausing)
+                return;
+
+            ShortcutsService.IsPaused = false;
+            _isPausing = false;
+        }
+
+        private void OnGotFocus(object sender, RoutedEventArgs e)
+        {
+            if (ShortcutsService is null || _isPausing)
+                return;
+
+            _isPausing = true;
+            ShortcutsService.IsPaused = true;
         }
 
         private void OnPreviewKeyUp(object sender, KeyEventArgs e)
