@@ -19,7 +19,9 @@
                 Text="Hello sound devices view model" 
                 Margin="0 0 0 16"/>
 
-            <controls:GestureEditor />
+            <controls:GestureEditor
+                  ShortcutName="{Binding CircleSelectedShortcutName}"
+                  />
 
             <ItemsControl ItemsSource="{Binding OutputDevices}">
                 <ItemsControl.ItemTemplate>

@@ -75,6 +75,8 @@ public class SoundDevicesPageViewModel : BasePageViewModel
         private set => Set(ref _outputDevices, value);
     }
 
+    public string CircleSelectedShortcutName { get; } = "Sound.Output.CircleSelected";
+
     public SoundDevicesPageViewModel(
         InformersManager informersManager,
         PolicyConfigClient policyConfigClient,
@@ -95,11 +97,8 @@ public class SoundDevicesPageViewModel : BasePageViewModel
 
         SetOutputDeviceCommand = new RelayCommand<string>(SetOutputDevice);
 
-        ShortcutsService.Register(new(Key.F24), new()
-        {
-            Name = "Sound.Output.CircleSelected",
-            Action = CircleSelected
-        });
+        ShortcutsService.Change(CircleSelectedShortcutName, CircleSelected);
+        ShortcutsService.Change(CircleSelectedShortcutName, new Gesture(Key.F24));
     }
 
     private void CircleSelected()

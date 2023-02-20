@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Epsiloner.Wpf.Gestures;
-using Org.BouncyCastle.Security;
 using RemoteController.Keyboard;
 
 namespace RemoteController.Services;
@@ -32,27 +31,14 @@ public class ShortcutsService
     /// </summary>
     public bool IsPaused { get; set; }
 
-    public readonly Dictionary<Gesture, ShortcutAction> _registrations = new();
+    private readonly Dictionary<string, Action> _handlers = new();
+    private readonly Dictionary<string, Gesture?> _gestures = new();
 
     public ShortcutsService(KeyboardHookManager keyboardHookManager)
     {
         KeyboardHookManager = keyboardHookManager;
         KeyboardHookManager.KeyDown += OnKeyDown;
         KeyboardHookManager.KeyUp += OnKeyUp;
-    }
-
-    public void Register(Gesture gesture, ShortcutAction shortcutAction)
-    {
-        if (gesture is null)
-            throw new ArgumentNullException(nameof(gesture));
-        if (shortcutAction is null)
-            throw new ArgumentNullException(nameof(shortcutAction));
-        if (!shortcutAction.IsValid())
-            throw new ArgumentException("Shortcut action is invalid", nameof(shortcutAction));
-        if (_registrations.Keys.Any(x => x.Matches(gesture.Key, gesture.Modifiers)))
-            throw new ArgumentException("Gesture already is already registered.", nameof(gesture));
-
-        _registrations[gesture] = shortcutAction;
     }
 
     private void OnKeyUp(object? sender, KeyboardHookManagerEventArgs e)
@@ -109,10 +95,51 @@ public class ShortcutsService
         if (IsPaused)
             return;
 
-        var pair = _registrations.FirstOrDefault(x => x.Key.Matches(key, _modifierKeys));
+        var pair = _gestures.FirstOrDefault(x => x.Value?.Matches(key, _modifierKeys) == true);
         if (pair.Value is null)
             return;
 
-        Task.Run(pair.Value.Action.Invoke);
+        if (_handlers.TryGetValue(pair.Key, out var handler))
+            Task.Run(handler.Invoke);
+    }
+
+    public void Change(string name, Gesture? gesture)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+            throw new ArgumentNullException(nameof(name), "Name cannot be empty or whitespace.");
+
+        foreach (var pair in _gestures.Where(x => x.Value is not null && Compare(x.Value, gesture)).ToList())
+            _gestures[pair.Key] = null;
+
+        _gestures[name] = gesture;
+    }
+
+    public void Change(string name, Action? handler)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+            throw new ArgumentNullException(nameof(name), "Name cannot be empty or whitespace.");
+
+        if (handler is null)
+            _handlers.Remove(name);
+        else
+            _handlers[name] = handler;
+    }
+
+    public Gesture? GetGesture(string name)
+    {
+        if (_gestures.TryGetValue(name, out var rv))
+            return rv;
+
+        return null;
+    }
+
+    private static bool Compare(Gesture? left, Gesture? right)
+    {
+        if (left is null && right is null)
+            return true;
+        if (left is null || right is null)
+            return false;
+
+        return left.Key == right.Key && left.Modifiers == right.Modifiers;
     }
 }

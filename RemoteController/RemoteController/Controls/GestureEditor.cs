@@ -19,9 +19,21 @@ namespace RemoteController.Controls
                 typeof(GestureEditor),
                 new FrameworkPropertyMetadata(
                     default(Gesture),
-                    FrameworkPropertyMetadataOptions.BindsTwoWayByDefault
+                    FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                    GesturePropertyChanged
                 )
             );
+
+        public static readonly DependencyProperty ShortcutNameProperty =
+                DependencyProperty.Register(
+                    nameof(ShortcutName),
+                    typeof(string),
+                    typeof(GestureEditor),
+                    new FrameworkPropertyMetadata(
+                        string.Empty,
+                        FrameworkPropertyMetadataOptions.None,
+                        ShortcutNamePropertyChangedCallback));
+
 
         public static readonly DependencyProperty ShortcutsServiceProperty =
             DependencyProperty.Register(
@@ -29,10 +41,43 @@ namespace RemoteController.Controls
                 typeof(ShortcutsService),
                 typeof(GestureEditor));
 
+        private static void GesturePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is not GestureEditor editor)
+                return;
+
+            var service = editor.ShortcutsService;
+            if (service is null)
+                return;
+
+            if (string.IsNullOrWhiteSpace(editor.ShortcutName))
+                return;
+
+            service.Change(editor.ShortcutName, (Gesture?)e.NewValue);
+        }
+
+        private static void ShortcutNamePropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is not GestureEditor editor)
+                return;
+
+            var service = editor.ShortcutsService;
+            if (service is null)
+                return;
+
+            editor.Gesture = service.GetGesture((string)e.NewValue);
+        }
+
         public Gesture? Gesture
         {
             get => (Gesture?)GetValue(GestureProperty);
             set => SetValue(GestureProperty, value);
+        }
+
+        public string? ShortcutName
+        {
+            get => (string)GetValue(ShortcutNameProperty);
+            set => SetValue(ShortcutNameProperty, value);
         }
 
         public ShortcutsService? ShortcutsService
