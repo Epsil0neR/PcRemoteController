@@ -110,7 +110,9 @@
                                                    Stretch="Uniform"
                                                    Source="{TemplateBinding Icon}"/>
                                             </Border>
-                                            <Grid Grid.Column="1">
+                                            <Grid Grid.Column="1"
+                                                  WindowChrome.IsHitTestVisibleInChrome="True"
+                                                  >
                                                 <Grid.ColumnDefinitions>
                                                     <!--Title + Menu + Left Content-->
                                                     <ColumnDefinition Width="*" />
@@ -137,17 +139,14 @@
 
                                                     <ContentPresenter
                                                         x:Name="contentHeaderMenu"
-                                                        WindowChrome.IsHitTestVisibleInChrome="True"
                                                         Content="{TemplateBinding HeaderMenu}" />
                                                     <ContentPresenter
                                                         x:Name="contentHeaderLeft"
-                                                        WindowChrome.IsHitTestVisibleInChrome="True"
                                                         Content="{TemplateBinding HeaderLeftContent}" />
                                                 </WrapPanel>
                                                 <ContentPresenter
                                                     Grid.Column="1"
                                                     x:Name="contentHeaderRight"
-                                                    WindowChrome.IsHitTestVisibleInChrome="True"
                                                     VerticalAlignment="Stretch"
                                                     Margin="2 0 2 0"
                                                     Content="{TemplateBinding HeaderRightContent}" />

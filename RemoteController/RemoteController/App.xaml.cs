@@ -19,6 +19,7 @@ using System.Windows;
 using RemoteController.Keyboard;
 using WindowsInput;
 using RemoteController.Sound;
+using Unity;
 
 namespace RemoteController;
 
@@ -91,7 +92,20 @@ public partial class App
         IoC.RegisterSingleton<KeyboardHookManager>();
         IoC.RegisterSingleton<ShortcutsService>();
 
-        IoC.Register<IPageViewModel[]>(c => IoC.ResolveAll<IPageViewModel>().OrderBy(x => x.Name).ToArray());
+
+
+        IPageViewModel[] PagesFactory(IUnityContainer c)
+        {
+            var pages = IoC.ResolveAll<IPageViewModel>()
+#if !DEBUG
+                .Where(x => !x.GetType().GetCustomAttributes(typeof(ObsoleteAttribute), true).Any())
+#endif
+                .OrderBy(x => x.Name)
+                .ToArray();
+            return pages;
+        }
+
+        IoC.Register<IPageViewModel[]>(PagesFactory);
         IoC.Register<IEnumerable<IPageViewModel>>(c => IoC.ResolveAll<IPageViewModel>().OrderBy(x => x.Name).ToList());
     }
 
@@ -130,12 +144,13 @@ public partial class App
         {
             HandlerForSectionLoad = HandlerForSectionLoad
         };
-        
+
         options.Register<FileSystemConfig>();
         options.Register<ServerConfig>();
         options.Register<CommandsConfig>();
         options.Register<PlayListsConfig>();
         options.Register<SoundDevicesConfig>();
+        options.Register<ShortcutServiceOptions>();
 
         Options.Current = options;
         IoC.RegisterInstance(options);

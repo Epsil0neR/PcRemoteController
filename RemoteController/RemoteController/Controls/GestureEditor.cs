@@ -34,7 +34,6 @@ namespace RemoteController.Controls
                         FrameworkPropertyMetadataOptions.None,
                         ShortcutNamePropertyChangedCallback));
 
-
         public static readonly DependencyProperty ShortcutsServiceProperty =
             DependencyProperty.Register(
                 nameof(ShortcutsService),

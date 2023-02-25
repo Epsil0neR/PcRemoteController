@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
+using System.Windows.Threading;
 using Epsiloner.Wpf.Gestures;
 using Epsiloner.Wpf.Glyphs;
 using Epsiloner.Wpf.ViewModels;
@@ -60,9 +61,12 @@ public class SoundDevicesPageViewModel : BasePageViewModel
     private readonly PolicyConfigClient _policyConfigClient;
     private List<SoundDeviceItem> _outputDevices;
 
+    public Dispatcher Dispatcher { get; }
+
     public InformersManager InformersManager { get; }
 
     public SoundDevicesConfig Config { get; }
+
     public ShortcutsService ShortcutsService { get; }
 
     public SoundInformer SoundInformer { get; }
@@ -78,6 +82,7 @@ public class SoundDevicesPageViewModel : BasePageViewModel
     public string CircleSelectedShortcutName { get; } = "Sound.Output.CircleSelected";
 
     public SoundDevicesPageViewModel(
+        Dispatcher dispatcher,
         InformersManager informersManager,
         PolicyConfigClient policyConfigClient,
         SoundDevicesConfig config,
@@ -87,6 +92,7 @@ public class SoundDevicesPageViewModel : BasePageViewModel
         _policyConfigClient = policyConfigClient;
         //TODO: Load settings of previously selected items by user (even items that are not available now)
 
+        Dispatcher = dispatcher;
         InformersManager = informersManager;
         Config = config;
         ShortcutsService = shortcutsService;
@@ -98,7 +104,8 @@ public class SoundDevicesPageViewModel : BasePageViewModel
         SetOutputDeviceCommand = new RelayCommand<string>(SetOutputDevice);
 
         ShortcutsService.Change(CircleSelectedShortcutName, CircleSelected);
-        ShortcutsService.Change(CircleSelectedShortcutName, new Gesture(Key.F24));
+        if (ShortcutsService.GetGesture(CircleSelectedShortcutName) is null)
+            ShortcutsService.Change(CircleSelectedShortcutName, new Gesture(Key.F24));
     }
 
     private void CircleSelected()
@@ -122,7 +129,7 @@ public class SoundDevicesPageViewModel : BasePageViewModel
         SetOutputDevice(next.Name);
     }
 
-    private void SetOutputDevice(string outputDeviceName = "Speakers (High Definition Audio Device)")
+    private void SetOutputDevice(string outputDeviceName)
     {
         using var enumerator = new MMDeviceEnumerator();
         var outputList = enumerator.EnumerateAudioEndPoints(DataFlow.Render, DeviceState.Active).ToList();
@@ -132,14 +139,14 @@ public class SoundDevicesPageViewModel : BasePageViewModel
 
         var id = device.ID;
 
-        App.Current.Dispatcher.Invoke(() =>
+        Dispatcher.Invoke(() =>
         {
             _policyConfigClient.SetDefaultEndpoint(id, ERole.eMultimedia);
             SoundInformer.CheckForChanges();
         });
     }
 
-    private void SoundInformerOnChanged(object sender, EventArgs e)
+    private void SoundInformerOnChanged(object? sender, EventArgs e)
     {
         UpdateDevices();
     }
@@ -148,7 +155,6 @@ public class SoundDevicesPageViewModel : BasePageViewModel
     {
         OutputDevices = SoundInformer
             .OutputDeviceList
-            //TODO: When creating new items - set state from previous list + settings.
             .Select(x => new SoundDeviceItem(Config, x))
             .ToList();
     }

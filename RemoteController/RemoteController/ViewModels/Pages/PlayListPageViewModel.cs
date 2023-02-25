@@ -1,9 +1,11 @@
-﻿using System.Windows.Threading;
+﻿using System;
+using System.Windows.Threading;
 using Epsiloner.OptionsModule;
 using RemoteController.Configs;
 
 namespace RemoteController.ViewModels.Pages;
 
+[Obsolete("Not implemented yet.")]
 public class PlayListPageViewModel : BasePageViewModel
 {
     public Dispatcher Dispatcher { get; }

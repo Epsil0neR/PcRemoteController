@@ -3,28 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Epsiloner.OptionsModule;
 using Epsiloner.Wpf.Gestures;
+using RemoteController.Configs;
 using RemoteController.Keyboard;
 
 namespace RemoteController.Services;
 
-public class ShortcutAction
-{
-    public required string Name { get; init; }
-    public required Action Action { get; init; }
-
-    public bool IsValid()
-    {
-        return !string.IsNullOrWhiteSpace(Name)
-               && Action is not null;
-    }
-}
-
 public class ShortcutsService
 {
     private ModifierKeys _modifierKeys = ModifierKeys.None;
+    private bool _isLoading = false;
+
+    public ShortcutServiceOptions ShortcutServiceOptions { get; }
 
     public KeyboardHookManager KeyboardHookManager { get; }
+
+    public Options Options { get; }
 
     /// <summary>
     /// Shortcuts service can be paused during editing gestures.
@@ -32,13 +27,38 @@ public class ShortcutsService
     public bool IsPaused { get; set; }
 
     private readonly Dictionary<string, Action> _handlers = new();
-    private readonly Dictionary<string, Gesture?> _gestures = new();
+    private readonly Dictionary<string, Gesture> _gestures = new();
 
-    public ShortcutsService(KeyboardHookManager keyboardHookManager)
+    public ShortcutsService(
+        Options options,
+        KeyboardHookManager keyboardHookManager,
+        ShortcutServiceOptions config
+        )
     {
+        ShortcutServiceOptions = config;
+        Options = options;
         KeyboardHookManager = keyboardHookManager;
         KeyboardHookManager.KeyDown += OnKeyDown;
         KeyboardHookManager.KeyUp += OnKeyUp;
+
+        LoadConfig();
+    }
+
+    private void LoadConfig()
+    {
+        _isLoading = true;
+        try
+        {
+            if (ShortcutServiceOptions.Gestures is null)
+                return;
+
+            foreach (var (key, value) in ShortcutServiceOptions.Gestures)
+                Change(key, value.ToGesture());
+        }
+        finally
+        {
+            _isLoading = false;
+        }
     }
 
     private void OnKeyUp(object? sender, KeyboardHookManagerEventArgs e)
@@ -95,7 +115,7 @@ public class ShortcutsService
         if (IsPaused)
             return;
 
-        var pair = _gestures.FirstOrDefault(x => x.Value?.Matches(key, _modifierKeys) == true);
+        var pair = _gestures.FirstOrDefault(x => x.Value.Matches(key, _modifierKeys) == true);
         if (pair.Value is null)
             return;
 
@@ -108,10 +128,24 @@ public class ShortcutsService
         if (string.IsNullOrWhiteSpace(name))
             throw new ArgumentNullException(nameof(name), "Name cannot be empty or whitespace.");
 
-        foreach (var pair in _gestures.Where(x => x.Value is not null && Compare(x.Value, gesture)).ToList())
-            _gestures[pair.Key] = null;
+        if (gesture is not null)
+        {
+            foreach (var (key, _) in _gestures.Where(x => Compare(x.Value, gesture)).ToList())
+                _gestures.Remove(key);
 
-        _gestures[name] = gesture;
+            _gestures[name] = gesture;
+        }
+        else
+        {
+            _gestures.Remove(name);
+        }
+
+        if (_isLoading)
+            return;
+
+        ShortcutServiceOptions.Gestures = _gestures
+            .ToDictionary(x => x.Key, x => GestureData.From(x.Value!));
+        Options.Save(ShortcutServiceOptions);
     }
 
     public void Change(string name, Action? handler)
@@ -125,13 +159,10 @@ public class ShortcutsService
             _handlers[name] = handler;
     }
 
-    public Gesture? GetGesture(string name)
-    {
-        if (_gestures.TryGetValue(name, out var rv))
-            return rv;
-
-        return null;
-    }
+    public Gesture? GetGesture(string name) =>
+        _gestures.TryGetValue(name, out var rv)
+            ? rv
+            : null;
 
     private static bool Compare(Gesture? left, Gesture? right)
     {

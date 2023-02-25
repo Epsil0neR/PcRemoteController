@@ -32,7 +32,7 @@
                     Orientation="Horizontal">
                     <TextBlock 
                         Style="{StaticResource Style.Font.H3}"
-                        Text="Auto-start"
+                        Text="Auto-start hosting"
                     />
                     <CheckBox
                         VerticalAlignment="Center"
