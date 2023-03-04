@@ -2,11 +2,11 @@ using Microsoft.UI.Xaml;
 
 namespace RemoteController;
 
-public sealed partial class MainWindow : Window
+public sealed partial class MainWindow
 {
     public MainWindow()
     {
-        this.InitializeComponent();
+        InitializeComponent();
     }
 
     private void myButton_Click(object sender, RoutedEventArgs e)

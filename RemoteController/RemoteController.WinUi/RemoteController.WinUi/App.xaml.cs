@@ -1,12 +1,9 @@
-﻿// Copyright (c) Microsoft Corporation and Contributors.
-// Licensed under the MIT License.
-
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 
 namespace RemoteController;
 
-public partial class App : Application
+public partial class App
 {
     private Window _window;
     private readonly ServiceProvider _serviceProvider;
@@ -25,7 +22,7 @@ public partial class App : Application
     }
 
     /// <inheritdoc />
-    protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
+    protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
         _window = _serviceProvider.GetRequiredService<MainWindow>();
         _window.Activate();
