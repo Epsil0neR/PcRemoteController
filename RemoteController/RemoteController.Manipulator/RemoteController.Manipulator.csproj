@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RemoteController.Core\RemoteController.Core.csproj" />
+    <ProjectReference Include="..\RemoteController.WebSocket\RemoteController.WebSocket.csproj" />
   </ItemGroup>
 
 </Project>

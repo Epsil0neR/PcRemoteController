@@ -2,13 +2,8 @@
 using System.IO;
 using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using RemoteController.Configs;
-using RemoteController.Informer;
-using RemoteController.Manipulator;
-using RemoteController.Services;
-using RemoteController.WebSocket;
 using WebSocketSharp;
 using WebSocketSharp.Server;
 using Level = NLog.LogLevel;
@@ -21,105 +16,6 @@ namespace RemoteController.IoCs;
 /// </summary>
 internal static class Factories
 {
-    public static WsService WsService(IServiceProvider provider)
-    {
-        var wsServer = provider.GetRequiredService<WsServer>();
-        var logger = provider.GetRequiredService<Logger>();
-        var rv = new WsService(wsServer, logger);
-
-        rv.RegisterDataTypeForAction<string>("Auth");
-        rv.RegisterHandlerForAction("Auth", AuthMessageHandler);
-        rv.AddActionFilter(AuthenticationCheck);
-
-        return rv;
-    }
-
-    /// <summary>
-    /// Checks if message can be handler vai <see cref="RemoteController.WebSocket.WsService.RegisterHandlerForAction"/>.
-    /// </summary>
-    /// <param name="msg">Message</param>
-    /// <returns></returns>
-    private static bool AuthenticationCheck(Message msg)
-    {
-        var rv = msg.Sender.IsAuthenticated || msg.Type != MessageType.Request || msg.ActionName.Equals("Auth", StringComparison.CurrentCultureIgnoreCase);
-
-        if (!rv)
-            Log.Logger.Warn($"Received unauthorized message: Sender:{msg.Sender}, Action:{msg.ActionName}, Type:{msg.Type}.");
-
-        return rv;
-    }
-
-    /// <summary>
-    /// Authentication message handler.
-    /// </summary>
-    /// <param name="msg"></param>
-    private static void AuthMessageHandler(Message msg)
-    {
-        var auth = IoC.Resolve<IAuthService>();
-        var token = msg.Data?.ToString();
-
-        // Check if sender already authenticated - in that case return error message to sender and exit message handler.
-        if (auth.IsAuthorized(msg.Sender.AuthToken))
-        {
-            var m = new Message
-            {
-                ActionName = msg.ActionName,
-                Hash = msg.Hash,
-                Data = "Already authenticated connection.",
-                Type = MessageType.Error
-            };
-            msg.Sender.Send(m);
-            return;
-        }
-
-        // If no token provided - generate new one and send back to client.
-        if (!auth.IsAuthorized(token))
-        {
-            token = Guid.NewGuid().ToString("N");
-
-            var m = new Message
-            {
-                ActionName = msg.ActionName,
-                Hash = msg.Hash,
-                Data = token,
-                Type = MessageType.Response
-            };
-            msg.Sender.Send(m);
-        }
-
-        if (auth.TryAuthorize(token))
-            msg.Sender.Auth(token);
-        else if (auth.Register(token, string.Empty, string.Empty))
-            msg.Sender.Auth(token);
-    }
-
-    public static WsServer WsServer(IServiceProvider provider)
-    {
-        var httpServer = provider.GetRequiredService<HttpServer>();
-        var server = new WsServer(httpServer, "/Testing");
-        server.ClientConnected += ServerOnClientConnected;
-
-        return server;
-    }
-
-    private static void ServerOnClientConnected(object sender, EventArgs e)
-    {
-        var socket = sender as IWsSocket;
-        if (!(socket is WebSocketBehavior behavior))
-            return;
-
-        var task = Task.Delay(1000);
-        task.ConfigureAwait(false);
-        task.ContinueWith(t =>
-        {
-            if (behavior?.State != WebSocketState.Open)
-                return;
-            
-            var informersManager = IoC.TryResolve<InformersManager>();
-            informersManager?.Informers.Send(socket);
-        });
-    }
-
     public static HttpServer HttpServer(IServiceProvider provider)
     {
         var config = provider.GetRequiredService<ServerConfig>();
@@ -162,64 +58,5 @@ internal static class Factories
 #endif
         http.OnGet += Http.OnGetSinglePage;
         return http;
-    }
-
-    /// <summary>
-    /// Depends on <see cref="RemoteController.WebSocket.WsServer"/>.
-    /// </summary>
-    /// <param name="provider"></param>
-    /// <returns></returns>
-    public static InformersManager InformersManager(IServiceProvider provider)
-    {
-        var informersManager = new InformersManager();
-        var server = provider.GetRequiredService<WsServer>();
-        informersManager.InformerChanged +=
-            (sender, informer) => informer.Send(server);
-
-        informersManager.Start();
-
-        return informersManager;
-    }
-
-    public static ManipulatorsManager ManipulatorsManager(IServiceProvider provider)
-    {
-        var manipulatorsManager = new ManipulatorsManager(Log.Logger);
-        manipulatorsManager.ItemStateChanged += ManipulatorsManagerOnItemStateChanged;
-        return manipulatorsManager;
-    }
-
-    private static void ManipulatorsManagerOnItemStateChanged(object sender, ManipulatorsItemEventArgs e)
-    {
-        var s = IoC.Resolve<WsService>();
-        if (e.Inserted)
-            s.RegisterHandlerForAction(e.Manipulation.Name, ManipulationHandler);
-        else
-            s.UnregisterHandlerForAction(e.Manipulation.Name, ManipulationHandler);
-    }
-
-    private static void ManipulationHandler(Message msg)
-    {
-        if (msg.Type != MessageType.Request)
-        {
-            msg.Sender.Send(new Message
-            {
-                ActionName = msg.ActionName,
-                Hash = msg.Hash,
-                Data = "Only Request message mode support for messages from clients",
-                Type = MessageType.Error
-            });
-            return;
-        }
-
-        var manager = IoC.Resolve<ManipulatorsManager>();
-        var data = manager.TryExecute(msg.ActionName, msg.Data?.ToString());
-
-        msg.Sender.Send(new Message
-        {
-            ActionName = msg.ActionName,
-            Hash = msg.Hash,
-            Data = data,
-            Type = MessageType.Response
-        });
     }
 }

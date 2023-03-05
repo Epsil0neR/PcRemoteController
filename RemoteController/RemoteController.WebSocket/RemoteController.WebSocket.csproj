@@ -8,9 +8,14 @@
 
   <ItemGroup>
     <PackageReference Include="Epsiloner.Core" Version="1.0.22" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="NLog" Version="4.7.9" />
     <PackageReference Include="WebSocketSharp-netstandard" Version="1.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RemoteController.Core\RemoteController.Core.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
-using RemoteController.Informer;
 using RemoteController.WebSocket;
 
-namespace RemoteController;
+namespace RemoteController.Informer;
 
-internal static class InformerExtensions
+public static class InformerExtensions
 {
     /// <summary>
     /// Sends all <paramref name="informers"/> as messages to <paramref name="socket"/>.
