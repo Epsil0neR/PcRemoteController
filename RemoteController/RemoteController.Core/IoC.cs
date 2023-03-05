@@ -1,79 +1,67 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity;
-using Unity.Lifetime;
+using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace RemoteController;
 
 public static class IoC
 {
-    private static IUnityContainer _container = _container ?? (_container = InitializeUnityContainer());
+    private static ServiceProvider? _serviceProvider;
+    private static readonly object _buildLock = new();
 
-    public static IUnityContainer Container => _container;
-
-    private static IUnityContainer InitializeUnityContainer()
+    public static void CreateBuilder(Func<IServiceCollection, ServiceProvider> builder)
     {
-        var container = new UnityContainer();
-        container.RegisterInstance(container);
-        container.AddNewExtension<DisposeDisposablesExtension>();
-        return container;
+        lock (_buildLock)
+        {
+            if (_serviceProvider is not null)
+                return;
+
+            var sc = new ServiceCollection();
+            _serviceProvider = builder.Invoke(sc);
+        }
     }
 
-    public static void Register<TFrom, TTo>() where TTo : TFrom
+    public static void Dispose()
     {
-        _container.RegisterType<TFrom, TTo>();
+        _serviceProvider?.Dispose();
+    }
+
+    public static ValueTask? DisposeAsync()
+    {
+        return _serviceProvider?.DisposeAsync();
+    }
+
+    public static T? TryResolve<T>()
+    {
+        if (_serviceProvider is null)
+            throw new InvalidOperationException($"IoC is not built yet. Call '{nameof(CreateBuilder)}' first.");
+
+        return _serviceProvider.GetService<T>();
     }
 
     public static T Resolve<T>()
     {
-        return _container.Resolve<T>();
+        if (_serviceProvider is null)
+            throw new InvalidOperationException($"IoC is not built yet. Call '{nameof(CreateBuilder)}' first.");
+
+        return _serviceProvider.GetRequiredService<T>();
     }
 
     public static object Resolve(Type type)
     {
-        return _container.Resolve(type);
+        if (_serviceProvider is null)
+            throw new InvalidOperationException($"IoC is not built yet. Call '{nameof(CreateBuilder)}' first.");
+
+        return _serviceProvider.GetRequiredService(type);
     }
     public static TCast Resolve<TCast>(Type t)
     {
-        return (TCast)_container.Resolve(t);
+        return (TCast)Resolve(t);
     }
 
-    public static void Register<T>()
-    {
-        _container.RegisterType<T>();
-    }
-
-    public static void Register<T>(Func<IUnityContainer, T> factory)
-    {
-        _container.RegisterFactory<T>(c => factory(c));
-    }
-
-    public static void RegisterSingleton<T>()
-    {
-        _container.RegisterSingleton<T>();
-    }
-
-    public static void RegisterSingleton<TFrom, TTo>() where TTo: TFrom
-    {
-        _container.RegisterSingleton<TFrom, TTo>();
-    }
-
-    public static void RegisterSingleton<T>(Func<IUnityContainer, T> factory)
-    {
-        _container.RegisterFactory<T>(c => factory(c), new ContainerControlledLifetimeManager());
-    }
-
-    public static void RegisterInstance<T>(T instance)
-    {
-        _container.RegisterInstance(typeof(T), instance);
-    }
-    public static void RegisterInstance(Type type, object instance)
-    {
-        _container.RegisterInstance(type, instance);
-    }
-
-    public static IEnumerable<T> ResolveAll<T>() where T: class
+    public static IEnumerable<T> ResolveAll<T>() where T : class
     {
         var t = typeof(T);
         var types = AppDomain.CurrentDomain.GetAssemblies()
@@ -84,7 +72,7 @@ public static class IoC
         {
             if (ReferenceEquals(t, type))
                 continue;
-                
+
             if (type.IsInterface)
                 continue;
 
@@ -92,6 +80,29 @@ public static class IoC
                 continue;
 
             if (Resolve(type) is T rv)
+                yield return rv;
+        }
+    }
+
+    public static IEnumerable<T> ResolveAll<T>(this IServiceProvider provider) where T : class
+    {
+        var t = typeof(T);
+        var types = AppDomain.CurrentDomain.GetAssemblies()
+            .SelectMany(x => x.GetTypes())
+            .Where(x => t.IsAssignableFrom(x));
+
+        foreach (var type in types)
+        {
+            if (ReferenceEquals(t, type))
+                continue;
+
+            if (type.IsInterface)
+                continue;
+
+            if (type.IsAbstract)
+                continue;
+
+            if (provider.GetService(type) is T rv)
                 yield return rv;
         }
     }

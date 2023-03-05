@@ -3,12 +3,12 @@ using System.IO;
 using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 using RemoteController.Configs;
 using RemoteController.Informer;
 using RemoteController.Manipulator;
 using RemoteController.Services;
 using RemoteController.WebSocket;
-using Unity;
 using WebSocketSharp;
 using WebSocketSharp.Server;
 using Level = NLog.LogLevel;
@@ -21,10 +21,10 @@ namespace RemoteController.IoCs;
 /// </summary>
 internal static class Factories
 {
-    public static WsService WsService(IUnityContainer c)
+    public static WsService WsService(IServiceProvider provider)
     {
-        var wsServer = c.Resolve<WsServer>();
-        var logger = c.Resolve<Logger>();
+        var wsServer = provider.GetRequiredService<WsServer>();
+        var logger = provider.GetRequiredService<Logger>();
         var rv = new WsService(wsServer, logger);
 
         rv.RegisterDataTypeForAction<string>("Auth");
@@ -93,9 +93,9 @@ internal static class Factories
             msg.Sender.Auth(token);
     }
 
-    public static WsServer WsServer(IUnityContainer c)
+    public static WsServer WsServer(IServiceProvider provider)
     {
-        var httpServer = c.Resolve<HttpServer>();
+        var httpServer = provider.GetRequiredService<HttpServer>();
         var server = new WsServer(httpServer, "/Testing");
         server.ClientConnected += ServerOnClientConnected;
 
@@ -114,18 +114,15 @@ internal static class Factories
         {
             if (behavior?.State != WebSocketState.Open)
                 return;
-
-            if (IoC.Container.IsRegistered<InformersManager>())
-            {
-                var informersManager = IoC.Resolve<InformersManager>();
-                informersManager.Informers.Send(socket);
-            }
+            
+            var informersManager = IoC.TryResolve<InformersManager>();
+            informersManager?.Informers.Send(socket);
         });
     }
 
-    public static HttpServer HttpServer(IUnityContainer c)
+    public static HttpServer HttpServer(IServiceProvider provider)
     {
-        var config = c.Resolve<ServerConfig>();
+        var config = provider.GetRequiredService<ServerConfig>();
         var log = IoC.Resolve<Logger>();
         var cert = new X509Certificate2(
             Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "RemoteController.pfx"),
@@ -170,12 +167,12 @@ internal static class Factories
     /// <summary>
     /// Depends on <see cref="RemoteController.WebSocket.WsServer"/>.
     /// </summary>
-    /// <param name="c"></param>
+    /// <param name="provider"></param>
     /// <returns></returns>
-    public static InformersManager InformersManager(IUnityContainer c)
+    public static InformersManager InformersManager(IServiceProvider provider)
     {
         var informersManager = new InformersManager();
-        var server = c.Resolve<WsServer>();
+        var server = provider.GetRequiredService<WsServer>();
         informersManager.InformerChanged +=
             (sender, informer) => informer.Send(server);
 
@@ -184,7 +181,7 @@ internal static class Factories
         return informersManager;
     }
 
-    public static ManipulatorsManager ManipulatorsManager(IUnityContainer c)
+    public static ManipulatorsManager ManipulatorsManager(IServiceProvider provider)
     {
         var manipulatorsManager = new ManipulatorsManager(Log.Logger);
         manipulatorsManager.ItemStateChanged += ManipulatorsManagerOnItemStateChanged;

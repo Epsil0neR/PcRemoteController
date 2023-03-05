@@ -16,10 +16,11 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using Microsoft.Extensions.DependencyInjection;
 using RemoteController.Keyboard;
 using WindowsInput;
 using RemoteController.Sound;
-using Unity;
+using RemoteController.ViewModels.Pages;
 
 namespace RemoteController;
 
@@ -54,7 +55,7 @@ public partial class App
 
     protected override void OnExit(ExitEventArgs e)
     {
-        IoC.Container.Dispose();
+        IoC.Dispose();
         base.OnExit(e);
     }
 
@@ -73,40 +74,36 @@ public partial class App
 
     private void ConfigureIoC()
     {
-        IoC.RegisterInstance(Dispatcher);
-        IoC.RegisterInstance(Log.Logger);
-        IoC.RegisterInstance<ILogger>(Log.Logger);
-
-        ConfigureOptions();
-
-        IoC.Register<IManipulatorsManager, ManipulatorsManager>();
-        IoC.RegisterSingleton<IAuthService, AuthService>();
-        IoC.RegisterSingleton(Factories.ManipulatorsManager);
-        IoC.RegisterSingleton(Factories.HttpServer);
-        IoC.RegisterSingleton(Factories.WsServer);
-        IoC.RegisterSingleton(Factories.WsService);
-        IoC.RegisterSingleton(Factories.InformersManager);
-        IoC.RegisterSingleton<SoundInformer>();
-        IoC.RegisterSingleton<CommandsInformer>();
-        IoC.RegisterSingleton<PolicyConfigClient>();
-        IoC.RegisterSingleton<KeyboardHookManager>();
-        IoC.RegisterSingleton<ShortcutsService>();
-
-
-
-        IPageViewModel[] PagesFactory(IUnityContainer c)
+        IoC.CreateBuilder(sc =>
         {
-            var pages = IoC.ResolveAll<IPageViewModel>()
-#if !DEBUG
-                .Where(x => !x.GetType().GetCustomAttributes(typeof(ObsoleteAttribute), true).Any())
-#endif
-                .OrderBy(x => x.Name)
-                .ToArray();
-            return pages;
-        }
+            sc
 
-        IoC.Register<IPageViewModel[]>(PagesFactory);
-        IoC.Register<IEnumerable<IPageViewModel>>(c => IoC.ResolveAll<IPageViewModel>().OrderBy(x => x.Name).ToList());
+                .AddTransient<MainViewModel>()
+
+                .AddSingleton(Dispatcher)
+                .AddSingleton(Log.Logger)
+                .AddSingleton<ILogger>(Log.Logger)
+                .AddSingleton<IManipulatorsManager, ManipulatorsManager>()
+                .AddSingleton<IAuthService, AuthService>()
+                .AddSingleton(Factories.ManipulatorsManager)
+                .AddSingleton(Factories.HttpServer)
+                .AddSingleton(Factories.WsServer)
+                .AddSingleton(Factories.WsService)
+                .AddSingleton(Factories.InformersManager)
+                .AddSingleton<SoundInformer>()
+                .AddSingleton<CommandsInformer>()
+                .AddSingleton<PolicyConfigClient>()
+                .AddSingleton<KeyboardHookManager>()
+                .AddSingleton<ShortcutsService>()
+                .AddSingleton<InputSimulator>()
+                .AddSingleton<FileSystemContext>()
+                
+                .AddPages()
+                .AddOptions()
+                ;
+
+            return sc.BuildServiceProvider();
+        });
     }
 
     private static void ConfigureInformers()
@@ -134,7 +131,35 @@ public partial class App
         fsc.Roots = config.Roots;
     }
 
-    private static void ConfigureOptions()
+
+}
+
+public static class IoCBuilderExtensions
+{
+    public static IServiceCollection AddPages(this IServiceCollection sc)
+    {
+        sc.AddSingleton<CommandsPageViewModel>();
+        sc.AddSingleton<OverviewPageViewModel>();
+        sc.AddSingleton<PathsManagerPageViewModel>();
+#if DEBUG
+        sc.AddSingleton<PlayListPageViewModel>();
+#endif
+        sc.AddSingleton<SoundDevicesPageViewModel>();
+        sc.AddSingleton<IPageViewModel[]>(provider =>
+        {
+            var pages = provider
+                .ResolveAll<IPageViewModel>()
+                .OrderBy(x => x.Name)
+                .ToArray();
+
+            return pages;
+        });
+        sc.AddTransient<IEnumerable<IPageViewModel>>(provider => provider.GetRequiredService<IPageViewModel[]>().ToList());
+        return sc;
+    }
+
+
+    public static IServiceCollection AddOptions(this IServiceCollection serviceCollection)
     {
         var proc = Process.GetCurrentProcess();
         var loc = proc.MainModule?.FileName;
@@ -153,12 +178,15 @@ public partial class App
         options.Register<ShortcutServiceOptions>();
 
         Options.Current = options;
-        IoC.RegisterInstance(options);
-        IoC.RegisterInstance(options.Section<FileSystemConfig>());
-        IoC.RegisterInstance(options.Section<ServerConfig>());
-        IoC.RegisterInstance(options.Section<CommandsConfig>());
-        IoC.RegisterInstance(options.Section<PlayListsConfig>());
-        IoC.RegisterInstance(options.Section<SoundDevicesConfig>());
+        serviceCollection.AddSingleton(options);
+        serviceCollection.AddSingleton(options.Section<FileSystemConfig>());
+        serviceCollection.AddSingleton(options.Section<ServerConfig>());
+        serviceCollection.AddSingleton(options.Section<CommandsConfig>());
+        serviceCollection.AddSingleton(options.Section<PlayListsConfig>());
+        serviceCollection.AddSingleton(options.Section<SoundDevicesConfig>());
+        serviceCollection.AddSingleton(options.Section<ShortcutServiceOptions>());
+
+        return serviceCollection;
     }
 
     private static void HandlerForSectionLoad(Type type, Exception ex)
