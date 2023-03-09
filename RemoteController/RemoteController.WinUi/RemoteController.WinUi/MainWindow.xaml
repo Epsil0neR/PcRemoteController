@@ -8,9 +8,33 @@
     xmlns:local="using:RemoteController.WinUi"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    xmlns:viewModels="using:RemoteController.ViewModels"
+    mc:Ignorable="d"
+    >
 
-    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-        <Button x:Name="myButton" Click="myButton_Click">Click Me</Button>
-    </StackPanel>
+    <NavigationView
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        ItemInvoked="NavigationView_OnItemInvoked"
+        MenuItemsSource="{x:Bind ViewModel.NavigationItems}"
+        >
+        <NavigationView.MenuItemTemplate>
+            <DataTemplate x:DataType="viewModels:NavigationItemViewModel">
+                <NavigationViewItem 
+                    Content="{x:Bind Title}" 
+                    DataContext="{x:Bind}">
+                    <NavigationViewItem.Icon>
+                        <SymbolIcon Symbol="{x:Bind Symbol}" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+            </DataTemplate>
+        </NavigationView.MenuItemTemplate>
+        <Frame 
+            x:Name="Frame"
+            VerticalAlignment="Stretch"
+            HorizontalAlignment="Stretch"
+            VerticalContentAlignment="Stretch"
+            HorizontalContentAlignment="Stretch"
+            />
+    </NavigationView>
 </Window>
