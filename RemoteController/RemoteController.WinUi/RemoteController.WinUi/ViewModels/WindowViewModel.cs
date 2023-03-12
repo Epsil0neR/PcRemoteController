@@ -1,40 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.UI.Xaml.Controls;
+﻿using System.Collections.Generic;
+using System.Linq;
+using RemoteController.ViewModels.Pages;
 
 namespace RemoteController.ViewModels;
 
-public class NavigationItemViewModel
-{
-    public Symbol Symbol { get; init; }
-    public string Title { get; init; }
-    public Type Type { get; init; }
-}
-
 public class WindowViewModel : ViewModel
 {
-    public IEnumerable<NavigationItemViewModel> NavigationItems { get; }
+    public IPageViewModel FirstPage { get; }
+
+    public IReadOnlyList<IPageViewModel> NavigationItems { get; }
 
     public WindowViewModel()
     {
-        NavigationItems = new List<NavigationItemViewModel>()
+        NavigationItems = new List<IPageViewModel>
         {
-            new()
-            {
-                Symbol = Symbol.Play,
-                Title = "Item1",
-                Type = typeof(WindowViewModel)
-            },
-            new()
-            {
-                Symbol = Symbol.Save,
-                Title = "Item2"
-            },
-            new()
-            {
-                Symbol = Symbol.Refresh,
-                Title = "Item3"
-            },
+            new GeneralViewModel(),
+            new FoldersViewModel(),
+            new CommandsViewModel(),
+            new SoundDevicesViewModel(),
+            new HotkeysViewModel(),
         };
+        FirstPage = NavigationItems
+            .OfType<GeneralViewModel>()
+            .First();
     }
 }

@@ -124,7 +124,7 @@ public abstract class ViewModel : IViewModel
     /// </summary>
     protected ViewModel()
     {
-        ViewModelUtil = new ViewModelUtil(this.GetType(), RaisePropertyChanged);
+        ViewModelUtil = new ViewModelUtil(GetType(), RaisePropertyChanged);
     }
 
     /// <summary>

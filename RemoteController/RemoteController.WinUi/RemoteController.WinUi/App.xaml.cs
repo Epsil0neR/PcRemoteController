@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
+using RemoteController.Attributes;
 
 namespace RemoteController;
 
@@ -10,6 +11,8 @@ public partial class App
 
     public App()
     {
+        ViewForAttribute.ProceedRelatedAssemblies();
+
         var sc = new ServiceCollection();
         ConfigureServices(sc);
         _serviceProvider = sc.BuildServiceProvider();
