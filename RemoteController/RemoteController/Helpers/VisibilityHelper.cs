@@ -5,9 +5,9 @@ namespace RemoteController.Helpers;
 
 public static class VisibilityHelper
 {
-    public static readonly DependencyProperty IsVisibleProperty = DependencyProperty.RegisterAttached("IsVisible", typeof(bool?), typeof(VisibilityHelper), (PropertyMetadata)new FrameworkPropertyMetadata((object)null, FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange | FrameworkPropertyMetadataOptions.AffectsRender, new PropertyChangedCallback(VisibilityHelper.IsVisibleChangedCallback)));
-    public static readonly DependencyProperty IsCollapsedProperty = DependencyProperty.RegisterAttached("IsCollapsed", typeof(bool?), typeof(VisibilityHelper), (PropertyMetadata)new FrameworkPropertyMetadata((object)null, FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange | FrameworkPropertyMetadataOptions.AffectsRender, new PropertyChangedCallback(VisibilityHelper.IsCollapsedChangedCallback)));
-    public static readonly DependencyProperty IsHiddenProperty = DependencyProperty.RegisterAttached("IsHidden", typeof(bool?), typeof(VisibilityHelper), (PropertyMetadata)new FrameworkPropertyMetadata((object)null, FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange | FrameworkPropertyMetadataOptions.AffectsRender, new PropertyChangedCallback(VisibilityHelper.IsHiddenChangedCallback)));
+    public static readonly DependencyProperty IsVisibleProperty = DependencyProperty.RegisterAttached("IsVisible", typeof(bool?), typeof(VisibilityHelper), (PropertyMetadata)new FrameworkPropertyMetadata((object)null, FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange | FrameworkPropertyMetadataOptions.AffectsRender, new PropertyChangedCallback(IsVisibleChangedCallback)));
+    public static readonly DependencyProperty IsCollapsedProperty = DependencyProperty.RegisterAttached("IsCollapsed", typeof(bool?), typeof(VisibilityHelper), (PropertyMetadata)new FrameworkPropertyMetadata((object)null, FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange | FrameworkPropertyMetadataOptions.AffectsRender, new PropertyChangedCallback(IsCollapsedChangedCallback)));
+    public static readonly DependencyProperty IsHiddenProperty = DependencyProperty.RegisterAttached("IsHidden", typeof(bool?), typeof(VisibilityHelper), (PropertyMetadata)new FrameworkPropertyMetadata((object)null, FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange | FrameworkPropertyMetadataOptions.AffectsRender, new PropertyChangedCallback(IsHiddenChangedCallback)));
 
     private static void IsVisibleChangedCallback(
         DependencyObject d,
@@ -21,10 +21,10 @@ public static class VisibilityHelper
         frameworkElement.Visibility = (Visibility)num;
     }
 
-    public static void SetIsVisible(DependencyObject element, bool? value) => element.SetValue(VisibilityHelper.IsVisibleProperty, (object)value);
+    public static void SetIsVisible(DependencyObject element, bool? value) => element.SetValue(IsVisibleProperty, (object)value);
 
     [Category("RemoteController.Helpers")]
-    public static bool? GetIsVisible(DependencyObject element) => (bool?)element.GetValue(VisibilityHelper.IsVisibleProperty);
+    public static bool? GetIsVisible(DependencyObject element) => (bool?)element.GetValue(IsVisibleProperty);
 
     private static void IsCollapsedChangedCallback(
         DependencyObject d,
@@ -38,10 +38,10 @@ public static class VisibilityHelper
         frameworkElement.Visibility = (Visibility)num;
     }
 
-    public static void SetIsCollapsed(DependencyObject element, bool? value) => element.SetValue(VisibilityHelper.IsCollapsedProperty, (object)value);
+    public static void SetIsCollapsed(DependencyObject element, bool? value) => element.SetValue(IsCollapsedProperty, (object)value);
 
     [Category("RemoteController.Helpers")]
-    public static bool? GetIsCollapsed(DependencyObject element) => (bool?)element.GetValue(VisibilityHelper.IsCollapsedProperty);
+    public static bool? GetIsCollapsed(DependencyObject element) => (bool?)element.GetValue(IsCollapsedProperty);
 
     private static void IsHiddenChangedCallback(
         DependencyObject d,
@@ -55,8 +55,8 @@ public static class VisibilityHelper
         frameworkElement.Visibility = (Visibility)num;
     }
 
-    public static void SetIsHidden(DependencyObject element, bool? value) => element.SetValue(VisibilityHelper.IsHiddenProperty, (object)value);
+    public static void SetIsHidden(DependencyObject element, bool? value) => element.SetValue(IsHiddenProperty, (object)value);
 
     [Category("RemoteController.Helpers")]
-    public static bool? GetIsHidden(DependencyObject element) => (bool?)element.GetValue(VisibilityHelper.IsHiddenProperty);
+    public static bool? GetIsHidden(DependencyObject element) => (bool?)element.GetValue(IsHiddenProperty);
 }

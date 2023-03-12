@@ -52,7 +52,7 @@ internal static class CertUtils
         store.SetKeyEntry($"{subject}_key", new AsymmetricKeyEntry(subjectKeyPair.Private), new[] { new X509CertificateEntry(bouncyCert) });
         password = Guid.NewGuid().ToString("x");
 
-        using (var ms = new System.IO.MemoryStream())
+        using (var ms = new MemoryStream())
         {
             store.Save(ms, password.ToCharArray(), random);
             certificate = new X509Certificate2(ms.ToArray(), password, X509KeyStorageFlags.Exportable);
