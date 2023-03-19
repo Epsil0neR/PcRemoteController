@@ -17,7 +17,9 @@
 
 	<ItemGroup>
 		<PackageReference Include="Epsiloner.Core" Version="1.0.22" />
+		<PackageReference Include="Epsiloner.Wpf.Core" Version="1.2.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
 		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.221109.1" />
 		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
 
