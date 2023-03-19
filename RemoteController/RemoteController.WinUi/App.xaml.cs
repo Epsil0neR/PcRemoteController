@@ -4,14 +4,9 @@ using Microsoft.UI.Xaml;
 
 using RemoteController.WinUi.Activation;
 using RemoteController.WinUi.Contracts.Services;
-using RemoteController.WinUi.Core.Contracts.Services;
-using RemoteController.WinUi.Core.Services;
 using RemoteController.WinUi.Helpers;
+using RemoteController.WinUi.Initialization;
 using RemoteController.WinUi.Models;
-using RemoteController.WinUi.Notifications;
-using RemoteController.WinUi.Services;
-using RemoteController.WinUi.ViewModels;
-using RemoteController.WinUi.Views;
 
 namespace RemoteController.WinUi;
 
@@ -31,7 +26,7 @@ public partial class App : Application
     public static T GetService<T>()
         where T : class
     {
-        if ((App.Current as App)!.Host.Services.GetService(typeof(T)) is not T service)
+        if ((Current as App)!.Host.Services.GetService(typeof(T)) is not T service)
         {
             throw new ArgumentException($"{typeof(T)} needs to be registered in ConfigureServices within App.xaml.cs.");
         }
@@ -56,41 +51,18 @@ public partial class App : Application
             // Other Activation Handlers
             services.AddTransient<IActivationHandler, AppNotificationActivationHandler>();
 
-            // Services
-            services.AddSingleton<IAppNotificationService, AppNotificationService>();
-            services.AddSingleton<ILocalSettingsService, LocalSettingsService>();
-            services.AddSingleton<IThemeSelectorService, ThemeSelectorService>();
-            services.AddTransient<INavigationViewService, NavigationViewService>();
-
-            services.AddSingleton<IActivationService, ActivationService>();
-            services.AddSingleton<IPageService, PageService>();
-            services.AddSingleton<INavigationService, NavigationService>();
-
-            // Core Services
-            services.AddSingleton<IFileService, FileService>();
-
             // Views and ViewModels
-            services.AddTransient<SettingsViewModel>();
-            services.AddTransient<SettingsPage>();
-            services.AddTransient<HotkeysViewModel>();
-            services.AddTransient<HotkeysPage>();
-            services.AddTransient<SoundDevicesViewModel>();
-            services.AddTransient<SoundDevicesPage>();
-            services.AddTransient<CommandsViewModel>();
-            services.AddTransient<CommandsPage>();
-            services.AddTransient<FoldersViewModel>();
-            services.AddTransient<FoldersPage>();
-            services.AddTransient<GenericViewModel>();
-            services.AddTransient<GenericPage>();
-            services.AddTransient<ShellPage>();
-            services.AddTransient<ShellViewModel>();
+            services
+                .AddServices()
+                .AddViewModels()
+                .AddViews();
 
             // Configuration
             services.Configure<LocalSettingsOptions>(context.Configuration.GetSection(nameof(LocalSettingsOptions)));
         }).
         Build();
 
-        App.GetService<IAppNotificationService>().Initialize();
+        GetService<IAppNotificationService>().Initialize();
 
         UnhandledException += App_UnhandledException;
     }
@@ -105,8 +77,8 @@ public partial class App : Application
     {
         base.OnLaunched(args);
 
-        App.GetService<IAppNotificationService>().Show(string.Format("AppNotificationSamplePayload".GetLocalized(), AppContext.BaseDirectory));
+        GetService<IAppNotificationService>().Show(string.Format("AppNotificationSamplePayload".GetLocalized(), AppContext.BaseDirectory));
 
-        await App.GetService<IActivationService>().ActivateAsync(args);
+        await GetService<IActivationService>().ActivateAsync(args);
     }
 }
