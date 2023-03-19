@@ -10,6 +10,9 @@
 		<UseWinUI>true</UseWinUI>
 		<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
 		<Nullable>enable</Nullable>
+
+		<Authors>Veniamin Lytkin @ Epsil0neR</Authors>
+		<Copyright>Copyright © Epsil0neR 2020</Copyright>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -17,31 +20,26 @@
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
 		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.221109.1" />
 		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
+
 		<Manifest Include="$(ApplicationManifest)" />
+		
+		<ProjectReference Include="..\..\RemoteController.Core\RemoteController.Core.csproj" />
+		<ProjectReference Include="..\..\RemoteController.Informer\RemoteController.Informer.csproj" />
+		<ProjectReference Include="..\..\RemoteController.Manipulator\RemoteController.Manipulator.csproj" />
+		<ProjectReference Include="..\..\RemoteController.WebSocket\RemoteController.WebSocket.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<None Remove="Resources\**\*.xaml" />
-		<None Remove="Pages\GeneralPage.xaml" />
-		<None Remove="Pages\SettingsPage.xaml" />
 		<Page Update="Resources\**\*.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</Page>
-	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Controls\" />
-	</ItemGroup>
+		<None Remove="Pages\**\*.xaml" />
+		<Page Update="Pages\**\*.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
 
-	<ItemGroup>
-	  <Page Update="Pages\SettingsPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Page Update="Pages\GeneralPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
+		<Folder Include="Controls\" />
 	</ItemGroup>
 </Project>
