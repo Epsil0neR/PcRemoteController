@@ -1,0 +1,10 @@
+﻿{
+    "profiles": {
+      "RemoteController.WinUi (Package)": {
+        "commandName": "MsixPackage"
+      },
+      "RemoteController.WinUi (Unpackaged)": {
+        "commandName": "Project"
+      }
+    }
+}

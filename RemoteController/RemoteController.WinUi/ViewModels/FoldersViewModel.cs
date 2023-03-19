@@ -1,0 +1,10 @@
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+
+namespace RemoteController.WinUi.ViewModels;
+
+public class FoldersViewModel : ObservableRecipient
+{
+    public FoldersViewModel()
+    {
+    }
+}
