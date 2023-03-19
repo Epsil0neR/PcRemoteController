@@ -4,7 +4,6 @@ using System.Web;
 using Microsoft.Windows.AppNotifications;
 
 using RemoteController.WinUi.Contracts.Services;
-using RemoteController.WinUi.ViewModels;
 
 namespace RemoteController.WinUi.Notifications;
 

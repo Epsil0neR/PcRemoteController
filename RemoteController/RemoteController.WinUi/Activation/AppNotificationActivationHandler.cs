@@ -1,10 +1,7 @@
 ﻿using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
-using Microsoft.Windows.AppNotifications;
-
 using RemoteController.WinUi.Contracts.Services;
-using RemoteController.WinUi.ViewModels;
 
 namespace RemoteController.WinUi.Activation;
 

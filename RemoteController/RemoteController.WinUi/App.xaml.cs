@@ -39,7 +39,6 @@ public partial class App : Application
     public App()
     {
         InitializeComponent();
-
         Host = Microsoft.Extensions.Hosting.Host.
         CreateDefaultBuilder().
         UseContentRoot(AppContext.BaseDirectory).

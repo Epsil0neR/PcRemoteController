@@ -5,8 +5,6 @@ using RemoteController.WinUi.Core.Contracts.Services;
 using RemoteController.WinUi.Core.Helpers;
 using RemoteController.WinUi.Helpers;
 using RemoteController.WinUi.Models;
-
-using Windows.ApplicationModel;
 using Windows.Storage;
 
 namespace RemoteController.WinUi.Services;
