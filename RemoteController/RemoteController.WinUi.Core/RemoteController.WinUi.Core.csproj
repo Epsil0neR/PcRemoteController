@@ -1,17 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-    <RootNamespace>RemoteController.WinUi.Core</RootNamespace>
-    <Platforms>AnyCPU;x64;x86</Platforms>
-    <Platforms>x86;x64;arm64;AnyCPU</Platforms>
-    <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
+	<PropertyGroup>
+		<Authors>Veniamin Lytkin @ Epsil0neR</Authors>
+		<Copyright>Copyright © Epsil0neR 2023</Copyright>
 
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+		<LangVersion>latest</LangVersion>
+		<TargetFramework>net7.0</TargetFramework>
+		<RootNamespace>RemoteController.WinUi.Core</RootNamespace>
+		<Platforms>AnyCPU;x64;x86</Platforms>
+		<Platforms>x86;x64;arm64;AnyCPU</Platforms>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
-  </ItemGroup>
+	<ItemGroup>
+		<Folder Include="Models\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+	</ItemGroup>
 </Project>
