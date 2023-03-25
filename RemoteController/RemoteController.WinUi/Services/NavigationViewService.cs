@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 
 using RemoteController.WinUi.Contracts.Services;
@@ -13,6 +13,7 @@ public class NavigationViewService : INavigationViewService
     private readonly INavigationService _navigationService;
 
     private readonly IPageService _pageService;
+    private readonly ILogger<NavigationViewService> _logger;
 
     private NavigationView? _navigationView;
 
@@ -20,10 +21,11 @@ public class NavigationViewService : INavigationViewService
 
     public object? SettingsItem => _navigationView?.SettingsItem;
 
-    public NavigationViewService(INavigationService navigationService, IPageService pageService)
+    public NavigationViewService(INavigationService navigationService, IPageService pageService, ILogger<NavigationViewService> logger)
     {
         _navigationService = navigationService;
         _pageService = pageService;
+        _logger = logger;
     }
 
     [MemberNotNull(nameof(_navigationView))]
@@ -54,7 +56,7 @@ public class NavigationViewService : INavigationViewService
     }
 
     private void OnBackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args) => _navigationService.GoBack();
-
+    
     private void OnItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
     {
         if (args.IsSettingsInvoked)
@@ -67,6 +69,7 @@ public class NavigationViewService : INavigationViewService
 
             if (selectedItem?.GetValue(NavigationHelper.NavigateToProperty) is string pageKey)
             {
+                _logger.LogDebug($"Navigating to {pageKey}");
                 _navigationService.NavigateTo(pageKey);
             }
         }

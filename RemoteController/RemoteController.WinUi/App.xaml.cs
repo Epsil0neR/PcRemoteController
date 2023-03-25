@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 
 using RemoteController.WinUi.Activation;
@@ -7,12 +8,17 @@ using RemoteController.WinUi.Contracts.Services;
 using RemoteController.WinUi.Helpers;
 using RemoteController.WinUi.Initialization;
 using RemoteController.WinUi.Models;
+using RemoteController.WinUi.Views;
+using Serilog;
+using Serilog.Events;
 
 namespace RemoteController.WinUi;
 
 // To learn more about WinUI 3, see https://docs.microsoft.com/windows/apps/winui/winui3/.
 public partial class App : Application
 {
+    private readonly ILogger<App> _logger;
+
     // The .NET Generic Host provides dependency injection, configuration, logging, and other services.
     // https://docs.microsoft.com/dotnet/core/extensions/generic-host
     // https://docs.microsoft.com/dotnet/core/extensions/dependency-injection
@@ -39,27 +45,42 @@ public partial class App : Application
     public App()
     {
         InitializeComponent();
-        Host = Microsoft.Extensions.Hosting.Host.
-        CreateDefaultBuilder().
-        UseContentRoot(AppContext.BaseDirectory).
-        ConfigureServices((context, services) =>
-        {
-            // Default Activation Handler
-            services.AddTransient<ActivationHandler<LaunchActivatedEventArgs>, DefaultActivationHandler>();
+        Host = Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder()
+            .UseContentRoot(AppContext.BaseDirectory)
+            .ConfigureLogging(builder =>
+            {
+                Log.Logger = new LoggerConfiguration()
+                    .MinimumLevel.Debug()
+                    .WriteTo.File("logs\\Net6Tester.txt", rollingInterval: RollingInterval.Day)
+                    .WriteTo.Debug(LogEventLevel.Verbose)
+                    //.ReadFrom.Configuration(context.Configuration)
+                    .CreateLogger();
+                builder.AddSerilog(Log.Logger, dispose: true);
+            })
+            .ConfigureServices((context, services) =>
+            {
+                // Default Activation Handler
+                services.AddTransient<ActivationHandler<LaunchActivatedEventArgs>, DefaultActivationHandler>();
 
-            // Other Activation Handlers
-            services.AddTransient<IActivationHandler, AppNotificationActivationHandler>();
+                // Other Activation Handlers
+                services.AddTransient<IActivationHandler, AppNotificationActivationHandler>();
+                
+                // Views and ViewModels
+                services
+                    .AddSingleton<GenericPage>()
+                    .AddLogging()
+                    .AddServices()
+                    .AddViewModels()
+                    .AddViews();
 
-            // Views and ViewModels
-            services
-                .AddServices()
-                .AddViewModels()
-                .AddViews();
+                // Configuration
+                services.Configure<LocalSettingsOptions>(context.Configuration.GetSection(nameof(LocalSettingsOptions)));
+            })
+            .Build();
 
-            // Configuration
-            services.Configure<LocalSettingsOptions>(context.Configuration.GetSection(nameof(LocalSettingsOptions)));
-        }).
-        Build();
+        Log.Debug("Testing");
+        _logger = GetService<ILogger<App>>();
+        _logger.Log(LogLevel.Debug, "Hello Epsi!");
 
         GetService<IAppNotificationService>().Initialize();
 
@@ -68,7 +89,8 @@ public partial class App : Application
 
     private void App_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
     {
-        // TODO: Log and handle exceptions as appropriate.
+        _logger.LogCritical(e.Exception, e.Message);
+        e.Handled = true;
         // https://docs.microsoft.com/windows/windows-app-sdk/api/winrt/microsoft.ui.xaml.application.unhandledexception.
     }
 
