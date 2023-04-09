@@ -10,7 +10,6 @@ using RemoteController.WinUi.Initialization;
 using RemoteController.WinUi.Models;
 using RemoteController.WinUi.Views;
 using Serilog;
-using Serilog.Events;
 
 namespace RemoteController.WinUi;
 
@@ -24,20 +23,13 @@ public partial class App : Application
     // https://docs.microsoft.com/dotnet/core/extensions/dependency-injection
     // https://docs.microsoft.com/dotnet/core/extensions/configuration
     // https://docs.microsoft.com/dotnet/core/extensions/logging
-    public IHost Host
-    {
-        get;
-    }
+    public IHost Host { get; }
 
     public static T GetService<T>()
         where T : class
     {
-        if ((Current as App)!.Host.Services.GetService(typeof(T)) is not T service)
-        {
-            throw new ArgumentException($"{typeof(T)} needs to be registered in ConfigureServices within App.xaml.cs.");
-        }
-
-        return service;
+        return (Current as App)!.Host.Services.GetService<T>()
+            ?? throw new ArgumentException($"{typeof(T)} needs to be registered in ConfigureServices within App.xaml.cs.");
     }
 
     public static WindowEx MainWindow { get; } = new MainWindow();
@@ -47,40 +39,40 @@ public partial class App : Application
         InitializeComponent();
         Host = Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder()
             .UseContentRoot(AppContext.BaseDirectory)
-            .ConfigureLogging(builder =>
-            {
-                Log.Logger = new LoggerConfiguration()
-                    .MinimumLevel.Debug()
-                    .WriteTo.File("logs\\Net6Tester.txt", rollingInterval: RollingInterval.Day)
-                    .WriteTo.Debug(LogEventLevel.Verbose)
-                    //.ReadFrom.Configuration(context.Configuration)
-                    .CreateLogger();
-                builder.AddSerilog(Log.Logger, dispose: true);
-            })
             .ConfigureServices((context, services) =>
             {
-                // Default Activation Handler
-                services.AddTransient<ActivationHandler<LaunchActivatedEventArgs>, DefaultActivationHandler>();
+                services
+                    // Default Activation Handler
+                    .AddTransient<ActivationHandler<LaunchActivatedEventArgs>, DefaultActivationHandler>()
+                    // Other Activation Handlers
+                    .AddTransient<IActivationHandler, AppNotificationActivationHandler>()
+                    // Configuration
+                    .Configure<LocalSettingsOptions>(context.Configuration.GetSection(nameof(LocalSettingsOptions)));
 
-                // Other Activation Handlers
-                services.AddTransient<IActivationHandler, AppNotificationActivationHandler>();
-                
                 // Views and ViewModels
                 services
                     .AddSingleton<GenericPage>()
                     .AddLogging()
                     .AddServices()
                     .AddViewModels()
-                    .AddViews();
-
-                // Configuration
-                services.Configure<LocalSettingsOptions>(context.Configuration.GetSection(nameof(LocalSettingsOptions)));
+                    .AddViews()
+                    ;
+            })
+            .UseSerilog((context, services, configuration) =>
+            {
+                configuration
+                    .MinimumLevel.Verbose()
+                    .WriteTo.File("Logs/All.log")
+                    .WriteTo.Debug()
+                    //.ReadFrom.Configuration(context.Configuration)
+                    ;
             })
             .Build();
 
-        Log.Debug("Testing");
+        //Log.Debug("Testing");
         _logger = GetService<ILogger<App>>();
         _logger.Log(LogLevel.Debug, "Hello Epsi!");
+        Log.Debug("Hello test 1");
 
         GetService<IAppNotificationService>().Initialize();
 
