@@ -38,21 +38,19 @@ public class NavigationViewService : INavigationViewService
 
     public void UnregisterEvents()
     {
-        if (_navigationView != null)
-        {
-            _navigationView.BackRequested -= OnBackRequested;
-            _navigationView.ItemInvoked -= OnItemInvoked;
-        }
+        if (_navigationView == null) 
+            return;
+
+        _navigationView.BackRequested -= OnBackRequested;
+        _navigationView.ItemInvoked -= OnItemInvoked;
     }
 
     public NavigationViewItem? GetSelectedItem(Type pageType)
     {
-        if (_navigationView != null)
-        {
-            return GetSelectedItem(_navigationView.MenuItems, pageType) ?? GetSelectedItem(_navigationView.FooterMenuItems, pageType);
-        }
-
-        return null;
+        return _navigationView != null
+            ? GetSelectedItem(_navigationView.MenuItems, pageType) ??
+              GetSelectedItem(_navigationView.FooterMenuItems, pageType)
+            : null;
     }
 
     private void OnBackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args) => _navigationService.GoBack();

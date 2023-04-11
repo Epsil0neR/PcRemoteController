@@ -59,9 +59,7 @@ public class NavigationService : INavigationService
     private void UnregisterFrameEvents()
     {
         if (_frame != null)
-        {
             _frame.Navigated -= OnNavigated;
-        }
     }
 
     public bool GoBack()
@@ -107,20 +105,16 @@ public class NavigationService : INavigationService
 
     private void OnNavigated(object sender, NavigationEventArgs e)
     {
-        if (sender is Frame frame)
-        {
-            var clearNavigation = (bool)frame.Tag;
-            if (clearNavigation)
-            {
-                frame.BackStack.Clear();
-            }
+        if (sender is not Frame frame) 
+            return;
 
-            if (frame.GetPageViewModel() is INavigationAware navigationAware)
-            {
-                navigationAware.OnNavigatedTo(e.Parameter);
-            }
+        var clearNavigation = (bool)frame.Tag;
+        if (clearNavigation) 
+            frame.BackStack.Clear();
 
-            Navigated?.Invoke(sender, e);
-        }
+        if (frame.GetPageViewModel() is INavigationAware navigationAware)
+            navigationAware.OnNavigatedTo(e.Parameter);
+
+        Navigated?.Invoke(sender, e);
     }
 }

@@ -33,10 +33,8 @@ public class ThemeSelectorService : IThemeSelectorService
 
     public async Task SetRequestedThemeAsync()
     {
-        if (App.MainWindow.Content is FrameworkElement rootElement)
-        {
+        if (App.MainWindow.Content is FrameworkElement rootElement) 
             rootElement.RequestedTheme = Theme;
-        }
 
         await Task.CompletedTask;
     }
@@ -45,12 +43,9 @@ public class ThemeSelectorService : IThemeSelectorService
     {
         var themeName = await _localSettingsService.ReadSettingAsync<string>(SettingsKey);
 
-        if (Enum.TryParse(themeName, out ElementTheme cacheTheme))
-        {
-            return cacheTheme;
-        }
-
-        return ElementTheme.Default;
+        return Enum.TryParse(themeName, out ElementTheme cacheTheme) 
+            ? cacheTheme 
+            : ElementTheme.Default;
     }
 
     private async Task SaveThemeInSettingsAsync(ElementTheme theme)
