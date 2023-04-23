@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
@@ -39,6 +39,9 @@ public partial class App : Application
         InitializeComponent();
         Host = Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder()
             .UseContentRoot(AppContext.BaseDirectory)
+#if !IS_NON_PACKAGED
+            .UseContentRoot(Windows.Storage.ApplicationData.Current.LocalFolder.Path)
+#endif
             .ConfigureServices((context, services) =>
             {
                 services
