@@ -5,7 +5,7 @@ using RemoteController.WinUi.ViewModels;
 
 namespace RemoteController.WinUi.Views;
 
-[ViewFor<CommandsViewModel>]
+[ViewFor<CommandsViewModel>(2)]
 [PageSymbol(Symbol.Remote)]
 [Description("Commands")]
 public sealed partial class CommandsPage : Page

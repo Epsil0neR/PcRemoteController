@@ -5,7 +5,7 @@ using RemoteController.WinUi.ViewModels;
 
 namespace RemoteController.WinUi.Views;
 
-[ViewFor<HotkeysViewModel>]
+[ViewFor<HotkeysViewModel>(4)]
 [PageSymbol(Symbol.Keyboard)]
 [Description("Hotkeys")]
 public sealed partial class HotkeysPage : Page

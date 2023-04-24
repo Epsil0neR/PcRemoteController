@@ -5,7 +5,7 @@ using RemoteController.WinUi.ViewModels;
 
 namespace RemoteController.WinUi.Views;
 
-[ViewFor<FoldersViewModel>]
+[ViewFor<FoldersViewModel>(1)]
 [PageSymbol(Symbol.Folder)]
 [Description("Folders")]
 public sealed partial class FoldersPage : Page

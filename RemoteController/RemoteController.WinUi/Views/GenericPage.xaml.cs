@@ -5,7 +5,7 @@ using RemoteController.WinUi.ViewModels;
 
 namespace RemoteController.WinUi.Views;
 
-[ViewFor<GenericViewModel>(order:0)]
+[ViewFor<GenericViewModel>(0)]
 [PageSymbol(Symbol.Home)]
 [Description("Generic")]
 public sealed partial class GenericPage : Page
