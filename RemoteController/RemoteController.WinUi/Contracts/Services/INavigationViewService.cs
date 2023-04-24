@@ -19,4 +19,6 @@ public interface INavigationViewService
     void UnregisterEvents();
 
     NavigationViewItem? GetSelectedItem(Type pageType);
+
+    IReadOnlyList<NavigationViewItem> GetMenuItems();
 }

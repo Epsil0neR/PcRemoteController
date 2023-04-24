@@ -1,7 +1,9 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
-
+using RemoteController.WinUi.Attributes;
 using RemoteController.WinUi.Contracts.Services;
 using RemoteController.WinUi.Helpers;
 using RemoteController.WinUi.ViewModels;
@@ -51,6 +53,41 @@ public class NavigationViewService : INavigationViewService
             ? GetSelectedItem(_navigationView.MenuItems, pageType) ??
               GetSelectedItem(_navigationView.FooterMenuItems, pageType)
             : null;
+    }
+
+    public IReadOnlyList<NavigationViewItem> GetMenuItems()
+    {
+        var pages = _pageService.GetPages();
+        var rv = new List<NavigationViewItem>();
+
+        string GetContent(Type pageType)
+        {
+            var attr = pageType.GetCustomAttribute<DescriptionAttribute>(false);
+            return attr?.Description 
+                   ?? pageType.Name;
+        }
+
+        IconElement? GetIcon(Type pageType)
+        {
+            var attr = pageType.GetCustomAttribute<PageSymbolAttribute>(false);
+
+            return attr is not null
+                ? new SymbolIcon(attr.Symbol)
+                : null;
+        }
+
+        foreach (var (pageType, navigateTo) in pages)
+        {
+            var item = new NavigationViewItem()
+            {
+                Content = GetContent(pageType),
+                Icon = GetIcon(pageType)
+            };
+            NavigationHelper.SetNavigateTo(item, navigateTo);
+            rv.Add(item);
+        }
+
+        return rv;
     }
 
     private void OnBackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args) => _navigationService.GoBack();
