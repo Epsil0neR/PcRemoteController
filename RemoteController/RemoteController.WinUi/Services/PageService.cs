@@ -71,7 +71,7 @@ public class PageService : IPageService
                 Key = key,
                 Page = type,
                 ViewModel = viewModelType,
-                Order = order
+                Order = order ?? int.MaxValue
             });
         }
     }
