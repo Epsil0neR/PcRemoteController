@@ -7,8 +7,8 @@
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
 public class ViewForAttribute<T> : BaseViewForAttribute
 {
-    public ViewForAttribute()
-        : base(typeof(T))
+    public ViewForAttribute(int order = int.MaxValue)
+        : base(typeof(T), order)
     {
     }
 }

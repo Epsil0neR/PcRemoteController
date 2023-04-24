@@ -1,10 +1,13 @@
-﻿using Microsoft.UI.Xaml.Controls;
+﻿using System.ComponentModel;
+using Microsoft.UI.Xaml.Controls;
 using RemoteController.WinUi.Attributes;
 using RemoteController.WinUi.ViewModels;
 
 namespace RemoteController.WinUi.Views;
 
 [ViewFor<SoundDevicesViewModel>]
+[PageSymbol(Symbol.Volume)]
+[Description("Sound devices")]
 public sealed partial class SoundDevicesPage : Page
 {
     public SoundDevicesViewModel ViewModel
