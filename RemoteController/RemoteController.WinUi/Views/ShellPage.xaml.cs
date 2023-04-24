@@ -19,10 +19,16 @@ public sealed partial class ShellPage : Page
         get;
     }
 
-    public ShellPage(ShellViewModel viewModel)
+    public ShellPage(ShellViewModel viewModel, INavigationViewService navigationViewService)
     {
         ViewModel = viewModel;
         InitializeComponent();
+
+        NavigationViewControl.MenuItems.Clear();
+        foreach (var item in navigationViewService.GetMenuItems())
+        {
+            NavigationViewControl.MenuItems.Add(item);
+        }
 
         ViewModel.NavigationService.Frame = NavigationFrame;
         ViewModel.NavigationViewService.Initialize(NavigationViewControl);
