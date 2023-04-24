@@ -9,32 +9,7 @@ namespace RemoteController.WinUi.Services;
 
 public class PageService : IPageService
 {
-    private struct Record
-    {
-        public string Key
-        {
-            get;
-            init;
-        }
-
-        public Type ViewModel
-        {
-            get;
-            init;
-        }
-
-        public Type Page
-        {
-            get;
-            init;
-        }
-
-        public int? Order
-        {
-            get;
-            init;
-        }
-    }
+    private record struct Record(string Key, Type ViewModel, Type Page, int Order);
 
     private readonly List<Record> _records = new();
 
