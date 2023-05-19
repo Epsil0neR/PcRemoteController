@@ -93,7 +93,8 @@ public partial class App : Application
     {
         base.OnLaunched(args);
 
-        GetService<IAppNotificationService>().Show(string.Format("AppNotificationSamplePayload".GetLocalized(), AppContext.BaseDirectory));
+        //TODO: Uncomment next line to show notification on app launch.
+        //GetService<IAppNotificationService>().Show(string.Format("AppNotificationSamplePayload".GetLocalized(), AppContext.BaseDirectory));
 
         await GetService<IActivationService>().ActivateAsync(args);
     }
