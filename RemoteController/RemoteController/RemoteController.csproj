@@ -26,10 +26,8 @@
     <PackageReference Include="Epsiloner.Wpf.Behaviors" Version="1.1.0" />
     <PackageReference Include="Epsiloner.Wpf.SymbolIcons" Version="1.0.1" />
     <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.3" />
     <PackageReference Include="MvvmLightLibsStd10" Version="5.4.1.1" />
-    <PackageReference Include="NLog" Version="4.7.9" />
-    <PackageReference Include="NLog.Config" Version="4.7.9" />
-    <PackageReference Include="NLog.Schema" Version="4.7.9" />
     <PackageReference Include="Unity" Version="5.11.10" />
   </ItemGroup>
 
