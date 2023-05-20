@@ -4,6 +4,7 @@ using Microsoft.UI.Xaml;
 
 using RemoteController.WinUi.Activation;
 using RemoteController.WinUi.Contracts.Services;
+using RemoteController.WinUi.Core.Options;
 using RemoteController.WinUi.Initialization;
 using RemoteController.WinUi.Models;
 using RemoteController.WinUi.Views;
@@ -48,7 +49,7 @@ public partial class App : Application
                     // Other Activation Handlers
                     .AddTransient<IActivationHandler, AppNotificationActivationHandler>()
                     // Configuration
-                    .Configure<LocalSettingsOptions>(context.Configuration.GetSection(nameof(LocalSettingsOptions)));
+                    .ConfigureOptions(context);
 
                 // Views and ViewModels
                 services

@@ -2,9 +2,12 @@
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using RemoteController.WinUi.Contracts.Services;
 using RemoteController.WinUi.Core.Contracts.Services;
+using RemoteController.WinUi.Core.Options;
 using RemoteController.WinUi.Core.Services;
+using RemoteController.WinUi.Models;
 using RemoteController.WinUi.Notifications;
 using RemoteController.WinUi.Services;
 using RemoteController.WinUi.ViewModels;
@@ -15,6 +18,17 @@ namespace RemoteController.WinUi.Initialization;
 
 internal static class ServiceCollectionConfigurator
 {
+    /// <summary>
+    /// Configures all options used in application.
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="context"></param>
+    /// <returns></returns>
+    public static IServiceCollection ConfigureOptions(this IServiceCollection services, HostBuilderContext context) => services
+        .ConfigureWritable<LocalSettingsOptions>(context.Configuration.GetSection(nameof(LocalSettingsOptions)))
+        .ConfigureWritable<GeneralOptions>(context)
+        .ConfigureWritable<ServerOptions>(context);
+
     public static IServiceCollection AddServices(this IServiceCollection services) => services
         .AddSingleton<IAppNotificationService, AppNotificationService>()
         .AddSingleton<ILocalSettingsService, LocalSettingsService>()
@@ -42,7 +56,6 @@ internal static class ServiceCollectionConfigurator
         .AddTransient<FoldersPage>()
         .AddTransient<GenericPage>()
         .AddTransient<ShellPage>();
-
 
     [Obsolete("Not implemented yet!")]
     public static IServiceCollection AddHttpServer(this IServiceCollection services, IConfiguration configuration)
