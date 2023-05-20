@@ -3,23 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using WebSocketSharp;
-using Logger = NLog.Logger;
 
 namespace RemoteController.WebSocket;
 
 public class WsService
 {
-    private readonly Dictionary<string, Type> _actionNameToDataType = new Dictionary<string, Type>();
-    private readonly object _actionFiltersLock = new object();
-    private readonly List<Func<Message, bool>> _actionFilters = new List<Func<Message, bool>>();
-    private readonly Dictionary<string, List<Action<Message>>> _handlers = new Dictionary<string, List<Action<Message>>>();
+    private readonly Dictionary<string, Type> _actionNameToDataType = new();
+    private readonly object _actionFiltersLock = new();
+    private readonly List<Func<Message, bool>> _actionFilters = new();
+    private readonly Dictionary<string, List<Action<Message>>> _handlers = new();
 
     public event EventHandler<Message> UnhandledMessage;
 
     public WsServer Server { get; }
-    public Logger Logger { get; }
+    public ILogger<WsService> Logger { get; }
 
-    public WsService(WsServer server, Logger logger)
+    public WsService(WsServer server, ILogger<WsService> logger)
     {
         Server = server;
         Logger = logger;
@@ -80,7 +79,7 @@ public class WsService
         var k = actionName.ToLowerInvariant();
         if (!_handlers.TryGetValue(k, out var handlers))
         {
-            handlers = new List<Action<Message>>();
+            handlers = new();
             _handlers[k] = handlers;
         }
 
@@ -139,7 +138,7 @@ public class WsService
     }
 
 
-    private void ServerOnMessage(object sender, MessageEventArgs evt)
+    private void ServerOnMessage(object? sender, MessageEventArgs evt)
     {
         var socket = (WsSocket)sender;
         try
@@ -152,7 +151,7 @@ public class WsService
             {
                 var type = _actionNameToDataType[actionName];
                 var data = DeserializeData(msgOrig.Data, type);
-                msg = new Message(socket)
+                msg = new(socket)
                 {
                     ActionName = msgOrig.ActionName,
                     Type = msgOrig.Type,
@@ -185,7 +184,7 @@ public class WsService
             };
             var text = JsonConvert.SerializeObject(message);
             socket.Send(text);
-            Logger.Error(e, $"Failed to handle WebSocket message: {evt.Data}");
+            Logger.LogError(e, $"Failed to handle WebSocket message: {evt.Data}");
         }
     }
 

@@ -3,6 +3,7 @@ using System.IO;
 using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using RemoteController.Configs;
 using RemoteController.Informer;
 using RemoteController.Manipulator;
@@ -11,8 +12,7 @@ using RemoteController.WebSocket;
 using Unity;
 using WebSocketSharp;
 using WebSocketSharp.Server;
-using Level = NLog.LogLevel;
-using Logger = NLog.Logger;
+using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace RemoteController.IoCs;
 
@@ -24,7 +24,7 @@ internal static class Factories
     public static WsService WsService(IUnityContainer c)
     {
         var wsServer = c.Resolve<WsServer>();
-        var logger = c.Resolve<Logger>();
+        var logger = c.Resolve<ILogger<WsService>>();
         var rv = new WsService(wsServer, logger);
 
         rv.RegisterDataTypeForAction<string>("Auth");
@@ -44,7 +44,10 @@ internal static class Factories
         var rv = msg.Sender.IsAuthenticated || msg.Type != MessageType.Request || msg.ActionName.Equals("Auth", StringComparison.CurrentCultureIgnoreCase);
 
         if (!rv)
-            Log.Logger.Warn($"Received unauthorized message: Sender:{msg.Sender}, Action:{msg.ActionName}, Type:{msg.Type}.");
+        {
+            // Migration to WinUI and MS Logging:
+            //Log.Logger.Warn($"Received unauthorized message: Sender:{msg.Sender}, Action:{msg.ActionName}, Type:{msg.Type}.");
+        }
 
         return rv;
     }
@@ -126,7 +129,7 @@ internal static class Factories
     public static HttpServer HttpServer(IUnityContainer c)
     {
         var config = c.Resolve<ServerConfig>();
-        var log = IoC.Resolve<Logger>();
+        var log = IoC.Resolve<ILogger>();
         var cert = new X509Certificate2(
             Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "RemoteController.pfx"),
             "{0x719dca02,0xb331,0x45fb,{0xb8,0xd1,0xbb,0x39,0xec,0x5d,0x39,0x8b}}");
@@ -145,13 +148,13 @@ internal static class Factories
         {
             var level = data.Level switch
             {
-                LogLevel.Trace => Level.Debug,
-                LogLevel.Debug => Level.Debug,
-                LogLevel.Info => Level.Info,
-                LogLevel.Warn => Level.Warn,
-                LogLevel.Error => Level.Error,
-                LogLevel.Fatal => Level.Fatal,
-                _ => Level.Off
+                WebSocketSharp.LogLevel.Trace => LogLevel.Debug,
+                WebSocketSharp.LogLevel.Debug => LogLevel.Debug,
+                WebSocketSharp.LogLevel.Info => LogLevel.Information,
+                WebSocketSharp.LogLevel.Warn => LogLevel.Warning,
+                WebSocketSharp.LogLevel.Error => LogLevel.Error,
+                WebSocketSharp.LogLevel.Fatal => LogLevel.Critical,
+                _ => LogLevel.None
             };
             var m = data.Caller?.GetMethod();
             var separator = data.Message.Contains(Environment.NewLine) ? Environment.NewLine : " | ";
@@ -186,7 +189,7 @@ internal static class Factories
 
     public static ManipulatorsManager ManipulatorsManager(IUnityContainer c)
     {
-        var manipulatorsManager = new ManipulatorsManager(Log.Logger);
+        var manipulatorsManager = new ManipulatorsManager(/*Log.Logger*/ null); //TODO: Migration to WinUI and MS Logging.
         manipulatorsManager.ItemStateChanged += ManipulatorsManagerOnItemStateChanged;
         return manipulatorsManager;
     }

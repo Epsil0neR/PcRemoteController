@@ -52,10 +52,6 @@
       <SubType>Code</SubType>
     </Compile>
 
-    <None Update="NLog.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-
     <None Update="RemoteController.pfx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

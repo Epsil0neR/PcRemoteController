@@ -1,6 +1,5 @@
 ﻿using Epsiloner.OptionsModule;
 using Epsiloner.Wpf.Attributes;
-using NLog;
 using RemoteController.Configs;
 using RemoteController.Configurations;
 using RemoteController.Informer;
@@ -60,22 +59,13 @@ public partial class App
 
     public static Stream GetIconStream() => typeof(App).Assembly.GetManifestResourceStream("RemoteController.icon.ico");
 
-    /// <summary>
-    /// Log method used by NLog. DO NOT REMOVE IT unless it also removed in NLog.config file.
-    /// </summary>
-    /// <param name="level"></param>
-    /// <param name="message"></param>
-    // ReSharper disable once UnusedMember.Global
-    public static void LogMethod(string level, string message)
-    {
-        // TODO;
-    }
-
     private void ConfigureIoC()
     {
         IoC.RegisterInstance(Dispatcher);
-        IoC.RegisterInstance(Log.Logger);
-        IoC.RegisterInstance<ILogger>(Log.Logger);
+
+        // Migration to WinUI and MS Logging:
+        //IoC.RegisterInstance(Log.Logger);
+        //IoC.RegisterInstance<ILogger>(Log.Logger);
 
         ConfigureOptions();
 
@@ -163,6 +153,7 @@ public partial class App
 
     private static void HandlerForSectionLoad(Type type, Exception ex)
     {
-        Log.Logger.Error(ex, $"Failed to load option section of type {type.FullName}");
+        // Migration to WinUI and MS Logging:
+        //Log.Logger.Error(ex, $"Failed to load option section of type {type.FullName}");
     }
 }

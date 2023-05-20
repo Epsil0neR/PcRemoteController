@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Threading;
-using NLog;
 
 namespace RemoteController;
 
@@ -66,7 +65,8 @@ public static class DomainExceptionHandler
         if (exception == null)
             return;
 
-        Log.ShortLogger.Log(LogLevel.Fatal, exception);
+        // Migration to WinUI and MS Logging:
+        //Log.ShortLogger.Log(LogLevel.Fatal, exception);
     }
 
 }

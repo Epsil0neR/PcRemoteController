@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Epsiloner.Cooldowns;
-using NLog;
+using Microsoft.Extensions.Logging;
 using RemoteController.Manipulator;
 
 namespace RemoteController.Informer;
@@ -14,7 +14,7 @@ public class CommandsInformer : BaseInformer
 {
     private readonly EventCooldown _cooldown;
     private readonly IManipulatorsManager _manager;
-    private readonly Logger _logger;
+    private readonly ILogger<CommandsInformer> _logger;
 
     private IList<string> _commands;
     private bool _started;
@@ -27,7 +27,7 @@ public class CommandsInformer : BaseInformer
     /// </summary>
     public IEnumerable<string> Commands => _commands;
 
-    public CommandsInformer(IManipulatorsManager manager, Logger logger)
+    public CommandsInformer(IManipulatorsManager manager, ILogger<CommandsInformer> logger)
     {
         _manager = manager ?? throw new ArgumentNullException(nameof(manager));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -39,7 +39,7 @@ public class CommandsInformer : BaseInformer
         _manager.ItemStateChanged += ManagerOnItemStateChanged;
     }
 
-    private void ManagerOnItemStateChanged(object sender, ManipulatorsItemEventArgs e)
+    private void ManagerOnItemStateChanged(object? sender, ManipulatorsItemEventArgs e)
     {
         if (_started)
             _cooldown.Accumulate();
@@ -76,7 +76,7 @@ public class CommandsInformer : BaseInformer
         }
         catch (Exception e)
         {
-            _logger.Error(e, "Failed to check for CommandsInformer changes.");
+            _logger.LogError(e, "Failed to check for CommandsInformer changes.");
         }
 
         if (changed)

@@ -51,7 +51,7 @@ public interface IManipulatorsManager
     /// </summary>
     /// <param name="name">Manipulation name.</param>
     /// <returns></returns>
-    IManipulation Find(string name);
+    IManipulation? Find(string name);
 
     /// <summary>
     /// Finds all manipulations of specified type.
