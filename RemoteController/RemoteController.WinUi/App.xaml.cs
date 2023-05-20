@@ -1,11 +1,9 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 
 using RemoteController.WinUi.Activation;
 using RemoteController.WinUi.Contracts.Services;
-using RemoteController.WinUi.Helpers;
 using RemoteController.WinUi.Initialization;
 using RemoteController.WinUi.Models;
 using RemoteController.WinUi.Views;
