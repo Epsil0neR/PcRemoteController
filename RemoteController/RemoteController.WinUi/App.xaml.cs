@@ -72,10 +72,7 @@ public partial class App : Application
             })
             .Build();
 
-        //Log.Debug("Testing");
         _logger = GetService<ILogger<App>>();
-        _logger.Log(LogLevel.Debug, "Hello Epsi!");
-        Log.Debug("Hello test 1");
 
         GetService<IAppNotificationService>().Initialize();
 
