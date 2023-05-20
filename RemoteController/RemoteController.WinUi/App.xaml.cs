@@ -58,6 +58,14 @@ public partial class App : Application
                     .AddViewModels()
                     .AddViews()
                     ;
+
+                services
+                    .AddHttpServer(context.Configuration)
+                    .AddWebSocketServer(context.Configuration)
+                    .AddWebSocketService(context.Configuration)
+                    .AddInformers(context.Configuration)
+                    .AddManipulators(context.Configuration)
+                    ;
             })
             .UseSerilog((context, services, configuration) =>
             {
