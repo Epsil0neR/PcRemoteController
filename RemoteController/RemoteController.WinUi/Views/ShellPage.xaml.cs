@@ -1,19 +1,23 @@
-﻿using Microsoft.UI.Xaml;
+﻿using Microsoft.UI;
+using Microsoft.UI.Windowing;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
-
 using RemoteController.WinUi.Contracts.Services;
 using RemoteController.WinUi.Helpers;
 using RemoteController.WinUi.ViewModels;
-
 using Windows.System;
+using WinRT.Interop;
+using AppWindow = Microsoft.UI.Windowing.AppWindow;
 
 namespace RemoteController.WinUi.Views;
 
 // TODO: Update NavigationViewItem titles and icons in ShellPage.xaml.
 public sealed partial class ShellPage : Page
 {
+    private readonly AppWindow _appWindow;
+
     public ShellViewModel ViewModel
     {
         get;
@@ -40,12 +44,21 @@ public sealed partial class ShellPage : Page
         App.MainWindow.SetTitleBar(AppTitleBar);
         App.MainWindow.Activated += MainWindow_Activated;
         AppTitleBarText.Text = "AppDisplayName".GetLocalized();
+
+        _appWindow = GetAppWindowForCurrentWindow();
     }
 
     private void OnLoaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
-        KeyboardAccelerators.Add(BuildKeyboardAccelerator(VirtualKey.Left, VirtualKeyModifiers.Menu));
-        KeyboardAccelerators.Add(BuildKeyboardAccelerator(VirtualKey.GoBack));
+        KeyboardAccelerators.Add(BuildKeyboardAcceleratorGoBack(VirtualKey.Left, VirtualKeyModifiers.Menu));
+        KeyboardAccelerators.Add(BuildKeyboardAcceleratorGoBack(VirtualKey.GoBack));
+        KeyboardAccelerators.Add(BuildKeyboardAcceleratorTest(VirtualKey.F, VirtualKeyModifiers.Menu));
+    }
+    private AppWindow GetAppWindowForCurrentWindow()
+    {
+        IntPtr hWnd = WindowNative.GetWindowHandle(App.MainWindow);
+        WindowId myWndId = Win32Interop.GetWindowIdFromWindow(hWnd);
+        return AppWindow.GetFromWindowId(myWndId);
     }
 
     private void MainWindow_Activated(object sender, WindowActivatedEventArgs args)
@@ -66,7 +79,7 @@ public sealed partial class ShellPage : Page
         };
     }
 
-    private static KeyboardAccelerator BuildKeyboardAccelerator(VirtualKey key, VirtualKeyModifiers? modifiers = null)
+    private static KeyboardAccelerator BuildKeyboardAcceleratorGoBack(VirtualKey key, VirtualKeyModifiers? modifiers = null)
     {
         var keyboardAccelerator = new KeyboardAccelerator() { Key = key };
 
@@ -75,17 +88,46 @@ public sealed partial class ShellPage : Page
             keyboardAccelerator.Modifiers = modifiers.Value;
         }
 
-        keyboardAccelerator.Invoked += OnKeyboardAcceleratorInvoked;
+        keyboardAccelerator.Invoked += KeyboardGoBack;
 
         return keyboardAccelerator;
     }
 
-    private static void OnKeyboardAcceleratorInvoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+    private static void KeyboardGoBack(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
     {
         var navigationService = App.GetService<INavigationService>();
 
         var result = navigationService.GoBack();
 
         args.Handled = result;
+    }
+
+    private KeyboardAccelerator BuildKeyboardAcceleratorTest(VirtualKey key, VirtualKeyModifiers? modifiers = null)
+    {
+        var keyboardAccelerator = new KeyboardAccelerator() { Key = key };
+
+        if (modifiers.HasValue)
+        {
+            keyboardAccelerator.Modifiers = modifiers.Value;
+        }
+
+        keyboardAccelerator.Invoked += KeyboardTest;
+
+        return keyboardAccelerator;
+    }
+
+
+    private void KeyboardTest(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+    {
+        if (_appWindow.Presenter.Kind == AppWindowPresenterKind.FullScreen)
+        {
+            _appWindow.SetPresenter(AppWindowPresenterKind.Default);
+        }
+        else
+        {
+            _appWindow.SetPresenter(AppWindowPresenterKind.FullScreen);
+        }
+
+        args.Handled = true;
     }
 }
