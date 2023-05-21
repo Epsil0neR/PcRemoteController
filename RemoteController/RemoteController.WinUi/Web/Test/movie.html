@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket Echo Test</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <script type="text/javascript" src="/Test/Scripts/WebSocket.js"></script>
+    <script type="text/javascript" src="/Test/Scripts/index.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="/Test/Styles/styles.css">
+</head>
+<body>
+
+    <div class="links">
+        <a href="/Test/index.html">Home</a>
+        <a href="/Test/movie.html">Movie</a>
+        <a href="/Test/files.html">Files</a>
+    </div>
+    <div class="border"></div>
+
+    <div class="btn-container">
+        <button onclick="message('key.volume.+')" type="submit">Vol +</button>
+        <button onclick="message('key.volume.-')" type="submit">Vol -</button>
+        <button onclick="message('key', 'left')" type="submit">&lt;-</button>
+        <button onclick="message('key', 'right')" type="submit">-&gt;</button>
+        <button onclick="message('key', 'space')" type="submit">Space</button>
+        <button onclick="message('key', 'f')" type="submit">F</button>
+        <input id="inpVolume" type="range" min="0" max="100" step="1"/>
+        <div>
+            Volume: <span id="lblVolume" />
+        </div>
+    </div>
+
+    <div class="border"></div>
+    <div id="output"></div>
+</body>
+</html>

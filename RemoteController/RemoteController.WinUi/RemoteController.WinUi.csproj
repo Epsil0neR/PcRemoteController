@@ -26,6 +26,14 @@
 		<DefineConstants>IS_NON_PACKAGED</DefineConstants>
 	</PropertyGroup>
 
+	<!--Web content-->
+	<ItemGroup>
+		<Content Remove="Web\icon.ico" />
+		<Content Include="Web\**\*.*">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
 	<ItemGroup>
 		<Manifest Include="$(ApplicationManifest)" />
 	</ItemGroup>
