@@ -3,7 +3,6 @@ using RemoteController.WinUi.Activation;
 using RemoteController.WinUi.Contracts.Services;
 using RemoteController.WinUi.Initialization;
 using RemoteController.WinUi.Services;
-using RemoteController.WinUi.Views;
 using Serilog;
 
 namespace RemoteController.WinUi;
@@ -42,35 +41,32 @@ public partial class App : Application
             .ConfigureServices((context, services) =>
             {
                 services
+                    .AddSingleton(this)
+                    .AddSingleton<IActivationService, ActivationService>()
+                    .AddHostedService<ActivationService>()
+
                     // Default Activation Handler
                     .AddTransient<ActivationHandler<LaunchActivatedEventArgs>, DefaultActivationHandler>()
                     // Other Activation Handlers
                     .AddTransient<IActivationHandler, AppNotificationActivationHandler>()
                     // Configuration
-                    .ConfigureOptions(context);
+                    .ConfigureOptions(context)
 
-                // Views and ViewModels
-                services
-                    .AddSingleton<GenericPage>()
                     .AddLogging()
                     .AddServices()
                     .AddViewModels()
                     .AddViews()
-                    ;
 
-                services
                     .AddHttpServer(context.Configuration)
                     .AddWebSocketServer(context.Configuration)
+                    ;
+
+                //TODO: Implement these extensions.
+                services
                     .AddWebSocketService(context.Configuration)
                     .AddInformers(context.Configuration)
                     .AddManipulators(context.Configuration)
                     ;
-
-
-                services
-                    .AddSingleton(this)
-                    .AddSingleton<IActivationService, ActivationService>()
-                    .AddHostedService<ActivationService>();
             })
             .UseSerilog((context, services, configuration) =>
             {
@@ -106,6 +102,5 @@ public partial class App : Application
         //GetService<IAppNotificationService>().Show(string.Format("AppNotificationSamplePayload".GetLocalized(), AppContext.BaseDirectory));
 
         await Host.StartAsync();
-        //await GetService<IActivationService>().ActivateAsync(args);
     }
 }

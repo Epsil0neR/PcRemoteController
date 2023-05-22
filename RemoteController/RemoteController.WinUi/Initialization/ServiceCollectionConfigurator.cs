@@ -50,12 +50,13 @@ internal static class ServiceCollectionConfigurator
         .AddTransient<ShellViewModel>();
 
     public static IServiceCollection AddViews(this IServiceCollection services) => services
-        .AddTransient<SettingsPage>()
-        .AddTransient<HotkeysPage>()
-        .AddTransient<SoundDevicesPage>()
-        .AddTransient<CommandsPage>()
-        .AddTransient<FoldersPage>()
-        .AddTransient<GenericPage>()
+        // By default all pages are added as Transient.
+        .AddSingleton<SettingsPage>()
+        .AddSingleton<HotkeysPage>()
+        .AddSingleton<SoundDevicesPage>()
+        .AddSingleton<CommandsPage>()
+        .AddSingleton<FoldersPage>()
+        .AddSingleton<GenericPage>()
         .AddTransient<ShellPage>();
 
     public static IServiceCollection AddHttpServer(this IServiceCollection services, IConfiguration configuration)
