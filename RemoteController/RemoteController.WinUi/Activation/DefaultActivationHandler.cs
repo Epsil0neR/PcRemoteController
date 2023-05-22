@@ -1,6 +1,4 @@
-﻿using Microsoft.UI.Xaml;
-
-using RemoteController.WinUi.Contracts.Services;
+﻿using RemoteController.WinUi.Contracts.Services;
 using RemoteController.WinUi.ViewModels;
 
 namespace RemoteController.WinUi.Activation;

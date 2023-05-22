@@ -35,6 +35,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<None Update="appsettings.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="RemoteController.pfx">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
 		<Manifest Include="$(ApplicationManifest)" />
 	</ItemGroup>
 
@@ -52,12 +61,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\RemoteController.WebSocket\RemoteController.WebSocket.csproj" />
 		<ProjectReference Include="..\RemoteController.WinUi.Core\RemoteController.WinUi.Core.csproj" />
-	</ItemGroup>
-	<ItemGroup>
-		<None Update="appsettings.json">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">

@@ -1,6 +1,4 @@
-﻿using Microsoft.UI.Xaml;
-
-namespace RemoteController.WinUi.Contracts.Services;
+﻿namespace RemoteController.WinUi.Contracts.Services;
 
 public interface IThemeSelectorService
 {

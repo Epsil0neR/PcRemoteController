@@ -1,6 +1,4 @@
-﻿using Microsoft.UI.Xaml;
-
-using RemoteController.WinUi.Contracts.Services;
+﻿using RemoteController.WinUi.Contracts.Services;
 
 namespace RemoteController.WinUi.Services;
 

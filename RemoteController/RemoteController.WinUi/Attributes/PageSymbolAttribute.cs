@@ -1,6 +1,4 @@
-﻿using Microsoft.UI.Xaml.Controls;
-
-namespace RemoteController.WinUi.Attributes;
+﻿namespace RemoteController.WinUi.Attributes;
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
 public class PageSymbolAttribute : Attribute

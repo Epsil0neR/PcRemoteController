@@ -1,6 +1,4 @@
-﻿using Microsoft.UI.Xaml.Controls;
-
-namespace RemoteController.WinUi.Contracts.Services;
+﻿namespace RemoteController.WinUi.Contracts.Services;
 
 public interface INavigationViewService
 {

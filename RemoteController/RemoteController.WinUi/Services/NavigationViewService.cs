@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using Microsoft.UI.Xaml.Controls;
 using RemoteController.WinUi.Attributes;
 using RemoteController.WinUi.Contracts.Services;
 using RemoteController.WinUi.Helpers;

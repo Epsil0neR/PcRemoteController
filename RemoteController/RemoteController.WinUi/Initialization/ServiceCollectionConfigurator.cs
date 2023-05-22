@@ -2,7 +2,7 @@
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+using RemoteController.WebSocket;
 using RemoteController.WinUi.Contracts.Services;
 using RemoteController.WinUi.Core.Contracts.Services;
 using RemoteController.WinUi.Core.Options;
@@ -12,6 +12,7 @@ using RemoteController.WinUi.Notifications;
 using RemoteController.WinUi.Services;
 using RemoteController.WinUi.ViewModels;
 using RemoteController.WinUi.Views;
+using RemoteController.WinUi.WebHosting;
 using WebSocketSharp.Server;
 
 namespace RemoteController.WinUi.Initialization;
@@ -57,24 +58,20 @@ internal static class ServiceCollectionConfigurator
         .AddTransient<GenericPage>()
         .AddTransient<ShellPage>();
 
-    [Obsolete("Not implemented yet!")]
     public static IServiceCollection AddHttpServer(this IServiceCollection services, IConfiguration configuration)
     {
-        services
-            .AddSingleton(s => Factories.HttpServer(s, configuration))
+        return services
+            .AddSingleton(s => Factories.HttpServer(s, s.GetRequiredService<IWritableOptions<ServerOptions>>()))
+            .AddHostedService<HttpHosting>()
             ;
-
-        //TODO:
-        return services;
     }
 
-    [Obsolete("Not implemented yet!")]
     public static IServiceCollection AddWebSocketServer(this IServiceCollection services, IConfiguration configuration)
     {
-        //TODO:
-        return services;
+        return services
+            .AddSingleton(Factories.WsServer)
+            .AddHostedService<WebSocketHosting>();
     }
-
 
     [Obsolete("Not implemented yet!")]
     public static IServiceCollection AddWebSocketService(this IServiceCollection services, IConfiguration configuration)
@@ -101,14 +98,13 @@ internal static class ServiceCollectionConfigurator
 
 internal static class Factories
 {
-    public static HttpServer HttpServer(IServiceProvider services, IConfiguration configuration)
+    public static HttpServer HttpServer(IServiceProvider services, IWritableOptions<ServerOptions> options)
     {
-        //var config = c.Resolve<ServerConfig>();
         var logger = services.GetRequiredService<ILogger<HttpServer>>();
         var cert = new X509Certificate2(
             Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "RemoteController.pfx"),
             "{0x719dca02,0xb331,0x45fb,{0xb8,0xd1,0xbb,0x39,0xec,0x5d,0x39,0x8b}}");
-        var http = new HttpServer(0, true) //TODO: Customize port.
+        var http = new HttpServer(options.Value.Port, true)
         {
             KeepClean = true,
             SslConfiguration =
@@ -146,5 +142,14 @@ internal static class Factories
 #endif
         //http.OnGet += Http.OnGetSinglePage;
         return http;
+    }
+
+    public static WsServer WsServer(IServiceProvider services)
+    {
+        var httpServer = services.GetRequiredService<HttpServer>();
+        var server = new WsServer(httpServer, "/Testing");
+        //server.ClientConnected += ServerOnClientConnected;
+
+        return server;
     }
 }

@@ -1,7 +1,4 @@
-﻿using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-
-using RemoteController.WinUi.Activation;
+﻿using RemoteController.WinUi.Activation;
 using RemoteController.WinUi.Contracts.Services;
 using RemoteController.WinUi.Views;
 
@@ -12,13 +9,20 @@ public class ActivationService : IActivationService
     private readonly ActivationHandler<LaunchActivatedEventArgs> _defaultHandler;
     private readonly IEnumerable<IActivationHandler> _activationHandlers;
     private readonly IThemeSelectorService _themeSelectorService;
-    private UIElement? _shell = null;
+    private readonly App _app;
+    private UIElement? _shell;
 
-    public ActivationService(ActivationHandler<LaunchActivatedEventArgs> defaultHandler, IEnumerable<IActivationHandler> activationHandlers, IThemeSelectorService themeSelectorService)
+    public ActivationService(
+        ActivationHandler<LaunchActivatedEventArgs> defaultHandler, 
+        IEnumerable<IActivationHandler> activationHandlers, 
+        IThemeSelectorService themeSelectorService,
+        App app
+        )
     {
         _defaultHandler = defaultHandler;
         _activationHandlers = activationHandlers;
         _themeSelectorService = themeSelectorService;
+        _app = app;
     }
 
     public async Task ActivateAsync(object activationArgs)
@@ -64,5 +68,15 @@ public class ActivationService : IActivationService
     {
         await _themeSelectorService.SetRequestedThemeAsync();
         await Task.CompletedTask;
+    }
+
+    public async Task StartAsync(CancellationToken cancellationToken)
+    {
+        await ActivateAsync(_app.Arguments);
+    }
+
+    public Task StopAsync(CancellationToken cancellationToken)
+    {
+        return Task.CompletedTask;
     }
 }

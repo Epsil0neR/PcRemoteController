@@ -1,9 +1,4 @@
-﻿using Microsoft.UI;
-using Microsoft.UI.Windowing;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
+﻿using Microsoft.UI.Windowing;
 using RemoteController.WinUi.Contracts.Services;
 using RemoteController.WinUi.Helpers;
 using RemoteController.WinUi.ViewModels;
@@ -18,10 +13,7 @@ public sealed partial class ShellPage : Page
 {
     private readonly AppWindow _appWindow;
 
-    public ShellViewModel ViewModel
-    {
-        get;
-    }
+    public ShellViewModel ViewModel { get; }
 
     public ShellPage(ShellViewModel viewModel, INavigationViewService navigationViewService)
     {
@@ -48,7 +40,7 @@ public sealed partial class ShellPage : Page
         _appWindow = GetAppWindowForCurrentWindow();
     }
 
-    private void OnLoaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    private void OnLoaded(object sender, RoutedEventArgs e)
     {
         KeyboardAccelerators.Add(BuildKeyboardAcceleratorGoBack(VirtualKey.Left, VirtualKeyModifiers.Menu));
         KeyboardAccelerators.Add(BuildKeyboardAcceleratorGoBack(VirtualKey.GoBack));
@@ -65,7 +57,7 @@ public sealed partial class ShellPage : Page
     {
         var resource = args.WindowActivationState == WindowActivationState.Deactivated ? "WindowCaptionForegroundDisabled" : "WindowCaptionForeground";
 
-        AppTitleBarText.Foreground = (SolidColorBrush)App.Current.Resources[resource];
+        AppTitleBarText.Foreground = (SolidColorBrush)Application.Current.Resources[resource];
     }
 
     private void NavigationViewControl_DisplayModeChanged(NavigationView sender, NavigationViewDisplayModeChangedEventArgs args)

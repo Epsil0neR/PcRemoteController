@@ -1,7 +1,4 @@
-﻿using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-
-namespace RemoteController.WinUi.Helpers;
+﻿namespace RemoteController.WinUi.Helpers;
 
 // Helper class to set the navigation target for a NavigationViewItem.
 //

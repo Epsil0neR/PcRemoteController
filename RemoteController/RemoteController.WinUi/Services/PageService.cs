@@ -1,6 +1,5 @@
 ﻿using System.Reflection;
 using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.UI.Xaml.Controls;
 using RemoteController.WinUi.Attributes;
 using RemoteController.WinUi.Contracts.Services;
 using RemoteController.WinUi.Views;

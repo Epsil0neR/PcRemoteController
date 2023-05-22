@@ -1,12 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.UI.Xaml;
-
 using RemoteController.WinUi.Activation;
 using RemoteController.WinUi.Contracts.Services;
-using RemoteController.WinUi.Core.Options;
 using RemoteController.WinUi.Initialization;
-using RemoteController.WinUi.Models;
+using RemoteController.WinUi.Services;
 using RemoteController.WinUi.Views;
 using Serilog;
 
@@ -23,6 +19,8 @@ public partial class App : Application
     // https://docs.microsoft.com/dotnet/core/extensions/configuration
     // https://docs.microsoft.com/dotnet/core/extensions/logging
     public IHost Host { get; }
+
+    public LaunchActivatedEventArgs Arguments { get; private set; }
 
     public static T GetService<T>()
         where T : class
@@ -67,6 +65,12 @@ public partial class App : Application
                     .AddInformers(context.Configuration)
                     .AddManipulators(context.Configuration)
                     ;
+
+
+                services
+                    .AddSingleton(this)
+                    .AddSingleton<IActivationService, ActivationService>()
+                    .AddHostedService<ActivationService>();
             })
             .UseSerilog((context, services, configuration) =>
             {
@@ -95,11 +99,13 @@ public partial class App : Application
 
     protected async override void OnLaunched(LaunchActivatedEventArgs args)
     {
+        Arguments = args;
         base.OnLaunched(args);
 
         //TODO: Uncomment next line to show notification on app launch.
         //GetService<IAppNotificationService>().Show(string.Format("AppNotificationSamplePayload".GetLocalized(), AppContext.BaseDirectory));
 
-        await GetService<IActivationService>().ActivateAsync(args);
+        await Host.StartAsync();
+        //await GetService<IActivationService>().ActivateAsync(args);
     }
 }

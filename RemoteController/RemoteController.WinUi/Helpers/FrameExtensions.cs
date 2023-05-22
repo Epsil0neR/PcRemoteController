@@ -1,6 +1,4 @@
-﻿using Microsoft.UI.Xaml.Controls;
-
-namespace RemoteController.WinUi.Helpers;
+﻿namespace RemoteController.WinUi.Helpers;
 
 public static class FrameExtensions
 {
