@@ -69,7 +69,7 @@ public class SoundDevicesPageViewModel : BasePageViewModel
 
     public ShortcutsService ShortcutsService { get; }
 
-    public SoundInformer SoundInformer { get; }
+    public SoundInformer? SoundInformer { get; }
 
     public ICommand SetOutputDeviceCommand { get; }
 

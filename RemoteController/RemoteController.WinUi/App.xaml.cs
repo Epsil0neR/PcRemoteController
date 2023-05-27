@@ -58,11 +58,11 @@ public partial class App : Application
                     .AddViews()
 
                     .AddWebHosting(context.Configuration)
+                    .AddInformers(context.Configuration)
                     ;
 
                 //TODO: Implement these extensions.
                 services
-                    .AddInformers(context.Configuration)
                     .AddManipulators(context.Configuration)
                     ;
             })

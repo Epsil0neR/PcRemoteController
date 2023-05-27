@@ -2,25 +2,33 @@
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using RemoteController.Informer;
+using RemoteController.Manipulator;
+using RemoteController.Manipulator.Contexts;
+using RemoteController.Services;
 using RemoteController.WebSocket;
 using RemoteController.WinUi.Contracts.Services;
 using RemoteController.WinUi.Core.Contracts.Services;
 using RemoteController.WinUi.Core.Options;
 using RemoteController.WinUi.Core.Services;
+using RemoteController.WinUi.Extensions;
 using RemoteController.WinUi.HostedServices;
 using RemoteController.WinUi.Models;
 using RemoteController.WinUi.Notifications;
 using RemoteController.WinUi.Services;
 using RemoteController.WinUi.ViewModels;
 using RemoteController.WinUi.Views;
+using Unity;
 using WebSocketSharp.Server;
+using WindowsInput;
 
 namespace RemoteController.WinUi.Initialization;
 
 internal static class ServiceCollectionConfigurator
 {
     /// <summary>
-    /// Configures all options used in application.
+    /// Configures all options used in application from appsettings.json file.
     /// </summary>
     /// <param name="services"></param>
     /// <param name="context"></param>
@@ -28,7 +36,9 @@ internal static class ServiceCollectionConfigurator
     public static IServiceCollection ConfigureOptions(this IServiceCollection services, HostBuilderContext context) => services
         .ConfigureWritable<LocalSettingsOptions>(context.Configuration.GetSection(nameof(LocalSettingsOptions)))
         .ConfigureWritable<GeneralOptions>(context)
-        .ConfigureWritable<ServerOptions>(context);
+        .ConfigureWritable<ServerOptions>(context)
+        .ConfigureWritable<FileSystemOptions>(context)
+    ;
 
     public static IServiceCollection AddServices(this IServiceCollection services) => services
         .AddSingleton<IAppNotificationService, AppNotificationService>()
@@ -64,22 +74,30 @@ internal static class ServiceCollectionConfigurator
         return services
             .AddSingleton(s => Factories.HttpServer(s, s.GetRequiredService<IWritableOptions<ServerOptions>>()))
             .AddSingleton(Factories.WsServer)
+            .AddSingleton<WsService>()
             .AddHostedService<WebHosting>()
             ;
     }
 
-    [Obsolete("Not implemented yet!")]
     public static IServiceCollection AddInformers(this IServiceCollection services, IConfiguration configuration)
     {
-        //TODO:
-        return services;
+        return services
+            .AddSingleton<CommandsInformer>()
+            .AddSingleton<SoundInformer>()
+            .AddSingleton<InformersManager>(Factories.InformersManager)
+            .AddHostedService<InformersHosting>()
+            ;
     }
 
-    [Obsolete("Not implemented yet!")]
     public static IServiceCollection AddManipulators(this IServiceCollection services, IConfiguration configuration)
     {
         //TODO:
-        return services;
+        return services
+            .AddSingleton<InputSimulator>()
+            .AddSingleton<FileSystemContext>()
+            .AddSingleton<IManipulatorsManager, ManipulatorsManager>()
+            .AddHostedService<ManipulatorsHosting>()
+            ;
     }
 }
 
@@ -138,5 +156,90 @@ internal static class Factories
         //server.ClientConnected += ServerOnClientConnected;
 
         return server;
+    }
+
+    public static InformersManager InformersManager(IServiceProvider services)
+    {
+        var manager = new InformersManager();
+        manager.Register<CommandsInformer>();
+        manager.Register<SoundInformer>();
+        return manager;
+    }
+
+    public static WsService WsService(IServiceProvider services)
+    {
+        var wsServer = services.GetRequiredService<WsServer>();
+        var logger = services.GetRequiredService<ILogger<WsService>>();
+        var rv = new WsService(wsServer, logger);
+
+        rv.RegisterDataTypeForAction<string>("Auth");
+        rv.RegisterHandlerForAction("Auth", AuthMessageHandler);
+        rv.AddActionFilter(AuthenticationCheck);
+
+        return rv;
+    }
+
+    /// <summary>
+    /// Checks if message can be handler vai <see cref="RemoteController.WebSocket.WsService.RegisterHandlerForAction"/>.
+    /// </summary>
+    /// <param name="msg">Message</param>
+    /// <returns></returns>
+    private static bool AuthenticationCheck(Message msg)
+    {
+        var rv = msg.Sender.IsAuthenticated 
+                 || msg.Type != MessageType.Request 
+                 || msg.ActionName.Equals("Auth", StringComparison.CurrentCultureIgnoreCase);
+
+        if (!rv)
+        {
+            // Migration to WinUI and MS Logging:
+            //Log.Logger.Warn($"Received unauthorized message: Sender:{msg.Sender}, Action:{msg.ActionName}, Type:{msg.Type}.");
+        }
+
+        return rv;
+    }
+
+    /// <summary>
+    /// Authentication message handler.
+    /// </summary>
+    /// <param name="msg"></param>
+    private static void AuthMessageHandler(Message msg)
+    {
+        var auth = Application.Current.Resolve<IAuthService>();
+        var token = msg.Data?.ToString();
+
+        // Check if sender already authenticated - in that case return error message to sender and exit message handler.
+        if (auth.IsAuthorized(msg.Sender.AuthToken))
+        {
+            var m = new Message
+            {
+                ActionName = msg.ActionName,
+                Hash = msg.Hash,
+                Data = "Already authenticated connection.",
+                Type = MessageType.Error
+            };
+            msg.Sender.Send(m);
+            return;
+        }
+
+        // If no token provided - generate new one and send back to client.
+        if (!auth.IsAuthorized(token))
+        {
+            token = Guid.NewGuid().ToString("N");
+
+            var m = new Message
+            {
+                ActionName = msg.ActionName,
+                Hash = msg.Hash,
+                Data = token,
+                Type = MessageType.Response
+            };
+            msg.Sender.Send(m);
+        }
+
+        if (auth.TryAuthorize(token))
+            msg.Sender.Auth(token);
+        else if (auth.Register(token, string.Empty, string.Empty))
+            msg.Sender.Auth(token);
     }
 }

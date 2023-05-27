@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Logging;
@@ -20,7 +21,7 @@ public class ManipulatorsManager : IManipulatorsManager
     }
 
     /// <inheritdoc />
-    public T GetContext<T>()
+    public T? GetContext<T>()
     {
         var t = typeof(T);
         if (_contexts.TryGetValue(t, out var rv))
@@ -99,6 +100,16 @@ public class ManipulatorsManager : IManipulatorsManager
     {
         var args = new ManipulatorsItemEventArgs(manipulation, inserted);
         ItemStateChanged?.Invoke(this, args);
+    }
+
+    public IEnumerator<IManipulation> GetEnumerator()
+    {
+        return _manipulations.GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
     }
 }
 

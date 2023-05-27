@@ -6,9 +6,9 @@ namespace RemoteController.Informer;
 
 public class InformersManager
 {
-    private readonly List<BaseInformer> _items = new List<BaseInformer>();
+    private readonly List<BaseInformer> _items = new();
 
-    public event EventHandler<BaseInformer> InformerChanged;
+    public event EventHandler<BaseInformer>? InformerChanged;
 
     public bool Started { get; private set; }
 
@@ -46,7 +46,7 @@ public class InformersManager
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
-    public T Informer<T>() where T : BaseInformer
+    public T? Informer<T>() where T : BaseInformer
     {
         return _items.OfType<T>().FirstOrDefault();
     }

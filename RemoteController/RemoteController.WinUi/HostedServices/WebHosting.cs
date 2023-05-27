@@ -1,6 +1,7 @@
-﻿using System.Text;
+﻿using RemoteController.Informer;
 using RemoteController.WebSocket;
 using RemoteController.WinUi.Core.Options;
+using RemoteController.WinUi.Extensions;
 using RemoteController.WinUi.Models;
 using WebSocketSharp;
 using WebSocketSharp.Net;
@@ -8,22 +9,25 @@ using WebSocketSharp.Server;
 
 namespace RemoteController.WinUi.HostedServices;
 
-public class WebHosting:IHostedService
+public class WebHosting : IHostedService
 {
     private bool _wasRunning;
 
     public HttpServer HttpServer { get; }
     public WsServer WebSocketServer { get; }
     public IWritableOptions<ServerOptions> Options { get; }
+    public InformersManager InformersManager { get; }
 
     public WebHosting(
-        HttpServer httpServer, 
-        WsServer webSocketServer, 
-        IWritableOptions<ServerOptions> options)
+        HttpServer httpServer,
+        WsServer webSocketServer,
+        IWritableOptions<ServerOptions> options,
+        InformersManager informersManager)
     {
         HttpServer = httpServer ?? throw new ArgumentNullException(nameof(httpServer));
         WebSocketServer = webSocketServer ?? throw new ArgumentNullException(nameof(webSocketServer));
         Options = options ?? throw new ArgumentNullException(nameof(options));
+        InformersManager = informersManager ?? throw new ArgumentNullException(nameof(informersManager));
     }
 
     public async Task StartAsync(CancellationToken cancellationToken)
@@ -120,25 +124,20 @@ public class WebHosting:IHostedService
         res.WriteContent(contents);
     }
 
-    private static void ServerOnClientConnected(object? sender, EventArgs e)
+    private void ServerOnClientConnected(object? sender, EventArgs e)
     {
         var socket = sender as IWsSocket;
         if (socket is not WebSocketBehavior behavior)
             return;
 
-        var task = Task.Delay(1000);
+        var task = Task.Delay(1000); //TODO: Move this setting to config.
         task.ConfigureAwait(false);
         task.ContinueWith(t =>
         {
             if (behavior?.State != WebSocketState.Open)
                 return;
 
-            //TODO: Priority #1
-            //if (IoC.Container.IsRegistered<InformersManager>())
-            //{
-            //    var informersManager = IoC.Resolve<InformersManager>();
-            //    informersManager.Informers.Send(socket);
-            //}
+            InformersManager.Informers.Send(socket);
         });
     }
 }

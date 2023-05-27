@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace RemoteController.Manipulator;
 
-public interface IManipulatorsManager
+public interface IManipulatorsManager : IEnumerable<IManipulation>
 {
     /// <summary>
     /// Raised when <see cref="IManipulation"/> is added or removed from manager.
@@ -15,7 +15,7 @@ public interface IManipulatorsManager
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
-    T GetContext<T>();
+    T? GetContext<T>();
 
     /// <summary>
     /// Sets context for specified mode.
