@@ -68,14 +68,6 @@ internal static class ServiceCollectionConfigurator
     }
 
     [Obsolete("Not implemented yet!")]
-    public static IServiceCollection AddWebSocketService(this IServiceCollection services, IConfiguration configuration)
-    {
-        //TODO:
-        return services;
-    }
-
-
-    [Obsolete("Not implemented yet!")]
     public static IServiceCollection AddInformers(this IServiceCollection services, IConfiguration configuration)
     {
         //TODO:

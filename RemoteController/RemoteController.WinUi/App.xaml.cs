@@ -57,13 +57,11 @@ public partial class App : Application
                     .AddViewModels()
                     .AddViews()
 
-                    .AddHttpServer(context.Configuration)
-                    .AddWebSocketServer(context.Configuration)
+                    .AddWebHosting(context.Configuration)
                     ;
 
                 //TODO: Implement these extensions.
                 services
-                    .AddWebSocketService(context.Configuration)
                     .AddInformers(context.Configuration)
                     .AddManipulators(context.Configuration)
                     ;
