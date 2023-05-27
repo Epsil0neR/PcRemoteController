@@ -7,6 +7,7 @@ using RemoteController.WinUi.Contracts.Services;
 using RemoteController.WinUi.Core.Contracts.Services;
 using RemoteController.WinUi.Core.Options;
 using RemoteController.WinUi.Core.Services;
+using RemoteController.WinUi.Extensions;
 using RemoteController.WinUi.Models;
 using RemoteController.WinUi.Notifications;
 using RemoteController.WinUi.Services;
@@ -137,7 +138,7 @@ internal static class Factories
 
 
 #if DEBUG
-        http.DocumentRootPath = "../../../../Web"; //TODO: Test relative path with WinUI.
+        http.DocumentRootPath = "../../../../../Web"; // Works with unpackaged.
 #else
             http.DocumentRootPath = "./Web";
 #endif
