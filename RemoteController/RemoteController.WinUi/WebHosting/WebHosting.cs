@@ -1,27 +1,50 @@
 ﻿using System.Text;
+using Microsoft.Extensions.Options;
+using RemoteController.WebSocket;
+using RemoteController.WinUi.Core.Options;
+using RemoteController.WinUi.Models;
 using WebSocketSharp;
 using WebSocketSharp.Net;
 using WebSocketSharp.Server;
 
 namespace RemoteController.WinUi.WebHosting;
 
-public class HttpHosting:IHostedService
+public class WebHosting:IHostedService
 {
-    public HttpServer HttpServer { get; }
+    private bool _wasRunning;
 
-    public HttpHosting(HttpServer httpServer)
+    public HttpServer HttpServer { get; }
+    public WsServer WebSocketServer { get; }
+    public IWritableOptions<ServerOptions> Options { get; }
+
+    public WebHosting(
+        HttpServer httpServer, 
+        WsServer webSocketServer, 
+        IWritableOptions<ServerOptions> options)
     {
         HttpServer = httpServer ?? throw new ArgumentNullException(nameof(httpServer));
+        WebSocketServer = webSocketServer ?? throw new ArgumentNullException(nameof(webSocketServer));
+        Options = options ?? throw new ArgumentNullException(nameof(options));
     }
 
     public async Task StartAsync(CancellationToken cancellationToken)
     {
         HttpServer.OnGet += OnGetSinglePage;
+
+        WebSocketServer.ClientConnected += ServerOnClientConnected;
+        if (Options.Value.StartWithApp || _wasRunning)
+        {
+            WebSocketServer.StartServer();
+        }
     }
 
     public async Task StopAsync(CancellationToken cancellationToken)
     {
         HttpServer.OnGet -= OnGetSinglePage;
+
+        WebSocketServer.ClientConnected -= ServerOnClientConnected;
+        _wasRunning = WebSocketServer.IsStarted;
+        WebSocketServer.StopServer();
     }
 
     public static void OnGetMultiPages(object? sender, HttpRequestEventArgs e)
@@ -96,5 +119,27 @@ public class HttpHosting:IHostedService
         }
 
         res.WriteContent(contents);
+    }
+
+    private static void ServerOnClientConnected(object? sender, EventArgs e)
+    {
+        var socket = sender as IWsSocket;
+        if (socket is not WebSocketBehavior behavior)
+            return;
+
+        var task = Task.Delay(1000);
+        task.ConfigureAwait(false);
+        task.ContinueWith(t =>
+        {
+            if (behavior?.State != WebSocketState.Open)
+                return;
+
+            //TODO: Priority #1
+            //if (IoC.Container.IsRegistered<InformersManager>())
+            //{
+            //    var informersManager = IoC.Resolve<InformersManager>();
+            //    informersManager.Informers.Send(socket);
+            //}
+        });
     }
 }

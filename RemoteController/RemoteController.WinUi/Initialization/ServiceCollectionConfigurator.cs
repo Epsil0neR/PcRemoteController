@@ -7,13 +7,11 @@ using RemoteController.WinUi.Contracts.Services;
 using RemoteController.WinUi.Core.Contracts.Services;
 using RemoteController.WinUi.Core.Options;
 using RemoteController.WinUi.Core.Services;
-using RemoteController.WinUi.Extensions;
 using RemoteController.WinUi.Models;
 using RemoteController.WinUi.Notifications;
 using RemoteController.WinUi.Services;
 using RemoteController.WinUi.ViewModels;
 using RemoteController.WinUi.Views;
-using RemoteController.WinUi.WebHosting;
 using WebSocketSharp.Server;
 
 namespace RemoteController.WinUi.Initialization;
@@ -60,19 +58,13 @@ internal static class ServiceCollectionConfigurator
         .AddSingleton<GenericPage>()
         .AddTransient<ShellPage>();
 
-    public static IServiceCollection AddHttpServer(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddWebHosting(this IServiceCollection services, IConfiguration configuration)
     {
         return services
             .AddSingleton(s => Factories.HttpServer(s, s.GetRequiredService<IWritableOptions<ServerOptions>>()))
-            .AddHostedService<HttpHosting>()
-            ;
-    }
-
-    public static IServiceCollection AddWebSocketServer(this IServiceCollection services, IConfiguration configuration)
-    {
-        return services
             .AddSingleton(Factories.WsServer)
-            .AddHostedService<WebSocketHosting>();
+            .AddHostedService<WebHosting.WebHosting>()
+            ;
     }
 
     [Obsolete("Not implemented yet!")]
