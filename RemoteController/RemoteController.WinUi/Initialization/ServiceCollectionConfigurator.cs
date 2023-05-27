@@ -7,6 +7,7 @@ using RemoteController.WinUi.Contracts.Services;
 using RemoteController.WinUi.Core.Contracts.Services;
 using RemoteController.WinUi.Core.Options;
 using RemoteController.WinUi.Core.Services;
+using RemoteController.WinUi.HostedServices;
 using RemoteController.WinUi.Models;
 using RemoteController.WinUi.Notifications;
 using RemoteController.WinUi.Services;
@@ -63,7 +64,7 @@ internal static class ServiceCollectionConfigurator
         return services
             .AddSingleton(s => Factories.HttpServer(s, s.GetRequiredService<IWritableOptions<ServerOptions>>()))
             .AddSingleton(Factories.WsServer)
-            .AddHostedService<WebHosting.WebHosting>()
+            .AddHostedService<WebHosting>()
             ;
     }
 

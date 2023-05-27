@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using Microsoft.Extensions.Options;
 using RemoteController.WebSocket;
 using RemoteController.WinUi.Core.Options;
 using RemoteController.WinUi.Models;
@@ -7,7 +6,7 @@ using WebSocketSharp;
 using WebSocketSharp.Net;
 using WebSocketSharp.Server;
 
-namespace RemoteController.WinUi.WebHosting;
+namespace RemoteController.WinUi.HostedServices;
 
 public class WebHosting:IHostedService
 {
