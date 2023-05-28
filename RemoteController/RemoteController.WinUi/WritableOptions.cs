@@ -42,10 +42,13 @@ public class WritableOptions<T> : IWritableOptions<T> where T : class, new()
         var physicalPath = fileInfo.PhysicalPath;
 
         var jObject = JsonConvert.DeserializeObject<JObject>(File.ReadAllText(physicalPath));
-        var sectionObject = jObject.TryGetValue(_section, out JToken section) ?
-            JsonConvert.DeserializeObject<T>(section.ToString()) : (Value ?? new T());
+        var sectionObject = jObject.TryGetValue(_section, out JToken section) 
+            ? JsonConvert.DeserializeObject<T>(section.ToString()) 
+            : (Value ?? new T());
 
         applyChanges(sectionObject);
+        if (Value is not null) 
+            applyChanges(Value);
 
         jObject[_section] = JObject.Parse(JsonConvert.SerializeObject(sectionObject));
         File.WriteAllText(physicalPath, JsonConvert.SerializeObject(jObject, Formatting.Indented));
