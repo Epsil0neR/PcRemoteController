@@ -3,29 +3,42 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using RemoteController.WinUi.Core.Options;
 using RemoteController.WinUi.Models;
+using RemoteController.WinUi.Utils;
 
 namespace RemoteController.WinUi.ViewModels;
 
 public class GenericViewModel : ObservableRecipient
 {
     private readonly IWritableOptions<GeneralOptions> _options;
+    private bool _autoStartup;
 
     public GenericViewModel(IWritableOptions<GeneralOptions> options)
     {
         _options = options;
+        _autoStartup = WindowsUtils.ReadAutoStartup();
 
-        IncreaseCounterCommand = new RelayCommand(IncreaseCounter);
+        ToggleAutoStartupCommand = new RelayCommand(ToggleAutoStartup);
     }
 
-    public int Counter => _options.Value.ClickCounter;
-
-    public ICommand IncreaseCounterCommand { get; }
-
-    private void IncreaseCounter()
+    public bool AutoStartup
     {
-        _options.Update(o =>
+        get => _autoStartup;
+        set
         {
-            o.ClickCounter++;
-        });
+            if (value)
+                WindowsUtils.EnableAutoStartup();
+            else
+                WindowsUtils.DisableAutoStartup();
+
+            _autoStartup = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public ICommand ToggleAutoStartupCommand { get; }
+
+    private void ToggleAutoStartup()
+    {
+        AutoStartup = !AutoStartup;
     }
 }

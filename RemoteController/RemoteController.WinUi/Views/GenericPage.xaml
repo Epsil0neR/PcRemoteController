@@ -4,16 +4,63 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:RemoteController.WinUi.Controls"
+    xmlns:winUi="using:CommunityToolkit.Labs.WinUI"
+    xmlns:ui="using:CommunityToolkit.WinUI.UI"
     mc:Ignorable="d">
 
     <StackPanel 
         x:Name="ContentArea"
         Orientation="Vertical">
-        <TextBlock Text="{x:Bind ViewModel.Counter}" />
 
-        <Button
-            Content="Click me!" 
-            Command="{x:Bind ViewModel.IncreaseCounterCommand}"
-            />
+        <winUi:SettingsCard
+            Header="Auto-start application"
+            HeaderIcon="{ui:FontIcon Glyph=&#xE83D;}"
+            Description="Indicates if application will be started with Windows"
+            Command="{x:Bind ViewModel.ToggleAutoStartupCommand}"
+            IsClickEnabled="True"
+            IsActionIconVisible="False"
+            >
+            <ToggleSwitch 
+                IsOn="{x:Bind ViewModel.AutoStartup, Mode=TwoWay}"/>
+        </winUi:SettingsCard>
+
+        <winUi:SettingsExpander
+            Header="Host server"
+            Description="HTTP and WebSocket server settings"
+            HeaderIcon="{ui:FontIcon Glyph=&#xE952;}">
+            <ToggleSwitch />
+
+            <winUi:SettingsExpander.Items>
+                <winUi:SettingsCard Header="Port">
+                    <NumberBox 
+                        Value="123" 
+                        Minimum="1" 
+                        Maximum="65535" 
+                        />
+                </winUi:SettingsCard>
+            </winUi:SettingsExpander.Items>
+        </winUi:SettingsExpander>
+        <winUi:SettingsExpander
+            Header="Header"
+            Description="Description"
+            HeaderIcon="{ui:FontIcon Glyph=&#xE76E;}">
+            <Button 
+                Content="Click Me!"
+                />
+
+            <winUi:SettingsExpander.Items>
+
+            </winUi:SettingsExpander.Items>
+        </winUi:SettingsExpander>
+        
+        <!--TODO: ToggleSwitch to switch server.-->
+        <!--TODO: Server port-->
+
+        <!--
+        SettingsCard
+        ~ Title Informers
+        ~ Sound informers
+        -->
     </StackPanel>
 </Page>

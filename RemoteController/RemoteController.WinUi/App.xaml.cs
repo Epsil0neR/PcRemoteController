@@ -10,6 +10,8 @@ namespace RemoteController.WinUi;
 // To learn more about WinUI 3, see https://docs.microsoft.com/windows/apps/winui/winui3/.
 public partial class App : Application
 {
+    public const string AppName = "RemoteController";
+
     private readonly ILogger<App> _logger;
 
     // The .NET Generic Host provides dependency injection, configuration, logging, and other services.
