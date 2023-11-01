@@ -9,11 +9,11 @@ public static class WindowsUtils
         return Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true)!;
     }
 
-    public static bool ReadAutoStartup()
+    public static bool IsAutoStartupEnabled()
     {
         using var rk = RegistryKey();
-        var value = rk?.GetValue(App.AppName);
-        return value is not null;
+        var value = rk.GetValue(App.AppName);
+        return value is not null; // Value is path to executable.
     }
 
     public static void EnableAutoStartup()

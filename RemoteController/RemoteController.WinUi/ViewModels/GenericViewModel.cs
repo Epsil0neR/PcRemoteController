@@ -15,7 +15,7 @@ public class GenericViewModel : ObservableRecipient
     public GenericViewModel(IWritableOptions<GeneralOptions> options)
     {
         _options = options;
-        _autoStartup = WindowsUtils.ReadAutoStartup();
+        _autoStartup = WindowsUtils.IsAutoStartupEnabled();
 
         ToggleAutoStartupCommand = new RelayCommand(ToggleAutoStartup);
     }
