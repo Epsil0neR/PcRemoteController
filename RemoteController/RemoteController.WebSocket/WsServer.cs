@@ -224,6 +224,7 @@ public class WsServer : INotifyPropertyChanged
         if (Http.WebSocketServices.Paths.Contains(Path, StringComparer.InvariantCultureIgnoreCase))
         {
             //TODO: Path already in use. What shall we do in that case?
+            IsStarted = true;
         }
         else
         {
