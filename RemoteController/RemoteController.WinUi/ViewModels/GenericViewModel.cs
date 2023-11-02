@@ -57,6 +57,7 @@ public class GenericViewModel : ObservableRecipient
                 _server.StartServer();
             else
                 _server.StopServer();
+            OnPropertyChanged();
         }
     }
 

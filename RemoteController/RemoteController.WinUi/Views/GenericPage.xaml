@@ -27,6 +27,7 @@
             Description="HTTP and WebSocket server settings"
             HeaderIcon="{ui:FontIcon Glyph=&#xE952;}">
             <ToggleSwitch 
+                x:Name="ToggleSwitchServerIsRunning"
                 IsOn="{x:Bind ViewModel.IsServerRunning, Mode=TwoWay}" 
                 />
 
@@ -37,7 +38,7 @@
                         Value="{x:Bind ViewModel.Server.Http.Port}" 
                         Minimum="1" 
                         Maximum="65535" 
-                        IsEnabled="False"
+                        IsEnabled="{x:Bind ToggleSwitchServerIsRunning.IsOn, Converter={StaticResource Converter.InverseBoolean}}"
                         />
                 </winUi:SettingsCard>
                 <winUi:SettingsCard
