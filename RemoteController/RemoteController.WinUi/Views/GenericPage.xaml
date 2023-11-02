@@ -4,14 +4,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:controls="using:RemoteController.WinUi.Controls"
     xmlns:winUi="using:CommunityToolkit.Labs.WinUI"
     xmlns:ui="using:CommunityToolkit.WinUI.UI"
     mc:Ignorable="d">
 
-    <StackPanel 
-        x:Name="ContentArea"
-        Orientation="Vertical">
+    <StackPanel Orientation="Vertical">
 
         <winUi:SettingsCard
             Header="Auto-start application"
@@ -29,18 +26,30 @@
             Header="Host server"
             Description="HTTP and WebSocket server settings"
             HeaderIcon="{ui:FontIcon Glyph=&#xE952;}">
-            <ToggleSwitch />
+            <ToggleSwitch 
+                IsOn="{x:Bind ViewModel.IsServerRunning, Mode=TwoWay}" 
+                />
 
             <winUi:SettingsExpander.Items>
-                <winUi:SettingsCard Header="Port">
+                <winUi:SettingsCard 
+                    Header="Port">
                     <NumberBox 
-                        Value="123" 
+                        Value="{x:Bind ViewModel.Server.Http.Port}" 
                         Minimum="1" 
                         Maximum="65535" 
+                        IsEnabled="False"
+                        />
+                </winUi:SettingsCard>
+                <winUi:SettingsCard
+                    Header="Auto-Start with app">
+                    <ToggleSwitch 
+                        IsOn="{x:Bind ViewModel.IsServerStartsWithApp, Mode=TwoWay}"
                         />
                 </winUi:SettingsCard>
             </winUi:SettingsExpander.Items>
         </winUi:SettingsExpander>
+
+        <!--TODO: Remove this sample code.-->
         <winUi:SettingsExpander
             Header="Header"
             Description="Description"
@@ -54,9 +63,6 @@
             </winUi:SettingsExpander.Items>
         </winUi:SettingsExpander>
         
-        <!--TODO: ToggleSwitch to switch server.-->
-        <!--TODO: Server port-->
-
         <!--
         SettingsCard
         ~ Title Informers
