@@ -4,5 +4,10 @@
     xmlns:c="using:RemoteController.WinUi.Converters">
 
     <c:InverseBooleanConverter x:Key="Converter.InverseBoolean" />
+    <c:BooleanToVisibilityConverter x:Key="Converter.TrueToVisible" />
+    <c:BooleanToVisibilityConverter 
+        x:Key="Converter.FalseToVisible"
+        TrueVisibility="Collapsed"
+        FalseVisibility="Visible" />
 
 </ResourceDictionary>

@@ -1,4 +1,5 @@
-﻿using Microsoft.UI.Xaml.Data;
+﻿using System.Globalization;
+using Microsoft.UI.Xaml.Data;
 
 namespace RemoteController.WinUi.Converters;
 

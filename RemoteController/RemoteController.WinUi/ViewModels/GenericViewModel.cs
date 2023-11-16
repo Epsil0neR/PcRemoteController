@@ -11,10 +11,10 @@ namespace RemoteController.WinUi.ViewModels;
 public class GenericViewModel : ObservableRecipient
 {
     private readonly IWritableOptions<ServerOptions> _serverOptions;
-    private readonly WsServer _server;
     private bool _autoStartup;
+    private int _serverPort;
 
-    public WsServer Server => _server;
+    public WsServer Server { get; }
 
     public GenericViewModel(
         IWritableOptions<ServerOptions> serverOptions,
@@ -22,13 +22,14 @@ public class GenericViewModel : ObservableRecipient
         )
     {
         _serverOptions = serverOptions;
-        _server = server;
         _autoStartup = WindowsUtils.IsAutoStartupEnabled();
+        Server = server;
+        _serverPort = server.Http.Port;
 
         ToggleAutoStartupCommand = new RelayCommand(ToggleAutoStartup);
 
-        _server.Started += ServerOnStartedStopped;
-        _server.Stopped += ServerOnStartedStopped;
+        Server.Started += ServerOnStartedStopped;
+        Server.Stopped += ServerOnStartedStopped;
     }
 
     public bool AutoStartup
@@ -50,13 +51,13 @@ public class GenericViewModel : ObservableRecipient
 
     public bool IsServerRunning
     {
-        get => _server.IsStarted;
+        get => Server.IsStarted;
         set
         {
             if (value)
-                _server.StartServer();
+                Server.StartServer();
             else
-                _server.StopServer();
+                Server.StopServer();
             OnPropertyChanged();
         }
     }
@@ -70,6 +71,22 @@ public class GenericViewModel : ObservableRecipient
             OnPropertyChanged();
         }
     }
+
+    public int ServerPort
+    {
+        get => _serverPort;
+        set
+        {
+            if (value == _serverPort) 
+                return;
+
+            _serverPort = value;
+            OnPropertyChanged();
+            OnPropertyChanged(nameof(IsServerPortChanged));
+        }
+    }
+
+    public bool IsServerPortChanged => ServerPort != Server.Http.Port;
 
     private void ToggleAutoStartup()
     {

@@ -139,7 +139,6 @@ internal static class Factories
             }
         };
 
-
 #if DEBUG
         http.DocumentRootPath = "../../../../../Web"; // Works with unpackaged.
 #else
