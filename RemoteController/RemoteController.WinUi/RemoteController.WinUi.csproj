@@ -57,6 +57,7 @@
     <ProjectReference Include="..\RemoteController.Informer\RemoteController.Informer.csproj" />
     <ProjectReference Include="..\RemoteController.Manipulator\RemoteController.Manipulator.csproj" />
     <ProjectReference Include="..\RemoteController.WebSocket\RemoteController.WebSocket.csproj" />
+    <ProjectReference Include="..\RemoteController.WinUi.Controls\RemoteController.WinUi.Controls.csproj" />
     <ProjectReference Include="..\RemoteController.WinUi.Core\RemoteController.WinUi.Core.csproj" />
   </ItemGroup>
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
