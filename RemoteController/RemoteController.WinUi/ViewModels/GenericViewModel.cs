@@ -81,6 +81,7 @@ public class GenericViewModel : ObservableRecipient
                 return;
 
             _serverPort = value;
+            _serverOptions.Update(o => o.Port = value);
             OnPropertyChanged();
             OnPropertyChanged(nameof(IsServerPortChanged));
         }

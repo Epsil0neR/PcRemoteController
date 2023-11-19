@@ -37,12 +37,12 @@
                     <StackPanel Orientation="Horizontal">
                         <TextBlock
                             Text="Changes will be applied on next run."
-                            Visibility="{x:Bind ViewModel.IsServerPortChanged, Converter={StaticResource Converter.FalseToVisible}}"
+                            Visibility="{x:Bind ViewModel.IsServerPortChanged, Converter={StaticResource Converter.TrueToVisible}, Mode=OneWay}"
                             VerticalAlignment="Center"
                             Margin="12 0"
                             /> 
                         <NumberBox 
-                            Value="{x:Bind ViewModel.ServerPort, Mode=TwoWay}" 
+                            Value="{x:Bind ViewModel.ServerPort, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                             Minimum="1" 
                             Maximum="65535" 
                             IsEnabled="{x:Bind ToggleSwitchServerIsRunning.IsOn, Converter={StaticResource Converter.InverseBoolean}}"
