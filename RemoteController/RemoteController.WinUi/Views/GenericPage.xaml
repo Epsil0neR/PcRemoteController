@@ -44,9 +44,17 @@
                         <NumberBox 
                             Value="{x:Bind ViewModel.ServerPort, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                             Minimum="1" 
-                            Maximum="65535" 
-                            IsEnabled="{x:Bind ToggleSwitchServerIsRunning.IsOn, Converter={StaticResource Converter.InverseBoolean}}"
+                            Maximum="65535"
                             />
+                        <Button
+                            VerticalAlignment="Center"
+                            IsEnabled="{x:Bind ViewModel.IsServerPortChanged, Mode=OneWay}"
+                            Command="{x:Bind ViewModel.UndoPortChangeCommand}"
+                            ToolTipService.ToolTip="Undo"
+                            ToolTipService.Placement="Top"
+                            >
+                            <FontIcon Glyph="&#xE845;" FontSize="18" />
+                        </Button>
                     </StackPanel>
                 </winUi:SettingsCard>
                 <winUi:SettingsCard

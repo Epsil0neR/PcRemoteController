@@ -12,7 +12,6 @@ public class GenericViewModel : ObservableRecipient
 {
     private readonly IWritableOptions<ServerOptions> _serverOptions;
     private bool _autoStartup;
-    private int _serverPort;
 
     public WsServer Server { get; }
 
@@ -24,13 +23,17 @@ public class GenericViewModel : ObservableRecipient
         _serverOptions = serverOptions;
         _autoStartup = WindowsUtils.IsAutoStartupEnabled();
         Server = server;
-        _serverPort = server.Http.Port;
 
         ToggleAutoStartupCommand = new RelayCommand(ToggleAutoStartup);
+        UndoPortChangeCommand = new RelayCommand(UndoPortChange);
 
         Server.Started += ServerOnStartedStopped;
         Server.Stopped += ServerOnStartedStopped;
     }
+
+    public ICommand ToggleAutoStartupCommand { get; }
+
+    public ICommand UndoPortChangeCommand { get; }
 
     public bool AutoStartup
     {
@@ -46,8 +49,6 @@ public class GenericViewModel : ObservableRecipient
             OnPropertyChanged();
         }
     }
-
-    public ICommand ToggleAutoStartupCommand { get; }
 
     public bool IsServerRunning
     {
@@ -74,13 +75,9 @@ public class GenericViewModel : ObservableRecipient
 
     public int ServerPort
     {
-        get => _serverPort;
+        get => _serverOptions.Value.Port;
         set
         {
-            if (value == _serverPort) 
-                return;
-
-            _serverPort = value;
             _serverOptions.Update(o => o.Port = value);
             OnPropertyChanged();
             OnPropertyChanged(nameof(IsServerPortChanged));
@@ -92,6 +89,11 @@ public class GenericViewModel : ObservableRecipient
     private void ToggleAutoStartup()
     {
         AutoStartup = !AutoStartup;
+    }
+
+    private void UndoPortChange()
+    {
+        ServerPort = Server.Http.Port;
     }
 
     private void ServerOnStartedStopped(object? sender, EventArgs e)
