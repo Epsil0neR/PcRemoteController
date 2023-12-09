@@ -1,6 +1,4 @@
-﻿using Microsoft.Windows.ApplicationModel.DynamicDependency;
-
-[assembly: WinUITestTarget(typeof(RemoteController.WinUi.App))]
+﻿[assembly: WinUITestTarget(typeof(RemoteController.WinUi.App))]
 
 namespace RemoteController.WinUi.Tests.MSTest;
 

@@ -1,8 +1,4 @@
-﻿using System.Diagnostics;
-
-using Microsoft.UI.Xaml.Controls;
-
-namespace RemoteController.WinUi.Tests.MSTest;
+﻿namespace RemoteController.WinUi.Tests.MSTest;
 
 // TODO: Write unit tests.
 // https://docs.microsoft.com/visualstudio/test/getting-started-with-unit-testing
