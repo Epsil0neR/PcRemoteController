@@ -19,7 +19,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BouncyCastle.NetCore" Version="1.8.8" />
+    <PackageReference Include="BouncyCastle.NetCore" Version="2.2.1" />
     <PackageReference Include="Epsiloner.Core" Version="1.0.22" />
     <PackageReference Include="Epsiloner.OptionsModule" Version="0.4.0" />
     <PackageReference Include="Epsiloner.Wpf.Core" Version="1.2.0" />
