@@ -1,10 +1,14 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿namespace RemoteController.WinUi.ViewModels;
 
-namespace RemoteController.WinUi.ViewModels;
-
-public class FoldersViewModel : ObservableRecipient
+public partial class FoldersViewModel : ObservableRecipient
 {
     public FoldersViewModel()
     {
+    }
+
+    [RelayCommand]
+    void GoToCreate()
+    {
+
     }
 }

@@ -4,9 +4,18 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:winUi="using:CommunityToolkit.Labs.WinUI"
+    xmlns:ui="using:CommunityToolkit.WinUI.UI"
     mc:Ignorable="d">
 
-    <Grid x:Name="ContentArea">
-        
-    </Grid>
+    <StackPanel Orientation="Vertical">
+        <winUi:SettingsCard
+            HeaderIcon="{ui:FontIcon Glyph=&#xE838;}"
+            Header="Create public folder"
+            Description="Add folder that will be available via remote service."
+            Command="{x:Bind ViewModel.GoToCreateCommand}"
+            IsActionIconVisible="True"
+            IsClickEnabled="True"
+            />
+    </StackPanel>
 </Page>

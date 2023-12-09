@@ -2,7 +2,6 @@
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using RemoteController.Informer;
 using RemoteController.Manipulator;
 using RemoteController.Manipulator.Contexts;
@@ -19,7 +18,6 @@ using RemoteController.WinUi.Notifications;
 using RemoteController.WinUi.Services;
 using RemoteController.WinUi.ViewModels;
 using RemoteController.WinUi.Views;
-using Unity;
 using WebSocketSharp.Server;
 using WindowsInput;
 
