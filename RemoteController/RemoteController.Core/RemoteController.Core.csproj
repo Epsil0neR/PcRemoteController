@@ -12,6 +12,5 @@
 
   <ItemGroup>
     <PackageReference Include="Epsiloner.Core" Version="1.0.22" />
-    <PackageReference Include="Unity" Version="5.11.10" />
   </ItemGroup>
 </Project>
