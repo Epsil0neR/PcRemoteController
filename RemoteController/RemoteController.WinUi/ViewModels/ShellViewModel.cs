@@ -1,36 +1,24 @@
 ﻿using Microsoft.UI.Xaml.Navigation;
-
 using RemoteController.WinUi.Contracts.Services;
+using RemoteController.WinUi.Controls;
 using RemoteController.WinUi.Views;
 
 namespace RemoteController.WinUi.ViewModels;
 
-public class ShellViewModel : ObservableRecipient
+public partial class ShellViewModel : ObservableRecipient
 {
+    [ObservableProperty]
     private bool _isBackEnabled;
-    private object? _selected;
 
-    public INavigationService NavigationService
-    {
-        get;
-    }
+    [ObservableProperty]
+    private NavigationViewItem? _selected;
 
-    public INavigationViewService NavigationViewService
-    {
-        get;
-    }
+    [ObservableProperty]
+    private PageWithHeaderContent? _selectedPage;
 
-    public bool IsBackEnabled
-    {
-        get => _isBackEnabled;
-        set => SetProperty(ref _isBackEnabled, value);
-    }
+    public INavigationService NavigationService { get; }
 
-    public object? Selected
-    {
-        get => _selected;
-        set => SetProperty(ref _selected, value);
-    }
+    public INavigationViewService NavigationViewService { get; }
 
     public ShellViewModel(INavigationService navigationService, INavigationViewService navigationViewService)
     {
@@ -42,13 +30,14 @@ public class ShellViewModel : ObservableRecipient
     private void OnNavigated(object sender, NavigationEventArgs e)
     {
         IsBackEnabled = NavigationService.CanGoBack;
+        SelectedPage = e.Content as PageWithHeaderContent;
 
         if (e.SourcePageType == typeof(SettingsPage))
         {
             Selected = NavigationViewService.SettingsItem;
             return;
         }
-
+        
         var selectedItem = NavigationViewService.GetSelectedItem(e.SourcePageType);
         if (selectedItem != null)
         {

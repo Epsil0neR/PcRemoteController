@@ -7,6 +7,7 @@
     xmlns:helpers="using:RemoteController.WinUi.Helpers"
     xmlns:behaviors="using:RemoteController.WinUi.Behaviors"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:viewModels="using:RemoteController.WinUi.ViewModels"
     Loaded="OnLoaded">
 
     <Grid>
@@ -34,7 +35,7 @@
             IsSettingsVisible="True"
             ExpandedModeThresholdWidth="1280"
             DisplayModeChanged="NavigationViewControl_DisplayModeChanged"
-            Header="{x:Bind ((ContentControl)ViewModel.Selected).Content, Mode=OneWay}">
+            Header="{x:Bind ViewModel.Selected.Content, Mode=OneWay}">
             <NavigationView.HeaderTemplate>
                 <DataTemplate>
                     <Grid>
@@ -46,13 +47,25 @@
             </NavigationView.HeaderTemplate>
             <i:Interaction.Behaviors>
                 <behaviors:NavigationViewHeaderBehavior
-                    DefaultHeader="{x:Bind ((ContentControl)ViewModel.Selected).Content, Mode=OneWay}">
+                    DefaultHeader="{x:Bind ViewModel, Mode=OneWay}">
                     <behaviors:NavigationViewHeaderBehavior.DefaultHeaderTemplate>
-                        <DataTemplate>
+                        <DataTemplate x:DataType="viewModels:ShellViewModel">
                             <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
                                 <TextBlock
-                                    Text="{Binding}"
+                                    Grid.Column="0"
+                                    Text="{x:Bind Selected.Content}"
                                     Style="{ThemeResource TitleTextBlockStyle}" />
+                                <ContentControl
+                                    Grid.Column="1"
+                                    HorizontalContentAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    Margin="0 0 44 0"
+                                    Content="{x:Bind SelectedPage.HeaderContent}"
+                                    />
                             </Grid>
                         </DataTemplate>
                     </behaviors:NavigationViewHeaderBehavior.DefaultHeaderTemplate>

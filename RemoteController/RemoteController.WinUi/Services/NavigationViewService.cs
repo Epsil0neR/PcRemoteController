@@ -19,7 +19,7 @@ public class NavigationViewService : INavigationViewService
 
     public IList<object>? MenuItems => _navigationView?.MenuItems;
 
-    public object? SettingsItem => _navigationView?.SettingsItem;
+    public NavigationViewItem? SettingsItem => _navigationView?.SettingsItem as NavigationViewItem;
 
     public NavigationViewService(INavigationService navigationService, IPageService pageService, ILogger<NavigationViewService> logger)
     {

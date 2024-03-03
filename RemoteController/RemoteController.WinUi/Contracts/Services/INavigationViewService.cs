@@ -2,15 +2,9 @@
 
 public interface INavigationViewService
 {
-    IList<object>? MenuItems
-    {
-        get;
-    }
+    IList<object>? MenuItems { get; }
 
-    object? SettingsItem
-    {
-        get;
-    }
+    NavigationViewItem? SettingsItem { get; }
 
     void Initialize(NavigationView navigationView);
 
