@@ -19,4 +19,9 @@
         <Setter Property="Background" Value="Lime" />
         <Setter Property="Template" Value="{StaticResource CustomControl1.Template}" />
     </Style>
+
+    <Style TargetType="Page" x:Key="Page.Style"></Style>
+    <Style TargetType="local:PageWithHeaderContent"
+           BasedOn="{StaticResource Page.Style}">
+    </Style>
 </ResourceDictionary>
