@@ -16,26 +16,53 @@
             <winUi:SettingsCard
                 HeaderIcon="{ui:FontIcon Glyph=&#xE838;}"
                 Header="{x:Bind Name}"
-                Description="{x:Bind Path}"
-                Command="{Binding ElementName=root, Path=ViewModel.EditPathCommand}"
-                CommandParameter="{x:Bind}"
-                IsActionIconVisible="True"
-                IsClickEnabled="True">
+                Description="{x:Bind Path}">
                 <StackPanel Orientation="Horizontal">
                     <Button
-                        Content="{ui:FontIcon Glyph=&#xE74D;, FontSize=16}"
+                        Height="32"
+                        ToolTipService.ToolTip="Change folder"
+                        ToolTipService.Placement="Bottom"
+                        Click="FileSystemPath_OnClickEditPath"
+                        CommandParameter="{x:Bind}"
+                        Margin="8 0"
+                        >
+                        <StackPanel Orientation="Horizontal">
+                            <FontIcon 
+                                Glyph="&#xE70F;" 
+                                FontSize="16"/>
+                            <TextBlock 
+                                Text="Change folder"
+                                Margin="8 0 0 0" />
+                        </StackPanel>
+                    </Button>
+                    <Button
+                        Background="DarkRed"
                         ToolTipService.ToolTip="Delete"
                         ToolTipService.Placement="Bottom"
                         Command="{Binding ElementName=root, Path=ViewModel.DeletePathCommand}"
                         CommandParameter="{x:Bind}"
-                        />
+                        Height="32"
+                        >
+                        <StackPanel Orientation="Horizontal">
+                            <FontIcon 
+                                Glyph="&#xE74D;" 
+                                FontSize="16"/>
+                            <TextBlock 
+                                Text="Delete"
+                                Margin="8 0 0 0" />
+                        </StackPanel>
+                    </Button>
                 </StackPanel>
             </winUi:SettingsCard>
         </DataTemplate>
     </Page.Resources>
 
-    <ScrollViewer HorizontalScrollMode="Disabled">
-        <StackPanel Orientation="Vertical">
+    <ListView
+        ScrollViewer.HorizontalScrollMode="Disabled"
+        ItemsSource="{x:Bind ViewModel.Paths, Mode=OneWay}"
+        ItemTemplate="{StaticResource DataTemplate.FileSystemPath}"
+        >
+        <ListView.Header>
             <winUi:SettingsCard
                 HeaderIcon="{ui:FontIcon Glyph=&#xE8F4;}"
                 Header="Create public folder"
@@ -45,11 +72,6 @@
                 IsClickEnabled="True"
                 Margin="0 0 0 20"
                 />
-
-            <ItemsControl
-                ItemsSource="{x:Bind ViewModel.Paths}"
-                ItemTemplate="{StaticResource DataTemplate.FileSystemPath}"
-                />
-        </StackPanel>
-    </ScrollViewer>
+        </ListView.Header>
+    </ListView>
 </Page>

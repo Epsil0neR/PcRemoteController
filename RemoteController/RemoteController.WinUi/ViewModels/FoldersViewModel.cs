@@ -6,30 +6,49 @@ namespace RemoteController.WinUi.ViewModels;
 
 public partial class FoldersViewModel : ObservableRecipient
 {
+    [ObservableProperty]
+    private IReadOnlyList<FileSystemPath> _paths;
+
+    public IWritableOptions<FileSystemOptions> FileSystemOptions { get; }
+
     public FoldersViewModel(
         IWritableOptions<FileSystemOptions> fileSystemOptions
         )
     {
         FileSystemOptions = fileSystemOptions;
+        UpdatePaths();
     }
-    public IWritableOptions<FileSystemOptions> FileSystemOptions { get; }
 
-    public FileSystemPaths Paths => FileSystemOptions.Value.Roots;
+    private void UpdatePaths()
+    {
+        Paths = FileSystemOptions.Value.Roots.ToList();
+    }
 
     [RelayCommand]
     void GoToCreate()
     {
-
+        throw new NotImplementedException();
     }
 
-    [RelayCommand]
-    void EditPath(FileSystemPath path){}
+    public async Task<bool> ChangePath(FileSystemPath item, string path)
+    {
+        if (Paths.Any(x => string.Equals(path, x.Path, StringComparison.InvariantCultureIgnoreCase)))
+            return false;
+        
+        FileSystemOptions.Update(options =>
+        {
+            item.Path = path;
+        });
+        UpdatePaths();
+
+        return true;
+    }
 
     [RelayCommand(CanExecute = nameof(CanDeletePath))]
     void DeletePath(FileSystemPath path)
     {
         FileSystemOptions.Update(options => options.Roots.Remove(path));
-        OnPropertyChanged(nameof(Paths));
+        UpdatePaths();
     }
 
     bool CanDeletePath(FileSystemPath path) => FileSystemOptions.Value.Roots.Contains(path);
