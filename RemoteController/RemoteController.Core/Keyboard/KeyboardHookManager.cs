@@ -10,7 +10,7 @@ public sealed class KeyboardHookManager : IDisposable
     private const int WM_KEYDOWN = 0x0100;
     private const int WM_KEYUP = 0x0101;
 
-    private readonly IntPtr _hookId;
+    private IntPtr _hookId;
     private readonly user32dll.LowLevelKeyboardProc _hookHandler;
 
     public event EventHandler<KeyboardHookManagerEventArgs> KeyDown;
@@ -19,10 +19,29 @@ public sealed class KeyboardHookManager : IDisposable
     public KeyboardHookManager()
     {
         _hookHandler = HookCallback;
-        _hookId = SetHook(_hookHandler);
+        AddHook();
     }
 
     public void Dispose()
+    {
+        RemoveHook();
+    }
+
+    /// <summary>
+    /// Removes hook (in case when it exists) and hooks again.
+    /// </summary>
+    public void ReHook()
+    {
+        RemoveHook();
+        AddHook();
+    }
+
+    private void AddHook()
+    {
+        _hookId = SetHook(_hookHandler);
+    }
+
+    private void RemoveHook()
     {
         user32dll.UnhookWindowsHookEx(_hookId);
     }
@@ -31,6 +50,7 @@ public sealed class KeyboardHookManager : IDisposable
     {
         using var curProcess = Process.GetCurrentProcess();
         using var curModule = curProcess.MainModule;
+        
         return user32dll.SetWindowsHookEx(WH_KEYBOARD_LL, proc, user32dll.GetModuleHandle(curModule.ModuleName), 0);
     }
 
