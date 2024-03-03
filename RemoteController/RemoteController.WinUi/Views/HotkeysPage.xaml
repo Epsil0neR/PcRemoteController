@@ -1,12 +1,17 @@
-﻿<Page
+﻿<controls:PageWithHeaderContent
     x:Class="RemoteController.WinUi.Views.HotkeysPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:RemoteController.WinUi.Controls"
     mc:Ignorable="d">
-
+    <controls:PageWithHeaderContent.HeaderContent>
+        <Button
+            Content="Restart hooks"
+            Command="{x:Bind ViewModel.RestartHookCommand}" 
+            />
+    </controls:PageWithHeaderContent.HeaderContent>
     <Grid x:Name="ContentArea">
-        
     </Grid>
-</Page>
+</controls:PageWithHeaderContent>

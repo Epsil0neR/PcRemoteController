@@ -1,8 +1,19 @@
-﻿namespace RemoteController.WinUi.ViewModels;
+﻿using RemoteController.Keyboard;
 
-public class HotkeysViewModel : ObservableRecipient
+namespace RemoteController.WinUi.ViewModels;
+
+public partial class HotkeysViewModel : ObservableRecipient
 {
-    public HotkeysViewModel()
+    public KeyboardHookManager KeyboardHookManager { get; }
+
+    public HotkeysViewModel(KeyboardHookManager keyboardHookManager)
     {
+        KeyboardHookManager = keyboardHookManager;
+    }
+
+    [RelayCommand]
+    void RestartHook()
+    {
+        KeyboardHookManager.ReHook();
     }
 }
