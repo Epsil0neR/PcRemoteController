@@ -55,6 +55,7 @@ public partial class App : Application
                     .ConfigureOptions(context)
 
                     .AddLogging()
+                    .AddCore()
                     .AddServices()
                     .AddViewModels()
                     .AddViews()
