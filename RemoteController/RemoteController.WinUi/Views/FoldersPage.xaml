@@ -36,11 +36,11 @@
                         </StackPanel>
                     </Button>
                     <Button
-                        Background="DarkRed"
+                        Background="{StaticResource Brush.Error.Dark}"
                         ToolTipService.ToolTip="Delete"
                         ToolTipService.Placement="Bottom"
                         Command="{Binding ElementName=root, Path=ViewModel.DeletePathCommand}"
-                        CommandParameter="{x:Bind}"
+                        CommandParameter="{x:Bind Name}"
                         Height="32"
                         >
                         <StackPanel Orientation="Horizontal">
@@ -63,15 +63,67 @@
         ItemTemplate="{StaticResource DataTemplate.FileSystemPath}"
         >
         <ListView.Header>
-            <winUi:SettingsCard
-                HeaderIcon="{ui:FontIcon Glyph=&#xE8F4;}"
-                Header="Create public folder"
-                Description="Add folder that will be available via remote service."
-                Command="{x:Bind ViewModel.GoToCreateCommand}"
-                IsActionIconVisible="True"
-                IsClickEnabled="True"
-                Margin="0 0 0 20"
-                />
+            <StackPanel Orientation="Vertical">
+                <winUi:SettingsCard
+                    HeaderIcon="{ui:FontIcon Glyph=&#xE8F4;}"
+                    Header="Create public folder"
+                    Description="Add folder that will be available via remote service."
+                    Click="FileSystemPath_OnClickCreate"
+                    IsActionIconVisible="True"
+                    IsClickEnabled="True"
+                    Margin="0 0 0 20"
+                    />
+                <ContentDialog 
+                    x:Name="CreateDialog"
+                    PrimaryButtonText="Create"
+                    PrimaryButtonClick="CreateDialog_OnPrimaryButtonClick"
+                    SecondaryButtonText="Cancel"
+                    >
+                    <StackPanel 
+                        MinWidth="500"
+                        Orientation="Vertical">
+                        <TextBox 
+                            x:Name="CreateName"
+                            TextChanged="CreateName_OnTextChanged"
+                            Header="Enter name:"
+                            PlaceholderText="Name"/>
+                        <TextBlock 
+                            x:Name="CreateNameValidation"
+                            Text="Name cannot be empty or whitespace and must be unique." 
+                            Foreground="{StaticResource Brush.Error.Dark}"
+                            Visibility="Collapsed"
+                            />
+                        <Grid Margin="0 4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock 
+                                Grid.Column="0"
+                                Text="Path: " 
+                                VerticalAlignment="Center"/>
+                            <TextBlock 
+                                x:Name="CreatePath"
+                                Grid.Column="1"
+                                Margin="8 0"
+                                VerticalAlignment="Center"
+                                ToolTipService.ToolTip="{x:Bind CreatePath.Text}"
+                                TextTrimming="CharacterEllipsis" />
+                            <Button
+                                Grid.Column="2"
+                                Click="CreateForm_OnPathClick"
+                                Content="Select path" />
+                        </Grid>
+                        <TextBlock 
+                            x:Name="CreatePathValidation"
+                            Text="Path must be unique." 
+                            Foreground="{StaticResource Brush.Error.Dark}"
+                            Visibility="Collapsed"
+                            />
+                    </StackPanel>
+                </ContentDialog>
+            </StackPanel>
         </ListView.Header>
     </ListView>
 </Page>

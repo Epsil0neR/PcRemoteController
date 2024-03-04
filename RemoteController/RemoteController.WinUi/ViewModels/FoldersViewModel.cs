@@ -7,7 +7,7 @@ namespace RemoteController.WinUi.ViewModels;
 public partial class FoldersViewModel : ObservableRecipient
 {
     [ObservableProperty]
-    private IReadOnlyList<FileSystemPath> _paths;
+    private IReadOnlyList<FileSystemPath> _paths = null!;
 
     public IWritableOptions<FileSystemOptions> FileSystemOptions { get; }
 
@@ -24,17 +24,11 @@ public partial class FoldersViewModel : ObservableRecipient
         Paths = FileSystemOptions.Value.Roots.ToList();
     }
 
-    [RelayCommand]
-    void GoToCreate()
-    {
-        throw new NotImplementedException();
-    }
-
     public async Task<bool> ChangePath(FileSystemPath item, string path)
     {
         if (Paths.Any(x => string.Equals(path, x.Path, StringComparison.InvariantCultureIgnoreCase)))
             return false;
-        
+
         FileSystemOptions.Update(options =>
         {
             item.Path = path;
@@ -44,12 +38,30 @@ public partial class FoldersViewModel : ObservableRecipient
         return true;
     }
 
-    [RelayCommand(CanExecute = nameof(CanDeletePath))]
-    void DeletePath(FileSystemPath path)
+    [RelayCommand]
+    void DeletePath(string name)
     {
-        FileSystemOptions.Update(options => options.Roots.Remove(path));
+        FileSystemOptions.Update(options => options.Roots.RemoveAll(x=>string.Equals(x.Name, name, StringComparison.InvariantCultureIgnoreCase)));
         UpdatePaths();
     }
 
-    bool CanDeletePath(FileSystemPath path) => FileSystemOptions.Value.Roots.Contains(path);
+    public bool IsNameTaken(string name)
+    {
+        return Paths.Any(x => string.Equals(x.Name, name, StringComparison.InvariantCultureIgnoreCase));
+    }
+
+    public bool IsPathTaken(string path)
+    {
+        return Paths.Any(x => string.Equals(x.Path, path, StringComparison.InvariantCultureIgnoreCase));
+    }
+
+    public void Create(string name, string path)
+    {
+        FileSystemOptions.Update(options => options.Roots.Add(new()
+        {
+            Name = name, 
+            Path = path
+        }));
+        UpdatePaths();
+    }
 }
