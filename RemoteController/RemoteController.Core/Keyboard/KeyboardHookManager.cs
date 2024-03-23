@@ -7,8 +7,10 @@ namespace RemoteController.Keyboard;
 public sealed class KeyboardHookManager : IDisposable
 {
     private const int WH_KEYBOARD_LL = 13;
-    private const int WM_KEYDOWN = 0x0100;
-    private const int WM_KEYUP = 0x0101;
+    private const nint WM_KEYDOWN = 0x0100;
+    private const nint WM_KEYUP = 0x0101;
+    private const nint WM_SYSKEYDOWN = 0x0104;
+    private const nint WM_SYSKEYUP = 0x0105;
 
     private IntPtr _hookId;
     private readonly user32dll.LowLevelKeyboardProc _hookHandler;
@@ -56,15 +58,25 @@ public sealed class KeyboardHookManager : IDisposable
 
     private IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
     {
-        if (nCode >= 0 && wParam == (IntPtr)WM_KEYDOWN)
+        if (nCode < 0) 
+            return user32dll.CallNextHookEx(_hookId, nCode, wParam, lParam);
+
+        switch (wParam)
         {
-            var vkCode = Marshal.ReadInt32(lParam);
-            KeyDown?.Invoke(this, new(vkCode));
-        }
-        if (nCode >= 0 && wParam == (IntPtr)WM_KEYUP)
-        {
-            var vkCode = Marshal.ReadInt32(lParam);
-            KeyUp?.Invoke(this, new(vkCode));
+            case WM_KEYDOWN:
+            case WM_SYSKEYDOWN:
+            {
+                var vkCode = Marshal.ReadInt32(lParam);
+                KeyDown?.Invoke(this, new(vkCode));
+                break;
+            }
+            case WM_KEYUP:
+            case WM_SYSKEYUP:
+            {
+                var vkCode = Marshal.ReadInt32(lParam);
+                KeyUp?.Invoke(this, new(vkCode));
+                break;
+            }
         }
 
         return user32dll.CallNextHookEx(_hookId, nCode, wParam, lParam);
