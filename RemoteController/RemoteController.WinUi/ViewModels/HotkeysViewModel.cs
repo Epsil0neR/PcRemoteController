@@ -1,19 +1,19 @@
-﻿using RemoteController.Keyboard;
+﻿using Epsiloner.WinUi.Services;
 
 namespace RemoteController.WinUi.ViewModels;
 
 public partial class HotkeysViewModel : ObservableRecipient
 {
-    public KeyboardHookManager KeyboardHookManager { get; }
+    public IHotkeysService Service { get; }
 
-    public HotkeysViewModel(KeyboardHookManager keyboardHookManager)
+    public HotkeysViewModel(IHotkeysService service)
     {
-        KeyboardHookManager = keyboardHookManager;
+        Service = service;
     }
 
     [RelayCommand]
     void RestartHook()
     {
-        KeyboardHookManager.ReHook();
+        Service.ReattachHooks();
     }
 }

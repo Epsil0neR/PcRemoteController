@@ -1,5 +1,10 @@
 ﻿using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
+using System.Windows;
+using Windows.System;
+using Epsiloner.WinUi.Configurations;
+using Epsiloner.WinUi.Gestures;
+using Epsiloner.WinUi.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RemoteController.Informer;
@@ -22,6 +27,8 @@ using RemoteController.WinUi.ViewModels;
 using RemoteController.WinUi.Views;
 using WebSocketSharp.Server;
 using WindowsInput;
+using Application = Microsoft.UI.Xaml.Application;
+using RemoteController.WinUi.Configuration;
 
 namespace RemoteController.WinUi.Initialization;
 
@@ -34,15 +41,21 @@ internal static class ServiceCollectionConfigurator
     /// <param name="context"></param>
     /// <returns></returns>
     public static IServiceCollection ConfigureOptions(this IServiceCollection services, HostBuilderContext context) => services
-        .ConfigureWritable<LocalSettingsOptions>(context.Configuration.GetSection(nameof(LocalSettingsOptions)))
+        .ConfigureWritable<LocalSettingsOptions>(context)
         .ConfigureWritable<GeneralOptions>(context)
         .ConfigureWritable<ServerOptions>(context)
         .ConfigureWritable<FileSystemOptions>(context)
+        .ConfigureWritable<HotkeyGesturesOptions>(context)
     ;
 
     public static IServiceCollection AddCore(this IServiceCollection services) => services
         .AddSingleton<KeyboardHookManager>()
         .AddSingleton<PolicyConfigClient>();
+
+    public static IServiceCollection AddWinUiCore(this IServiceCollection services) => services
+        .AddSingleton<KeyboardHookService>()
+        .AddSingleton<IHotkeysService, HotkeysService>()
+        .AddSingleton<IHotkeyServiceConfiguration, HotkeyServiceConfiguration>();
 
     public static IServiceCollection AddServices(this IServiceCollection services) => services
         .AddSingleton<IAppNotificationService, AppNotificationService>()

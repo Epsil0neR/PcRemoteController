@@ -57,6 +57,7 @@ public partial class App : Application
 
                     .AddLogging()
                     .AddCore()
+                    .AddWinUiCore()
                     .AddServices()
                     .AddViewModels()
                     .AddViews()

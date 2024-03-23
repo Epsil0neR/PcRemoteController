@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel;
+using Windows.System;
+using Windows.UI.Core;
 using RemoteController.WinUi.Attributes;
 using RemoteController.WinUi.ViewModels;
 
@@ -15,5 +17,6 @@ public sealed partial class HotkeysPage
     {
         ViewModel = App.GetService<HotkeysViewModel>();
         InitializeComponent();
+        var isShiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift) == CoreVirtualKeyStates.Down;
     }
 }

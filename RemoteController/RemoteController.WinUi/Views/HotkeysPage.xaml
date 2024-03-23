@@ -9,9 +9,10 @@
     <controls:PageWithHeaderContent.HeaderContent>
         <Button
             Content="Restart hooks"
-            Command="{x:Bind ViewModel.RestartHookCommand}" 
-            />
+            Command="{x:Bind ViewModel.RestartHookCommand}">
+        </Button>
     </controls:PageWithHeaderContent.HeaderContent>
     <Grid x:Name="ContentArea">
+        
     </Grid>
 </controls:PageWithHeaderContent>
