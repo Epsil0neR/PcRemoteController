@@ -40,6 +40,7 @@ public partial class App : Application
 #if !IS_NON_PACKAGED
             .UseContentRoot(Windows.Storage.ApplicationData.Current.LocalFolder.Path)
 #endif
+            .ConfigureJson()
             .ConfigureServices((context, services) =>
             {
                 services
