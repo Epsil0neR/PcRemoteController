@@ -79,6 +79,6 @@ public static class ServiceCollectionExtensions
         string file = "appsettings.json") where T : class, new()
     {
         var name = typeof(T).Name;
-        return services.ConfigureWritable<T>(context.Configuration.GetSection(name));
+        return services.ConfigureWritable<T>(context.Configuration.GetSection(name), file);
     }
 }
