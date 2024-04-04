@@ -1,7 +1,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
-namespace RemoteController.WinUi.Controls;
+namespace RemoteController.WinUi.Controls.Controls;
 
 public class PageWithHeaderContent : Page
 {
@@ -11,7 +11,7 @@ public class PageWithHeaderContent : Page
     }
 
     public static readonly DependencyProperty HeaderContentProperty = DependencyProperty.Register(
-        nameof(HeaderContent), typeof(object), typeof(PageWithHeaderContent), new(default(object)));
+        nameof(HeaderContent), typeof(object), typeof(PageWithHeaderContent), new(default));
 
     public object HeaderContent
     {

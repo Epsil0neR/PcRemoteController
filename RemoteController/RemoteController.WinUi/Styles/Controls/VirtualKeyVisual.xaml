@@ -1,0 +1,53 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="using:RemoteController.WinUi.Controls">
+
+    <ControlTemplate 
+        x:Key="VirtualKeyVisual.Template"
+        TargetType="c:VirtualKeyVisual">
+        <Border 
+            CornerRadius="{TemplateBinding CornerRadius}"
+            Background="{TemplateBinding Background}"
+            Padding="{TemplateBinding Padding}">
+            <Grid>
+                <TextBlock x:Name="PART_TextPresenter"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           />
+                <TextBlock x:Name="PART_SymbolPresenter" 
+                           FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           />
+                <Viewbox
+                    Width="32"
+                    Height="32">
+                    <PathIcon 
+                        x:Name="PART_IconPresenter"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        />
+                </Viewbox>
+            </Grid>
+        </Border>
+    </ControlTemplate>
+    <Style TargetType="c:VirtualKeyVisual"
+           x:Key="VirtualKeyVisual.Style">
+        <Setter Property="MinWidth" Value="56" />
+        <Setter Property="MinHeight" Value="48" />
+        <Setter Property="Template" Value="{StaticResource VirtualKeyVisual.Template}" />
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="Padding" Value="16 8" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="{ThemeResource AccentButtonForeground}" />
+        <Setter Property="Background" Value="{ThemeResource AccentButtonBackground}" />
+        <Setter Property="BorderBrush" Value="{ThemeResource AccentButtonBorderBrush}" />
+        <Setter Property="BorderThickness" Value="{ThemeResource ButtonBorderThemeThickness}" />
+    </Style>
+
+    <!--Default style-->
+    <Style TargetType="c:VirtualKeyVisual"
+           BasedOn="{StaticResource VirtualKeyVisual.Style}"
+           />
+</ResourceDictionary>

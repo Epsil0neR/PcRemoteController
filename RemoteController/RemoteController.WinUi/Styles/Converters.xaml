@@ -9,5 +9,5 @@
         x:Key="Converter.FalseToVisible"
         TrueVisibility="Collapsed"
         FalseVisibility="Visible" />
-
+    <c:GestureToVirtualKeysConverter x:Key="Converter.GestureToVirtualKeys" />
 </ResourceDictionary>

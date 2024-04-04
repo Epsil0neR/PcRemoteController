@@ -1,11 +1,8 @@
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Markup;
 using Windows.System;
 
 namespace RemoteController.WinUi.Controls;
 
-[TemplatePart(Name = KeyPresenter, Type = typeof(ContentPresenter))]
 [TemplateVisualState(Name = "Normal", GroupName = "CommonStates")]
 [TemplateVisualState(Name = "Disabled", GroupName = "CommonStates")]
 [TemplateVisualState(Name = "Default", GroupName = "StateStates")]
@@ -72,20 +69,21 @@ public sealed class KeyVisual : Control
 
     private void Update()
     {
-        if (Content != null)
-        {
-            if (Content?.GetType() == typeof(string))
-            {
-                Style = GetStyleSize("Text");
-                _keyPresenter.Content = Content;
-            }
-            else
-            {
-                Style = GetStyleSize("Icon");
+        if (Content == null)
+            return;
 
-                switch ((int)Content)
-                {
-                    /* We can enable other glyphs in the future
+        if (Content?.GetType() == typeof(string))
+        {
+            Style = GetStyleSize("Text");
+            _keyPresenter.Content = Content;
+        }
+        else
+        {
+            Style = GetStyleSize("Icon");
+
+            switch ((int)Content)
+            {
+                /* We can enable other glyphs in the future
                     case 13: // The Enter key or button.
                         _keyPresenter.Content = "\uE751"; break;
 
@@ -97,33 +95,46 @@ public sealed class KeyVisual : Control
                     case 161: // The Shift key or button.
                         _keyPresenter.Content = "\uE752"; break; */
 
-                    case 38: _keyPresenter.Content = "\uE0E4"; break; // The Up Arrow key or button.
-                    case 40: _keyPresenter.Content = "\uE0E5"; break; // The Down Arrow key or button.
-                    case 37: _keyPresenter.Content = "\uE0E2"; break; // The Left Arrow key or button.
-                    case 39: _keyPresenter.Content = "\uE0E3"; break; // The Right Arrow key or button.
+                case 38: _keyPresenter.Content = "\uE0E4"; break; // The Up Arrow key or button.
+                case 40: _keyPresenter.Content = "\uE0E5"; break; // The Down Arrow key or button.
+                case 37: _keyPresenter.Content = "\uE0E2"; break; // The Left Arrow key or button.
+                case 39: _keyPresenter.Content = "\uE0E3"; break; // The Right Arrow key or button.
 
-                    case 91: // The left Windows key
-                    case 92: // The right Windows key
-                        PathIcon winIcon = XamlReader.Load(@"<PathIcon xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation"" Data=""M683 1229H0V546h683v683zm819 0H819V546h683v683zm-819 819H0v-683h683v683zm819 0H819v-683h683v683z"" />") as PathIcon;
-                        Viewbox winIconContainer = new Viewbox();
-                        winIconContainer.Child = winIcon;
-                        winIconContainer.HorizontalAlignment = HorizontalAlignment.Center;
-                        winIconContainer.VerticalAlignment = VerticalAlignment.Center;
+                case 91: // The left Windows key
+                case 92: // The right Windows key
+                    PathIcon winIcon = XamlReader.Load(@"<PathIcon xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation"" Data=""M683 1229H0V546h683v683zm819 0H819V546h683v683zm-819 819H0v-683h683v683zm819 0H819v-683h683v683z"" />") as PathIcon;
+                    Viewbox winIconContainer = new Viewbox();
+                    winIconContainer.Child = winIcon;
+                    winIconContainer.HorizontalAlignment = HorizontalAlignment.Center;
+                    winIconContainer.VerticalAlignment = VerticalAlignment.Center;
 
-                        double iconDimensions = GetIconSize();
-                        winIconContainer.Height = iconDimensions;
-                        winIconContainer.Width = iconDimensions;
-                        _keyPresenter.Content = winIconContainer;
-                        break;
-                    default: _keyPresenter.Content = ((VirtualKey)Content).ToString(); break;
-                }
+                    double iconDimensions = GetIconSize();
+                    winIconContainer.Height = iconDimensions;
+                    winIconContainer.Width = iconDimensions;
+                    _keyPresenter.Content = winIconContainer;
+                    break;
+                default: _keyPresenter.Content = ((VirtualKey)Content).ToString(); break;
             }
         }
     }
 
     public Style GetStyleSize(string styleName)
     {
-        Style GetStyle(string type) => (Style)Application.Current.Resources[$"KeyVisual.Style.{type}.{styleName}"];
+        Style GetStyle(string type)
+        {
+
+            var key = $"KeyVisual.Style.{styleName}.{type}";
+            try
+            {
+                var rv = (Style)Application.Current.Resources[key];
+                return rv;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
 
         return VisualType switch
         {
@@ -137,9 +148,9 @@ public sealed class KeyVisual : Control
     public double GetIconSize()
     {
         if (VisualType == VisualType.Small || VisualType == VisualType.SmallOutline)
-            return (double)Application.Current.Resources["KeyVisual.SmallIconSize"];
+            return (double)Application.Current.Resources["KeyVisual.IconSize.Small"];
         else
-            return (double)Application.Current.Resources["KeyVisual.DefaultIconSize"];
+            return (double)Application.Current.Resources["KeyVisual.IconSize.Default"];
     }
 
     private void KeyVisual_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)

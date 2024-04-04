@@ -1,18 +1,84 @@
-﻿<controls:PageWithHeaderContent
+﻿<cc:PageWithHeaderContent
     x:Class="RemoteController.WinUi.Views.HotkeysPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:RemoteController.WinUi.Controls"
+    xmlns:gestures="using:Epsiloner.WinUi.Gestures"
+    xmlns:system="using:Windows.System"
+    xmlns:cc="using:RemoteController.WinUi.Controls.Controls"
     mc:Ignorable="d">
-    <controls:PageWithHeaderContent.HeaderContent>
+    <cc:PageWithHeaderContent.Resources>
+        <DataTemplate 
+            x:Key="DataTemplate.VirtualKey" 
+            d:DataContext="{d:DesignInstance system:VirtualKey}">
+            <!--<TextBlock Text="{Binding}" />-->
+            <controls:VirtualKeyVisual Key="{Binding}" />
+            <!--<controls:KeyVisual Content="{Binding}" />-->
+        </DataTemplate>
+        
+        <DataTemplate 
+            x:Key="DataTemplate.Gesture" 
+            d:DataContext="{d:DesignInstance gestures:Gesture}">
+            <ItemsControl 
+                ItemsSource="{Binding Converter={StaticResource Converter.GestureToVirtualKeys}}"
+                ItemTemplate="{StaticResource DataTemplate.VirtualKey}"
+                Margin="10">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <ItemsWrapGrid 
+                            Orientation="Horizontal" 
+                            />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </DataTemplate>
+    </cc:PageWithHeaderContent.Resources>
+    <cc:PageWithHeaderContent.HeaderContent>
         <Button
             Content="Restart hooks"
             Command="{x:Bind ViewModel.RestartHookCommand}">
         </Button>
-    </controls:PageWithHeaderContent.HeaderContent>
-    <Grid x:Name="ContentArea">
-        
-    </Grid>
-</controls:PageWithHeaderContent>
+    </cc:PageWithHeaderContent.HeaderContent>
+    <StackPanel 
+        x:Name="ContentArea" 
+        Orientation="Vertical">
+
+        <!--TODO: ItemsControl is collapsed.-->
+        <ItemsControl 
+            ItemsSource="{x:Bind ViewModel.TestGestures.Gestures}"
+            ItemTemplate="{StaticResource DataTemplate.Gesture}"
+            Visibility="Collapsed"
+            />
+
+        <StackPanel Orientation="Horizontal">
+            <Button
+                Content="Prev"
+                Command="{x:Bind ViewModel.PrevPageCommand}" />
+            <TextBlock VerticalAlignment="Center">
+                <Run Text="Skipped " />
+                <Run Text="{x:Bind ViewModel.StartIndex, Mode=OneWay}" />
+                <Run Text=" of " />
+                <Run Text="{x:Bind ViewModel.KeysCount}" />
+            </TextBlock>
+            <Button
+                Content="Next"
+                Command="{x:Bind ViewModel.NextPageCommand}" />
+        </StackPanel>
+
+        <TextBlock Text="{x:Bind ViewModel.StartIndex, Mode=OneWay}" />
+
+        <ItemsControl
+            ItemsSource="{x:Bind ViewModel.VirtualKeys, Mode=OneWay}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <controls:VirtualKeyVisual 
+                        Key="{Binding}" 
+                        HorizontalAlignment="Center"
+                        Margin="5" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </StackPanel>
+</cc:PageWithHeaderContent>
