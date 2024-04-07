@@ -21,8 +21,8 @@
                            VerticalAlignment="Center"
                            />
                 <Viewbox
-                    Width="32"
-                    Height="32">
+                    Width="20"
+                    Height="20">
                     <PathIcon 
                         x:Name="PART_IconPresenter"
                         VerticalAlignment="Center"

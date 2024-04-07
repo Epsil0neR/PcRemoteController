@@ -1,7 +1,6 @@
 using System.Diagnostics;
-using System.Windows;
-using Windows.System;
 using Microsoft.UI.Xaml.Markup;
+using Windows.System;
 using DependencyObject = Microsoft.UI.Xaml.DependencyObject;
 using DependencyProperty = Microsoft.UI.Xaml.DependencyProperty;
 using DependencyPropertyChangedEventArgs = Microsoft.UI.Xaml.DependencyPropertyChangedEventArgs;
@@ -26,9 +25,9 @@ public sealed class VirtualKeyVisual : Control
         {VirtualKey.Down, "\uE0E5"},
         {VirtualKey.Left, "\uE0E2"},
         {VirtualKey.Right, "\uE0E3"},
-        {VirtualKey.Shift, "\uE752"},
-        {VirtualKey.LeftShift, "\uE752"},
-        {VirtualKey.RightShift, "\uE752"},
+        //{VirtualKey.Shift, "\uE752"},
+        //{VirtualKey.LeftShift, "\uE752"},
+        //{VirtualKey.RightShift, "\uE752"},
         {VirtualKey.Back, "\uE750"},
         {VirtualKey.Enter, "\uE751"},
         {VirtualKey.Refresh, "\uE72C"},
@@ -56,7 +55,7 @@ public sealed class VirtualKeyVisual : Control
         VirtualKey.Add => "+",
         VirtualKey.Separator => "|",
         VirtualKey.Subtract => "-",
-        
+
         VirtualKey.Decimal => ".",
         VirtualKey.Divide => "/",
 
@@ -67,6 +66,10 @@ public sealed class VirtualKeyVisual : Control
         VirtualKey.Menu => "Alt",
         VirtualKey.LeftMenu => "Alt",
         VirtualKey.RightMenu => "Alt",
+
+        VirtualKey.Shift => "Shift",
+        VirtualKey.LeftShift => "Shift",
+        VirtualKey.RightShift => "Shift",
 
         (VirtualKey)188 => ",",
         (VirtualKey)190 => ".",

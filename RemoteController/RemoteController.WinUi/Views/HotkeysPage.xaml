@@ -45,12 +45,24 @@
         x:Name="ContentArea" 
         Orientation="Vertical">
 
+        <controls:MultiKeyGestureVisual MultiKeyGesture="{x:Bind ViewModel.TestGestures}" />
+        <TextBlock Text="1" />
         <!--TODO: ItemsControl is collapsed.-->
         <ItemsControl 
             ItemsSource="{x:Bind ViewModel.TestGestures.Gestures}"
             ItemTemplate="{StaticResource DataTemplate.Gesture}"
             Visibility="Collapsed"
             />
+
+        <Border>
+            <StackPanel Orientation="Horizontal">
+                <controls:VirtualKeyVisual Key="Control" HorizontalAlignment="Center" Margin="5" />
+                <controls:VirtualKeyVisual Key="LeftWindows" HorizontalAlignment="Center" Margin="5" />
+                <controls:VirtualKeyVisual Key="Menu" HorizontalAlignment="Center" Margin="5" />
+                <controls:VirtualKeyVisual Key="Shift" HorizontalAlignment="Center" Margin="5" />
+                <controls:VirtualKeyVisual Key="F24" HorizontalAlignment="Center" Margin="15 5 5 5" />
+            </StackPanel>
+        </Border>
 
         <StackPanel Orientation="Horizontal">
             <Button

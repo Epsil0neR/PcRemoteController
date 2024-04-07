@@ -31,8 +31,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Styles\Colors.xaml" />
+    <None Remove="Styles\Controls\GestureVisual.xaml" />
     <None Remove="Styles\Controls\KeyVisual.xaml" />
+    <None Remove="Styles\Controls\MultiKeyGestureVisual.xaml" />
     <None Remove="Styles\Controls\VirtualKeyVisual.xaml" />
+    <None Remove="Styles\Controls\_All.xaml" />
   </ItemGroup>
   <ItemGroup>
     <None Update="appsettings.json">
@@ -48,6 +51,7 @@
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Labs.WinUI.SettingsControls" Version="0.0.18" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+    <PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />
     <PackageReference Include="CommunityToolkit.WinUI.UI.Media" Version="7.1.2" />
     <PackageReference Include="Epsiloner.Wpf.Core" Version="1.2.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
@@ -74,6 +78,17 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Styles\Colors.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Styles\Controls\MultiKeyGestureVisual.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\Controls\_All.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\Controls\GestureVisual.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
   </ItemGroup>

@@ -1,0 +1,50 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="using:RemoteController.WinUi.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:system="using:Windows.System"
+    mc:Ignorable="d">
+
+    <DataTemplate x:Key="GestureVisual.ItemTemplate" d:DataContext="{d:DesignInstance system:VirtualKey}">
+        <c:VirtualKeyVisual 
+            Key="{Binding}" 
+            Margin="5" />
+    </DataTemplate>
+
+    <ControlTemplate 
+        x:Key="GestureVisual.Template"
+        TargetType="c:GestureVisual">
+        <Border 
+            CornerRadius="{TemplateBinding CornerRadius}"
+            Background="{TemplateBinding Background}"
+            Padding="{TemplateBinding Padding}">
+            <ItemsControl
+                ItemsSource="{TemplateBinding Keys}" 
+                ItemTemplate="{StaticResource GestureVisual.ItemTemplate}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </Border>
+    </ControlTemplate>
+    <Style TargetType="c:GestureVisual"
+           x:Key="GestureVisual.Style">
+        <Setter Property="Template" Value="{StaticResource GestureVisual.Template}" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="Padding" Value="16 8" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="BorderBrush" Value="Green" />
+        <Setter Property="BorderThickness" Value="{ThemeResource ButtonBorderThemeThickness}" />
+    </Style>
+
+    <!--Default style-->
+    <Style TargetType="c:GestureVisual"
+           BasedOn="{StaticResource GestureVisual.Style}"
+           />
+</ResourceDictionary>
