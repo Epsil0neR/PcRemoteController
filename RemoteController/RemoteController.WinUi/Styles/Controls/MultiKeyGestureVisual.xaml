@@ -11,12 +11,13 @@
     <ItemsPanelTemplate x:Key="MultiKeyGestureVisual.ItemsPanelTemplate">
         <controls:WrapPanel 
             Orientation="Horizontal"
+            HorizontalSpacing="20"
+            VerticalSpacing="8"
             Margin="-5"/>
     </ItemsPanelTemplate>
 
     <DataTemplate x:Key="MultiKeyGestureVisual.ItemTemplate" d:DataContext="{d:DesignInstance gestures:Gesture}">
-        <c:GestureVisual Gesture="{Binding}"  
-                         Margin="5"/>
+        <c:GestureVisual Gesture="{Binding}" />
     </DataTemplate>
 
     <ControlTemplate 

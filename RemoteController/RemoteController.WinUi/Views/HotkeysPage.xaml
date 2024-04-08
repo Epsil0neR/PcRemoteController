@@ -17,23 +17,6 @@
             <controls:VirtualKeyVisual Key="{Binding}" />
             <!--<controls:KeyVisual Content="{Binding}" />-->
         </DataTemplate>
-        
-        <DataTemplate 
-            x:Key="DataTemplate.Gesture" 
-            d:DataContext="{d:DesignInstance gestures:Gesture}">
-            <ItemsControl 
-                ItemsSource="{Binding Converter={StaticResource Converter.GestureToVirtualKeys}}"
-                ItemTemplate="{StaticResource DataTemplate.VirtualKey}"
-                Margin="10">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <ItemsWrapGrid 
-                            Orientation="Horizontal" 
-                            />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
-        </DataTemplate>
     </cc:PageWithHeaderContent.Resources>
     <cc:PageWithHeaderContent.HeaderContent>
         <Button
@@ -46,51 +29,5 @@
         Orientation="Vertical">
 
         <controls:MultiKeyGestureVisual MultiKeyGesture="{x:Bind ViewModel.TestGestures}" />
-        <TextBlock Text="1" />
-        <!--TODO: ItemsControl is collapsed.-->
-        <ItemsControl 
-            ItemsSource="{x:Bind ViewModel.TestGestures.Gestures}"
-            ItemTemplate="{StaticResource DataTemplate.Gesture}"
-            Visibility="Collapsed"
-            />
-
-        <Border>
-            <StackPanel Orientation="Horizontal">
-                <controls:VirtualKeyVisual Key="Control" HorizontalAlignment="Center" Margin="5" />
-                <controls:VirtualKeyVisual Key="LeftWindows" HorizontalAlignment="Center" Margin="5" />
-                <controls:VirtualKeyVisual Key="Menu" HorizontalAlignment="Center" Margin="5" />
-                <controls:VirtualKeyVisual Key="Shift" HorizontalAlignment="Center" Margin="5" />
-                <controls:VirtualKeyVisual Key="F24" HorizontalAlignment="Center" Margin="15 5 5 5" />
-            </StackPanel>
-        </Border>
-
-        <StackPanel Orientation="Horizontal">
-            <Button
-                Content="Prev"
-                Command="{x:Bind ViewModel.PrevPageCommand}" />
-            <TextBlock VerticalAlignment="Center">
-                <Run Text="Skipped " />
-                <Run Text="{x:Bind ViewModel.StartIndex, Mode=OneWay}" />
-                <Run Text=" of " />
-                <Run Text="{x:Bind ViewModel.KeysCount}" />
-            </TextBlock>
-            <Button
-                Content="Next"
-                Command="{x:Bind ViewModel.NextPageCommand}" />
-        </StackPanel>
-
-        <TextBlock Text="{x:Bind ViewModel.StartIndex, Mode=OneWay}" />
-
-        <ItemsControl
-            ItemsSource="{x:Bind ViewModel.VirtualKeys, Mode=OneWay}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <controls:VirtualKeyVisual 
-                        Key="{Binding}" 
-                        HorizontalAlignment="Center"
-                        Margin="5" />
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
     </StackPanel>
 </cc:PageWithHeaderContent>

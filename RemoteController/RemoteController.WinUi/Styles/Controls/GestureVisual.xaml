@@ -10,29 +10,31 @@
     <DataTemplate x:Key="GestureVisual.ItemTemplate" d:DataContext="{d:DesignInstance system:VirtualKey}">
         <c:VirtualKeyVisual 
             Key="{Binding}" 
-            Margin="5" />
+            IsTabStop="False" />
     </DataTemplate>
 
     <ControlTemplate 
         x:Key="GestureVisual.Template"
         TargetType="c:GestureVisual">
-        <Border 
-            CornerRadius="{TemplateBinding CornerRadius}"
-            Background="{TemplateBinding Background}"
-            Padding="{TemplateBinding Padding}">
+        <Button CornerRadius="{TemplateBinding CornerRadius}">
             <ItemsControl
                 ItemsSource="{TemplateBinding Keys}" 
                 ItemTemplate="{StaticResource GestureVisual.ItemTemplate}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal" />
+                        <StackPanel 
+                            Orientation="Horizontal" 
+                            Spacing="8" />
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
-        </Border>
+        </Button>
     </ControlTemplate>
     <Style TargetType="c:GestureVisual"
            x:Key="GestureVisual.Style">
+
+        <Setter Property="IsTabStop" Value="False" />
+
         <Setter Property="Template" Value="{StaticResource GestureVisual.Template}" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="HorizontalAlignment" Value="Left" />
