@@ -1,18 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>net7.0-windows</TargetFrameworks>
-    <LangVersion>latest</LangVersion>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>net7.0-windows</TargetFrameworks>
+		<LangVersion>latest</LangVersion>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Epsiloner.Core" Version="1.0.22" />
-    <PackageReference Include="NAudio" Version="2.2.1" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="NAudio" Version="2.2.1" />
+	</ItemGroup>
+	<!-- NuGet dependancies -->
+	<ItemGroup Condition="'$(Configuration)' == 'Release'">
+		<PackageReference Include="Epsiloner.Core" Version="1.0.22" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(Configuration)' == 'Debug'">
+		<ProjectReference Include="..\..\..\Epsiloner-libs\src\Epsiloner.Core\Epsiloner.Core.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\RemoteController.Manipulator\RemoteController.Manipulator.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\RemoteController.Manipulator\RemoteController.Manipulator.csproj" />
+	</ItemGroup>
 
 </Project>
