@@ -9,11 +9,10 @@ namespace RemoteController.WinUi.Views;
 [Description("Generic")]
 public sealed partial class GenericPage : Page
 {
-    public GenericViewModel ViewModel { get; }
+    public GenericViewModel ViewModel { get; } = App.GetService<GenericViewModel>();
 
     public GenericPage()
     {
-        ViewModel = App.GetService<GenericViewModel>();
         InitializeComponent();
     }
 }

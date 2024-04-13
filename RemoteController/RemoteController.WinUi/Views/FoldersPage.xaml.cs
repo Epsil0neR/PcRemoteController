@@ -14,11 +14,10 @@ public sealed partial class FoldersPage
 {
     private readonly FolderPicker _folderPicker;
 
-    public FoldersViewModel ViewModel { get; }
+    public FoldersViewModel ViewModel { get; } = App.GetService<FoldersViewModel>();
 
     public FoldersPage()
     {
-        ViewModel = App.GetService<FoldersViewModel>();
         InitializeComponent();
 
         _folderPicker = new()

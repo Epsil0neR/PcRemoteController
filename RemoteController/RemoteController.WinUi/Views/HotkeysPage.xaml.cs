@@ -11,11 +11,10 @@ namespace RemoteController.WinUi.Views;
 [Description("Hotkeys")]
 public sealed partial class HotkeysPage
 {
-    public HotkeysViewModel ViewModel { get; }
+    public HotkeysViewModel ViewModel { get; } = App.GetService<HotkeysViewModel>();
 
     public HotkeysPage()
     {
-        ViewModel = App.GetService<HotkeysViewModel>();
         RunTest();
         InitializeComponent();
         var isShiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift) == CoreVirtualKeyStates.Down;

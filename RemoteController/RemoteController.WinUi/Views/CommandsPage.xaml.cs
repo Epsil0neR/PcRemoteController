@@ -9,11 +9,10 @@ namespace RemoteController.WinUi.Views;
 [Description("Commands")]
 public sealed partial class CommandsPage : Page
 {
-    public CommandsViewModel ViewModel { get; }
+    public CommandsViewModel ViewModel { get; } = App.GetService<CommandsViewModel>();
 
     public CommandsPage()
     {
-        ViewModel = App.GetService<CommandsViewModel>();
         InitializeComponent();
     }
 }
