@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Input;
+using CommunityToolkit.Mvvm.Input;
 using Epsiloner.Wpf.ViewModels;
-using GalaSoft.MvvmLight.Command;
 using RemoteController.WebSocket;
 
 namespace RemoteController.ViewModels;

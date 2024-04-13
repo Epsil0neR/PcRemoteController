@@ -2,8 +2,8 @@
 using System.IO;
 using System.Windows.Forms;
 using System.Windows.Input;
+using CommunityToolkit.Mvvm.Input;
 using Epsiloner.Wpf.ViewModels;
-using GalaSoft.MvvmLight.Command;
 using RemoteController.Manipulator.Contexts;
 
 namespace RemoteController.ViewModels;
@@ -22,7 +22,7 @@ public class CreatePathViewModel : ViewModel
         set
         {
             if (Set(ref _name, value))
-                ((RelayCommand)SubmitCommand).RaiseCanExecuteChanged();
+                ((RelayCommand)SubmitCommand).NotifyCanExecuteChanged();
         }
     }
 
@@ -32,7 +32,7 @@ public class CreatePathViewModel : ViewModel
         private set
         {
             if (Set(ref _path, value))
-                ((RelayCommand)SubmitCommand).RaiseCanExecuteChanged();
+                ((RelayCommand)SubmitCommand).NotifyCanExecuteChanged();
         }
     }
 

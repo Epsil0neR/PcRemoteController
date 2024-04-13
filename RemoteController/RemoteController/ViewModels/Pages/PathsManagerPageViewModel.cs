@@ -1,9 +1,9 @@
 ﻿using System.Windows.Input;
 using System.Windows.Threading;
+using CommunityToolkit.Mvvm.Input;
 using Epsiloner.OptionsModule;
 using Epsiloner.Wpf.Collections;
 using Epsiloner.Wpf.Glyphs;
-using GalaSoft.MvvmLight.Command;
 using RemoteController.Configs;
 
 namespace RemoteController.ViewModels.Pages;

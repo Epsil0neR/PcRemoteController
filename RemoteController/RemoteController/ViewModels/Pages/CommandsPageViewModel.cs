@@ -1,7 +1,6 @@
 ﻿using Epsiloner.OptionsModule;
 using Epsiloner.Wpf.Collections;
 using Epsiloner.Wpf.ViewModels;
-using GalaSoft.MvvmLight.Command;
 using RemoteController.Configs;
 using RemoteController.Manipulator;
 using System;
@@ -13,6 +12,7 @@ using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Threading;
+using CommunityToolkit.Mvvm.Input;
 using Epsiloner.Wpf.Glyphs;
 
 namespace RemoteController.ViewModels.Pages;
@@ -328,7 +328,7 @@ public class CreateCommandViewModel : ViewModel
         if (!base.Set(ref backingField, newValue, propertyName, dependingPropertyNames)) 
             return false;
 
-        _submitCommand.RaiseCanExecuteChanged();
+        _submitCommand.NotifyCanExecuteChanged();
 
         return true;
     }

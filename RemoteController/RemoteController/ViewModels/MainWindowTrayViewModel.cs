@@ -1,6 +1,6 @@
-﻿using GalaSoft.MvvmLight.Command;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
+using CommunityToolkit.Mvvm.Input;
 using Epsiloner.Wpf.ViewModels;
 
 namespace RemoteController.ViewModels;
