@@ -8,9 +8,8 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
-	  <Page Remove="Resoruces\**\*.xaml" />
-	  <None Remove="Resoruces\KeyVisual.xaml" />
-	  <None Update="Resoruces\**\*.xaml">
+	  <Page Remove="Resources\**\*.xaml" />
+	  <None Update="Resources\**\*.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </None>
 	</ItemGroup>
@@ -21,8 +20,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Page Include="Resoruces\KeyVisual.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
+	  <Folder Include="Properties\" />
+	  <Folder Include="Resources\" />
 	</ItemGroup>
 </Project>

@@ -1,6 +1,6 @@
 ﻿using Microsoft.UI.Xaml.Navigation;
 using RemoteController.WinUi.Contracts.Services;
-using RemoteController.WinUi.Controls;
+using RemoteController.WinUi.Controls.Controls;
 using RemoteController.WinUi.Views;
 
 namespace RemoteController.WinUi.ViewModels;

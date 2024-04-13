@@ -1,14 +1,10 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:RemoteController.WinUi.Controls">
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="../Resoruces/KeyVisual.xaml" />
-    </ResourceDictionary.MergedDictionaries>
+    xmlns:cc="using:RemoteController.WinUi.Controls.Controls">
 
     <Style TargetType="Page" x:Key="Page.Style"></Style>
-    <Style TargetType="local:PageWithHeaderContent"
+    <Style TargetType="cc:PageWithHeaderContent"
            BasedOn="{StaticResource Page.Style}">
     </Style>
-
 </ResourceDictionary>
