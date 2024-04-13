@@ -10,10 +10,7 @@ namespace RemoteController.WinUi.Views;
 [Description("Settings")]
 public sealed partial class SettingsPage : Page
 {
-    public SettingsViewModel ViewModel
-    {
-        get;
-    }
+    public SettingsViewModel ViewModel { get; }
 
     public SettingsPage()
     {

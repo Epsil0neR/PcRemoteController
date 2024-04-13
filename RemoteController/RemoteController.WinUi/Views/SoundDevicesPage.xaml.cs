@@ -9,10 +9,7 @@ namespace RemoteController.WinUi.Views;
 [Description("Sound devices")]
 public sealed partial class SoundDevicesPage : Page
 {
-    public SoundDevicesViewModel ViewModel
-    {
-        get;
-    }
+    public SoundDevicesViewModel ViewModel { get; }
 
     public SoundDevicesPage()
     {

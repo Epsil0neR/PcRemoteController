@@ -9,10 +9,7 @@ namespace RemoteController.WinUi.Views;
 [Description("Commands")]
 public sealed partial class CommandsPage : Page
 {
-    public CommandsViewModel ViewModel
-    {
-        get;
-    }
+    public CommandsViewModel ViewModel { get; }
 
     public CommandsPage()
     {
