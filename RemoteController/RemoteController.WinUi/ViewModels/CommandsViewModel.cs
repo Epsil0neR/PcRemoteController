@@ -1,6 +1,6 @@
 ﻿namespace RemoteController.WinUi.ViewModels;
 
-public class CommandsViewModel : ObservableRecipient
+public class CommandsViewModel : ObservableObject
 {
     public CommandsViewModel()
     {

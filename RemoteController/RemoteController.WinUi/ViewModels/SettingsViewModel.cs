@@ -7,7 +7,7 @@ using Windows.ApplicationModel;
 
 namespace RemoteController.WinUi.ViewModels;
 
-public class SettingsViewModel : ObservableRecipient
+public class SettingsViewModel : ObservableObject
 {
     private readonly IThemeSelectorService _themeSelectorService;
     private ElementTheme _elementTheme;

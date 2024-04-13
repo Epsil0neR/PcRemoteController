@@ -6,7 +6,7 @@ using RemoteController.WinUi.Utils;
 
 namespace RemoteController.WinUi.ViewModels;
 
-public class GenericViewModel : ObservableRecipient
+public class GenericViewModel : ObservableObject
 {
     private readonly IWritableOptions<ServerOptions> _serverOptions;
     private bool _autoStartup;

@@ -43,9 +43,9 @@ public class ManipulatorsManager : IManipulatorsManager
         if (manipulation == null)
             throw new ArgumentNullException(nameof(manipulation));
         if (string.IsNullOrWhiteSpace(manipulation.Name))
-            throw new ArgumentException($"{nameof(IManipulation)}.{manipulation.Name} must be not whitespace and not null.", nameof(manipulation));
+            throw new ArgumentException($@"{nameof(IManipulation)}.{manipulation.Name} must be not whitespace and not null.", nameof(manipulation));
         if (Find(manipulation.Name) is not null)
-            throw new ArgumentException("Manipulation name already registered.", nameof(manipulation));
+            throw new ArgumentException(@"Manipulation name already registered.", nameof(manipulation));
 
         _manipulations.Add(manipulation);
         RaiseItemStateChanged(manipulation, true);

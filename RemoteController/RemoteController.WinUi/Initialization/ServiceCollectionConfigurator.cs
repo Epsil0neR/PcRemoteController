@@ -1,9 +1,6 @@
 ﻿using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
-using System.Windows;
-using Windows.System;
 using Epsiloner.WinUi.Configurations;
-using Epsiloner.WinUi.Gestures;
 using Epsiloner.WinUi.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

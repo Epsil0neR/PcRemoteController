@@ -19,7 +19,7 @@ public class InformersManager
         if (informer == null)
             throw new ArgumentNullException(nameof(informer));
         if (_items.Any(x => string.Equals(x.Name, informer.Name, StringComparison.InvariantCultureIgnoreCase)))
-            throw new ArgumentException("Informer with same name already registered.", nameof(informer));
+            throw new ArgumentException(@"Informer with same name already registered.", nameof(informer));
 
         _items.Add(informer);
         informer.Changed += InformerOnChanged;

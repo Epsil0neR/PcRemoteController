@@ -4,7 +4,7 @@ using Windows.System;
 
 namespace RemoteController.WinUi.ViewModels;
 
-public partial class HotkeysViewModel : ObservableRecipient
+public partial class HotkeysViewModel : ObservableObject
 {
     public IHotkeysService Service { get; }
 

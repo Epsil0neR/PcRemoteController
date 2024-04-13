@@ -4,7 +4,7 @@ using RemoteController.WinUi.Models;
 
 namespace RemoteController.WinUi.ViewModels;
 
-public partial class FoldersViewModel : ObservableRecipient
+public partial class FoldersViewModel : ObservableObject
 {
     [ObservableProperty]
     private IReadOnlyList<FileSystemPath> _paths = null!;

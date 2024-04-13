@@ -1,7 +1,5 @@
-﻿using System.Windows;
-using Windows.System;
+﻿using System.Windows.Forms;
 using Epsiloner.WinUi.Configurations;
-using Epsiloner.WinUi.Gestures;
 using Epsiloner.WinUi.Services;
 using RemoteController.WinUi.Core.Options;
 using RemoteController.WinUi.Models;

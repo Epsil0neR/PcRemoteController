@@ -5,7 +5,7 @@ using RemoteController.WinUi.Views;
 
 namespace RemoteController.WinUi.ViewModels;
 
-public partial class ShellViewModel : ObservableRecipient
+public partial class ShellViewModel : ObservableObject
 {
     [ObservableProperty]
     private bool _isBackEnabled;
