@@ -12,15 +12,16 @@ namespace RemoteController.Informer;
 public class SoundInformer : BaseInformer
 {
     private readonly EventCooldown _cooldown;
+    private readonly MMDeviceEnumerator _deviceEnumerator = new();
 
     private int _outputVolume;
     private string _outputDevice;
     private bool _outputIsMuted;
-    private IList<string> _outputDeviceList;
-    private MMDevice _output;
+    private IList<string>? _outputDeviceList;
+    private MMDevice? _output;
     private string _inputDevice;
-    private IList<string> _inputDeviceList;
-    private MMDevice _input;
+    private IList<string>? _inputDeviceList;
+    private MMDevice? _input;
     private int _inputVolume;
     private bool _inputIsMuted;
 
@@ -50,12 +51,12 @@ public class SoundInformer : BaseInformer
     /// <summary>
     /// List of enabled sound output devices.
     /// </summary>
-    public IEnumerable<string> OutputDeviceList => _outputDeviceList;
+    public IEnumerable<string> OutputDeviceList => _outputDeviceList ?? Enumerable.Empty<string>();
 
     /// <summary>
     /// List of enabled sound input devices.
     /// </summary>
-    public IEnumerable<string> InputDeviceList => _inputDeviceList;
+    public IEnumerable<string> InputDeviceList => _inputDeviceList ?? Enumerable.Empty<string>();
 
     /// <summary>
     /// Input volume 0-100
@@ -70,11 +71,10 @@ public class SoundInformer : BaseInformer
     /// <inheritdoc />
     public override bool CheckForChanges()
     {
-        using var enumerator = new MMDeviceEnumerator();
-        var outputList = enumerator.EnumerateAudioEndPoints(DataFlow.Render, DeviceState.Active).ToList();
-        var output = enumerator.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
-        var inputList = enumerator.EnumerateAudioEndPoints(DataFlow.Capture, DeviceState.Active).ToList();
-        var input = enumerator.GetDefaultAudioEndpoint(DataFlow.Capture, Role.Communications);
+        var outputList = _deviceEnumerator.EnumerateAudioEndPoints(DataFlow.Render, DeviceState.Active).ToList();
+        var output = _deviceEnumerator.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
+        var inputList = _deviceEnumerator.EnumerateAudioEndPoints(DataFlow.Capture, DeviceState.Active).ToList();
+        var input = _deviceEnumerator.GetDefaultAudioEndpoint(DataFlow.Capture, Role.Communications);
         var changedOutput = Set(ref _outputDevice, output.FriendlyName);
         var changedInput = Set(ref _inputDevice, input.FriendlyName);
         var changes = new[]
@@ -185,5 +185,12 @@ public class SoundInformer : BaseInformer
             CheckForChanges();
             _cooldown!.Accumulate();
         });
+        CheckForChanges();
+    }
+
+    public override void Dispose()
+    {
+        base.Dispose();
+        _deviceEnumerator.Dispose();
     }
 }
