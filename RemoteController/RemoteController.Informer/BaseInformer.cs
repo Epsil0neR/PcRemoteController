@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace RemoteController.Informer;
 
-public abstract class BaseInformer
+public abstract class BaseInformer : IDisposable
 {
     /// <summary>
     /// Unique name for each informer
@@ -40,6 +40,11 @@ public abstract class BaseInformer
     /// </summary>
     public abstract void Stop();
 
+    /// <inheritdoc />
+    public virtual void Dispose()
+    {
+        Stop();
+    }
 
     /// <summary>
     /// Sets backfield to value and returns true if value changed, otherwise returns false.

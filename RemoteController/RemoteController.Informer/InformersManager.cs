@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace RemoteController.Informer;
 
-public class InformersManager
+public class InformersManager : IDisposable
 {
     private readonly List<BaseInformer> _items = new();
 
@@ -58,7 +58,17 @@ public class InformersManager
 
         Stop(informer);
         informer.Changed -= InformerOnChanged;
+        informer.Dispose();
     }
+
+    public void Dispose()
+    {
+        foreach (var informer in _items.ToList())
+        {
+            Unregister(informer);
+        }
+    }
+
     private void InformerOnChanged(object sender, EventArgs e)
     {
         InformerChanged?.Invoke(this, (BaseInformer)sender);
@@ -87,6 +97,4 @@ public class InformersManager
     {
         informer.Stop();
     }
-
-
 }
