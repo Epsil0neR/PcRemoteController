@@ -4,9 +4,34 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:winUi="using:CommunityToolkit.Labs.WinUI"
+    xmlns:c="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:viewModels="using:RemoteController.WinUi.ViewModels"
+    xmlns:ui="using:CommunityToolkit.WinUI.UI"
     mc:Ignorable="d">
+    <Page.Resources>
+        <DataTemplate x:DataType="viewModels:DeviceViewModel" x:Key="DataTemplate.DeviceViewModel">
+            <winUi:SettingsCard 
+                HeaderIcon="{ui:FontIcon Glyph=&#xE7F5;}"
+                Header="{Binding Name}">
+                <ToggleSwitch
+                    IsOn="{Binding IsSelected, Mode=TwoWay}" />
+            </winUi:SettingsCard>
+        </DataTemplate>
+    </Page.Resources>
+    <StackPanel Orientation="Vertical">
+        <TextBlock
+            Text="Output devices"
+            />
 
-    <Grid x:Name="ContentArea">
-        
-    </Grid>
+        <ItemsControl
+            ItemsSource="{x:Bind ViewModel.OutputDevices, Mode=OneWay}"
+            ItemTemplate="{StaticResource DataTemplate.DeviceViewModel}"
+            />
+
+        <TextBlock 
+            Text="Input devices"
+            />
+        <TextBlock Text="[TODO: Add list of input devices]"></TextBlock>
+    </StackPanel>
 </Page>

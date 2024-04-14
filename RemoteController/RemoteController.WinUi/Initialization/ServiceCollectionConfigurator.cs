@@ -1,4 +1,4 @@
-﻿using System.Security.Authentication;
+using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 using Epsiloner.WinUi.Configurations;
 using Epsiloner.WinUi.Services;
@@ -43,6 +43,7 @@ internal static class ServiceCollectionConfigurator
         .ConfigureWritable<ServerOptions>(context)
         .ConfigureWritable<FileSystemOptions>(context)
         .ConfigureWritable<HotkeyGesturesOptions>(context)
+        .ConfigureWritable<SoundDevicesOptions>(context)
     ;
 
     public static IServiceCollection AddCore(this IServiceCollection services) => services

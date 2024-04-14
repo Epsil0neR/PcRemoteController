@@ -4,5 +4,5 @@ namespace RemoteController.WinUi.Models;
 
 public class FileSystemOptions
 {
-    public FileSystemPaths Roots { get; set; } = new FileSystemPaths();
+    public FileSystemPaths Roots { get; set; } = new();
 }
