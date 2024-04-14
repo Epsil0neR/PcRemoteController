@@ -17,17 +17,26 @@
         x:Key="GestureVisual.Template"
         TargetType="c:GestureVisual">
         <Button CornerRadius="{TemplateBinding CornerRadius}">
-            <ItemsControl
-                ItemsSource="{TemplateBinding Keys}" 
-                ItemTemplate="{StaticResource GestureVisual.ItemTemplate}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel 
-                            Orientation="Horizontal" 
-                            Spacing="8" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
+            <StackPanel Orientation="Horizontal">
+                <ItemsControl
+                    ItemsSource="{TemplateBinding Keys}" 
+                    ItemTemplate="{StaticResource GestureVisual.ItemTemplate}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel 
+                                Orientation="Horizontal" 
+                                Spacing="8" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+
+                <!--TODO: Make Edit icon visible and functional.--> 
+                <FontIcon
+                    FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                    FontSize="16"
+                    Glyph="&#xE70F;"
+                    Visibility="Collapsed"/>
+            </StackPanel>
         </Button>
     </ControlTemplate>
     <Style TargetType="c:GestureVisual"
