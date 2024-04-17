@@ -5,12 +5,13 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:winUi="using:CommunityToolkit.Labs.WinUI"
-    xmlns:c="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:viewModels="using:RemoteController.WinUi.ViewModels"
     xmlns:ui="using:CommunityToolkit.WinUI.UI"
+    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:controls1="using:RemoteController.WinUi.Controls"
     mc:Ignorable="d">
     <Page.Resources>
-        <DataTemplate x:DataType="viewModels:DeviceViewModel" x:Key="DataTemplate.DeviceViewModel">
+        <DataTemplate x:DataType="viewModels:DeviceViewModel" x:Key="DataTemplate.DeviceViewModel.Output">
             <winUi:SettingsCard 
                 HeaderIcon="{ui:FontIcon Glyph=&#xE7F5;}"
                 Header="{Binding Name}">
@@ -18,20 +19,55 @@
                     IsOn="{Binding IsSelected, Mode=TwoWay}" />
             </winUi:SettingsCard>
         </DataTemplate>
+        <DataTemplate x:DataType="viewModels:DeviceViewModel" x:Key="DataTemplate.DeviceViewModel.Input">
+            <winUi:SettingsCard 
+                HeaderIcon="{ui:FontIcon Glyph=&#xE720;}"
+                Header="{Binding Name}">
+                <ToggleSwitch
+                    IsOn="{Binding IsSelected, Mode=TwoWay}" />
+            </winUi:SettingsCard>
+        </DataTemplate>
+        <Style TargetType="TextBlock" x:Key="SoundDevices.DevicesHeader">
+            <Setter Property="Margin" Value="4" />
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+        </Style>
+        <Style TargetType="ItemsControl" x:Key="SoundDevices.ItemsControl">
+            <Setter Property="Margin" Value="0 8 0 16" />
+        </Style>
     </Page.Resources>
     <StackPanel Orientation="Vertical">
-        <TextBlock
-            Text="Output devices"
-            />
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                Grid.Column="0"
+                Style="{StaticResource SoundDevices.DevicesHeader}"
+                VerticalAlignment="Bottom"
+                Text="Output devices" />
+            <TextBlock
+                Grid.Column="1"
+                Text="Shortcut to circle between enabled devices:" />
+            <controls1:GestureVisual
+                Grid.Column="2"
+                />
+        </Grid>
 
         <ItemsControl
+            Style="{StaticResource SoundDevices.ItemsControl}"
             ItemsSource="{x:Bind ViewModel.OutputDevices, Mode=OneWay}"
-            ItemTemplate="{StaticResource DataTemplate.DeviceViewModel}"
-            />
+            ItemTemplate="{StaticResource DataTemplate.DeviceViewModel.Output}" />
 
         <TextBlock 
-            Text="Input devices"
-            />
-        <TextBlock Text="[TODO: Add list of input devices]"></TextBlock>
+            Style="{StaticResource SoundDevices.DevicesHeader}"
+            Text="Input devices" />
+
+        <ItemsControl
+            Style="{StaticResource SoundDevices.ItemsControl}"
+            ItemsSource="{x:Bind ViewModel.InputDevices, Mode=OneWay}"
+            ItemTemplate="{StaticResource DataTemplate.DeviceViewModel.Input}" />
     </StackPanel>
 </Page>
