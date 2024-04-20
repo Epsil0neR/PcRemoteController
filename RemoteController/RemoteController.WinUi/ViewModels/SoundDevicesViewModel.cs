@@ -56,12 +56,16 @@ public class SoundDevicesViewModel : ObservableObject, IDisposable
     private void UpdateDevices()
     {
         OutputDevices = SoundInformer.OutputDeviceList
-            .Select(x => new DeviceViewModel() { Name = x })
+            .Select(x => new DeviceViewModel() { Name = x, IsSelected = OutputIsCommandEnabled(x)})
             .ToList();
         InputDevices = SoundInformer.InputDeviceList
-            .Select(x => new DeviceViewModel() {Name = x})
+            .Select(x => new DeviceViewModel() {Name = x, IsSelected = InputIsCommandEnabled(x)})
             .ToList();
     }
+
+    private bool OutputIsCommandEnabled(string name) => SoundDevicesOptions.Value.Outputs.Any(x => x.DeviceName == name && x.SwitchCommand);
+
+    private bool InputIsCommandEnabled(string name) => SoundDevicesOptions.Value.Inputs.Any(x => x.DeviceName == name && x.SwitchCommand);
 }
 
 public partial class DeviceViewModel : ObservableObject
@@ -70,6 +74,11 @@ public partial class DeviceViewModel : ObservableObject
 
     [ObservableProperty]
     private bool _isSelected;
+
+    partial void OnIsSelectedChanged(bool isSelected)
+    {
+        //TODO: Update config values.
+    }
 
     //TODO: sound device IsSelected should be stored in some config/file/storage.
 }
