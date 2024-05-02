@@ -4,7 +4,6 @@ using RemoteController.WinUi.Helpers;
 using RemoteController.WinUi.ViewModels;
 using Windows.System;
 using WinRT.Interop;
-using AppWindow = Microsoft.UI.Windowing.AppWindow;
 
 namespace RemoteController.WinUi.Views;
 

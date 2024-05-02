@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using Microsoft.UI.Xaml.Navigation;
 using RemoteController.WinUi.Attributes;
-using RemoteController.WinUi.ViewModels;
+using RemoteController.WinUi.ViewModels.Pages;
 
 namespace RemoteController.WinUi.Views;
 

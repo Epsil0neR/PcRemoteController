@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
 using RemoteController.Manipulator.Contexts;
 using RemoteController.WinUi.Attributes;
-using RemoteController.WinUi.ViewModels;
 using Windows.Storage.Pickers;
+using RemoteController.WinUi.ViewModels.Pages;
 using WinRT.Interop;
 
 namespace RemoteController.WinUi.Views;

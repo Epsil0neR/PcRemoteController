@@ -1,8 +1,8 @@
-﻿using Epsiloner.WinUi.Gestures;
+﻿using Windows.System;
+using Epsiloner.WinUi.Gestures;
 using Epsiloner.WinUi.Services;
-using Windows.System;
 
-namespace RemoteController.WinUi.ViewModels;
+namespace RemoteController.WinUi.ViewModels.Pages;
 
 public partial class HotkeysViewModel : ObservableObject
 {

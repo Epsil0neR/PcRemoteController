@@ -4,7 +4,7 @@ using RemoteController.WinUi.Core.Options;
 using RemoteController.WinUi.Models;
 using RemoteController.WinUi.Utils;
 
-namespace RemoteController.WinUi.ViewModels;
+namespace RemoteController.WinUi.ViewModels.Pages;
 
 public class GenericViewModel : ObservableObject
 {

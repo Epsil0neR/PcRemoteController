@@ -24,8 +24,8 @@ using RemoteController.WinUi.ViewModels;
 using RemoteController.WinUi.Views;
 using WebSocketSharp.Server;
 using WindowsInput;
-using Application = Microsoft.UI.Xaml.Application;
 using RemoteController.WinUi.Configuration;
+using RemoteController.WinUi.ViewModels.Pages;
 
 namespace RemoteController.WinUi.Initialization;
 

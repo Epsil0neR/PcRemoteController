@@ -5,10 +5,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:winUi="using:CommunityToolkit.Labs.WinUI"
-    xmlns:viewModels="using:RemoteController.WinUi.ViewModels"
+    xmlns:viewModels="using:RemoteController.WinUi.ViewModels.Pages"
     xmlns:ui="using:CommunityToolkit.WinUI.UI"
-    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
-    xmlns:controls1="using:RemoteController.WinUi.Controls"
+    xmlns:controls="using:RemoteController.WinUi.Controls"
     mc:Ignorable="d">
     <Page.Resources>
         <DataTemplate x:DataType="viewModels:DeviceViewModel" x:Key="DataTemplate.DeviceViewModel.Output">
@@ -51,7 +50,7 @@
             <TextBlock
                 Grid.Column="1"
                 Text="Shortcut to circle between enabled devices:" />
-            <controls1:GestureVisual
+            <controls:GestureVisual
                 Grid.Column="2"
                 />
         </Grid>

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 using RemoteController.WinUi.Attributes;
-using RemoteController.WinUi.ViewModels;
+using RemoteController.WinUi.ViewModels.Pages;
 using Windows.System;
 using Windows.UI.Core;
 

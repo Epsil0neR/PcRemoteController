@@ -1,11 +1,10 @@
 ﻿using System.Reflection;
 using System.Windows.Input;
+using Windows.ApplicationModel;
 using RemoteController.WinUi.Contracts.Services;
 using RemoteController.WinUi.Helpers;
 
-using Windows.ApplicationModel;
-
-namespace RemoteController.WinUi.ViewModels;
+namespace RemoteController.WinUi.ViewModels.Pages;
 
 public class SettingsViewModel : ObservableObject
 {

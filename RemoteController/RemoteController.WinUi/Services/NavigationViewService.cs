@@ -4,7 +4,7 @@ using System.Reflection;
 using RemoteController.WinUi.Attributes;
 using RemoteController.WinUi.Contracts.Services;
 using RemoteController.WinUi.Helpers;
-using RemoteController.WinUi.ViewModels;
+using RemoteController.WinUi.ViewModels.Pages;
 
 namespace RemoteController.WinUi.Services;
 

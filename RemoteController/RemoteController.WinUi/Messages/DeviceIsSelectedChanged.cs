@@ -1,5 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Messaging.Messages;
-using RemoteController.WinUi.ViewModels;
+using RemoteController.WinUi.ViewModels.Pages;
 
 namespace RemoteController.WinUi.Messages;
 

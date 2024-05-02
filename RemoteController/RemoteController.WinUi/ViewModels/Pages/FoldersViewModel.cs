@@ -2,7 +2,7 @@
 using RemoteController.WinUi.Core.Options;
 using RemoteController.WinUi.Models;
 
-namespace RemoteController.WinUi.ViewModels;
+namespace RemoteController.WinUi.ViewModels.Pages;
 
 public partial class FoldersViewModel : ObservableObject
 {
@@ -26,7 +26,7 @@ public partial class FoldersViewModel : ObservableObject
 
     public async Task<bool> ChangePath(FileSystemPath item, string path)
     {
-        if (Paths.Any(x => string.Equals(path, x.Path, StringComparison.InvariantCultureIgnoreCase)))
+        if (Enumerable.Any<FileSystemPath>(Paths, x => string.Equals(path, x.Path, StringComparison.InvariantCultureIgnoreCase)))
             return false;
 
         FileSystemOptions.Update(options =>
@@ -47,12 +47,12 @@ public partial class FoldersViewModel : ObservableObject
 
     public bool IsNameTaken(string name)
     {
-        return Paths.Any(x => string.Equals(x.Name, name, StringComparison.InvariantCultureIgnoreCase));
+        return Enumerable.Any<FileSystemPath>(Paths, x => string.Equals(x.Name, name, StringComparison.InvariantCultureIgnoreCase));
     }
 
     public bool IsPathTaken(string path)
     {
-        return Paths.Any(x => string.Equals(x.Path, path, StringComparison.InvariantCultureIgnoreCase));
+        return Enumerable.Any<FileSystemPath>(Paths, x => string.Equals(x.Path, path, StringComparison.InvariantCultureIgnoreCase));
     }
 
     public void Create(string name, string path)

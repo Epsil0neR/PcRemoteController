@@ -4,7 +4,7 @@ using RemoteController.WinUi.Core.Options;
 using RemoteController.WinUi.Messages;
 using RemoteController.WinUi.Models;
 
-namespace RemoteController.WinUi.ViewModels;
+namespace RemoteController.WinUi.ViewModels.Pages;
 
 public class SoundDevicesViewModel :
     ActivatableVieModel,
