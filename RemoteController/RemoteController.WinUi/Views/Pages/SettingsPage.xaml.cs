@@ -2,7 +2,7 @@
 using RemoteController.WinUi.Attributes;
 using RemoteController.WinUi.ViewModels.Pages;
 
-namespace RemoteController.WinUi.Views;
+namespace RemoteController.WinUi.Views.Pages;
 
 // TODO: Set the URL for your privacy policy by updating SettingsPage_PrivacyTermsLink.NavigateUri in Resources.resw.
 [ViewFor<SettingsViewModel>]

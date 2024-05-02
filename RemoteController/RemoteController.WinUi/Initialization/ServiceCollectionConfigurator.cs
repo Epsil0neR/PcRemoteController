@@ -11,6 +11,7 @@ using RemoteController.Manipulator.Contexts;
 using RemoteController.Services;
 using RemoteController.Sound;
 using RemoteController.WebSocket;
+using RemoteController.WinUi.Configuration;
 using RemoteController.WinUi.Contracts.Services;
 using RemoteController.WinUi.Core.Contracts.Services;
 using RemoteController.WinUi.Core.Options;
@@ -21,11 +22,11 @@ using RemoteController.WinUi.Models;
 using RemoteController.WinUi.Notifications;
 using RemoteController.WinUi.Services;
 using RemoteController.WinUi.ViewModels;
+using RemoteController.WinUi.ViewModels.Pages;
 using RemoteController.WinUi.Views;
+using RemoteController.WinUi.Views.Pages;
 using WebSocketSharp.Server;
 using WindowsInput;
-using RemoteController.WinUi.Configuration;
-using RemoteController.WinUi.ViewModels.Pages;
 
 namespace RemoteController.WinUi.Initialization;
 

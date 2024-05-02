@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using RemoteController.WinUi.Attributes;
 using RemoteController.WinUi.Contracts.Services;
-using RemoteController.WinUi.Views;
+using RemoteController.WinUi.Views.Pages;
 
 namespace RemoteController.WinUi.Services;
 

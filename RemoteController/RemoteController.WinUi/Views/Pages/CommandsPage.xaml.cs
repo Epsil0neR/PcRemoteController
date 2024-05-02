@@ -2,7 +2,7 @@
 using RemoteController.WinUi.Attributes;
 using RemoteController.WinUi.ViewModels.Pages;
 
-namespace RemoteController.WinUi.Views;
+namespace RemoteController.WinUi.Views.Pages;
 
 [ViewFor<CommandsViewModel>(2)]
 [PageSymbol(Symbol.Remote)]

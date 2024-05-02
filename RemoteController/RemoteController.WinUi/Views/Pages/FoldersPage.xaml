@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="RemoteController.WinUi.Views.FoldersPage"
+    x:Class="RemoteController.WinUi.Views.Pages.FoldersPage"
     x:Name="root"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"

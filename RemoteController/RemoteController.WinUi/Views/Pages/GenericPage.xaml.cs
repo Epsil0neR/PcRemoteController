@@ -2,7 +2,7 @@
 using RemoteController.WinUi.Attributes;
 using RemoteController.WinUi.ViewModels.Pages;
 
-namespace RemoteController.WinUi.Views;
+namespace RemoteController.WinUi.Views.Pages;
 
 [ViewFor<GenericViewModel>(0)]
 [PageSymbol(Symbol.Home)]

@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel;
-using RemoteController.WinUi.Attributes;
-using RemoteController.WinUi.ViewModels.Pages;
 using Windows.System;
 using Windows.UI.Core;
+using RemoteController.WinUi.Attributes;
+using RemoteController.WinUi.ViewModels.Pages;
 
-namespace RemoteController.WinUi.Views;
+namespace RemoteController.WinUi.Views.Pages;
 
 [ViewFor<HotkeysViewModel>(4)]
 [PageSymbol(Symbol.Keyboard)]

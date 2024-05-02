@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel;
+using Windows.Storage.Pickers;
 using RemoteController.Manipulator.Contexts;
 using RemoteController.WinUi.Attributes;
-using Windows.Storage.Pickers;
 using RemoteController.WinUi.ViewModels.Pages;
 using WinRT.Interop;
 
-namespace RemoteController.WinUi.Views;
+namespace RemoteController.WinUi.Views.Pages;
 
 [ViewFor<FoldersViewModel>(1)]
 [PageSymbol(Symbol.Copy)]
