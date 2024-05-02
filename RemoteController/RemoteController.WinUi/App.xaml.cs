@@ -1,3 +1,4 @@
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using RemoteController.WinUi.Activation;
 using RemoteController.WinUi.Contracts.Services;
@@ -47,6 +48,9 @@ public partial class App : Application
                     .AddSingleton(this)
                     .AddSingleton<IActivationService, ActivationService>()
                     .AddHostedService<ActivationService>()
+
+                    .AddSingleton<WeakReferenceMessenger>()
+                    .AddSingleton<IMessenger, WeakReferenceMessenger>(provider => provider.GetRequiredService<WeakReferenceMessenger>())
 
                     // Default Activation Handler
                     .AddTransient<ActivationHandler<LaunchActivatedEventArgs>, DefaultActivationHandler>()
