@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using Microsoft.UI.Xaml.Navigation;
 using RemoteController.WinUi.Attributes;
 using RemoteController.WinUi.ViewModels;
 
@@ -14,5 +15,17 @@ public sealed partial class SoundDevicesPage : Page
     public SoundDevicesPage()
     {
         InitializeComponent();
+    }
+
+    protected override void OnNavigatedTo(NavigationEventArgs e)
+    {
+        ViewModel.Activate();
+        base.OnNavigatedTo(e);
+    }
+
+    protected override void OnNavigatedFrom(NavigationEventArgs e)
+    {
+        ViewModel.Deactivate();
+        base.OnNavigatedFrom(e);
     }
 }

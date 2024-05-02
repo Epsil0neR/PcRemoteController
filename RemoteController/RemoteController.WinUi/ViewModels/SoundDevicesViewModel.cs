@@ -1,15 +1,22 @@
-﻿using RemoteController.Informer;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using RemoteController.Informer;
 using RemoteController.WinUi.Core.Options;
+using RemoteController.WinUi.Messages;
 using RemoteController.WinUi.Models;
 
 namespace RemoteController.WinUi.ViewModels;
 
-public class SoundDevicesViewModel : ObservableObject, IDisposable
+public class SoundDevicesViewModel :
+    ActivatableVieModel,
+    IDisposable,
+    IRecipient<DeviceIsSelectedChanged>
 {
+    private bool _updatingDevices;
     private IReadOnlyList<DeviceViewModel> _outputDevices = Array.Empty<DeviceViewModel>();
     private IReadOnlyList<DeviceViewModel> _inputDevices = Array.Empty<DeviceViewModel>();
 
     public InformersManager InformersManager { get; }
+    public IMessenger Messenger { get; }
 
     public IWritableOptions<SoundDevicesOptions> SoundDevicesOptions { get; }
 
@@ -34,18 +41,20 @@ public class SoundDevicesViewModel : ObservableObject, IDisposable
 
     public SoundDevicesViewModel(
         InformersManager informersManager,
+        IMessenger messenger,
         IWritableOptions<SoundDevicesOptions> soundDevicesOptions)
     {
         InformersManager = informersManager ?? throw new ArgumentNullException(nameof(informersManager));
+        Messenger = messenger;
         SoundDevicesOptions = soundDevicesOptions ?? throw new ArgumentNullException(nameof(soundDevicesOptions));
         SoundInformer = InformersManager.Informer<SoundInformer>() ?? throw new ArgumentException(@"Sound informer is not available in manager.", nameof(informersManager));
-        SoundInformer.Changed += SoundInformerOnChanged;
+
         UpdateDevices();
     }
 
     public void Dispose()
     {
-        SoundInformer.Changed -= SoundInformerOnChanged;
+        Deactivate();
     }
 
     private void SoundInformerOnChanged(object? sender, EventArgs e)
@@ -55,30 +64,101 @@ public class SoundDevicesViewModel : ObservableObject, IDisposable
 
     private void UpdateDevices()
     {
-        OutputDevices = SoundInformer.OutputDeviceList
-            .Select(x => new DeviceViewModel() { Name = x, IsSelected = OutputIsCommandEnabled(x)})
-            .ToList();
-        InputDevices = SoundInformer.InputDeviceList
-            .Select(x => new DeviceViewModel() {Name = x, IsSelected = InputIsCommandEnabled(x)})
-            .ToList();
+        _updatingDevices = true;
+        try
+        {
+            OutputDevices = SoundInformer.OutputDeviceList
+                .Select(x => ToViewModel(x, false))
+                .ToList();
+            InputDevices = SoundInformer.InputDeviceList
+                .Select(x => ToViewModel(x, true))
+                .ToList();
+        }
+        finally
+        {
+            _updatingDevices = false;
+        }
     }
 
-    private bool OutputIsCommandEnabled(string name) => SoundDevicesOptions.Value.Outputs.Any(x => x.DeviceName == name && x.SwitchCommand);
+    private DeviceViewModel ToViewModel(string name, bool isInputs)
+    {
+        var source = isInputs
+            ? SoundDevicesOptions.Value.Inputs
+            : SoundDevicesOptions.Value.Outputs;
+        var rv = new DeviceViewModel(Messenger)
+        {
+            Name = name,
+            IsSelected = source.Any(x => x.DeviceName == name && x.SwitchCommand),
+            IsInput = isInputs
+        };
 
-    private bool InputIsCommandEnabled(string name) => SoundDevicesOptions.Value.Inputs.Any(x => x.DeviceName == name && x.SwitchCommand);
+        return rv;
+    }
+
+    public void Receive(DeviceIsSelectedChanged message)
+    {
+        if (_updatingDevices)
+            return;
+
+        SoundDevicesOptions.Update(x =>
+        {
+            UpdateOptions(x.Inputs, InputDevices);
+            UpdateOptions(x.Outputs, OutputDevices);
+        });
+    }
+
+    private void UpdateOptions(List<SoundDeviceData> options, IReadOnlyList<DeviceViewModel> items)
+    {
+        foreach (var item in items)
+        {
+            var option = options.Find(x => x.DeviceName == item.Name);
+            if (option is null && item.IsSelected)
+            {
+                option = new SoundDeviceData()
+                {
+                    DeviceName = item.Name,
+                    SwitchCommand = item.IsSelected
+                };
+                options.Add(option);
+            }
+            else if (option is not null)
+            {
+                option.SwitchCommand = item.IsSelected;
+            }
+        }
+    }
+
+    protected override void OnActivated()
+    {
+        SoundInformer.Changed += SoundInformerOnChanged;
+        Messenger.RegisterAll(this);
+    }
+
+    protected override void OnDeactivated()
+    {
+        Messenger.UnregisterAll(this);
+        SoundInformer.Changed -= SoundInformerOnChanged;
+    }
 }
 
 public partial class DeviceViewModel : ObservableObject
 {
+    public IMessenger Messenger { get; set; }
+
     public required string Name { get; init; }
+
+    public bool IsInput { get; init; }
 
     [ObservableProperty]
     private bool _isSelected;
 
-    partial void OnIsSelectedChanged(bool isSelected)
+    public DeviceViewModel(IMessenger messenger)
     {
-        //TODO: Update config values.
+        Messenger = messenger;
     }
 
-    //TODO: sound device IsSelected should be stored in some config/file/storage.
+    partial void OnIsSelectedChanged(bool isSelected)
+    {
+        Messenger.Send(new DeviceIsSelectedChanged(this));
+    }
 }
