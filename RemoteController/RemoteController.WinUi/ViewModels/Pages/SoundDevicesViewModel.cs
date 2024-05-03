@@ -7,7 +7,7 @@ using RemoteController.WinUi.Models;
 namespace RemoteController.WinUi.ViewModels.Pages;
 
 public class SoundDevicesViewModel :
-    ActivatableVieModel,
+    ActivatableViewModel,
     IDisposable,
     IRecipient<DeviceIsSelectedChanged>
 {

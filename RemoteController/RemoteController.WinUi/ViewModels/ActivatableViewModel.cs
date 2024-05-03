@@ -1,6 +1,6 @@
 ﻿namespace RemoteController.WinUi.ViewModels;
 
-public abstract class ActivatableVieModel : ObservableObject
+public abstract class ActivatableViewModel : ObservableObject
 {
     private bool _isActive;
 
