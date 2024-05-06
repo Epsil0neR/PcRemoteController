@@ -119,7 +119,10 @@ public class SoundDevicesViewModel :
 
     public void Receive(SystemDefaultSoundDeviceRequest message)
     {
-        Service.SetOutputDevice(message.Value.Name);
+        if (!message.Value.IsInput)
+            Service.SetOutputDevice(message.Value.Name);
+        else
+            Service.SetInputDevice(message.Value.Name);
     }
 
     private void UpdateOptions(List<SoundDeviceData> options, IReadOnlyList<DeviceViewModel> items)

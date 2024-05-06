@@ -37,8 +37,23 @@
             <winUi:SettingsCard 
                 HeaderIcon="{ui:FontIcon Glyph=&#xE720;}"
                 Header="{Binding Name}">
-                <ToggleSwitch
-                    IsOn="{Binding IsSelected, Mode=TwoWay}" />
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock
+                        Text="Default"
+                        VerticalAlignment="Center"
+                        Visibility="{Binding IsSystemDefault, Converter={StaticResource Converter.TrueToVisible}}"
+                    />
+                    <Button
+                        VerticalAlignment="Center"
+                        Content="Make default" 
+                        Command="{Binding MakeSystemDefaultCommand}"
+                        Visibility="{Binding IsSystemDefault, Converter={StaticResource Converter.FalseToVisible}}"
+                    />
+                    <ToggleSwitch
+                        Margin="16 0 0 0"
+                        VerticalAlignment="Center"
+                        IsOn="{Binding IsSelected, Mode=TwoWay}" />
+                </StackPanel>
             </winUi:SettingsCard>
         </DataTemplate>
         <Style TargetType="TextBlock" x:Key="SoundDevices.DevicesHeader">
