@@ -64,7 +64,8 @@ internal static class ServiceCollectionConfigurator
         .AddSingleton<IActivationService, ActivationService>()
         .AddSingleton<IPageService, PageService>()
         .AddSingleton<INavigationService, NavigationService>()
-        .AddSingleton<IFileService, FileService>();
+        .AddSingleton<IFileService, FileService>()
+        .AddSingleton<ISoundDevicesService, SoundDevicesService>();
 
     public static IServiceCollection AddViewModels(this IServiceCollection services) => services
         .AddTransient<SettingsViewModel>()

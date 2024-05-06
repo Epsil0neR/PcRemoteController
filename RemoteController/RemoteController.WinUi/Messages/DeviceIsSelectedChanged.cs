@@ -9,3 +9,17 @@ public class DeviceIsSelectedChanged : ValueChangedMessage<DeviceViewModel>
     {
     }
 }
+
+public class SystemDefaultSoundDeviceChanged: ValueChangedMessage<DeviceViewModel>
+{
+    public SystemDefaultSoundDeviceChanged(DeviceViewModel value) : base(value)
+    {
+    }
+}
+
+public class SystemDefaultSoundDeviceRequest: ValueChangedMessage<DeviceViewModel>
+{
+    public SystemDefaultSoundDeviceRequest(DeviceViewModel value) : base(value)
+    {
+    }
+}

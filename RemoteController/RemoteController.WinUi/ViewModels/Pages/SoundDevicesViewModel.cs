@@ -3,13 +3,15 @@ using RemoteController.Informer;
 using RemoteController.WinUi.Core.Options;
 using RemoteController.WinUi.Messages;
 using RemoteController.WinUi.Models;
+using RemoteController.WinUi.Services;
 
 namespace RemoteController.WinUi.ViewModels.Pages;
 
 public class SoundDevicesViewModel :
     ActivatableViewModel,
     IDisposable,
-    IRecipient<DeviceIsSelectedChanged>
+    IRecipient<DeviceIsSelectedChanged>,
+    IRecipient<SystemDefaultSoundDeviceRequest>
 {
     private bool _updatingDevices;
     private IReadOnlyList<DeviceViewModel> _outputDevices = Array.Empty<DeviceViewModel>();
@@ -19,6 +21,7 @@ public class SoundDevicesViewModel :
     public IMessenger Messenger { get; }
 
     public IWritableOptions<SoundDevicesOptions> SoundDevicesOptions { get; }
+    public ISoundDevicesService Service { get; }
 
     public SoundInformer SoundInformer { get; }
 
@@ -42,11 +45,13 @@ public class SoundDevicesViewModel :
     public SoundDevicesViewModel(
         InformersManager informersManager,
         IMessenger messenger,
-        IWritableOptions<SoundDevicesOptions> soundDevicesOptions)
+        IWritableOptions<SoundDevicesOptions> soundDevicesOptions,
+        ISoundDevicesService service)
     {
         InformersManager = informersManager ?? throw new ArgumentNullException(nameof(informersManager));
-        Messenger = messenger;
+        Messenger = messenger ?? throw new ArgumentNullException(nameof(messenger));
         SoundDevicesOptions = soundDevicesOptions ?? throw new ArgumentNullException(nameof(soundDevicesOptions));
+        Service = service ?? throw new ArgumentNullException(nameof(service));
         SoundInformer = InformersManager.Informer<SoundInformer>() ?? throw new ArgumentException(@"Sound informer is not available in manager.", nameof(informersManager));
 
         UpdateDevices();
@@ -85,11 +90,16 @@ public class SoundDevicesViewModel :
         var source = isInputs
             ? SoundDevicesOptions.Value.Inputs
             : SoundDevicesOptions.Value.Outputs;
+        var defaultDevice = isInputs
+            ? SoundInformer.InputDevice
+            : SoundInformer.OutputDevice;
+
         var rv = new DeviceViewModel(Messenger)
         {
             Name = name,
             IsSelected = source.Any(x => x.DeviceName == name && x.SwitchCommand),
-            IsInput = isInputs
+            IsInput = isInputs,
+            IsSystemDefault = string.Equals(defaultDevice, name),
         };
 
         return rv;
@@ -105,6 +115,11 @@ public class SoundDevicesViewModel :
             UpdateOptions(x.Inputs, InputDevices);
             UpdateOptions(x.Outputs, OutputDevices);
         });
+    }
+
+    public void Receive(SystemDefaultSoundDeviceRequest message)
+    {
+        Service.SetOutputDevice(message.Value.Name);
     }
 
     private void UpdateOptions(List<SoundDeviceData> options, IReadOnlyList<DeviceViewModel> items)
@@ -149,8 +164,17 @@ public partial class DeviceViewModel : ObservableObject
 
     public bool IsInput { get; init; }
 
+    /// <summary>
+    /// Indicates if enabled for switch command.
+    /// </summary>
     [ObservableProperty]
     private bool _isSelected;
+
+    /// <summary>
+    /// Indicates if this device is used as default system sound device.
+    /// </summary>
+    [ObservableProperty]
+    private bool _isSystemDefault;
 
     public DeviceViewModel(IMessenger messenger)
     {
@@ -160,5 +184,13 @@ public partial class DeviceViewModel : ObservableObject
     partial void OnIsSelectedChanged(bool isSelected)
     {
         Messenger.Send(new DeviceIsSelectedChanged(this));
+    }
+
+    protected bool CanMakeSystemDefault() => !IsSystemDefault;
+
+    [RelayCommand(CanExecute = nameof(CanMakeSystemDefault))]
+    private void MakeSystemDefault()
+    {
+        Messenger.Send(new SystemDefaultSoundDeviceRequest(this));
     }
 }
