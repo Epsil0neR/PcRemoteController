@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.Messaging;
+using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.Messaging;
 using RemoteController.Informer;
 using RemoteController.WinUi.Core.Options;
 using RemoteController.WinUi.Messages;
@@ -13,6 +14,7 @@ public class SoundDevicesViewModel :
     IRecipient<DeviceIsSelectedChanged>,
     IRecipient<SystemDefaultSoundDeviceRequest>
 {
+    private readonly ILogger<SoundDevicesViewModel> _logger;
     private bool _updatingDevices;
     private IReadOnlyList<DeviceViewModel> _outputDevices = Array.Empty<DeviceViewModel>();
     private IReadOnlyList<DeviceViewModel> _inputDevices = Array.Empty<DeviceViewModel>();
@@ -43,11 +45,13 @@ public class SoundDevicesViewModel :
     }
 
     public SoundDevicesViewModel(
+        ILogger<SoundDevicesViewModel> logger,
         InformersManager informersManager,
         IMessenger messenger,
         IWritableOptions<SoundDevicesOptions> soundDevicesOptions,
         ISoundDevicesService service)
     {
+        _logger = logger;
         InformersManager = informersManager ?? throw new ArgumentNullException(nameof(informersManager));
         Messenger = messenger ?? throw new ArgumentNullException(nameof(messenger));
         SoundDevicesOptions = soundDevicesOptions ?? throw new ArgumentNullException(nameof(soundDevicesOptions));
@@ -85,9 +89,9 @@ public class SoundDevicesViewModel :
         }
     }
 
-    private DeviceViewModel ToViewModel(string name, bool isInputs)
+    private DeviceViewModel ToViewModel(SoundDeviceInfo deviceInfo, bool isInputs)
     {
-        var source = isInputs
+        var options = isInputs
             ? SoundDevicesOptions.Value.Inputs
             : SoundDevicesOptions.Value.Outputs;
         var defaultDevice = isInputs
@@ -96,11 +100,14 @@ public class SoundDevicesViewModel :
 
         var rv = new DeviceViewModel(Messenger)
         {
-            Name = name,
-            IsSelected = source.Any(x => x.DeviceName == name && x.SwitchCommand),
+            Name = deviceInfo.Name,
+            IsSelected = options.Any(x => x.DeviceName == deviceInfo.Name && x.SwitchCommand),
             IsInput = isInputs,
-            IsSystemDefault = string.Equals(defaultDevice, name),
+            IsSystemDefault = string.Equals(defaultDevice, deviceInfo.Name),
+            Volume = deviceInfo.Volume
         };
+
+        _logger.LogInformation($"DeviceViewModel created. Name:{rv.Name}, IsInput:{rv.IsInput}, Volume: {rv.Volume} Thread ID:{Thread.CurrentThread.ManagedThreadId}");
 
         return rv;
     }
@@ -178,6 +185,12 @@ public partial class DeviceViewModel : ObservableObject
     /// </summary>
     [ObservableProperty]
     private bool _isSystemDefault;
+
+    /// <summary>
+    /// Device volume in 0..100 range.
+    /// </summary>
+    [ObservableProperty]
+    public byte _volume;
 
     public DeviceViewModel(IMessenger messenger)
     {

@@ -2,9 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using Epsiloner.Cooldowns;
+using Microsoft.Extensions.Logging;
 using NAudio.CoreAudioApi;
 
 namespace RemoteController.Informer;
+public record struct SoundDeviceInfo
+{
+    public required string Name { get; init; }
+
+    public required byte Volume { get; init; }
+}
 
 /// <summary>
 /// Sound related data informer.
@@ -17,10 +24,10 @@ public class SoundInformer : BaseInformer
     private int _outputVolume;
     private string _outputDevice;
     private bool _outputIsMuted;
-    private IList<string>? _outputDeviceList;
+    private IList<SoundDeviceInfo>? _outputDeviceList;
     private MMDevice? _output;
     private string _inputDevice;
-    private IList<string>? _inputDeviceList;
+    private IList<SoundDeviceInfo>? _inputDeviceList;
     private MMDevice? _input;
     private int _inputVolume;
     private bool _inputIsMuted;
@@ -51,12 +58,12 @@ public class SoundInformer : BaseInformer
     /// <summary>
     /// List of enabled sound output devices.
     /// </summary>
-    public IEnumerable<string> OutputDeviceList => _outputDeviceList ?? Enumerable.Empty<string>();
+    public IEnumerable<SoundDeviceInfo> OutputDeviceList => _outputDeviceList ?? Enumerable.Empty<SoundDeviceInfo>();
 
     /// <summary>
     /// List of enabled sound input devices.
     /// </summary>
-    public IEnumerable<string> InputDeviceList => _inputDeviceList ?? Enumerable.Empty<string>();
+    public IEnumerable<SoundDeviceInfo> InputDeviceList => _inputDeviceList ?? Enumerable.Empty<SoundDeviceInfo>();
 
     /// <summary>
     /// Input volume 0-100
@@ -82,12 +89,12 @@ public class SoundInformer : BaseInformer
             changedOutput,
             Set(ref _outputVolume, (int)(output.AudioEndpointVolume.MasterVolumeLevelScalar * 100)),
             Set(ref _outputIsMuted, output.AudioEndpointVolume.Mute),
-            SetList(ref _outputDeviceList, outputList.Select(x => x.FriendlyName)),
+            SetList(ref _outputDeviceList, outputList.Select(ToDevice)),
 
             changedInput,
             Set(ref _inputVolume, (int)(input.AudioEndpointVolume.MasterVolumeLevelScalar * 100)),
             Set(ref _inputIsMuted, output.AudioEndpointVolume.Mute),
-            SetList(ref _inputDeviceList, inputList.Select(x=>x.FriendlyName)),
+            SetList(ref _inputDeviceList, inputList.Select(ToDevice)),
         };
 
         if (!changes.Any(x => x))
@@ -146,30 +153,19 @@ public class SoundInformer : BaseInformer
 
     private void InputOnOnVolumeNotification(AudioVolumeNotificationData data)
     {
-        var changes = new[]
-        {
-            Set(ref _inputVolume, (int)(data.MasterVolume * 100)),
-            Set(ref _inputIsMuted, data.Muted),
-        };
-        if (changes.Any(x => x))
-            RaiseChanged();
+        CheckForChanges();
     }
 
     private void OutputOnOnVolumeNotification(AudioVolumeNotificationData data)
     {
-        var changes = new[]
-        {
-            Set(ref _outputVolume, (int) (data.MasterVolume * 100)),
-            Set(ref _outputIsMuted, data.Muted),
-        };
-        if (changes.Any(x => x))
-            RaiseChanged();
+        CheckForChanges();
     }
 
     /// <inheritdoc />
     public override void Start()
     {
         _cooldown.Now();
+        _cooldown.Accumulate();
     }
 
     /// <inheritdoc />
@@ -183,7 +179,6 @@ public class SoundInformer : BaseInformer
         _cooldown = new EventCooldown(TimeSpan.FromMilliseconds(5000), () =>
         {
             CheckForChanges();
-            _cooldown!.Accumulate();
         });
         CheckForChanges();
     }
@@ -192,5 +187,14 @@ public class SoundInformer : BaseInformer
     {
         base.Dispose();
         _deviceEnumerator.Dispose();
+    }
+
+    private SoundDeviceInfo ToDevice(MMDevice device)
+    {
+        return new SoundDeviceInfo()
+        {
+            Name = device.FriendlyName,
+            Volume = (byte)(device.AudioEndpointVolume.MasterVolumeLevelScalar * 100)
+        };
     }
 }

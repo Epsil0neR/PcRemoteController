@@ -155,7 +155,7 @@ public class SoundDevicesPageViewModel : BasePageViewModel
     {
         OutputDevices = SoundInformer
             .OutputDeviceList
-            .Select(x => new SoundDeviceItem(Config, x))
+            .Select(x => new SoundDeviceItem(Config, x.Name))
             .ToList();
     }
 }

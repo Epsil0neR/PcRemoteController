@@ -75,11 +75,12 @@ public abstract class BaseInformer : IDisposable
     {
         var v = values?.ToList();
         var changed = prop?.Count != v?.Count;
+        var comparer = EqualityComparer<T>.Default;
         if (!changed && v != null && prop != null)
         {
             foreach (var itm in v)
             {
-                if (prop.Contains(itm))
+                if (prop.Contains(itm, comparer))
                     continue;
 
                 changed = true;
