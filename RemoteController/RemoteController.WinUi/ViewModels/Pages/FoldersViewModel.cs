@@ -24,14 +24,18 @@ public partial class FoldersViewModel : ObservableObject
         Paths = FileSystemOptions.Value.Roots.ToList();
     }
 
-    public async Task<bool> ChangePath(FileSystemPath item, string path)
+    public bool ChangePath(string name, string path)
     {
-        if (Enumerable.Any<FileSystemPath>(Paths, x => string.Equals(path, x.Path, StringComparison.InvariantCultureIgnoreCase)))
+        if (Paths.Any(x => string.Equals(path, x.Path, StringComparison.InvariantCultureIgnoreCase)))
             return false;
 
         FileSystemOptions.Update(options =>
         {
-            item.Path = path;
+            foreach (var itm in options.Roots)
+            {
+                if (itm.Name == name)
+                    itm.Path = path;
+            }
         });
         UpdatePaths();
 

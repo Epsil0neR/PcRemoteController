@@ -39,16 +39,10 @@ public sealed partial class FoldersPage
         if (folder is null) // User closed dialog without selecting folder.
             return;
 
-        var changed = await ViewModel.ChangePath(item, folder.Path);
+        var changed = ViewModel.ChangePath(item.Name, folder.Path);
         if (!changed)
         {
-            var dlg = new ContentDialog()
-            {
-                Title = "Error",
-                Content = "Selected folder already in use by another item.",
-                CloseButtonText = "Ok"
-            };
-            await dlg.ShowAsync();
+            await ErrorDialog.ShowAsync();
         }
     }
 
