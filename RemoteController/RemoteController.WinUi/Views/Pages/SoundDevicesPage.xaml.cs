@@ -1,7 +1,7 @@
-﻿using System.ComponentModel;
-using Microsoft.UI.Xaml.Navigation;
+﻿using Microsoft.UI.Xaml.Navigation;
 using RemoteController.WinUi.Attributes;
-using RemoteController.WinUi.ViewModels.Pages;
+using RemoteController.WinUi.ViewModels.Pages.SoundDevices;
+using System.ComponentModel;
 
 namespace RemoteController.WinUi.Views.Pages;
 

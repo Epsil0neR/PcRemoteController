@@ -5,57 +5,21 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:winUi="using:CommunityToolkit.Labs.WinUI"
-    xmlns:viewModels="using:RemoteController.WinUi.ViewModels.Pages"
+    xmlns:viewModels="using:RemoteController.WinUi.ViewModels.Pages.SoundDevices"
     xmlns:ui="using:CommunityToolkit.WinUI.UI"
     xmlns:controls="using:RemoteController.WinUi.Controls"
+    xmlns:items="using:RemoteController.WinUi.Views.Items"
     mc:Ignorable="d">
     <Page.Resources>
         <DataTemplate x:DataType="viewModels:DeviceViewModel" x:Key="DataTemplate.DeviceViewModel.Output">
-            <winUi:SettingsCard 
-                HeaderIcon="{ui:FontIcon Glyph=&#xE7F5;}"
-                Header="{Binding Name}">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock
-                        Text="Default"
-                        VerticalAlignment="Center"
-                        Visibility="{Binding IsSystemDefault, Converter={StaticResource Converter.TrueToVisible}}"
-                        />
-                    <Button
-                        VerticalAlignment="Center"
-                        Content="Make default" 
-                        Command="{Binding MakeSystemDefaultCommand}"
-                        Visibility="{Binding IsSystemDefault, Converter={StaticResource Converter.FalseToVisible}}"
-                        />
-                    <ToggleSwitch
-                        Margin="16 0 0 0"
-                        VerticalAlignment="Center"
-                        IsOn="{Binding IsSelected, Mode=TwoWay}" />
-                </StackPanel>
-            </winUi:SettingsCard>
+            <items:SoundDevice ViewModel="{x:Bind}" />
         </DataTemplate>
         <DataTemplate x:DataType="viewModels:DeviceViewModel" x:Key="DataTemplate.DeviceViewModel.Input">
-            <winUi:SettingsCard 
+            <items:SoundDevice 
                 HeaderIcon="{ui:FontIcon Glyph=&#xE720;}"
-                Header="{Binding Name}">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock
-                        Text="Default"
-                        VerticalAlignment="Center"
-                        Visibility="{Binding IsSystemDefault, Converter={StaticResource Converter.TrueToVisible}}"
-                    />
-                    <Button
-                        VerticalAlignment="Center"
-                        Content="Make default" 
-                        Command="{Binding MakeSystemDefaultCommand}"
-                        Visibility="{Binding IsSystemDefault, Converter={StaticResource Converter.FalseToVisible}}"
-                    />
-                    <ToggleSwitch
-                        Margin="16 0 0 0"
-                        VerticalAlignment="Center"
-                        IsOn="{Binding IsSelected, Mode=TwoWay}" />
-                </StackPanel>
-            </winUi:SettingsCard>
+                ViewModel="{x:Bind}" />
         </DataTemplate>
+
         <Style TargetType="TextBlock" x:Key="SoundDevices.DevicesHeader">
             <Setter Property="Margin" Value="4" />
             <Setter Property="FontSize" Value="18" />

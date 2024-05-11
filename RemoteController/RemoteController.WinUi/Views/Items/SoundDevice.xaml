@@ -1,0 +1,47 @@
+<winUi:SettingsCard
+    x:Class="RemoteController.WinUi.Views.Items.SoundDevice"
+    x:Name="root"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:winUi="using:CommunityToolkit.Labs.WinUI"
+    xmlns:ui="using:CommunityToolkit.WinUI.UI"      
+    mc:Ignorable="d"
+    Header="{x:Bind ViewModel.Name, Mode=OneWay}"
+    HeaderIcon="{ui:FontIcon Glyph=&#xE7F5;}"
+    >
+    <StackPanel Orientation="Horizontal">
+        <Slider 
+            Minimum="0"
+            Maximum="100"
+            StepFrequency="2"
+            SmallChange="2"
+            Value="{x:Bind ViewModel.Volume, Mode=TwoWay}"
+            Margin="8 0"
+            Width="200"
+            ThumbToolTipValueConverter="{StaticResource Converter.SliderTooltip.Volume}"
+        />
+
+        <TextBlock
+            Text="Default"
+            Width="105"
+            VerticalAlignment="Center"
+            HorizontalTextAlignment="Center"
+            HorizontalAlignment="Center"
+            Visibility="{x:Bind ViewModel.IsSystemDefault, Mode=OneWay, Converter={StaticResource Converter.TrueToVisible}}"
+        />
+        <Button
+            Width="105"
+            VerticalAlignment="Center"
+            Content="Make default" 
+            Command="{x:Bind ViewModel.MakeSystemDefaultCommand}"
+            Visibility="{x:Bind ViewModel.IsSystemDefault, Mode=OneWay, Converter={StaticResource Converter.FalseToVisible}}"
+        />
+        <ToggleSwitch
+            Margin="16 0 0 0"
+            VerticalAlignment="Center"
+            ToolTipService.ToolTip="Use in device circle command"
+            IsOn="{x:Bind ViewModel.IsSelected, Mode=TwoWay}" />
+    </StackPanel>
+</winUi:SettingsCard>

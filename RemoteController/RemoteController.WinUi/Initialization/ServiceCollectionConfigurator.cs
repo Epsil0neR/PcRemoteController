@@ -23,6 +23,7 @@ using RemoteController.WinUi.Notifications;
 using RemoteController.WinUi.Services;
 using RemoteController.WinUi.ViewModels;
 using RemoteController.WinUi.ViewModels.Pages;
+using RemoteController.WinUi.ViewModels.Pages.SoundDevices;
 using RemoteController.WinUi.Views;
 using RemoteController.WinUi.Views.Pages;
 using WebSocketSharp.Server;
