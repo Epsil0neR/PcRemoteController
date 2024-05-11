@@ -71,7 +71,7 @@ public abstract class BaseInformer : IDisposable
     /// <param name="prop"></param>
     /// <param name="values"></param>
     /// <returns></returns>
-    protected bool SetList<T>(ref IList<T> prop, IEnumerable<T> values)
+    protected bool SetList<T>(ref IList<T>? prop, IEnumerable<T> values)
     {
         var v = values?.ToList();
         var changed = prop?.Count != v?.Count;
