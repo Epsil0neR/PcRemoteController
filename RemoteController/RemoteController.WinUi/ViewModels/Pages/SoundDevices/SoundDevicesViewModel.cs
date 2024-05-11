@@ -16,6 +16,7 @@ public partial class SoundDevicesViewModel :
     IRecipient<SystemDefaultSoundDeviceRequest>,
     IRecipient<ChangeVolumeForDeviceRequest>
 {
+    private readonly DispatcherQueue _dispatcher;
     private readonly ILogger<SoundDevicesViewModel> _logger;
     private bool _updatingDevices;
 
@@ -31,26 +32,15 @@ public partial class SoundDevicesViewModel :
     [ObservableProperty]
     private IReadOnlyList<DeviceViewModel> _inputDevices = Array.Empty<DeviceViewModel>();
 
-    private readonly DispatcherQueue _dispatcher;
-
     public InformersManager InformersManager { get; }
+
     public IMessenger Messenger { get; }
 
     public IWritableOptions<SoundDevicesOptions> SoundDevicesOptions { get; }
+
     public ISoundDevicesService Service { get; }
 
     public SoundInformer SoundInformer { get; }
-
-    //public IReadOnlyList<DeviceViewModel> OutputDevices
-    //{
-    //    get => _outputDevices;
-    //    private set => SetProperty(ref _outputDevices, value);
-    //}
-    //public IReadOnlyList<DeviceViewModel> InputDevices
-    //{
-    //    get => _inputDevices;
-    //    private set => SetProperty(ref _inputDevices, value);
-    //}
 
     public SoundDevicesViewModel(
         ILogger<SoundDevicesViewModel> logger,
@@ -91,14 +81,6 @@ public partial class SoundDevicesViewModel :
                     AddOrUpdate(info, true);
                 foreach (var info in SoundInformer.OutputDeviceList)
                     AddOrUpdate(info, false);
-
-                //TODO: Obsolete code.
-                //OutputDevices = SoundInformer.OutputDeviceList
-                //    .Select(x => ToViewModel(x, false))
-                //    .ToList();
-                //InputDevices = SoundInformer.InputDeviceList
-                //    .Select(x => ToViewModel(x, true))
-                //    .ToList();
             }
             finally
             {
@@ -118,7 +100,7 @@ public partial class SoundDevicesViewModel :
         var devices = isInput
             ? InputDevices
             : OutputDevices;
-        var device = Enumerable.FirstOrDefault<DeviceViewModel>(devices, x => x.Name == info.Name);
+        var device = devices.FirstOrDefault(x => x.Name == info.Name);
         var add = device is null;
 
         device ??= new(Messenger)
@@ -134,7 +116,7 @@ public partial class SoundDevicesViewModel :
         if (add)
         {
             _logger.LogInformation($"DeviceViewModel created. Name:{device.Name}, IsInput:{device.IsInput}, Thread ID:{Thread.CurrentThread.ManagedThreadId}");
-            var newList = Enumerable.ToList<DeviceViewModel>(devices);
+            var newList = devices.ToList();
             newList.Add(device);
             if (isInput)
                 InputDevices = newList;
@@ -143,30 +125,6 @@ public partial class SoundDevicesViewModel :
         }
 
         _logger.LogInformation($"DeviceViewModel updated. Name:{device.Name}, IsInput:{device.IsInput}, Volume:{device.Volume}");
-    }
-
-    [Obsolete] //TODO: Obsolete code.
-    private DeviceViewModel ToViewModel(SoundDeviceInfo deviceInfo, bool isInputs)
-    {
-        var options = isInputs
-            ? SoundDevicesOptions.Value.Inputs
-            : SoundDevicesOptions.Value.Outputs;
-        var defaultDevice = isInputs
-            ? SoundInformer.InputDevice
-            : SoundInformer.OutputDevice;
-
-        var rv = new DeviceViewModel(Messenger)
-        {
-            Name = deviceInfo.Name,
-            IsSelected = options.Any(x => x.DeviceName == deviceInfo.Name && x.SwitchCommand),
-            IsInput = isInputs,
-            IsSystemDefault = string.Equals(defaultDevice, deviceInfo.Name),
-            Volume = deviceInfo.Volume
-        };
-
-        _logger.LogInformation($"DeviceViewModel created. Name:{rv.Name}, IsInput:{rv.IsInput}, Volume: {rv.Volume}");
-
-        return rv;
     }
 
     public void Receive(DeviceIsSelectedChanged message)
