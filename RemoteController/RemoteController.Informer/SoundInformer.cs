@@ -128,9 +128,30 @@ public class SoundInformer : BaseInformer
     {
         return ChangeVolume(ref _output, volume);
     }
+
+    public bool ChangeOutputVolume(string deviceName, int volume)
+    {
+        var outputList = _deviceEnumerator.EnumerateAudioEndPoints(DataFlow.Render, DeviceState.Active).ToList();
+        var device = outputList.FirstOrDefault(x => x.FriendlyName == deviceName);
+        if (device is null)
+            return false;
+
+        return ChangeVolume(ref device, volume);
+    }
+
     public bool ChangeInputVolume(int volume)
     {
         return ChangeVolume(ref _input, volume);
+    }
+
+    public bool ChangeInputVolume(string deviceName, int volume)
+    {
+        var inputList = _deviceEnumerator.EnumerateAudioEndPoints(DataFlow.Capture, DeviceState.Active).ToList();
+        var device = inputList.FirstOrDefault(x => x.FriendlyName == deviceName);
+        if (device is null)
+            return false;
+
+        return ChangeVolume(ref device, volume);
     }
 
     private bool ChangeVolume(ref MMDevice device, int volume)
