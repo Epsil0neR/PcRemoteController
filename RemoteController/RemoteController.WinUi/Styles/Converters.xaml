@@ -10,4 +10,7 @@
         TrueVisibility="Collapsed"
         FalseVisibility="Visible" />
     <c:GestureToVirtualKeysConverter x:Key="Converter.GestureToVirtualKeys" />
+    <c:SliderTooltipConverter 
+        x:Key="Converter.SliderTooltip.Volume" 
+        LeftPart="Volume: " />
 </ResourceDictionary>
