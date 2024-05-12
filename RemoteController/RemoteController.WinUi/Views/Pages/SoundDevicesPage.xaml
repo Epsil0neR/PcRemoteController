@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:winUi="using:CommunityToolkit.Labs.WinUI"
     xmlns:viewModels="using:RemoteController.WinUi.ViewModels.Pages.SoundDevices"
     xmlns:ui="using:CommunityToolkit.WinUI.UI"
     xmlns:controls="using:RemoteController.WinUi.Controls"
@@ -43,10 +42,12 @@
                 Text="Output devices" />
             <TextBlock
                 Grid.Column="1"
+                VerticalAlignment="Bottom"
                 Text="Shortcut to circle between enabled devices:" />
-            <controls:GestureVisual
+            <controls:MultiKeyGestureVisual 
                 Grid.Column="2"
-                />
+                VerticalAlignment="Bottom"
+                MultiKeyGesture="{x:Bind ViewModel.SwitchOutputGesture, Mode=OneWay}" />
         </Grid>
 
         <ItemsControl
@@ -54,9 +55,26 @@
             ItemsSource="{x:Bind ViewModel.OutputDevices, Mode=OneWay}"
             ItemTemplate="{StaticResource DataTemplate.DeviceViewModel.Output}" />
 
-        <TextBlock 
-            Style="{StaticResource SoundDevices.DevicesHeader}"
-            Text="Input devices" />
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                Grid.Column="0"
+                Style="{StaticResource SoundDevices.DevicesHeader}"
+                VerticalAlignment="Bottom"
+                Text="Input devices" />
+            <TextBlock
+                Grid.Column="1"
+                VerticalAlignment="Bottom"
+                Text="Shortcut to circle between enabled devices:" />
+            <controls:MultiKeyGestureVisual 
+                Grid.Column="2"
+                VerticalAlignment="Bottom"
+                MultiKeyGesture="{x:Bind ViewModel.SwitchInputGesture, Mode=OneWay}" />
+        </Grid>
 
         <ItemsControl
             Style="{StaticResource SoundDevices.ItemsControl}"
