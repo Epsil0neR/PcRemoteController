@@ -70,9 +70,11 @@
                     </behaviors:NavigationViewHeaderBehavior.DefaultHeaderTemplate>
                 </behaviors:NavigationViewHeaderBehavior>
             </i:Interaction.Behaviors>
-            <Grid Margin="{StaticResource NavigationViewPageContentMargin}">
+            <ScrollViewer
+                HorizontalScrollMode="Disabled"
+                Padding="{StaticResource NavigationViewPageContentMargin}">
                 <Frame x:Name="NavigationFrame" />
-            </Grid>
+            </ScrollViewer>
         </NavigationView>
     </Grid>
 </Page>
