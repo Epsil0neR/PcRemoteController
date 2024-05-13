@@ -34,12 +34,12 @@
     </ControlTemplate>
     <Style TargetType="c:VirtualKeyVisual"
            x:Key="VirtualKeyVisual.Style">
-        <Setter Property="MinWidth" Value="56" />
-        <Setter Property="MinHeight" Value="48" />
+        <Setter Property="MinWidth" Value="42" />
+        <Setter Property="MinHeight" Value="36" />
         <Setter Property="Template" Value="{StaticResource VirtualKeyVisual.Template}" />
         <Setter Property="CornerRadius" Value="4" />
         <Setter Property="Padding" Value="16 8" />
-        <Setter Property="FontSize" Value="18" />
+        <Setter Property="FontSize" Value="12" />
         <Setter Property="Foreground" Value="{ThemeResource AccentButtonForeground}" />
         <Setter Property="Background" Value="{ThemeResource AccentButtonBackground}" />
         <Setter Property="BorderBrush" Value="{ThemeResource AccentButtonBorderBrush}" />
@@ -50,4 +50,13 @@
     <Style TargetType="c:VirtualKeyVisual"
            BasedOn="{StaticResource VirtualKeyVisual.Style}"
            />
+
+    <Style TargetType="c:VirtualKeyVisual"
+           x:Key="VirtualKeyVisual.Style.Large"
+           BasedOn="{StaticResource VirtualKeyVisual.Style}">
+
+        <Setter Property="MinWidth" Value="56" />
+        <Setter Property="MinHeight" Value="48" />
+        <Setter Property="FontSize" Value="18" />
+    </Style>
 </ResourceDictionary>

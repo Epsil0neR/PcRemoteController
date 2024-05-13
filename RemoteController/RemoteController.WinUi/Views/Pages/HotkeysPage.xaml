@@ -14,7 +14,7 @@
             x:Key="DataTemplate.VirtualKey" 
             d:DataContext="{d:DesignInstance system:VirtualKey}">
             <!--<TextBlock Text="{Binding}" />-->
-            <controls:VirtualKeyVisual Key="{Binding}" />
+            <controls:VirtualKeyVisual Key="{Binding}" Style="{StaticResource VirtualKeyVisual.Style.Large}" />
             <!--<controls:KeyVisual Content="{Binding}" />-->
         </DataTemplate>
     </cc:PageWithHeaderContent.Resources>
@@ -28,6 +28,8 @@
         x:Name="ContentArea" 
         Orientation="Vertical">
 
-        <controls:MultiKeyGestureVisual MultiKeyGesture="{x:Bind ViewModel.TestGestures}" />
+        <controls:MultiKeyGestureVisual 
+            Style="{StaticResource MultiKeyGestureVisual.Style.Large}"
+            MultiKeyGesture="{x:Bind ViewModel.TestGestures}" />
     </StackPanel>
 </cc:PageWithHeaderContent>
