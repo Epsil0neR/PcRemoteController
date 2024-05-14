@@ -1,4 +1,4 @@
-using RemoteController.WinUi.Contracts.Services;
+﻿using RemoteController.WinUi.Contracts.Services;
 using RemoteController.WinUi.ViewModels.Pages;
 
 namespace RemoteController.WinUi.Activation;

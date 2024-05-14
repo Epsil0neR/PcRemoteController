@@ -5,10 +5,4 @@
 /// </summary>
 /// <typeparam name="T"></typeparam>
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
-public class ViewForAttribute<T> : BaseViewForAttribute
-{
-    public ViewForAttribute(int order = int.MaxValue)
-        : base(typeof(T), order)
-    {
-    }
-}
+public class ViewForAttribute<T>(int order = int.MaxValue) : BaseViewForAttribute(typeof(T), order);

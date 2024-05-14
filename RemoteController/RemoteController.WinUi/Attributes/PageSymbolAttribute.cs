@@ -1,15 +1,7 @@
 ﻿namespace RemoteController.WinUi.Attributes;
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
-public class PageSymbolAttribute : Attribute
+public class PageSymbolAttribute(Symbol symbol) : Attribute
 {
-    public PageSymbolAttribute(Symbol symbol)
-    {
-        Symbol = symbol;
-    }
-
-    public Symbol Symbol
-    {
-        get;
-    }
+    public Symbol Symbol { get; } = symbol;
 }
