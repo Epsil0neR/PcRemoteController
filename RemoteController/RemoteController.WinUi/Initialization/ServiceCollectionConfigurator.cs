@@ -91,8 +91,8 @@ internal static class ServiceCollectionConfigurator
     {
         return services
             .AddSingleton(s => Factories.HttpServer(s, s.GetRequiredService<IWritableOptions<ServerOptions>>()))
-            .AddSingleton(Factories.WsServer)
-            .AddSingleton<WsService>()
+            .AddSingleton<WsServer>(Factories.WsServer)
+            .AddSingleton<WsService>(Factories.WsService)
             .AddHostedService<WebHosting>()
             ;
     }
