@@ -58,6 +58,7 @@ public partial class App : Application
                     .AddTransient<IActivationHandler, AppNotificationActivationHandler>()
                     // Configuration
                     .ConfigureOptions(context)
+                    .ConfigureHotkeys()
 
                     .AddLogging()
                     .AddCore()

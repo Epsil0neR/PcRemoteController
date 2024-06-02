@@ -1,53 +1,31 @@
-﻿using Epsiloner.WinUi.Gestures;
-using RemoteController.Informer;
-using RemoteController.WinUi.Services;
+﻿using Microsoft.Extensions.DependencyInjection;
+using RemoteController.WinUi.Core.Options;
+using RemoteController.WinUi.Models;
 
 namespace RemoteController.WinUi.HotKeys;
 
-public enum HotkeyGroup
+public class HotkeysService : IHostedService
 {
-    General,
-    Sound,
-}
+    private readonly IServiceProvider _provider;
+    private readonly IWritableOptions<HotkeyGesturesOptions> _options;
+    private bool _initiated = false;
 
-[ObservableObject]
-public abstract partial class HotkeyItem
-{
-    /// <summary>
-    /// Group for hotkey.
-    /// </summary>
-    public abstract HotkeyGroup Group { get; }
+    public HotkeysService(IServiceProvider provider, IWritableOptions<HotkeyGesturesOptions> options)
+    {
+        _provider = provider;
+        _options = options;
+    }
 
-    /// <summary>
-    /// Ascending priority of item in <see cref="Group"/>.
-    /// </summary>
-    public abstract uint Priority { get; }
+    public async Task StartAsync(CancellationToken cancellationToken)
+    {
+        _initiated = true;
+        var hotkeys = _provider.GetServices<HotkeyItem>();
+        ;
+    }
 
-    /// <summary>
-    /// Unique name.
-    /// </summary>
-    public abstract string CodeName { get; }
-
-    /// <summary>
-    /// Title to show in UI.
-    /// </summary>
-    public abstract string Title { get; }
-
-    /// <summary>
-    /// Description to show in UI.
-    /// </summary>
-    public abstract string Description { get; }
-
-    /// <summary>
-    /// Gesture that is bound to this Hotkey.
-    /// </summary>
-    [ObservableProperty]
-    private MultiKeyGesture _gesture;
-
-    /// <summary>
-    /// Hotkey execution handler.
-    /// </summary>
-    public abstract Task Execute();
+    public async Task StopAsync(CancellationToken cancellationToken)
+    {
+    }
 }
 
 public class SwitchSoundOutputHotkey : HotkeyItem
@@ -56,9 +34,27 @@ public class SwitchSoundOutputHotkey : HotkeyItem
     public override uint Priority => 0;
     public override string CodeName => "Sound.Switch.Output";
     public override string Title => "Switch sound output";
-    public override string Description => "Switches in order selected sound output devices.";
+    public override string Description => "Switches in order selected sound output devices (headphones, headset, speakers, etc..)";
 
     public SwitchSoundOutputHotkey()
+    {
+    }
+
+    public override Task Execute()
+    {
+        return Task.CompletedTask;
+    }
+}
+
+public class SwitchSoundInputHotkey : HotkeyItem
+{
+    public override HotkeyGroup Group => HotkeyGroup.Sound;
+    public override uint Priority => 1;
+    public override string CodeName => "Sound.Switch.Input";
+    public override string Title => "Switch sound input";
+    public override string Description => "Switches in order selected sound input devices (headset mic, microphone, etc..)";
+
+    public SwitchSoundInputHotkey()
     {
     }
 
