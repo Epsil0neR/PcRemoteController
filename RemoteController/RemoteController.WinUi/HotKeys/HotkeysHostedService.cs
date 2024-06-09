@@ -4,13 +4,13 @@ using RemoteController.WinUi.Models;
 
 namespace RemoteController.WinUi.HotKeys;
 
-public class HotkeysService : IHostedService
+public class HotkeysHostedService : IHostedService
 {
     private readonly IServiceProvider _provider;
     private readonly IWritableOptions<HotkeyGesturesOptions> _options;
     private bool _initiated = false;
 
-    public HotkeysService(IServiceProvider provider, IWritableOptions<HotkeyGesturesOptions> options)
+    public HotkeysHostedService(IServiceProvider provider, IWritableOptions<HotkeyGesturesOptions> options)
     {
         _provider = provider;
         _options = options;
@@ -19,7 +19,7 @@ public class HotkeysService : IHostedService
     public async Task StartAsync(CancellationToken cancellationToken)
     {
         _initiated = true;
-        var hotkeys = _provider.GetServices<HotkeyItem>();
+        var hotkeys = _provider.GetServices<IHotkeyItem>();
         ;
     }
 

@@ -10,6 +10,6 @@ internal static class HotkeysServiceCollectionConfigurator
         .AddSingleton<SwitchSoundOutputHotkey>()
         .AddSingleton<SwitchSoundInputHotkey>()
 
-        .AddHostedService<HotkeysService>()
+        .AddHostedService<HotkeysHostedService>()
     ;
 }
