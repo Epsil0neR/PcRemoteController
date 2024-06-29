@@ -20,7 +20,7 @@ public class DefaultActivationHandler : ActivationHandler<LaunchActivatedEventAr
 
     protected async override Task HandleInternalAsync(LaunchActivatedEventArgs args)
     {
-        _navigationService.NavigateTo(typeof(SoundDevicesViewModel).FullName!, args.Arguments);
+        _navigationService.NavigateTo(typeof(GenericViewModel).FullName!, args.Arguments);
 
         await Task.CompletedTask;
     }
