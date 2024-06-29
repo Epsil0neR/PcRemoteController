@@ -39,5 +39,5 @@ public abstract partial class HotkeyItem
     /// <summary>
     /// Hotkey execution handler.
     /// </summary>
-    public abstract Task Execute();
+    public abstract void Execute();
 }

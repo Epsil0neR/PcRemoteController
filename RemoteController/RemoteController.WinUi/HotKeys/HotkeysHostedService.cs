@@ -1,105 +1,50 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System.ComponentModel;
+using Epsiloner.WinUi.Services;
 using RemoteController.WinUi.Core.Options;
 using RemoteController.WinUi.Models;
 
 namespace RemoteController.WinUi.HotKeys;
 
-public class HotkeysHostedService : IHostedService
+public class HotkeysHostedService(
+    IHotkeysService service,
+    IWritableOptions<HotkeyGesturesOptions> options,
+    IEnumerable<HotkeyItem> hotkeys)
+    : IHostedService
 {
-    private readonly IServiceProvider _provider;
-    private readonly IWritableOptions<HotkeyGesturesOptions> _options;
-    private bool _initiated = false;
-
-    public HotkeysHostedService(IServiceProvider provider, IWritableOptions<HotkeyGesturesOptions> options)
-    {
-        _provider = provider;
-        _options = options;
-    }
-
     public async Task StartAsync(CancellationToken cancellationToken)
     {
-        _initiated = true;
-        var hotkeys = _provider.GetServices<IHotkeyItem>();
-        ;
+        foreach (var pair in options.Value.Data)
+            service.Change(pair.Key, pair.Value);
+
+        foreach (var hotkeyItem in hotkeys)
+        {
+            service.Change(hotkeyItem.CodeName, hotkeyItem.Execute);
+            if (options.Value.Data.TryGetValue(hotkeyItem.CodeName, out var gesture))
+                hotkeyItem.Gesture = gesture!;
+            hotkeyItem.PropertyChanged += HotkeyItemOnPropertyChanged;
+        }
     }
 
     public async Task StopAsync(CancellationToken cancellationToken)
     {
+        foreach (var hotkeyItem in hotkeys) 
+            hotkeyItem.PropertyChanged -= HotkeyItemOnPropertyChanged;
+    }
+
+    private void HotkeyItemOnPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName != nameof(HotkeyItem.Gesture))
+            return;
+
+        if (sender is not HotkeyItem hotkeyItem)
+            return;
+
+        var data = options.Value.Data.ToDictionary();
+        if (options.Value.Data.TryGetValue(hotkeyItem.CodeName, out var gesture) || gesture != hotkeyItem.Gesture)
+        {
+            data[hotkeyItem.CodeName] = hotkeyItem.Gesture;
+            options.Value.Update(data);
+            options.Update(_ => { });
+        }
     }
 }
-
-public class SwitchSoundOutputHotkey : HotkeyItem
-{
-    public override HotkeyGroup Group => HotkeyGroup.Sound;
-    public override uint Priority => 0;
-    public override string CodeName => "Sound.Switch.Output";
-    public override string Title => "Switch sound output";
-    public override string Description => "Switches in order selected sound output devices (headphones, headset, speakers, etc..)";
-
-    public SwitchSoundOutputHotkey()
-    {
-    }
-
-    public override Task Execute()
-    {
-        return Task.CompletedTask;
-    }
-}
-
-public class SwitchSoundInputHotkey : HotkeyItem
-{
-    public override HotkeyGroup Group => HotkeyGroup.Sound;
-    public override uint Priority => 1;
-    public override string CodeName => "Sound.Switch.Input";
-    public override string Title => "Switch sound input";
-    public override string Description => "Switches in order selected sound input devices (headset mic, microphone, etc..)";
-
-    public SwitchSoundInputHotkey()
-    {
-    }
-
-    public override Task Execute()
-    {
-        return Task.CompletedTask;
-    }
-}
-
-
-/* SAMPLE:
- *
- * Name: SoundDevices.Switch.Output
- * Title: Switch sound output devices
- * Gesture: F24
- *
- *
- * Name: SoundDevices.Switch.Input
- * Title: Switch sound input devices
- * Gesture: Shift+F24
- *
- * Name: SoundDevices.Output
- * Title: Switch sound output device to
- * Param: Speakers //TODO: new idea - commands with params
- * Gesture: Ctrl+F24
- *
- *
- * Name: SoundDevices.Input
- * Title: Switch sound input device to
- * Param: Headset //TODO: new idea - commands with params
- * Gesture: Alt+F24
- *
- *
- * Name: Keyboard.Layout.Next
- * Title: Switch keyboard language
- * Gesture: F23
- *
- *
- * Name: Keyboard.Layout.Prev
- * Title: Switch keyboard language (reverse)
- * Gesture: Shift+F23
- *
- *
- * Name: Keyboard.Layout
- * Title: Switch keyboard layout to language
- * Param: ru-RU //TODO: new idea - commands with params
- * Gesture: ALT+R + ALT+U
- */

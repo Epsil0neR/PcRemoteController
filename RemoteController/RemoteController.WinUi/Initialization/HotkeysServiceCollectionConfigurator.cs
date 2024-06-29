@@ -6,10 +6,21 @@ namespace RemoteController.WinUi.Initialization;
 internal static class HotkeysServiceCollectionConfigurator
 {
 
-    public static IServiceCollection ConfigureHotkeys(this IServiceCollection services) => services
-        .AddSingleton<SwitchSoundOutputHotkey>()
-        .AddSingleton<SwitchSoundInputHotkey>()
+    public static IServiceCollection ConfigureHotkeys(this IServiceCollection services)
+    {
+        var baseType = typeof(HotkeyItem);
+        var types = baseType.Assembly.GetTypes()
+            .Where(x => x != baseType && x.IsSubclassOf(baseType) && !x.IsAbstract)
+            .ToList();
 
-        .AddHostedService<HotkeysHostedService>()
-    ;
+        foreach (var type in types)
+        {
+            services.AddSingleton(type);
+            services.AddSingleton<HotkeyItem>(c => (HotkeyItem)c.GetRequiredService(type));
+            //services.AddSingleton(baseType, type);
+        }
+
+        return services
+            .AddHostedService<HotkeysHostedService>();
+    }
 }
