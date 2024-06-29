@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RemoteController.Keyboard;
+namespace RemoteController.Services;
 
 public class KeyboardHookManagerEventArgs : EventArgs
 {

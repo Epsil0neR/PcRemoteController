@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace RemoteController.Keyboard;
+namespace RemoteController.Services;
 
 public sealed class KeyboardHookManager : IDisposable
 {
@@ -52,13 +52,13 @@ public sealed class KeyboardHookManager : IDisposable
     {
         using var curProcess = Process.GetCurrentProcess();
         using var curModule = curProcess.MainModule;
-        
+
         return user32dll.SetWindowsHookEx(WH_KEYBOARD_LL, proc, user32dll.GetModuleHandle(curModule.ModuleName), 0);
     }
 
     private IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
     {
-        if (nCode < 0) 
+        if (nCode < 0)
             return user32dll.CallNextHookEx(_hookId, nCode, wParam, lParam);
 
         switch (wParam)
