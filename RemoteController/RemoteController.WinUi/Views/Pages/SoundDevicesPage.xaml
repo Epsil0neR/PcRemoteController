@@ -44,10 +44,11 @@
                 Grid.Column="1"
                 VerticalAlignment="Bottom"
                 Text="Shortcut to circle between enabled devices:" />
+
             <controls:MultiKeyGestureVisual 
                 Grid.Column="2"
                 VerticalAlignment="Bottom"
-                MultiKeyGesture="{x:Bind ViewModel.SwitchOutputGesture, Mode=OneWay}" />
+                MultiKeyGesture="{x:Bind ViewModel.SwitchSoundOutputHotkey.Gesture, Mode=OneWay}" />
         </Grid>
 
         <ItemsControl
@@ -73,7 +74,7 @@
             <controls:MultiKeyGestureVisual 
                 Grid.Column="2"
                 VerticalAlignment="Bottom"
-                MultiKeyGesture="{x:Bind ViewModel.SwitchInputGesture, Mode=OneWay}" />
+                MultiKeyGesture="{x:Bind ViewModel.SwitchSoundInputHotkey.Gesture, Mode=OneWay}" />
         </Grid>
 
         <ItemsControl

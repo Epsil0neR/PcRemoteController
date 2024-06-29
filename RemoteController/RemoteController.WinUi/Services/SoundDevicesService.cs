@@ -10,16 +10,14 @@ namespace RemoteController.WinUi.Services;
 public interface ISoundDevicesService
 {
     /// <summary>
-    /// Changes system default sound output device to device with specified at <paramref name="deviceName"/> name.
+    /// System default sound output device name.
     /// </summary>
-    /// <param name="deviceName">Device name.</param>
-    void SetOutputDevice(string deviceName);
+    string OutputDevice { get; set; }
 
     /// <summary>
-    /// Changes system default sound input device to device with specified at <paramref name="deviceName"/> name.
+    /// System default sound input device name.
     /// </summary>
-    /// <param name="deviceName">Device name.</param>
-    void SetInputDevice(string deviceName);
+    string InputDevice { get; set; }
 }
 
 /// <summary>
@@ -30,44 +28,61 @@ public class SoundDevicesService : ISoundDevicesService
     private readonly PolicyConfigClient _policyConfigClient;
 
     public InformersManager InformersManager { get; }
+    public DispatcherQueue DispatcherQueue { get; }
 
     public SoundInformer SoundInformer { get; }
 
     public SoundDevicesService(
         InformersManager informersManager,
-        PolicyConfigClient policyConfigClient
+        PolicyConfigClient policyConfigClient,
+        DispatcherQueue dispatcherQueue
         )
     {
         _policyConfigClient = policyConfigClient;
         InformersManager = informersManager ?? throw new ArgumentNullException(nameof(informersManager));
+        DispatcherQueue = dispatcherQueue;
         SoundInformer = InformersManager.Informer<SoundInformer>() ?? throw new ArgumentException(@"Sound informer is not available in manager.", nameof(informersManager));
     }
 
     /// <inheritdoc />
-    public void SetOutputDevice(string deviceName)
+    public string OutputDevice
     {
-        using var enumerator = new MMDeviceEnumerator();
-        var outputList = enumerator.EnumerateAudioEndPoints(DataFlow.Render, DeviceState.Active).ToList();
-        var device = outputList.FirstOrDefault(x => x.FriendlyName == deviceName);
-        if (device is null)
-            return;
+        get => SoundInformer.OutputDevice;
+        set
+        {
+            using var enumerator = new MMDeviceEnumerator();
+            var outputList = enumerator.EnumerateAudioEndPoints(DataFlow.Render, DeviceState.Active).ToList();
+            var device = outputList.FirstOrDefault(x => x.FriendlyName == value);
+            if (device is null)
+                return;
 
-        var id = device.ID;
-        _policyConfigClient.SetDefaultEndpoint(id, ERole.eMultimedia);
-        SoundInformer.CheckForChanges();
+            var id = device.ID;
+            DispatcherQueue.TryEnqueue(() =>
+            {
+                _policyConfigClient.SetDefaultEndpoint(id, ERole.eMultimedia);
+                SoundInformer.CheckForChanges();
+            });
+        }
     }
 
     /// <inheritdoc />
-    public void SetInputDevice(string deviceName)
+    public string InputDevice
     {
-        using var enumerator = new MMDeviceEnumerator();
-        var outputList = enumerator.EnumerateAudioEndPoints(DataFlow.Capture, DeviceState.Active).ToList();
-        var device = outputList.FirstOrDefault(x => x.FriendlyName == deviceName);
-        if (device is null)
-            return;
+        get => SoundInformer.InputDevice;
+        set
+        {
+            using var enumerator = new MMDeviceEnumerator();
+            var outputList = enumerator.EnumerateAudioEndPoints(DataFlow.Capture, DeviceState.Active).ToList();
+            var device = outputList.FirstOrDefault(x => x.FriendlyName == value);
+            if (device is null)
+                return;
 
-        var id = device.ID;
-        _policyConfigClient.SetDefaultEndpoint(id, ERole.eCommunications);
-        SoundInformer.CheckForChanges();
+            var id = device.ID;
+            DispatcherQueue.TryEnqueue(() =>
+            {
+                _policyConfigClient.SetDefaultEndpoint(id, ERole.eCommunications);
+                SoundInformer.CheckForChanges();
+            });
+        }
     }
 }
