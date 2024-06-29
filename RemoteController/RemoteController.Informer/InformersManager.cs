@@ -4,6 +4,9 @@ using System.Linq;
 
 namespace RemoteController.Informer;
 
+/// <summary>
+/// Manages all <see cref="BaseInformer"/> instances.
+/// </summary>
 public class InformersManager : IDisposable
 {
     private readonly List<BaseInformer> _items = new();
@@ -69,9 +72,9 @@ public class InformersManager : IDisposable
         }
     }
 
-    private void InformerOnChanged(object sender, EventArgs e)
+    private void InformerOnChanged(object? sender, EventArgs e)
     {
-        InformerChanged?.Invoke(this, (BaseInformer)sender);
+        InformerChanged?.Invoke(this, (BaseInformer)sender!);
     }
 
     public void Start()

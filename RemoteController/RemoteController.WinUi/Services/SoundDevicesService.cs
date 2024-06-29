@@ -21,7 +21,7 @@ public interface ISoundDevicesService
 }
 
 /// <summary>
-/// Provides functionality to change default system sound devices.
+/// Provides functionality to read and change default system sound devices.
 /// </summary>
 public class SoundDevicesService : ISoundDevicesService
 {

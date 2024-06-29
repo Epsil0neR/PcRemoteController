@@ -1,11 +1,14 @@
-﻿using System;
+﻿using Epsiloner.Cooldowns;
+using NAudio.CoreAudioApi;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Epsiloner.Cooldowns;
-using Microsoft.Extensions.Logging;
-using NAudio.CoreAudioApi;
 
 namespace RemoteController.Informer;
+
+/// <summary>
+/// Information about single device.
+/// </summary>
 public record struct SoundDeviceInfo
 {
     public required string Name { get; init; }
@@ -167,7 +170,7 @@ public class SoundInformer : BaseInformer
             if (device == null)
                 return false; // Do nothing if there are no output device.
         }
-        
+
         device.AudioEndpointVolume.MasterVolumeLevelScalar = volume / 100f;
         return true;
     }

@@ -7,8 +7,6 @@ using RemoteController.WinUi.HotKeys.Items;
 using RemoteController.WinUi.Messages;
 using RemoteController.WinUi.Models;
 using RemoteController.WinUi.Services;
-using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
-using DispatcherQueuePriority = Microsoft.UI.Dispatching.DispatcherQueuePriority;
 
 namespace RemoteController.WinUi.ViewModels.Pages.SoundDevices;
 
