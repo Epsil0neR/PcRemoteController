@@ -38,16 +38,16 @@
             <TextBlock
                 Grid.Column="0"
                 Style="{StaticResource SoundDevices.DevicesHeader}"
-                VerticalAlignment="Bottom"
+                VerticalAlignment="Top"
                 Text="Output devices" />
             <TextBlock
                 Grid.Column="1"
-                VerticalAlignment="Bottom"
+                VerticalAlignment="Center"
                 Text="Shortcut to circle between enabled devices:" />
 
             <controls:MultiKeyGestureVisual 
                 Grid.Column="2"
-                VerticalAlignment="Bottom"
+                VerticalAlignment="Center"
                 MultiKeyGesture="{x:Bind ViewModel.SwitchSoundOutputHotkey.Gesture, Mode=OneWay}" />
         </Grid>
 
@@ -65,15 +65,15 @@
             <TextBlock
                 Grid.Column="0"
                 Style="{StaticResource SoundDevices.DevicesHeader}"
-                VerticalAlignment="Bottom"
+                VerticalAlignment="Top"
                 Text="Input devices" />
             <TextBlock
                 Grid.Column="1"
-                VerticalAlignment="Bottom"
+                VerticalAlignment="Center"
                 Text="Shortcut to circle between enabled devices:" />
             <controls:MultiKeyGestureVisual 
                 Grid.Column="2"
-                VerticalAlignment="Bottom"
+                VerticalAlignment="Center"
                 MultiKeyGesture="{x:Bind ViewModel.SwitchSoundInputHotkey.Gesture, Mode=OneWay}" />
         </Grid>
 

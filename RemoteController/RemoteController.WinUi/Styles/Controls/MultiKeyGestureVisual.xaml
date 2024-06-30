@@ -13,7 +13,7 @@
             Orientation="Horizontal"
             HorizontalSpacing="20"
             VerticalSpacing="8"
-            Margin="-5"/>
+            Margin="-5 -5 -25 -5"/>
     </ItemsPanelTemplate>
 
     <DataTemplate x:Key="MultiKeyGestureVisual.ItemTemplate" d:DataContext="{d:DesignInstance gestures:Gesture}">
