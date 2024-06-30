@@ -5,7 +5,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:winUi="using:CommunityToolkit.Labs.WinUI"
-    xmlns:ui="using:CommunityToolkit.WinUI.UI"      
+    xmlns:ui="using:CommunityToolkit.WinUI.UI"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:behaviors="using:RemoteController.WinUi.Behaviors"
     mc:Ignorable="d"
     Header="{x:Bind ViewModel.Name, Mode=OneWay}"
     HeaderIcon="{ui:FontIcon Glyph=&#xE7F5;}"
@@ -19,8 +21,11 @@
             Value="{x:Bind ViewModel.Volume, Mode=TwoWay}"
             Margin="8 0"
             Width="200"
-            ThumbToolTipValueConverter="{StaticResource Converter.SliderTooltip.Volume}"
-        />
+            ThumbToolTipValueConverter="{StaticResource Converter.SliderTooltip.Volume}">
+            <i:Interaction.Behaviors>
+                <behaviors:ScrollSliderWithMouseWheelBehavior />
+            </i:Interaction.Behaviors>
+        </Slider>
 
         <TextBlock
             Text="Default"
