@@ -33,6 +33,7 @@
 	<ItemGroup>
 		<None Remove="Styles\**\*.xaml" />
 		<None Remove="Views\**\*.xaml" />
+		<None Remove="Controls\**\*.xaml" />
 		<Page Update="Styles\**\*.">
 			<XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
 		</Page>
@@ -44,6 +45,9 @@
 		<None Update="RemoteController.pfx">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
+		<Page Update="Controls\**\*.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</Page>
 		<Page Update="Views\**\*.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</Page>

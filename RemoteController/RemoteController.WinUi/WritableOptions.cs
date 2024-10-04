@@ -10,6 +10,7 @@ namespace RemoteController.WinUi.Core.Options;
 
 public interface IWritableOptions<out T> : IOptionsSnapshot<T> where T : class, new()
 {
+    void Update();
     void Update(Action<T> applyChanges);
 }
 
@@ -34,6 +35,8 @@ public class WritableOptions<T> : IWritableOptions<T> where T : class, new()
 
     public T Value => _options.CurrentValue;
     public T Get(string name) => _options.Get(name);
+
+    public void Update() => Update(_ => { });
 
     public void Update(Action<T> applyChanges)
     {

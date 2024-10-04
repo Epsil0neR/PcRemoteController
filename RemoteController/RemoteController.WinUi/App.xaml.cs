@@ -1,6 +1,5 @@
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.UI.Dispatching;
 using RemoteController.WinUi.Activation;
 using RemoteController.WinUi.Contracts.Services;
 using RemoteController.WinUi.Initialization;

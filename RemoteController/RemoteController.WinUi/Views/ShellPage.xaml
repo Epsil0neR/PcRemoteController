@@ -76,5 +76,29 @@
                 <Frame x:Name="NavigationFrame" />
             </ScrollViewer>
         </NavigationView>
+
+        <!--TODO: Hotkey Editor dialog-->
+        <ContentDialog 
+            x:Name="HotkeyEditorDialog" 
+            Canvas.ZIndex="100"
+            DataContext="{x:Bind ViewModel.HotkeyGestureEditorViewModel, Mode=OneWay}"
+            PrimaryButtonText="Save"
+            PrimaryButtonCommand="{x:Bind ViewModel.HotkeyGestureEditorViewModel.SaveChangesCommand, Mode=OneWay}"
+            IsPrimaryButtonEnabled="{x:Bind ViewModel.HotkeyGestureEditorViewModel.CanSaveChanges, Mode=OneWay}"
+            CloseButtonText="Discard changes">
+
+            <StackPanel Orientation="Vertical">
+                <TextBlock>
+                    <Run Text="Code name:" />
+                    <Run Text="{Binding GestureEditor.CodeName, Mode=OneWay}" />
+                </TextBlock>
+
+                <TextBlock>
+                    <Run Text="Gesture:" />
+                    <Run Text="{Binding GestureEditor.MultiKeyGesture, Mode=OneWay}" />
+                </TextBlock>
+            </StackPanel>
+
+        </ContentDialog>
     </Grid>
 </Page>

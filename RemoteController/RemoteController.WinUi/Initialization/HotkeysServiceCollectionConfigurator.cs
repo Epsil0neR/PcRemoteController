@@ -5,7 +5,6 @@ namespace RemoteController.WinUi.Initialization;
 
 internal static class HotkeysServiceCollectionConfigurator
 {
-
     public static IServiceCollection ConfigureHotkeys(this IServiceCollection services)
     {
         var baseType = typeof(HotkeyItem);
@@ -21,6 +20,8 @@ internal static class HotkeysServiceCollectionConfigurator
         }
 
         return services
+            .AddSingleton<HotkeyGestureEditorViewModel>()
+            .AddSingleton<IHotkeysGestureService, HotkeysGestureService>()
             .AddHostedService<HotkeysHostedService>();
     }
 }

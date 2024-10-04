@@ -1,50 +1,39 @@
-﻿using System.ComponentModel;
-using Epsiloner.WinUi.Services;
-using RemoteController.WinUi.Core.Options;
-using RemoteController.WinUi.Models;
+﻿namespace RemoteController.WinUi.HotKeys;
 
-namespace RemoteController.WinUi.HotKeys;
-
-public class HotkeysHostedService(
-    IHotkeysService service,
-    IWritableOptions<HotkeyGesturesOptions> options,
-    IEnumerable<HotkeyItem> hotkeys)
-    : IHostedService
+/// <summary>
+/// Provides functionality to load/save gestures from/to options section while application is alive.
+/// </summary>
+public class HotkeysHostedService : IHostedService
 {
-    public async Task StartAsync(CancellationToken cancellationToken)
-    {
-        foreach (var pair in options.Value.Data)
-            service.Change(pair.Key, pair.Value);
+    private readonly IHotkeysGestureService _hotkeysGestureService;
 
-        foreach (var hotkeyItem in hotkeys)
-        {
-            service.Change(hotkeyItem.CodeName, hotkeyItem.Execute);
-            if (options.Value.Data.TryGetValue(hotkeyItem.CodeName, out var gesture))
-                hotkeyItem.Gesture = gesture!;
-            hotkeyItem.PropertyChanged += HotkeyItemOnPropertyChanged;
-        }
+    public HotkeysHostedService(IHotkeysGestureService hotkeysGestureService)
+    {
+        _hotkeysGestureService = hotkeysGestureService;
     }
 
-    public async Task StopAsync(CancellationToken cancellationToken)
+    /// <summary>
+    /// Loads gestures from options and starts watching for gesture change in order to save changes into options file.
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task StartAsync(CancellationToken cancellationToken)
     {
-        foreach (var hotkeyItem in hotkeys) 
-            hotkeyItem.PropertyChanged -= HotkeyItemOnPropertyChanged;
+        _hotkeysGestureService.Load();
+        _hotkeysGestureService.StartWatch();
+
+        return Task.CompletedTask;
     }
 
-    private void HotkeyItemOnPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    /// <summary>
+    /// Stops watching for gesture changes.
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task StopAsync(CancellationToken cancellationToken)
     {
-        if (e.PropertyName != nameof(HotkeyItem.Gesture))
-            return;
+        _hotkeysGestureService.StopWatch();
 
-        if (sender is not HotkeyItem hotkeyItem)
-            return;
-
-        var data = options.Value.Data.ToDictionary();
-        if (options.Value.Data.TryGetValue(hotkeyItem.CodeName, out var gesture) || gesture != hotkeyItem.Gesture)
-        {
-            data[hotkeyItem.CodeName] = hotkeyItem.Gesture;
-            options.Value.Update(data);
-            options.Update(_ => { });
-        }
+        return Task.CompletedTask;
     }
 }
