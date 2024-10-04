@@ -4,6 +4,11 @@ namespace RemoteController.WinUi.Controls;
 
 public sealed partial class HotkeyDialog
 {
+    public HotkeyDialog()
+    {
+        InitializeComponent();
+    }
+
     public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(
         nameof(ViewModel), typeof(HotkeyGestureEditorViewModel), typeof(HotkeyDialog), new(null, ViewModelPropertyChangedCallback));
 

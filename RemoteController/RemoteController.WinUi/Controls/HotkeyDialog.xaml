@@ -10,16 +10,15 @@
     PrimaryButtonCommand="{x:Bind ViewModel.SaveChangesCommand, Mode=OneWay}"
     IsPrimaryButtonEnabled="{x:Bind ViewModel.CanSaveChanges, Mode=OneWay}"
     CloseButtonText="Discard changes">
-
     <StackPanel Orientation="Vertical">
         <TextBlock>
             <Run Text="Code name:" />
-            <Run Text="{Binding GestureEditor.CodeName, Mode=OneWay}" />
+            <Run Text="{x:Bind ViewModel.GestureEditor.CodeName, Mode=OneWay}" />
         </TextBlock>
 
         <TextBlock>
             <Run Text="Gesture:" />
-            <Run Text="{Binding GestureEditor.MultiKeyGesture, Mode=OneWay}" />
+            <Run Text="{x:Bind ViewModel.GestureEditor.MultiKeyGesture, Mode=OneWay}" />
         </TextBlock>
     </StackPanel>
 </ContentDialog>
