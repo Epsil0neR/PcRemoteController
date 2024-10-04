@@ -5,6 +5,7 @@
     xmlns:behaviors="using:RemoteController.WinUi.Behaviors"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:viewModels="using:RemoteController.WinUi.ViewModels"
+    xmlns:controls="using:RemoteController.WinUi.Controls"
     Loaded="OnLoaded">
     <Grid>
         <Grid 
@@ -77,28 +78,10 @@
             </ScrollViewer>
         </NavigationView>
 
-        <!--TODO: Hotkey Editor dialog-->
-        <ContentDialog 
+        <controls:HotkeyDialog 
             x:Name="HotkeyEditorDialog" 
             Canvas.ZIndex="100"
-            DataContext="{x:Bind ViewModel.HotkeyGestureEditorViewModel, Mode=OneWay}"
-            PrimaryButtonText="Save"
-            PrimaryButtonCommand="{x:Bind ViewModel.HotkeyGestureEditorViewModel.SaveChangesCommand, Mode=OneWay}"
-            IsPrimaryButtonEnabled="{x:Bind ViewModel.HotkeyGestureEditorViewModel.CanSaveChanges, Mode=OneWay}"
-            CloseButtonText="Discard changes">
-
-            <StackPanel Orientation="Vertical">
-                <TextBlock>
-                    <Run Text="Code name:" />
-                    <Run Text="{Binding GestureEditor.CodeName, Mode=OneWay}" />
-                </TextBlock>
-
-                <TextBlock>
-                    <Run Text="Gesture:" />
-                    <Run Text="{Binding GestureEditor.MultiKeyGesture, Mode=OneWay}" />
-                </TextBlock>
-            </StackPanel>
-
-        </ContentDialog>
+            ViewModel="{x:Bind ViewModel.HotkeyGestureEditorViewModel, Mode=OneWay}"
+            />
     </Grid>
 </Page>
