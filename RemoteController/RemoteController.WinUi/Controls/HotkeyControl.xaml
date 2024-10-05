@@ -20,7 +20,9 @@
         <Button
             Visibility="{x:Bind ShowEditButton, Mode=OneWay, Converter={StaticResource Converter.TrueToVisible}}"
             Command="{x:Bind OpenEditorCommand}"
-            Content="EDIT" 
-            VerticalAlignment="Stretch" />
+            VerticalAlignment="Stretch"
+            Margin="2 4 0 4">
+            <FontIcon Glyph="&#xE70F;" FontSize="16" />
+        </Button>
     </StackPanel>
 </UserControl>
