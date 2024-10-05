@@ -6,10 +6,17 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-
     <StackPanel Orientation="Horizontal">
-        <local:MultiKeyGestureVisual
-            MultiKeyGesture="{x:Bind HotkeyItem.Gesture}" />
+        <Button
+            IsEnabled="{x:Bind IsHotkeyEnabled, Mode=OneWay}"
+            Command="{x:Bind ExecuteHotkeyCommand}"
+            Background="Transparent"
+            BorderThickness="0"
+            Margin="0"
+            Padding="0">
+            <local:MultiKeyGestureVisual
+                MultiKeyGesture="{x:Bind HotkeyItem.Gesture}" />
+        </Button>
         <Button
             Visibility="{x:Bind ShowEditButton, Mode=OneWay, Converter={StaticResource Converter.TrueToVisible}}"
             Command="{x:Bind OpenEditorCommand}"
