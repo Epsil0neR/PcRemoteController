@@ -1,15 +1,29 @@
-﻿using RemoteController.WinUi.Core.Options;
+﻿using RemoteController.Informer;
+using RemoteController.WinUi.Core.Options;
 using RemoteController.WinUi.Models;
 using RemoteController.WinUi.Services;
 
 namespace RemoteController.WinUi.HotKeys.Items;
 
 // ReSharper disable once ClassNeverInstantiated.Global
-public class SwitchSoundInputHotkey(
-    IWritableOptions<SoundDevicesOptions> soundDevicesOptions,
-    ISoundDevicesService soundDevicesService)
-    : HotkeyItem
+public class SwitchSoundInputHotkey : HotkeyItem
 {
+    private readonly IWritableOptions<SoundDevicesOptions> _soundDevicesOptions;
+    private readonly ISoundDevicesService _soundDevicesService;
+    private readonly InformersManager _informersManager;
+    private readonly SoundInformer _soundInformer;
+
+    public SwitchSoundInputHotkey(
+        IWritableOptions<SoundDevicesOptions> soundDevicesOptions,
+        ISoundDevicesService soundDevicesService,
+        InformersManager informersManager)
+    {
+        _soundDevicesOptions = soundDevicesOptions ?? throw new ArgumentNullException(nameof(soundDevicesOptions));
+        _soundDevicesService = soundDevicesService ?? throw new ArgumentNullException(nameof(soundDevicesService));
+        _informersManager = informersManager ?? throw new ArgumentNullException(nameof(informersManager));
+        _soundInformer = _informersManager.Informer<SoundInformer>() ?? throw new ArgumentException(@"Sound informer is not available in manager.", nameof(informersManager));
+    }
+
     public override HotkeyGroup Group => HotkeyGroup.Sound;
     public override uint Priority => 1;
     public override string CodeName => "Sound.Switch.Input";
@@ -18,14 +32,21 @@ public class SwitchSoundInputHotkey(
 
     public override void Execute()
     {
-        var devices = soundDevicesOptions.Value.Inputs;
-        var selectedName = soundDevicesService.InputDevice;
-        var selected = devices.FirstOrDefault(x => x.DeviceName == selectedName);
+        var devices = _soundDevicesOptions.Value.Inputs;
+        var current = _soundDevicesService.InputDevice;
+        var activeDevices = _soundInformer.InputDeviceList
+            .Select(x => x.Name)
+            .ToArray();
+
+        // Ignore non-active devices
+        devices.RemoveAll(x => !activeDevices.Contains(x.DeviceName));
+
+        var selected = devices.FirstOrDefault(x => x.DeviceName == current);
         if (selected is null)
         {
             var first = devices.FirstOrDefault(x => x.SwitchCommand);
             if (first is not null)
-                soundDevicesService.InputDevice = first.DeviceName;
+                _soundDevicesService.InputDevice = first.DeviceName;
             return;
         }
 
@@ -41,6 +62,6 @@ public class SwitchSoundInputHotkey(
         if (next is null)
             return;
 
-        soundDevicesService.InputDevice = next.DeviceName;
+        _soundDevicesService.InputDevice = next.DeviceName;
     }
 }
