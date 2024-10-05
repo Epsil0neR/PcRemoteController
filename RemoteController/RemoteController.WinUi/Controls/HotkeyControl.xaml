@@ -11,7 +11,9 @@
         <local:MultiKeyGestureVisual
             MultiKeyGesture="{x:Bind HotkeyItem.Gesture}" />
         <Button
+            Visibility="{x:Bind ShowEditButton, Mode=OneWay, Converter={StaticResource Converter.TrueToVisible}}"
             Command="{x:Bind OpenEditorCommand}"
-            Content="EDIT" />
+            Content="EDIT" 
+            VerticalAlignment="Stretch" />
     </StackPanel>
 </UserControl>

@@ -5,6 +5,15 @@ namespace RemoteController.WinUi.Controls;
 
 public sealed partial class HotkeyControl
 {
+    public static readonly DependencyProperty ShowEditButtonProperty = DependencyProperty.Register(
+        nameof(ShowEditButton), typeof(bool), typeof(HotkeyControl), new(true));
+
+    public bool ShowEditButton
+    {
+        get => (bool)GetValue(ShowEditButtonProperty);
+        set => SetValue(ShowEditButtonProperty, value);
+    }
+
     public static readonly DependencyProperty HotkeyItemDependencyProperty = DependencyProperty.Register(
         nameof(HotkeyItem), typeof(HotkeyItem), typeof(HotkeyControl), new(default(HotkeyItem), HotkeyPropertyChangedCallback));
 
