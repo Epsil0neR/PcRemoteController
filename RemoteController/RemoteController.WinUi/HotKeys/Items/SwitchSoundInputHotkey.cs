@@ -10,7 +10,6 @@ public class SwitchSoundInputHotkey : HotkeyItem
 {
     private readonly IWritableOptions<SoundDevicesOptions> _soundDevicesOptions;
     private readonly ISoundDevicesService _soundDevicesService;
-    private readonly InformersManager _informersManager;
     private readonly SoundInformer _soundInformer;
 
     public SwitchSoundInputHotkey(
@@ -20,8 +19,7 @@ public class SwitchSoundInputHotkey : HotkeyItem
     {
         _soundDevicesOptions = soundDevicesOptions ?? throw new ArgumentNullException(nameof(soundDevicesOptions));
         _soundDevicesService = soundDevicesService ?? throw new ArgumentNullException(nameof(soundDevicesService));
-        _informersManager = informersManager ?? throw new ArgumentNullException(nameof(informersManager));
-        _soundInformer = _informersManager.Informer<SoundInformer>() ?? throw new ArgumentException(@"Sound informer is not available in manager.", nameof(informersManager));
+        _soundInformer = informersManager?.Informer<SoundInformer>() ?? throw new ArgumentException(@"Sound informer is not available in manager.", nameof(informersManager));
     }
 
     public override HotkeyGroup Group => HotkeyGroup.Sound;
