@@ -11,4 +11,11 @@ public static class Global
     /// throws <see cref="ArgumentException"/>.</returns>
     public static T Resolve<T>(this object _) where T : class 
         => App.GetService<T>();
+
+    /// <summary>
+    /// Gets logger for <typeparamref name="T"/> type.
+    /// </summary>
+    /// <returns></returns>
+    public static ILogger<T> Logger<T>(this T _)
+        => App.GetService<ILogger<T>>();
 }
