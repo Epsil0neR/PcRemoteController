@@ -45,10 +45,12 @@ public class HotkeysGestureService : IHotkeysGestureService
         if (Options.Value.Data.TryGetValue(codeName, out var g) && gesture == g)
             return;
 
-        Dictionary<string, MultiKeyGesture?> data = new(Options.Value.Data)
-        {
-            {codeName, gesture}
-        };
+        Service.Change(codeName, gesture);
+
+        // ReSharper disable once UseObjectOrCollectionInitializer
+        // Do not change gesture via initialization - will throw exception that same key exists.
+        Dictionary<string, MultiKeyGesture?> data = new(Options.Value.Data);
+        data[codeName] = gesture;
         Options.Value.Update(data);
         Options.Update();
     }

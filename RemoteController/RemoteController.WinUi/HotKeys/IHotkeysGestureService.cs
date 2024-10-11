@@ -9,6 +9,11 @@ namespace RemoteController.WinUi.HotKeys;
 public interface IHotkeysGestureService
 {
     /// <summary>
+    /// Managed hotkeys.
+    /// </summary>
+    IEnumerable<HotkeyItem> Hotkeys { get; }
+
+    /// <summary>
     /// Loads gestures from <see cref="HotkeyGesturesOptions"/>.
     /// </summary>
     void Load();

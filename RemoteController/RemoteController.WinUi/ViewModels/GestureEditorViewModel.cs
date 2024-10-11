@@ -9,7 +9,7 @@ public partial class GestureEditorViewModel : ObservableObject
 
     public MultiKeyGesture MultiKeyGesture { get; }
 
-    public ObservableCollection<Gesture> Gestures;
+    public ObservableCollection<Gesture> Gestures { get; }
 
     public GestureEditorViewModel(
         string codeName, 

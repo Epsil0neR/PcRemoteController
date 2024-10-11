@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UserControl
+    x:Class="RemoteController.WinUi.Controls.HotkeyItemControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:RemoteController.WinUi.Controls"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <ToggleButton
+            Grid.Column="0"
+            IsChecked="{x:Bind ModifierControl, Mode=TwoWay}">
+            <controls:VirtualKeyVisual 
+                Key="Control" 
+                Background="Transparent"
+                Foreground="White" />
+        </ToggleButton>
+        <ToggleButton
+            Grid.Column="1"
+            IsChecked="{x:Bind ModifierAlt, Mode=TwoWay}">
+            <controls:VirtualKeyVisual 
+                Key="Menu" 
+                Background="Transparent"
+                Foreground="White" />
+        </ToggleButton>
+        <ToggleButton
+            Grid.Column="2"
+            IsChecked="{x:Bind ModifierShift, Mode=TwoWay}">
+            <controls:VirtualKeyVisual 
+                Key="Shift" 
+                Background="Transparent"
+                Foreground="White" />
+        </ToggleButton>
+        <ToggleButton
+            Grid.Column="3"
+            IsChecked="{x:Bind ModifierWindows, Mode=TwoWay}">
+            <controls:VirtualKeyVisual 
+                Key="LeftWindows" 
+                Background="Transparent"
+                Foreground="White" />
+        </ToggleButton>
+
+        <Button
+            Grid.Column="4"
+            x:Name="KeyButton">
+            <Button.Flyout>
+                <Flyout x:Name="KeyFlyout" 
+                        Opened="KeyFlyout_OnOpened"
+                        Closed="KeyFlyout_OnClosed">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        
+                        <FontIcon 
+                            Grid.Column="0" 
+                            Glyph="&#xEDA7;"
+                            FontSize="22" 
+                            Margin="0 0 8 0"/>
+
+                        <StackPanel Grid.Column="1">
+                            <TextBlock Style="{ThemeResource BaseTextBlockStyle}" 
+                                       Text="Press key to assign." 
+                                       FontSize="16"
+                                       Margin="0 0 0 4" />
+                            <TextBlock Style="{ThemeResource BaseTextBlockStyle}" 
+                                       FontSize="14"
+                                       Text="Use keyboard to press."/>
+                            <TextBlock Style="{ThemeResource BaseTextBlockStyle}" 
+                                       FontSize="14"
+                                       Text="Click outside to close."/>
+                        </StackPanel>
+                    </Grid>
+                </Flyout>
+            </Button.Flyout>
+            <controls:VirtualKeyVisual 
+                Background="Transparent"
+                Key="{x:Bind Key, Mode=OneWay}"
+                Foreground="White" />
+        </Button>
+
+        <Button 
+            Grid.Column="5"
+            Margin="12 0 0 0"
+            VerticalAlignment="Stretch"
+            Background="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
+            Command="{x:Bind RemoveCommand, Mode=OneWay}"
+            CommandParameter="{x:Bind}">
+            <FontIcon Glyph="&#xE74D;" FontSize="20" />
+        </Button>
+    </Grid>
+</UserControl>

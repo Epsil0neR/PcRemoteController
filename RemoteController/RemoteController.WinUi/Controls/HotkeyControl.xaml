@@ -15,7 +15,7 @@
             Margin="0"
             Padding="0">
             <local:MultiKeyGestureVisual
-                MultiKeyGesture="{x:Bind HotkeyItem.Gesture}" />
+                MultiKeyGesture="{x:Bind HotkeyItem.Gesture, Mode=OneWay}" />
         </Button>
         <Button
             Visibility="{x:Bind ShowEditButton, Mode=OneWay, Converter={StaticResource Converter.TrueToVisible}}"
