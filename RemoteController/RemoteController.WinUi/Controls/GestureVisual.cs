@@ -10,6 +10,8 @@ public class GestureVisual : Control
 
     public static readonly DependencyProperty KeysProperty = DependencyProperty.Register(nameof(Keys), typeof(IList<VirtualKey>), typeof(GestureVisual), PropertyMetadata.Create(() => new List<VirtualKey>()));
 
+    public static readonly DependencyProperty KeyTemplateProperty = DependencyProperty.Register(nameof(KeyTemplate), typeof(DataTemplate), typeof(GestureVisual), new(default(DataTemplate)));
+
     private static void GesturePropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         var g = (Gesture?) e.NewValue;
@@ -34,5 +36,14 @@ public class GestureVisual : Control
     {
         get => (IList<VirtualKey>)GetValue(KeysProperty);
         set => SetValue(KeysProperty, value);
+    }
+
+    /// <summary>
+    /// Template to represent each <see cref="Keys"/>.
+    /// </summary>
+    public DataTemplate KeyTemplate
+    {
+        get => (DataTemplate)GetValue(KeyTemplateProperty);
+        set => SetValue(KeyTemplateProperty, value);
     }
 }
