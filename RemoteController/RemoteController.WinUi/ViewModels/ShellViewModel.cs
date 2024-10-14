@@ -1,6 +1,7 @@
 ﻿using Microsoft.UI.Xaml.Navigation;
 using RemoteController.WinUi.Contracts.Services;
 using RemoteController.WinUi.Controls.Controls;
+using RemoteController.WinUi.HotKeys;
 using RemoteController.WinUi.Views.Pages;
 
 namespace RemoteController.WinUi.ViewModels;
@@ -20,11 +21,21 @@ public partial class ShellViewModel : ObservableObject
 
     public INavigationViewService NavigationViewService { get; }
 
-    public ShellViewModel(INavigationService navigationService, INavigationViewService navigationViewService)
+    public IHotkeysGestureService HotkeysGestureService { get; }
+    
+    public HotkeyGestureEditorViewModel HotkeyGestureEditorViewModel { get; }
+
+    public ShellViewModel(
+        INavigationService navigationService, 
+        INavigationViewService navigationViewService,
+        IHotkeysGestureService hotkeysGestureService,
+        HotkeyGestureEditorViewModel hotkeyGestureEditorViewModel)
     {
         NavigationService = navigationService;
         NavigationService.Navigated += OnNavigated;
         NavigationViewService = navigationViewService;
+        HotkeysGestureService = hotkeysGestureService;
+        HotkeyGestureEditorViewModel = hotkeyGestureEditorViewModel;
     }
 
     private void OnNavigated(object sender, NavigationEventArgs e)

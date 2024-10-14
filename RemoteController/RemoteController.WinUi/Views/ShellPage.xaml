@@ -5,6 +5,7 @@
     xmlns:behaviors="using:RemoteController.WinUi.Behaviors"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:viewModels="using:RemoteController.WinUi.ViewModels"
+    xmlns:controls="using:RemoteController.WinUi.Controls"
     Loaded="OnLoaded">
     <Grid>
         <Grid 
@@ -76,5 +77,11 @@
                 <Frame x:Name="NavigationFrame" />
             </ScrollViewer>
         </NavigationView>
+
+        <controls:HotkeyDialog 
+            x:Name="HotkeyEditorDialog" 
+            Canvas.ZIndex="100"
+            ViewModel="{x:Bind ViewModel.HotkeyGestureEditorViewModel, Mode=OneWay}"
+            />
     </Grid>
 </Page>

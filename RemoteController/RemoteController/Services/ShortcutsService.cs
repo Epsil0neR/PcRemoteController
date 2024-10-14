@@ -6,7 +6,7 @@ using System.Windows.Input;
 using Epsiloner.OptionsModule;
 using Epsiloner.Wpf.Gestures;
 using RemoteController.Configs;
-using RemoteController.Keyboard;
+using RemoteController.Services;
 
 namespace RemoteController.Services;
 

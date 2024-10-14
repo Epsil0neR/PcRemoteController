@@ -45,6 +45,7 @@ public sealed partial class ShellPage : Page
         KeyboardAccelerators.Add(BuildKeyboardAcceleratorGoBack(VirtualKey.GoBack));
         KeyboardAccelerators.Add(BuildKeyboardAcceleratorTest(VirtualKey.F, VirtualKeyModifiers.Menu));
     }
+
     private AppWindow GetAppWindowForCurrentWindow()
     {
         IntPtr hWnd = WindowNative.GetWindowHandle(App.MainWindow);

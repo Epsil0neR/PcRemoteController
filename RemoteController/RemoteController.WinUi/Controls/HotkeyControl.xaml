@@ -1,0 +1,28 @@
+<UserControl
+    x:Class="RemoteController.WinUi.Controls.HotkeyControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:RemoteController.WinUi.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <StackPanel Orientation="Horizontal">
+        <Button
+            IsEnabled="{x:Bind IsHotkeyEnabled, Mode=OneWay}"
+            Command="{x:Bind ExecuteHotkeyCommand}"
+            Background="Transparent"
+            BorderThickness="0"
+            Margin="0"
+            Padding="0">
+            <local:MultiKeyGestureVisual
+                MultiKeyGesture="{x:Bind HotkeyItem.Gesture, Mode=OneWay}" />
+        </Button>
+        <Button
+            Visibility="{x:Bind ShowEditButton, Mode=OneWay, Converter={StaticResource Converter.TrueToVisible}}"
+            Command="{x:Bind OpenEditorCommand}"
+            VerticalAlignment="Stretch"
+            Margin="2 4 0 4">
+            <FontIcon Glyph="&#xE70F;" FontSize="16" />
+        </Button>
+    </StackPanel>
+</UserControl>

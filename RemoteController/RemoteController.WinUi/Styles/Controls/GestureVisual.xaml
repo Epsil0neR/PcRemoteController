@@ -22,54 +22,19 @@
     <ControlTemplate 
         x:Key="GestureVisual.Template"
         TargetType="c:GestureVisual">
-        <Button CornerRadius="{TemplateBinding CornerRadius}">
-            <StackPanel Orientation="Horizontal">
-                <ItemsControl
-                    ItemsSource="{TemplateBinding Keys}" 
-                    ItemTemplate="{StaticResource GestureVisual.ItemTemplate}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel 
-                                Orientation="Horizontal" 
-                                Spacing="8" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                </ItemsControl>
-
-                <!--TODO: Make Edit icon visible and functional.--> 
-                <FontIcon
-                    FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                    FontSize="16"
-                    Glyph="&#xE70F;"
-                    Visibility="Collapsed"/>
-            </StackPanel>
-        </Button>
-    </ControlTemplate>
-    <ControlTemplate 
-        x:Key="GestureVisual.Template.Large"
-        TargetType="c:GestureVisual">
-        <Button CornerRadius="{TemplateBinding CornerRadius}">
-            <StackPanel Orientation="Horizontal">
-                <ItemsControl
-                    ItemsSource="{TemplateBinding Keys}" 
-                    ItemTemplate="{StaticResource GestureVisual.ItemTemplate.Large}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel 
-                                Orientation="Horizontal" 
-                                Spacing="8" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                </ItemsControl>
-
-                <!--TODO: Make Edit icon visible and functional.-->
-                <FontIcon
-                    FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                    FontSize="16"
-                    Glyph="&#xE70F;"
-                    Visibility="Collapsed"/>
-            </StackPanel>
-        </Button>
+        <Border CornerRadius="{TemplateBinding CornerRadius}">
+            <ItemsControl
+                ItemsSource="{TemplateBinding Keys}" 
+                ItemTemplate="{TemplateBinding KeyTemplate}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel 
+                            Orientation="Horizontal" 
+                            Spacing="8" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </Border>
     </ControlTemplate>
 
     <Style TargetType="c:GestureVisual"
@@ -83,6 +48,7 @@
         <Setter Property="FontSize" Value="18" />
         <Setter Property="BorderBrush" Value="Green" />
         <Setter Property="BorderThickness" Value="{ThemeResource ButtonBorderThemeThickness}" />
+        <Setter Property="KeyTemplate" Value="{StaticResource GestureVisual.ItemTemplate}" />
     </Style>
 
     <!--Default style-->
@@ -92,6 +58,6 @@
     <Style TargetType="c:GestureVisual"
            x:Key="GestureVisual.Style.Large"
            BasedOn="{StaticResource GestureVisual.Style}">
-        <Setter Property="Template" Value="{StaticResource GestureVisual.Template.Large}" />
+        <Setter Property="KeyTemplate" Value="{StaticResource GestureVisual.ItemTemplate.Large}" />
     </Style>
 </ResourceDictionary>

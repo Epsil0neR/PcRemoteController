@@ -10,18 +10,19 @@ namespace RemoteController.WinUi.Core.Options;
 
 public interface IWritableOptions<out T> : IOptionsSnapshot<T> where T : class, new()
 {
+    void Update();
     void Update(Action<T> applyChanges);
 }
 
 public class WritableOptions<T> : IWritableOptions<T> where T : class, new()
 {
-    private readonly IHostingEnvironment _environment;
+    private readonly IHostEnvironment _environment;
     private readonly IOptionsMonitor<T> _options;
     private readonly string _section;
     private readonly string _file;
 
     public WritableOptions(
-        IHostingEnvironment environment,
+        IHostEnvironment environment,
         IOptionsMonitor<T> options,
         string section,
         string file)
@@ -34,6 +35,8 @@ public class WritableOptions<T> : IWritableOptions<T> where T : class, new()
 
     public T Value => _options.CurrentValue;
     public T Get(string name) => _options.Get(name);
+
+    public void Update() => Update(_ => { });
 
     public void Update(Action<T> applyChanges)
     {
@@ -65,7 +68,7 @@ public static class ServiceCollectionExtensions
         services.Configure<T>(section);
         services.AddTransient<IWritableOptions<T>>(provider =>
         {
-            var environment = provider.GetService<IHostingEnvironment>();
+            var environment = provider.GetService<IHostEnvironment>();
             var options = provider.GetService<IOptionsMonitor<T>>();
             return new WritableOptions<T>(environment, options, section.Key, file);
         });

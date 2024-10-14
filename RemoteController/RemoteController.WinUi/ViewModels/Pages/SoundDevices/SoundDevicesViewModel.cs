@@ -1,15 +1,12 @@
 using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.WinUI;
-using Epsiloner.WinUi.Gestures;
 using Epsiloner.WinUi.Services;
 using RemoteController.Informer;
 using RemoteController.WinUi.Core.Options;
+using RemoteController.WinUi.HotKeys.Items;
 using RemoteController.WinUi.Messages;
 using RemoteController.WinUi.Models;
 using RemoteController.WinUi.Services;
-using Windows.System;
-using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
-using DispatcherQueuePriority = Microsoft.UI.Dispatching.DispatcherQueuePriority;
 
 namespace RemoteController.WinUi.ViewModels.Pages.SoundDevices;
 
@@ -36,12 +33,6 @@ public partial class SoundDevicesViewModel :
     [ObservableProperty]
     private IReadOnlyList<DeviceViewModel> _inputDevices = Array.Empty<DeviceViewModel>();
 
-    [ObservableProperty]
-    private MultiKeyGesture? _switchInputGesture;
-
-    [ObservableProperty]
-    private MultiKeyGesture? _switchOutputGesture;
-
     public InformersManager InformersManager { get; }
 
     public IMessenger Messenger { get; }
@@ -52,6 +43,10 @@ public partial class SoundDevicesViewModel :
 
     public IHotkeysService HotkeysService { get; }
 
+    public SwitchSoundOutputHotkey SwitchSoundOutputHotkey { get; }
+
+    public SwitchSoundInputHotkey SwitchSoundInputHotkey { get; }
+
     public SoundInformer SoundInformer { get; }
 
     public SoundDevicesViewModel(
@@ -60,7 +55,9 @@ public partial class SoundDevicesViewModel :
         IMessenger messenger,
         IWritableOptions<SoundDevicesOptions> soundDevicesOptions,
         ISoundDevicesService service,
-        IHotkeysService hotkeysService)
+        IHotkeysService hotkeysService,
+        SwitchSoundOutputHotkey switchSoundOutputHotkey,
+        SwitchSoundInputHotkey switchSoundInputHotkey)
     {
         _dispatcher = DispatcherQueue.GetForCurrentThread();
         _logger = logger;
@@ -69,10 +66,11 @@ public partial class SoundDevicesViewModel :
         SoundDevicesOptions = soundDevicesOptions ?? throw new ArgumentNullException(nameof(soundDevicesOptions));
         Service = service ?? throw new ArgumentNullException(nameof(service));
         HotkeysService = hotkeysService ?? throw new ArgumentNullException(nameof(hotkeysService));
+        SwitchSoundOutputHotkey = switchSoundOutputHotkey ?? throw new ArgumentNullException(nameof(switchSoundOutputHotkey));
+        SwitchSoundInputHotkey = switchSoundInputHotkey ?? throw new ArgumentNullException(nameof(switchSoundInputHotkey));
         SoundInformer = InformersManager.Informer<SoundInformer>() ?? throw new ArgumentException(@"Sound informer is not available in manager.", nameof(informersManager));
 
         UpdateDevices();
-        UpdateGestures();
     }
 
     public void Dispose()
@@ -139,14 +137,6 @@ public partial class SoundDevicesViewModel :
         }
     }
 
-    private void UpdateGestures()
-    {
-        if (HotkeysService.TryGetGesture("SoundDevice.Switch.Input", out var inputGesture))
-            SwitchInputGesture = inputGesture;
-        if (HotkeysService.TryGetGesture("SoundDevice.Switch.Output", out var outputGesture))
-            SwitchOutputGesture = outputGesture;
-    }
-
     public void Receive(DeviceIsSelectedChanged message)
     {
         if (_updatingDevices)
@@ -162,9 +152,9 @@ public partial class SoundDevicesViewModel :
     public void Receive(SystemDefaultSoundDeviceRequest message)
     {
         if (!message.Device.IsInput)
-            Service.SetOutputDevice(message.Device.Name);
+            Service.OutputDevice = message.Device.Name;
         else
-            Service.SetInputDevice(message.Device.Name);
+            Service.InputDevice = message.Device.Name;
     }
 
     public void Receive(ChangeVolumeForDeviceRequest message)
@@ -199,22 +189,15 @@ public partial class SoundDevicesViewModel :
         }
     }
 
-    private void HotkeysServiceOnGestureChanged(object? sender, HotkeysServiceGestureChangedEventArgs e)
-    {
-        _dispatcher.EnqueueAsync(UpdateGestures);
-    }
-
     protected override void OnActivated()
     {
         SoundInformer.Changed += SoundInformerOnChanged;
-        HotkeysService.GestureChanged += HotkeysServiceOnGestureChanged;
         Messenger.RegisterAll(this);
     }
 
     protected override void OnDeactivated()
     {
         Messenger.UnregisterAll(this);
-        HotkeysService.GestureChanged -= HotkeysServiceOnGestureChanged;
         SoundInformer.Changed -= SoundInformerOnChanged;
     }
 }

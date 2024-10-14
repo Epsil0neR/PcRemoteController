@@ -2,6 +2,9 @@
 
 namespace RemoteController.WinUi.Controls;
 
+/// <summary>
+/// Represents <see cref="MultiKeyGesture"/> in UI.
+/// </summary>
 public class MultiKeyGestureVisual : Control
 {
     public static readonly DependencyProperty MultiKeyGestureProperty = DependencyProperty.Register(

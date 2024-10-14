@@ -51,6 +51,7 @@ public partial class App : Application
 
                     .AddSingleton<WeakReferenceMessenger>()
                     .AddSingleton<IMessenger, WeakReferenceMessenger>(provider => provider.GetRequiredService<WeakReferenceMessenger>())
+                    .AddSingleton<DispatcherQueue>(_ => DispatcherQueue.GetForCurrentThread())
 
                     // Default Activation Handler
                     .AddTransient<ActivationHandler<LaunchActivatedEventArgs>, DefaultActivationHandler>()
@@ -58,6 +59,7 @@ public partial class App : Application
                     .AddTransient<IActivationHandler, AppNotificationActivationHandler>()
                     // Configuration
                     .ConfigureOptions(context)
+                    .ConfigureHotkeys()
 
                     .AddLogging()
                     .AddCore()

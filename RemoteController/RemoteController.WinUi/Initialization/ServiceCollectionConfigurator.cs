@@ -1,11 +1,10 @@
-using System.Security.Authentication;
+﻿using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 using Epsiloner.WinUi.Configurations;
 using Epsiloner.WinUi.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RemoteController.Informer;
-using RemoteController.Keyboard;
 using RemoteController.Manipulator;
 using RemoteController.Manipulator.Contexts;
 using RemoteController.Services;
@@ -49,7 +48,6 @@ internal static class ServiceCollectionConfigurator
     ;
 
     public static IServiceCollection AddCore(this IServiceCollection services) => services
-        .AddSingleton<KeyboardHookManager>()
         .AddSingleton<PolicyConfigClient>();
 
     public static IServiceCollection AddWinUiCore(this IServiceCollection services) => services

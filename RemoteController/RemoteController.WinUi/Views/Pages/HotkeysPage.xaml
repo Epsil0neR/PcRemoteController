@@ -5,7 +5,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:RemoteController.WinUi.Controls"
-    xmlns:gestures="using:Epsiloner.WinUi.Gestures"
     xmlns:system="using:Windows.System"
     xmlns:cc="using:RemoteController.WinUi.Controls.Controls"
     mc:Ignorable="d">
@@ -21,8 +20,7 @@
     <cc:PageWithHeaderContent.HeaderContent>
         <Button
             Content="Restart hooks"
-            Command="{x:Bind ViewModel.RestartHookCommand}">
-        </Button>
+            Command="{x:Bind ViewModel.RestartHookCommand}" />
     </cc:PageWithHeaderContent.HeaderContent>
     <StackPanel 
         x:Name="ContentArea" 
