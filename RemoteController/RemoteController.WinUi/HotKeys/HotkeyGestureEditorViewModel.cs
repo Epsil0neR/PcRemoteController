@@ -65,6 +65,9 @@ public partial class HotkeyGestureEditorViewModel :
     [ObservableProperty]
     private bool _canSaveChanges = false;
 
+    [ObservableProperty]
+    private bool _canAddItem = true;
+
     [RelayCommand]
     public void SaveChanges()
     {
@@ -88,14 +91,50 @@ public partial class HotkeyGestureEditorViewModel :
         }
     }
 
-    public void Receive(GestureDialogItemChanged message)
+    public void Receive(GestureDialogItemChanged message) => CheckForChanges();
+
+    /// <summary>
+    /// Checks for any changes in UI.
+    /// </summary>
+    public void CheckForChanges()
     {
         if (Control is null)
             return;
         if (GestureEditor is null)
             return;
 
-        var gestures = Control.Items
+        UpdateCanAddItem();
+        UpdateCanSaveChanges();
+    }
+
+    private void UpdateCanAddItem()
+    {
+        if (Control is null)
+            return;
+
+        var gestures = Control!.Items;
+
+        // If no gestures yet exists - allow to add new one.
+        if (gestures.Count == 0)
+        {
+            CanAddItem = true;
+            return;
+        }
+
+        // Check if any item is invalid gesture or empty.
+        if (gestures.Any(x => x.ToGesture()?.IsValid() != true))
+        {
+            CanAddItem = false;
+            return;
+        }
+
+        // All items are valid and user can add more items.
+        CanAddItem = true;
+    }
+
+    private void UpdateCanSaveChanges()
+    {
+        var gestures = Control!.Items
             .Select(x => x.ToGesture())
             .Where(x => x is not null)
             .ToList();
@@ -108,7 +147,7 @@ public partial class HotkeyGestureEditorViewModel :
         }
 
         //1. Check if same as current.
-        if (Compare(GestureEditor.MultiKeyGesture, gestures!))
+        if (Compare(GestureEditor!.MultiKeyGesture, gestures!))
         {
             CanSaveChanges = false;
             return;
@@ -119,7 +158,7 @@ public partial class HotkeyGestureEditorViewModel :
             // Skip check with editable multi-gesture.
             if (ReferenceEquals(GestureEditor.MultiKeyGesture, multiKeyGesture))
                 continue;
-            
+
             //2. Check if same as any other multi-gesture.
             if (Compare(multiKeyGesture, gestures!))
             {

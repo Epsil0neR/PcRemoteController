@@ -35,6 +35,7 @@ public sealed partial class HotkeyDialog
             RemoveCommand = RemoveItemCommand
         };
         Items.Add(item);
+        ViewModel?.CheckForChanges();
     }
 
     [RelayCommand]
@@ -44,6 +45,7 @@ public sealed partial class HotkeyDialog
             return;
 
         Items.Remove(item);
+        ViewModel?.CheckForChanges();
     }
 
     private void OnOpened(ContentDialog sender, ContentDialogOpenedEventArgs args)
