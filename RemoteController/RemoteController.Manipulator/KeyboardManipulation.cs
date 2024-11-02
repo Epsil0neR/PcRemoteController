@@ -50,7 +50,6 @@ public class KeyboardManipulation : TypedManipulation<IKeyboardSimulator>
         }
     }
 
-
     public static IManipulation[] GetManipulations()
     {
         return new IManipulation[]
@@ -73,10 +72,10 @@ public class KeyboardManipulation : TypedManipulation<IKeyboardSimulator>
     public KeyboardManipulation(string name, Func<IKeyboardSimulator, bool> action)
         : base(name, action) { }
 
-    public KeyboardManipulation(string name, VirtualKeyCode key, VirtualKeyCode[] modifiers = null)
+    public KeyboardManipulation(string name, VirtualKeyCode key, VirtualKeyCode[]? modifiers = null)
         : base(name, GenerateAction(key, modifiers)) { }
 
-    private static Action<IKeyboardSimulator, string?> GenerateAction(VirtualKeyCode key, VirtualKeyCode[] modifiers = null)
+    private static Action<IKeyboardSimulator, string?> GenerateAction(VirtualKeyCode key, VirtualKeyCode[]? modifiers = null)
     {
         if (modifiers?.Any() == true)
             return (simulator, s) => simulator.ModifiedKeyStroke(modifiers, key);

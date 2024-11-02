@@ -192,7 +192,6 @@ public class FileSystemManipulation : IManipulation
 
 internal static class FileSystemManipulationHelpers
 {
-
     public static IEnumerable<DirectoryInfo> FilterDirectories(this DirectoryInfo[] directoryInfos, Func<string, bool> filter)
     {
         if (filter == null)

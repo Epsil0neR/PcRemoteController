@@ -43,7 +43,7 @@ public class CmdManipulation : IManipulation
     /// <param name="workingDirectory">Working directory for CMD process. If empty - will be used <see cref="DefaultWorkingDirectory"/>.</param>
     /// <param name="hidden">Indicates if CMD window will be hidden or shown.</param>
     /// <param name="wait">Indicates if CMD command execution should be waited.</param>
-    public CmdManipulation(string name, ManipulationCommandType type, string data, bool supportParam = false, string workingDirectory = null, bool hidden = true, bool wait = false)
+    public CmdManipulation(string name, ManipulationCommandType type, string data, bool supportParam = false, string? workingDirectory = null, bool hidden = true, bool wait = false)
     {
         Name = name ?? throw new ArgumentNullException(nameof(name));
         _type = type;

@@ -15,20 +15,20 @@ public class MouseManipulation : TypedManipulation<IMouseSimulator>
         };
     }
 
-    public MouseManipulation(string name, Action<IMouseSimulator, string> action)
+    public MouseManipulation(string name, Action<IMouseSimulator, string?> action)
         : base(name, action) { }
 
     public MouseManipulation(string name, Action<IMouseSimulator> action)
         : base(name, action) { }
 
-    public MouseManipulation(string name, Func<IMouseSimulator, string, bool> action)
+    public MouseManipulation(string name, Func<IMouseSimulator, string?, bool> action)
         : base(name, action) { }
 
     public MouseManipulation(string name, Func<IMouseSimulator, bool> action)
         : base(name, action) { }
 
 
-    public static bool MouseMove(IMouseSimulator simulator, string param)
+    public static bool MouseMove(IMouseSimulator simulator, string? param)
     {
         var point = GetMouseParam(param);
         var (x, y) = (point.X, point.Y);
@@ -41,7 +41,7 @@ public class MouseManipulation : TypedManipulation<IMouseSimulator>
         return true;
     }
 
-    private static Point GetMouseParam(string param)
+    private static Point GetMouseParam(string? param)
     {
         var values = param?
             .Replace(',', ' ')
