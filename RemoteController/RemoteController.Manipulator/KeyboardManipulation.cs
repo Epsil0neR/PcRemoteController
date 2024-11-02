@@ -8,7 +8,7 @@ namespace RemoteController.Manipulator;
 
 public class KeyboardManipulation : TypedManipulation<IKeyboardSimulator>
 {
-    public static void PressAction(IKeyboardSimulator simulator, string param)
+    public static void PressAction(IKeyboardSimulator simulator, string? param)
     {
         if (Enum.TryParse(param, true, out VirtualKeyCode key))
             simulator.KeyPress(key);
@@ -22,7 +22,7 @@ public class KeyboardManipulation : TypedManipulation<IKeyboardSimulator>
         }
     }
 
-    public static void KeyDownAction(IKeyboardSimulator simulator, string param)
+    public static void KeyDownAction(IKeyboardSimulator simulator, string? param)
     {
         if (Enum.TryParse(param, true, out VirtualKeyCode key))
             simulator.KeyDown(key);
@@ -36,7 +36,7 @@ public class KeyboardManipulation : TypedManipulation<IKeyboardSimulator>
         }
     }
 
-    public static void KeyUpAction(IKeyboardSimulator simulator, string param)
+    public static void KeyUpAction(IKeyboardSimulator simulator, string? param)
     {
         if (Enum.TryParse(param, true, out VirtualKeyCode key))
             simulator.KeyUp(key);
@@ -61,13 +61,13 @@ public class KeyboardManipulation : TypedManipulation<IKeyboardSimulator>
         };
     }
 
-    public KeyboardManipulation(string name, Action<IKeyboardSimulator, string> action)
+    public KeyboardManipulation(string name, Action<IKeyboardSimulator, string?> action)
         : base(name, action) { }
 
     public KeyboardManipulation(string name, Action<IKeyboardSimulator> action)
         : base(name, action) { }
 
-    public KeyboardManipulation(string name, Func<IKeyboardSimulator, string, bool> action)
+    public KeyboardManipulation(string name, Func<IKeyboardSimulator, string?, bool> action)
         : base(name, action) { }
 
     public KeyboardManipulation(string name, Func<IKeyboardSimulator, bool> action)
@@ -76,7 +76,7 @@ public class KeyboardManipulation : TypedManipulation<IKeyboardSimulator>
     public KeyboardManipulation(string name, VirtualKeyCode key, VirtualKeyCode[] modifiers = null)
         : base(name, GenerateAction(key, modifiers)) { }
 
-    private static Action<IKeyboardSimulator, string> GenerateAction(VirtualKeyCode key, VirtualKeyCode[] modifiers = null)
+    private static Action<IKeyboardSimulator, string?> GenerateAction(VirtualKeyCode key, VirtualKeyCode[] modifiers = null)
     {
         if (modifiers?.Any() == true)
             return (simulator, s) => simulator.ModifiedKeyStroke(modifiers, key);

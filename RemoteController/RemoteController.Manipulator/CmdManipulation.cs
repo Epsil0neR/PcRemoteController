@@ -60,7 +60,7 @@ public class CmdManipulation : IManipulation
     public string Name { get; }
 
     /// <inheritdoc />
-    public object Execute(IManipulatorsManager manager, string param)
+    public object Execute(IManipulatorsManager manager, string? param)
     {
         switch (_type)
         {

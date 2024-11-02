@@ -4,15 +4,15 @@ namespace RemoteController.Manipulator;
 
 public class TypedManipulation<T> : IManipulation
 {
-    private readonly Func<T, string, bool> _action;
+    private readonly Func<T, string?, bool> _action;
 
-    public TypedManipulation(string name, Func<T, string, bool> func)
+    public TypedManipulation(string name, Func<T, string?, bool> func)
     {
         _action = func ?? throw new ArgumentNullException(nameof(func));
         Name = name ?? throw new ArgumentNullException(nameof(name));
     }
 
-    public TypedManipulation(string name, Action<T, string> action)
+    public TypedManipulation(string name, Action<T, string?> action)
     {
         if (action == null) throw new ArgumentNullException(nameof(action));
 
@@ -29,7 +29,7 @@ public class TypedManipulation<T> : IManipulation
         if (func == null)
             throw new ArgumentNullException(nameof(func));
 
-        _action = (arg, s) => func(arg);
+        _action = (arg, _) => func(arg);
         Name = name ?? throw new ArgumentNullException(nameof(name));
     }
 
@@ -50,7 +50,7 @@ public class TypedManipulation<T> : IManipulation
     public string Name { get; }
 
     /// <inheritdoc />
-    public object Execute(IManipulatorsManager manager, string param)
+    public object Execute(IManipulatorsManager manager, string? param)
     {
         var context = manager.GetContext<T>();
         return context != null &&

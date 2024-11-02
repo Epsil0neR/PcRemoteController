@@ -27,7 +27,7 @@ public class Message
     /// <summary>
     /// Message data.
     /// </summary>
-    public object Data { get; set; }
+    public object? Data { get; set; }
 
     /// <summary>
     /// Socket which sent this message. (This data does not travel over web sockets)

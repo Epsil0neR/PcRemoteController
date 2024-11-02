@@ -25,7 +25,7 @@ public class FileSystemPath
     /// </summary>
     /// <param name="fakePath">Fake path to file or directory.</param>
     /// <returns></returns>
-    public string ToActualPath(string fakePath)
+    public string? ToActualPath(string? fakePath)
     {
         if (string.IsNullOrWhiteSpace(fakePath))
             return null;
@@ -73,7 +73,7 @@ public class FileSystemPaths : List<FileSystemPath>
     /// </summary>
     /// <param name="name"></param>
     /// <returns></returns>
-    public FileSystemPath Find(string name)
+    public FileSystemPath? Find(string name)
     {
         return this.FirstOrDefault(x => string.Equals(x.Name, name, StringComparison.InvariantCultureIgnoreCase));
     }
@@ -86,7 +86,7 @@ public class FileSystemPaths : List<FileSystemPath>
     public bool Remove(string name)
     {
         var item = Find(name);
-        if (item == null)
+        if (item is null)
             return false;
 
         return Remove(item);

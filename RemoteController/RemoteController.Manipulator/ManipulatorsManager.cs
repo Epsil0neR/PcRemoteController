@@ -33,6 +33,9 @@ public class ManipulatorsManager : IManipulatorsManager
     /// <inheritdoc />
     public void SetContext<T>(T context)
     {
+        if (context is null) 
+            throw new ArgumentNullException(nameof(context));
+
         var t = typeof(T);
         _contexts[t] = context;
     }
@@ -74,7 +77,7 @@ public class ManipulatorsManager : IManipulatorsManager
     }
 
     /// <inheritdoc />
-    public object TryExecute(string name, string param)
+    public object TryExecute(string name, string? param)
     {
         var m = Find(name);
         if (m == null)

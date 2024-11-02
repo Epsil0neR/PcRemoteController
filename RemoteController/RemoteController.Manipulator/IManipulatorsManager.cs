@@ -30,7 +30,7 @@ public interface IManipulatorsManager : IEnumerable<IManipulation>
     /// <param name="name">Name of manipulation.</param>
     /// <param name="param">Optional parameter for manipulation.</param>
     /// <returns></returns>
-    object TryExecute(string name, string param = null);
+    object TryExecute(string name, string? param = null);
 
     /// <summary>
     /// Adds manipulation for managing.

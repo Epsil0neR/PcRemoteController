@@ -117,7 +117,7 @@ public class ManipulatorsHosting : IHostedService
             return;
         }
 
-        var data = Manager.TryExecute(msg.ActionName, msg.Data?.ToString());
+        var data = Manager.TryExecute(msg.ActionName, param: msg.Data?.ToString());
         msg.Sender.Send(new Message
         {
             ActionName = msg.ActionName,

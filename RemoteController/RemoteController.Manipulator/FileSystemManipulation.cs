@@ -43,7 +43,7 @@ public class FileSystemManipulation : IManipulation
     public string Name { get; }
     public FileSystemManipulationMode Mode { get; }
 
-    public object Execute(IManipulatorsManager manager, string param)
+    public object? Execute(IManipulatorsManager manager, string? param)
     {
         return Mode switch
         {
@@ -59,12 +59,17 @@ public class FileSystemManipulation : IManipulation
     /// <param name="manager"></param>
     /// <param name="path">Path to file with fake root.</param>
     /// <returns></returns>
-    private bool Exec(IManipulatorsManager manager, string path)
+    private bool Exec(IManipulatorsManager manager, string? path)
     {
-        var c = manager.GetContext<FileSystemContext>();
-        var root = c.Roots.Find(GetRoot(path));
+        if (path is null)
+            return false;
 
-        if (root == null)
+        var context = manager.GetContext<FileSystemContext>();
+        if (context is null)
+            return false;
+
+        var root = context.Roots.Find(GetRoot(path));
+        if (root is null)
             return false;
 
         var pathOrig = root.ToActualPath(path);
@@ -72,21 +77,21 @@ public class FileSystemManipulation : IManipulation
         if (!File.Exists(pathOrig))
             return false;
 
-        if (!string.IsNullOrWhiteSpace(c.FileSearchPattern))
+        if (!string.IsNullOrWhiteSpace(context.FileSearchPattern))
         {
             // Check if file matches search pattern:
             var dir = Directory.GetParent(pathOrig);
-            var files = dir.GetFiles(c.FileSearchPattern).Select(x => x.FullName.ToLowerInvariant());
+            var files = dir.GetFiles(context.FileSearchPattern).Select(x => x.FullName.ToLowerInvariant());
             if (!files.Contains(pathOrig.ToLowerInvariant()))
                 return false;
         }
 
         // Check if folders filter allows that file containing folder.
-        if (c.FolderFilter?.Invoke(Directory.GetParent(pathOrig)?.FullName) == false)
+        if (context.FolderFilter?.Invoke(Directory.GetParent(pathOrig)?.FullName) == false)
             return false;
 
         // Check if file filter allows that file.
-        if (c.FileFilter?.Invoke(pathOrig) == false)
+        if (context.FileFilter?.Invoke(pathOrig) == false)
             return false;
 
         try
@@ -116,7 +121,7 @@ public class FileSystemManipulation : IManipulation
     /// <param name="manager"></param>
     /// <param name="param">Path to directory with fake root.</param>
     /// <returns></returns>
-    private IReadOnlyDictionary<string, IEnumerable<string>> List(IManipulatorsManager manager, string param)
+    private IReadOnlyDictionary<string, IEnumerable<string>>? List(IManipulatorsManager manager, string? param)
     {
         var c = manager.GetContext<FileSystemContext>();
         var rv = new Dictionary<string, IEnumerable<string>>();
