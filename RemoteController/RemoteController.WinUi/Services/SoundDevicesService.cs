@@ -12,12 +12,12 @@ public interface ISoundDevicesService
     /// <summary>
     /// System default sound output device name.
     /// </summary>
-    string OutputDevice { get; set; }
+    string? OutputDevice { get; set; }
 
     /// <summary>
     /// System default sound input device name.
     /// </summary>
-    string InputDevice { get; set; }
+    string? InputDevice { get; set; }
 }
 
 /// <summary>
@@ -45,7 +45,7 @@ public class SoundDevicesService : ISoundDevicesService
     }
 
     /// <inheritdoc />
-    public string OutputDevice
+    public string? OutputDevice
     {
         get => SoundInformer.OutputDevice;
         set
@@ -66,7 +66,7 @@ public class SoundDevicesService : ISoundDevicesService
     }
 
     /// <inheritdoc />
-    public string InputDevice
+    public string? InputDevice
     {
         get => SoundInformer.InputDevice;
         set

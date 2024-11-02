@@ -10,10 +10,10 @@ public class ManipulatorsManager : IManipulatorsManager
 {
     private readonly ILogger<ManipulatorsManager> _logger;
     private readonly Dictionary<Type, object> _contexts = new();
-    private readonly List<IManipulation> _manipulations = new();
+    private readonly List<IManipulation> _manipulations = [];
 
     /// <inheritdoc />
-    public event EventHandler<ManipulatorsItemEventArgs> ItemStateChanged;
+    public event EventHandler<ManipulatorsItemEventArgs>? ItemStateChanged;
 
     public ManipulatorsManager(ILogger<ManipulatorsManager> logger)
     {
@@ -46,9 +46,9 @@ public class ManipulatorsManager : IManipulatorsManager
         if (manipulation == null)
             throw new ArgumentNullException(nameof(manipulation));
         if (string.IsNullOrWhiteSpace(manipulation.Name))
-            throw new ArgumentException($@"{nameof(IManipulation)}.{manipulation.Name} must be not whitespace and not null.", nameof(manipulation));
+            throw new ArgumentException($"{nameof(IManipulation)}.{manipulation.Name} must be not whitespace and not null.", nameof(manipulation));
         if (Find(manipulation.Name) is not null)
-            throw new ArgumentException(@"Manipulation name already registered.", nameof(manipulation));
+            throw new ArgumentException("Manipulation name already registered.", nameof(manipulation));
 
         _manipulations.Add(manipulation);
         RaiseItemStateChanged(manipulation, true);
@@ -77,7 +77,7 @@ public class ManipulatorsManager : IManipulatorsManager
     }
 
     /// <inheritdoc />
-    public object TryExecute(string name, string? param)
+    public object? TryExecute(string name, string? param)
     {
         var m = Find(name);
         if (m == null)

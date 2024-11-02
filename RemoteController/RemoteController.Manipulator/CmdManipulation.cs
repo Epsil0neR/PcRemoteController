@@ -75,10 +75,10 @@ public class CmdManipulation : IManipulation
         }
     }
 
-    private object ExecuteCode(IManipulatorsManager manager, string param)
+    private object ExecuteCode(IManipulatorsManager manager, string? param)
     {
         var arguments = $@"/C {_data}";
-        if (_supportParam)
+        if (_supportParam && !string.IsNullOrWhiteSpace(param))
             arguments = $"{arguments} \"{param}\"";
 
         var dir = DefaultWorkingDirectory;
@@ -108,7 +108,7 @@ public class CmdManipulation : IManipulation
         return output;
     }
 
-    private object ExecuteFile(IManipulatorsManager manager, string param)
+    private object ExecuteFile(IManipulatorsManager manager, string? param)
     {
         if (!File.Exists(_data))
             return false;
@@ -140,7 +140,7 @@ public class CmdManipulation : IManipulation
         return output;
     }
 
-    private object ExecutePowerShell(IManipulatorsManager manager, string param)
+    private object ExecutePowerShell(IManipulatorsManager manager, string? param)
     {
         if (!File.Exists(_data))
             return false;
@@ -150,7 +150,7 @@ public class CmdManipulation : IManipulation
             dir = _workingDirectory;
 
         var arguments = $"-ExecutionPolicy Bypass -File \"{_data}\"";
-        if (_supportParam)
+        if (_supportParam && !string.IsNullOrWhiteSpace(param))
             arguments = $"{arguments} \"{param}\"";
 
         Process proc = new Process // https://stackoverflow.com/a/22869734/1763586

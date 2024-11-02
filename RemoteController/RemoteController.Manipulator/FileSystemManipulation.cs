@@ -27,11 +27,11 @@ public class FileSystemManipulation : IManipulation
 {
     public static IManipulation[] GetManipulations()
     {
-        return new IManipulation[]
-        {
+        return
+        [
             new FileSystemManipulation("FileSystem.List", FileSystemManipulationMode.List),
             new FileSystemManipulation("FileSystem.Exec", FileSystemManipulationMode.Exec)
-        };
+        ];
     }
 
     public FileSystemManipulation(string name, FileSystemManipulationMode mode)
@@ -41,6 +41,7 @@ public class FileSystemManipulation : IManipulation
     }
 
     public string Name { get; }
+
     public FileSystemManipulationMode Mode { get; }
 
     public object? Execute(IManipulatorsManager manager, string? param)
@@ -68,7 +69,7 @@ public class FileSystemManipulation : IManipulation
         if (context is null)
             return false;
 
-        var root = context.Roots.Find(GetRoot(path));
+        var root = context.Roots?.Find(GetRoot(path));
         if (root is null)
             return false;
 
@@ -81,6 +82,9 @@ public class FileSystemManipulation : IManipulation
         {
             // Check if file matches search pattern:
             var dir = Directory.GetParent(pathOrig);
+            if (dir is null)
+                return false;
+
             var files = dir.GetFiles(context.FileSearchPattern).Select(x => x.FullName.ToLowerInvariant());
             if (!files.Contains(pathOrig.ToLowerInvariant()))
                 return false;
@@ -146,12 +150,14 @@ public class FileSystemManipulation : IManipulation
     private void PopulateContent(Dictionary<string, IEnumerable<string>> rv, FileSystemContext contexts, params string[] paths)
     {
         var path = Path.Combine(paths);
-        var root = contexts.Roots.Find(GetRoot(path));
-
+        var root = contexts.Roots?.Find(GetRoot(path));
         if (root == null)
             return;
 
         var pathOrig = root.ToActualPath(path);
+        if (pathOrig is null)
+            return;
+
         var di = new DirectoryInfo(pathOrig);
         if (!di.Exists || !di.FullName.StartsWith(root.Path)) //TODO: Forbidden.
             return;
@@ -161,7 +167,7 @@ public class FileSystemManipulation : IManipulation
             .Select(x => root.ToFakePath(x.FullName))
             .ToList();
         if (folders.Any())
-            rv["folders"] = folders.Select(Path.GetFileName).ToList();
+            rv["folders"] = folders.Select(Path.GetFileName).Select(x => x!).ToList();
 
         var fp = string.IsNullOrWhiteSpace(contexts.FileSearchPattern) ? "*" : contexts.FileSearchPattern;
         var files = di.GetFiles(fp, SearchOption.TopDirectoryOnly)
@@ -169,7 +175,7 @@ public class FileSystemManipulation : IManipulation
             .Select(x => root.ToFakePath(x.FullName))
             .ToList();
         if (files.Any())
-            rv["files"] = files.Select(Path.GetFileName).ToList();
+            rv["files"] = files.Select(Path.GetFileName).Select(x=>x!).ToList();
 
         rv["path"] = path.ToPathParts();
     }
@@ -192,25 +198,25 @@ public class FileSystemManipulation : IManipulation
 
 internal static class FileSystemManipulationHelpers
 {
-    public static IEnumerable<DirectoryInfo> FilterDirectories(this DirectoryInfo[] directoryInfos, Func<string, bool> filter)
+    public static IEnumerable<DirectoryInfo> FilterDirectories(this DirectoryInfo[] directoryInfos, Func<string, bool>? filter)
     {
-        if (filter == null)
+        if (filter is null)
             return directoryInfos;
 
         return directoryInfos
             .Where(x => filter(x.FullName));
     }
 
-    public static IEnumerable<FileInfo> FilterFiles(this FileInfo[] fileInfos, Func<string, bool> filter)
+    public static IEnumerable<FileInfo> FilterFiles(this FileInfo[] fileInfos, Func<string, bool>? filter)
     {
-        if (filter == null)
+        if (filter is null)
             return fileInfos;
 
         return fileInfos
             .Where(x => filter(x.FullName));
     }
 
-    public static IEnumerable<string> ToPathParts(this string path)
+    public static IEnumerable<string> ToPathParts(this string? path)
     {
         var rv = new List<string>();
 

@@ -20,7 +20,7 @@ public class AppNotificationActivationHandler : ActivationHandler<LaunchActivate
         return AppInstance.GetCurrent().GetActivatedEventArgs()?.Kind == ExtendedActivationKind.AppNotification;
     }
 
-    protected async override Task HandleInternalAsync(LaunchActivatedEventArgs args)
+    protected override Task HandleInternalAsync(LaunchActivatedEventArgs args)
     {
         // TODO: Handle notification activations.
 
@@ -42,6 +42,6 @@ public class AppNotificationActivationHandler : ActivationHandler<LaunchActivate
             App.MainWindow.ShowMessageDialogAsync("TODO: Handle notification activations.", "Notification Activation");
         });
 
-        await Task.CompletedTask;
+        return Task.CompletedTask;
     }
 }

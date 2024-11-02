@@ -14,7 +14,7 @@ public class CustomManipulation<TResult> : IManipulation
     public CustomManipulation(string name, Func<IManipulatorsManager, TResult> handler)
         : this(name, (manager, s) => handler(manager))
     { }
-    public CustomManipulation(string name, Func<string, TResult> handler)
+    public CustomManipulation(string name, Func<string?, TResult> handler)
         : this(name, (manager, s) => handler(s))
     { }
 

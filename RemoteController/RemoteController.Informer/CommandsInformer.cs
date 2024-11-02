@@ -16,7 +16,7 @@ public class CommandsInformer : BaseInformer
     private readonly IManipulatorsManager _manager;
     private readonly ILogger<CommandsInformer> _logger;
 
-    private IList<string> _commands;
+    private IList<string> _commands = [];
     private bool _started;
 
     /// <inheritdoc />

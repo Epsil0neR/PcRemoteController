@@ -14,7 +14,7 @@ public abstract class BaseInformer : IDisposable
     /// <summary>
     /// Raise when some data in informer has been changed.
     /// </summary>
-    public event EventHandler Changed;
+    public event EventHandler? Changed;
 
     /// <summary>
     /// Raises <see cref="Changed"/> event.
@@ -71,7 +71,7 @@ public abstract class BaseInformer : IDisposable
     /// <param name="prop"></param>
     /// <param name="values"></param>
     /// <returns></returns>
-    protected bool SetList<T>(ref IList<T>? prop, IEnumerable<T> values)
+    protected bool SetList<T>(ref IList<T> prop, IEnumerable<T>? values)
     {
         var v = values?.ToList();
         var changed = prop?.Count != v?.Count;
@@ -87,7 +87,7 @@ public abstract class BaseInformer : IDisposable
                 break;
             }
         }
-        prop = v;
+        prop = v ?? [];
         return changed;
     }
 }

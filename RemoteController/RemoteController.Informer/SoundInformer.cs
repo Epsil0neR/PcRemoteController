@@ -19,18 +19,18 @@ public record struct SoundDeviceInfo
 /// <summary>
 /// Sound related data informer.
 /// </summary>
-public class SoundInformer : BaseInformer
+public sealed class SoundInformer : BaseInformer
 {
     private readonly EventCooldown _cooldown;
     private readonly MMDeviceEnumerator _deviceEnumerator = new();
 
     private int _outputVolume;
-    private string _outputDevice;
+    private string? _outputDevice;
     private bool _outputIsMuted;
-    private IList<SoundDeviceInfo>? _outputDeviceList;
+    private IList<SoundDeviceInfo> _outputDeviceList = [];
     private MMDevice? _output;
-    private string _inputDevice;
-    private IList<SoundDeviceInfo>? _inputDeviceList;
+    private string? _inputDevice;
+    private IList<SoundDeviceInfo> _inputDeviceList = [];
     private MMDevice? _input;
     private int _inputVolume;
     private bool _inputIsMuted;
@@ -46,7 +46,7 @@ public class SoundInformer : BaseInformer
     /// <summary>
     /// Current device used for sound output.
     /// </summary>
-    public string OutputDevice => _outputDevice;
+    public string? OutputDevice => _outputDevice;
 
     /// <summary>
     /// Indicates if current sound output is muted.
@@ -56,17 +56,17 @@ public class SoundInformer : BaseInformer
     /// <summary>
     /// Current device used for sound input.
     /// </summary>
-    public string InputDevice => _inputDevice;
+    public string? InputDevice => _inputDevice;
 
     /// <summary>
     /// List of enabled sound output devices.
     /// </summary>
-    public IEnumerable<SoundDeviceInfo> OutputDeviceList => _outputDeviceList ?? Enumerable.Empty<SoundDeviceInfo>();
+    public IEnumerable<SoundDeviceInfo> OutputDeviceList => _outputDeviceList;
 
     /// <summary>
     /// List of enabled sound input devices.
     /// </summary>
-    public IEnumerable<SoundDeviceInfo> InputDeviceList => _inputDeviceList ?? Enumerable.Empty<SoundDeviceInfo>();
+    public IEnumerable<SoundDeviceInfo> InputDeviceList => _inputDeviceList;
 
     /// <summary>
     /// Input volume 0-100
@@ -157,7 +157,7 @@ public class SoundInformer : BaseInformer
         return ChangeVolume(ref device, volume);
     }
 
-    private bool ChangeVolume(ref MMDevice device, int volume)
+    private bool ChangeVolume(ref MMDevice? device, int volume)
     {
         if (volume is < 0 or > 100)
             return false; // Do nothing if value exceeds.

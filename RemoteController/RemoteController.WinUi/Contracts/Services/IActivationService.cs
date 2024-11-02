@@ -2,5 +2,5 @@
 
 public interface IActivationService : IHostedService
 {
-    Task ActivateAsync(object activationArgs);
+    Task ActivateAsync(LaunchActivatedEventArgs? activationArgs);
 }

@@ -13,12 +13,12 @@ public class FileSystemPath
     /// <summary>
     /// Unique name for path.
     /// </summary>
-    public string Name { get; set; }
+    public required string Name { get; set; }
 
     /// <summary>
     /// Actual path.
     /// </summary>
-    public string Path { get; set; }
+    public required string Path { get; set; }
 
     /// <summary>
     /// Converts fake path to actual path.

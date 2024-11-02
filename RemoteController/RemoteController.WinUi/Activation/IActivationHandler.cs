@@ -2,7 +2,7 @@
 
 public interface IActivationHandler
 {
-    bool CanHandle(object args);
+    bool CanHandle(LaunchActivatedEventArgs? args);
 
-    Task HandleAsync(object args);
+    Task HandleAsync(LaunchActivatedEventArgs? args);
 }
