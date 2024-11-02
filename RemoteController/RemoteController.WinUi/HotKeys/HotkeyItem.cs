@@ -2,8 +2,7 @@
 
 namespace RemoteController.WinUi.HotKeys;
 
-[ObservableObject]
-public abstract partial class HotkeyItem
+public abstract partial class HotkeyItem : ObservableObject
 {
     /// <summary>
     /// Group for hotkey.

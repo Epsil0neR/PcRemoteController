@@ -25,7 +25,7 @@ public class ManipulatorsHosting : IHostedService
         AddManipulations();
     }
 
-    public async Task StartAsync(CancellationToken cancellationToken)
+    public Task StartAsync(CancellationToken cancellationToken)
     {
         IsRunning = true;
         foreach (var manipulation in Manager)
@@ -33,9 +33,10 @@ public class ManipulatorsHosting : IHostedService
             Service.RegisterHandlerForAction(manipulation.Name, ManipulationHandler);
         }
         Manager.ItemStateChanged += ManagerOnItemStateChanged;
+        return Task.CompletedTask;
     }
 
-    public async Task StopAsync(CancellationToken cancellationToken)
+    public Task StopAsync(CancellationToken cancellationToken)
     {
         IsRunning = false;
         Manager.ItemStateChanged -= ManagerOnItemStateChanged;
@@ -43,6 +44,8 @@ public class ManipulatorsHosting : IHostedService
         {
             Service.UnregisterHandlerForAction(manipulation.Name, ManipulationHandler);
         }
+
+        return Task.CompletedTask;
     }
 
     private void PopulateContexts()

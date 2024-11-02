@@ -30,7 +30,7 @@ public class Message
     public object Data { get; set; }
 
     /// <summary>
-    /// Socket which sent this message. (This data does not travels over web sockets)
+    /// Socket which sent this message. (This data does not travel over web sockets)
     /// </summary>
     [JsonIgnore]
     public IWsSocket Sender { get; internal set; }

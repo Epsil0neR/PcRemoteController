@@ -53,7 +53,7 @@ public sealed partial class FoldersPage
         await CreateDialog.ShowAsync();
     }
 
-    private async void CreateDialog_OnPrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+    private void CreateDialog_OnPrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
     {
         var name = CreateName.Text;
         var path = CreatePath.Text;

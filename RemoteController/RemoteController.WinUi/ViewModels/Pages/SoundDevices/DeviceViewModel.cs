@@ -34,7 +34,7 @@ public partial class DeviceViewModel : ObservableObject
         Messenger = messenger;
     }
 
-    partial void OnIsSelectedChanged(bool isSelected)
+    partial void OnIsSelectedChanged(bool value)
     {
         Messenger.Send(new DeviceIsSelectedChanged() { Device = this });
     }

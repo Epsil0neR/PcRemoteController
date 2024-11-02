@@ -22,7 +22,7 @@ public partial class App : Application
     // https://docs.microsoft.com/dotnet/core/extensions/logging
     public IHost Host { get; }
 
-    public LaunchActivatedEventArgs Arguments { get; private set; }
+    public LaunchActivatedEventArgs? Arguments { get; private set; }
 
     public static T GetService<T>()
         where T : class

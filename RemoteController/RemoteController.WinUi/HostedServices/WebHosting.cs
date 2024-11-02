@@ -30,7 +30,7 @@ public class WebHosting : IHostedService
         InformersManager = informersManager ?? throw new ArgumentNullException(nameof(informersManager));
     }
 
-    public async Task StartAsync(CancellationToken cancellationToken)
+    public Task StartAsync(CancellationToken cancellationToken)
     {
         HttpServer.OnGet += OnGetSinglePage;
 
@@ -39,15 +39,18 @@ public class WebHosting : IHostedService
         {
             WebSocketServer.StartServer();
         }
+
+        return Task.CompletedTask;
     }
 
-    public async Task StopAsync(CancellationToken cancellationToken)
+    public Task StopAsync(CancellationToken cancellationToken)
     {
         HttpServer.OnGet -= OnGetSinglePage;
 
         WebSocketServer.ClientConnected -= ServerOnClientConnected;
         _wasRunning = WebSocketServer.IsStarted;
         WebSocketServer.StopServer();
+        return Task.CompletedTask;
     }
 
     public static void OnGetMultiPages(object? sender, HttpRequestEventArgs e)

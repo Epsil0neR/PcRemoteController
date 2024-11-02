@@ -15,16 +15,18 @@ public class InformersHosting : IHostedService
         Server = server ?? throw new ArgumentNullException(nameof(server));
     }
 
-    public async Task StartAsync(CancellationToken cancellationToken)
+    public Task StartAsync(CancellationToken cancellationToken)
     {
         Manager.InformerChanged += ManagerOnInformerChanged;
         Manager.Start();
+        return Task.CompletedTask;
     }
 
-    public async Task StopAsync(CancellationToken cancellationToken)
+    public Task StopAsync(CancellationToken cancellationToken)
     {
         Manager.InformerChanged -= ManagerOnInformerChanged;
         Manager.Stop();
+        return Task.CompletedTask;
     }
 
     private void ManagerOnInformerChanged(object? sender, BaseInformer informer)

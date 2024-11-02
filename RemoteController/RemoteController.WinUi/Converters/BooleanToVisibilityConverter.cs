@@ -16,15 +16,14 @@ public class BooleanToVisibilityConverter : IValueConverter
         return NullVisibility;
     }
 
-    public object ConvertBack(object value, Type targetType, object parameter, string language)
+    public object? ConvertBack(object value, Type targetType, object parameter, string language)
     {
-        if (value is Visibility v)
-        {
-            if (v == TrueVisibility)
-                return true;
-            if (v == FalseVisibility)
-                return false;
-        }
-        return (bool?) null;
+        if (value is not Visibility v) 
+            return null;
+        if (v == TrueVisibility)
+            return true;
+        if (v == FalseVisibility)
+            return false;
+        return null;
     }
 }

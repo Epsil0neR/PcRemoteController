@@ -10,7 +10,7 @@ namespace RemoteController.WinUi.Controls;
 public sealed class KeyVisual : Control
 {
     private const string KeyPresenter = "KeyPresenter";
-    private ContentPresenter _keyPresenter;
+    private ContentPresenter? _keyPresenter;
 
     public object? Content
     {
@@ -72,6 +72,9 @@ public sealed class KeyVisual : Control
         if (Content == null)
             return;
 
+        if (_keyPresenter is null)
+            return;
+
         if (Content?.GetType() == typeof(string))
         {
             Style = GetStyleSize("Text");
@@ -81,7 +84,7 @@ public sealed class KeyVisual : Control
         {
             Style = GetStyleSize("Icon");
 
-            switch ((int)Content)
+            switch (Content as int?)
             {
                 /* We can enable other glyphs in the future
                     case 13: // The Enter key or button.
@@ -102,18 +105,22 @@ public sealed class KeyVisual : Control
 
                 case 91: // The left Windows key
                 case 92: // The right Windows key
-                    PathIcon winIcon = XamlReader.Load(@"<PathIcon xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation"" Data=""M683 1229H0V546h683v683zm819 0H819V546h683v683zm-819 819H0v-683h683v683zm819 0H819v-683h683v683z"" />") as PathIcon;
-                    Viewbox winIconContainer = new Viewbox();
-                    winIconContainer.Child = winIcon;
-                    winIconContainer.HorizontalAlignment = HorizontalAlignment.Center;
-                    winIconContainer.VerticalAlignment = VerticalAlignment.Center;
+                    var winIcon = XamlReader.Load(@"<PathIcon xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation"" Data=""M683 1229H0V546h683v683zm819 0H819V546h683v683zm-819 819H0v-683h683v683zm819 0H819v-683h683v683z"" />") as PathIcon;
+                    var iconDimensions = GetIconSize();
+                    var winIconContainer = new Viewbox
+                    {
+                        Child = winIcon,
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        VerticalAlignment = VerticalAlignment.Center,
+                        Height = iconDimensions,
+                        Width = iconDimensions
+                    };
 
-                    double iconDimensions = GetIconSize();
-                    winIconContainer.Height = iconDimensions;
-                    winIconContainer.Width = iconDimensions;
                     _keyPresenter.Content = winIconContainer;
                     break;
-                default: _keyPresenter.Content = ((VirtualKey)Content).ToString(); break;
+                default: 
+                    _keyPresenter.Content = (Content as VirtualKey?).ToString(); 
+                    break;
             }
         }
     }

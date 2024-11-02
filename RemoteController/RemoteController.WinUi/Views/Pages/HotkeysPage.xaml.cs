@@ -57,7 +57,7 @@ public sealed partial class HotkeysPage
             var resource = App.Current.Resources[resourceKey];
             return true;
         }
-        catch (Exception e)
+        catch (Exception)
         {
             return false;
         }
