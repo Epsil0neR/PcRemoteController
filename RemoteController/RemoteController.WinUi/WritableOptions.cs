@@ -34,7 +34,7 @@ public class WritableOptions<T> : IWritableOptions<T> where T : class, new()
     }
 
     public T Value => _options.CurrentValue;
-    public T Get(string name) => _options.Get(name);
+    public T Get(string? name) => _options.Get(name);
 
     public void Update() => Update(_ => { });
 

@@ -40,7 +40,7 @@ public class HotkeysGestureService : IHotkeysGestureService
     }
 
     /// <inheritdoc />
-    public void Save(string codeName, MultiKeyGesture gesture)
+    public void Save(string codeName, MultiKeyGesture? gesture)
     {
         if (Options.Value.Data.TryGetValue(codeName, out var g) && gesture == g)
             return;

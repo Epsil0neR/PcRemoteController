@@ -53,7 +53,7 @@ public partial class HotkeyGestureEditorViewModel :
 
     public Task OpenEditor(HotkeyItem hotkeyItem) => OpenEditor(hotkeyItem.CodeName, hotkeyItem.Gesture);
 
-    public async Task OpenEditor(string codeName, MultiKeyGesture gesture)
+    public async Task OpenEditor(string codeName, MultiKeyGesture? gesture)
     {
         if (EditGestureDialog is null)
             return;
@@ -87,7 +87,9 @@ public partial class HotkeyGestureEditorViewModel :
         var hotkey = HotkeysGestureService.Hotkeys.FirstOrDefault(x => x.CodeName == GestureEditor.CodeName);
         if (hotkey is not null)
         {
-            hotkey.Gesture = new(gestures!, current.MaxDelay);
+            hotkey.Gesture = current is not null 
+                ? new(gestures!, current.MaxDelay)
+                : new(gestures!);
         }
     }
 
@@ -181,8 +183,14 @@ public partial class HotkeyGestureEditorViewModel :
         CanSaveChanges = true;
     }
 
-    private bool Compare(MultiKeyGesture multiKeyGesture, List<Gesture> gestures)
+    private bool Compare(MultiKeyGesture? multiKeyGesture, List<Gesture> gestures)
     {
+        if (multiKeyGesture is null && gestures.Count == 0)
+            return true;
+
+        if (multiKeyGesture is null)
+            return false;
+
         if (multiKeyGesture.Gestures.Count != gestures.Count)
             return false;
 

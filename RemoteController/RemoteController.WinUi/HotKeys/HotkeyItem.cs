@@ -34,7 +34,7 @@ public abstract partial class HotkeyItem
     /// Gesture that is bound to this Hotkey.
     /// </summary>
     [ObservableProperty]
-    private MultiKeyGesture _gesture;
+    private MultiKeyGesture? _gesture;
 
     /// <summary>
     /// Hotkey execution handler.

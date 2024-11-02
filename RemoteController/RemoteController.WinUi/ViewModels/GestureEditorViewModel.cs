@@ -7,17 +7,17 @@ public partial class GestureEditorViewModel : ObservableObject
 {
     public string CodeName { get; }
 
-    public MultiKeyGesture MultiKeyGesture { get; }
+    public MultiKeyGesture? MultiKeyGesture { get; }
 
     public ObservableCollection<Gesture> Gestures { get; }
 
     public GestureEditorViewModel(
         string codeName, 
-        MultiKeyGesture gesture)
+        MultiKeyGesture? gesture)
     {
         CodeName = codeName ?? throw new ArgumentNullException(nameof(codeName));
-        MultiKeyGesture = gesture ?? throw new ArgumentNullException(nameof(gesture));
+        MultiKeyGesture = gesture;
 
-        Gestures = new(MultiKeyGesture.Gestures.ToList());
+        Gestures = new(gesture?.Gestures.ToList() ?? []);
     }
 }
