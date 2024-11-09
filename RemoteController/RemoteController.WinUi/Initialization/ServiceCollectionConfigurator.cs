@@ -220,7 +220,7 @@ internal static class Factories
     /// <param name="msg"></param>
     private static void AuthMessageHandler(Message msg)
     {
-        var auth = Application.Current.Resolve<IAuthService>();
+        var auth = Application.Current.GetService<IAuthService>();
         var token = msg.Data?.ToString();
 
         // Check if sender already authenticated - in that case return error message to sender and exit message handler.
