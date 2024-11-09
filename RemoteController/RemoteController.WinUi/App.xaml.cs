@@ -53,7 +53,9 @@ public partial class App
             {
                 services
                     .AddSingleton(this)
-                    .AddSingleton(MainWindow)
+                    .AddSingleton<Window>(_ => MainWindow)
+                    .AddSingleton<WindowEx>(_ => MainWindow)
+
                     .AddSingleton<IActivationService, ActivationService>()
                     .AddHostedService<ActivationService>()
 
