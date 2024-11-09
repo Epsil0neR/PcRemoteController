@@ -50,18 +50,18 @@ public class ManipulatorsHosting : IHostedService
 
     private void PopulateContexts()
     {
-        var input = this.Resolve<InputSimulator>();
+        var input = this.GetService<InputSimulator>();
         Manager.SetContext(input.Keyboard);
         Manager.SetContext(input.Mouse);
 
         var fsc = Manager.GetContext<FileSystemContext>();
         if (fsc is null)
         {
-            fsc = this.Resolve<FileSystemContext>();
+            fsc = this.GetService<FileSystemContext>();
             Manager.SetContext(fsc);
         }
 
-        var options = this.Resolve<IOptions<FileSystemOptions>>();
+        var options = this.GetService<IOptions<FileSystemOptions>>();
         fsc.Roots = options.Value.Roots;
     }
 
@@ -77,7 +77,7 @@ public class ManipulatorsHosting : IHostedService
         Add(KeyboardManipulation.GetManipulations());
         Add(MouseManipulation.GetManipulations());
 
-        var soundInformer = this.Resolve<SoundInformer>();
+        var soundInformer = this.GetService<SoundInformer>();
         Manager.Add(new CustomManipulation<SoundInformer?>(soundInformer.GetActionName(), () => soundInformer.CheckForChanges() ? null : soundInformer));
         Manager.Add(new CustomManipulation<bool>("Sound.Output.Volume", input =>
         {

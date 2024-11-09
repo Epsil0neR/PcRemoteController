@@ -81,8 +81,8 @@ public sealed partial class HotkeyItemControl
 
     public HotkeyItemControl()
     {
-        KeyboardHookService = this.Resolve<KeyboardHookService>();
-        Messenger = this.Resolve<IMessenger>();
+        KeyboardHookService = this.GetService<KeyboardHookService>();
+        Messenger = this.GetService<IMessenger>();
 
         InitializeComponent();
     }

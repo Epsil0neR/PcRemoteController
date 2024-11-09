@@ -22,14 +22,21 @@ public partial class App
     // https://docs.microsoft.com/dotnet/core/extensions/logging
     public IHost Host { get; }
 
+    /// <summary>
+    /// Launch event arguments.
+    /// </summary>
     public LaunchActivatedEventArgs? Arguments { get; private set; }
 
+    /// <summary>Gets the service object of the specified type.</summary>
+    /// <typeparam name="T">Type of service object to get</typeparam>
+    /// <returns>A service object of type <typeparamref name="T"/> or throws <see cref="ArgumentException"/>.</returns>
     public static T GetService<T>()
         where T : class
     {
         return (Current as App)!.Host.Services.GetService<T>()
             ?? throw new ArgumentException($"{typeof(T)} needs to be registered in ConfigureServices within App.xaml.cs.");
     }
+
 
     public static WindowEx MainWindow { get; } = new MainWindow();
 
@@ -46,6 +53,7 @@ public partial class App
             {
                 services
                     .AddSingleton(this)
+                    .AddSingleton(MainWindow)
                     .AddSingleton<IActivationService, ActivationService>()
                     .AddHostedService<ActivationService>()
 

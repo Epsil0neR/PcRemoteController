@@ -71,7 +71,7 @@ public sealed partial class HotkeyControl
         if (HotkeyItem is null)
             return;
 
-        var editor = this.Resolve<HotkeyGestureEditorViewModel>();
+        var editor = this.GetService<HotkeyGestureEditorViewModel>();
         await editor.OpenEditor(HotkeyItem);
     }
 
