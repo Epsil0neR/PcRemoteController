@@ -253,8 +253,8 @@ internal static class Factories
         }
 
         if (auth.TryAuthorize(token))
-            msg.Sender.Auth(token);
-        else if (auth.Register(token, string.Empty, string.Empty))
-            msg.Sender.Auth(token);
+            msg.Sender.Auth(token!);
+        else if (auth.Register(token!, string.Empty, string.Empty))
+            msg.Sender.Auth(token!);
     }
 }

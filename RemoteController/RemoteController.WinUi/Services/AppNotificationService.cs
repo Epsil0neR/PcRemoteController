@@ -1,8 +1,6 @@
 ﻿using System.Collections.Specialized;
 using System.Web;
-
 using Microsoft.Windows.AppNotifications;
-
 using RemoteController.WinUi.Contracts.Services;
 
 namespace RemoteController.WinUi.Notifications;

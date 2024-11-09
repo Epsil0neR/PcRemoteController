@@ -9,7 +9,7 @@ using Serilog;
 namespace RemoteController.WinUi;
 
 // To learn more about WinUI 3, see https://docs.microsoft.com/windows/apps/winui/winui3/.
-public partial class App : Application
+public partial class App
 {
     public const string AppName = "RemoteController";
 
@@ -102,7 +102,7 @@ public partial class App : Application
         // https://docs.microsoft.com/windows/windows-app-sdk/api/winrt/microsoft.ui.xaml.application.unhandledexception.
     }
 
-    protected async override void OnLaunched(LaunchActivatedEventArgs args)
+    protected override async void OnLaunched(LaunchActivatedEventArgs args)
     {
         Arguments = args;
         base.OnLaunched(args);

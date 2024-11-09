@@ -1,4 +1,4 @@
-﻿using RemoteController.WinUi.Contracts.Services;
+using RemoteController.WinUi.Contracts.Services;
 using RemoteController.WinUi.ViewModels.Pages;
 
 namespace RemoteController.WinUi.Activation;
@@ -12,13 +12,13 @@ public class DefaultActivationHandler : ActivationHandler<LaunchActivatedEventAr
         _navigationService = navigationService;
     }
 
-    protected override bool CanHandleInternal(LaunchActivatedEventArgs args)
+    protected override bool CanHandleInternal(LaunchActivatedEventArgs? args)
     {
         // None of the ActivationHandlers has handled the activation.
         return _navigationService.Frame?.Content == null;
     }
 
-    protected async override Task HandleInternalAsync(LaunchActivatedEventArgs args)
+    protected override Task HandleInternalAsync(LaunchActivatedEventArgs? args)
     {
         _navigationService.NavigateTo(typeof(GenericViewModel).FullName!, args.Arguments);
 
