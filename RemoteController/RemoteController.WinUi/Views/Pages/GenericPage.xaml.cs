@@ -7,7 +7,7 @@ namespace RemoteController.WinUi.Views.Pages;
 [ViewFor<GenericViewModel>(0)]
 [PageSymbol(Symbol.Home)]
 [Description("Generic")]
-public sealed partial class GenericPage : Page
+public sealed partial class GenericPage
 {
     public GenericViewModel ViewModel { get; } = App.GetService<GenericViewModel>();
 

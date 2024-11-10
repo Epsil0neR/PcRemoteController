@@ -7,7 +7,7 @@ namespace RemoteController.WinUi.Views.Pages;
 [ViewFor<CommandsViewModel>(2)]
 [PageSymbol(Symbol.Remote)]
 [Description("Commands")]
-public sealed partial class CommandsPage : Page
+public sealed partial class CommandsPage
 {
     public CommandsViewModel ViewModel { get; } = App.GetService<CommandsViewModel>();
 

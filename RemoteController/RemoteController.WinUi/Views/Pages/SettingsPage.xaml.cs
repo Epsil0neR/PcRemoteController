@@ -8,7 +8,7 @@ namespace RemoteController.WinUi.Views.Pages;
 [ViewFor<SettingsViewModel>]
 [PageSymbol(Symbol.Setting)]
 [Description("Settings")]
-public sealed partial class SettingsPage : Page
+public sealed partial class SettingsPage
 {
     public SettingsViewModel ViewModel { get; } = App.GetService<SettingsViewModel>();
 

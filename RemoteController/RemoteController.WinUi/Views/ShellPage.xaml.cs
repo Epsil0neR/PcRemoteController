@@ -8,7 +8,7 @@ using WinRT.Interop;
 namespace RemoteController.WinUi.Views;
 
 // TODO: Update NavigationViewItem titles and icons in ShellPage.xaml.
-public sealed partial class ShellPage : Page
+public sealed partial class ShellPage
 {
     private readonly AppWindow _appWindow;
 

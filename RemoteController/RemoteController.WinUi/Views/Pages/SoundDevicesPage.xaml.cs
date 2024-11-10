@@ -8,7 +8,7 @@ namespace RemoteController.WinUi.Views.Pages;
 [ViewFor<SoundDevicesViewModel>(3)]
 [PageSymbol(Symbol.Volume)]
 [Description("Sound devices")]
-public sealed partial class SoundDevicesPage : Page
+public sealed partial class SoundDevicesPage
 {
     public SoundDevicesViewModel ViewModel { get; } = App.GetService<SoundDevicesViewModel>();
 
