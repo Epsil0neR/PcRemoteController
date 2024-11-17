@@ -48,10 +48,8 @@ public class NavigationService : INavigationService
 
     private void RegisterFrameEvents()
     {
-        if (_frame != null)
-        {
+        if (_frame != null) 
             _frame.Navigated += OnNavigated;
-        }
     }
 
     private void UnregisterFrameEvents()
@@ -62,43 +60,40 @@ public class NavigationService : INavigationService
 
     public bool GoBack()
     {
-        if (CanGoBack)
-        {
-            var vmBeforeNavigation = _frame.GetPageViewModel();
-            _frame.GoBack();
-            if (vmBeforeNavigation is INavigationAware navigationAware)
-            {
-                navigationAware.OnNavigatedFrom();
-            }
+        if (!CanGoBack) 
+            return false;
 
-            return true;
-        }
+        var vmBeforeNavigation = _frame.GetPageViewModel();
+        _frame.GoBack();
+        if (vmBeforeNavigation is INavigationAware navigationAware) 
+            navigationAware.OnNavigatedFrom();
 
-        return false;
+        return true;
+
     }
 
     public bool NavigateTo(string pageKey, object? parameter = null, bool clearNavigation = false)
     {
         var pageType = _pageService.GetPageType(pageKey);
 
-        if (_frame != null && (_frame.Content?.GetType() != pageType || (parameter != null && !parameter.Equals(_lastParameterUsed))))
-        {
-            _frame.Tag = clearNavigation;
-            var vmBeforeNavigation = _frame.GetPageViewModel();
-            var navigated = _frame.Navigate(pageType, parameter);
-            if (navigated)
-            {
-                _lastParameterUsed = parameter;
-                if (vmBeforeNavigation is INavigationAware navigationAware)
-                {
-                    navigationAware.OnNavigatedFrom();
-                }
-            }
+        if (_frame is null)
+            return false;
 
-            return navigated;
-        }
+        if (_frame.Content?.GetType() == pageType && (parameter == null || parameter.Equals(_lastParameterUsed))) 
+            return false;
 
-        return false;
+        _frame.Tag = clearNavigation;
+        var vmBeforeNavigation = _frame.GetPageViewModel();
+        var navigated = _frame.Navigate(pageType, parameter);
+        if (!navigated)
+            return false;
+
+        _lastParameterUsed = parameter;
+        if (vmBeforeNavigation is INavigationAware navigationAware) 
+            navigationAware.OnNavigatedFrom();
+
+        return navigated;
+
     }
 
     private void OnNavigated(object sender, NavigationEventArgs e)
