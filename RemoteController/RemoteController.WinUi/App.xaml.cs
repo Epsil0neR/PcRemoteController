@@ -36,7 +36,9 @@ public partial class App
             ?? throw new ArgumentException($"{typeof(T)} needs to be registered in ConfigureServices within App.xaml.cs.");
     }
 
-
+    /// <summary>
+    /// Main application window. Available also in <see cref="IServiceProvider"/>.
+    /// </summary>
     public static WindowEx MainWindow { get; } = new MainWindow();
 
     public App()
@@ -108,6 +110,7 @@ public partial class App
         // https://docs.microsoft.com/windows/windows-app-sdk/api/winrt/microsoft.ui.xaml.application.unhandledexception.
     }
 
+    /// <inheritdoc />
     protected override async void OnLaunched(LaunchActivatedEventArgs args)
     {
         Arguments = args;
