@@ -4,6 +4,9 @@ using RemoteController.WinUi.Views;
 
 namespace RemoteController.WinUi.Services;
 
+/// <summary>
+/// (Hosted service) Service to activate application window.
+/// </summary>
 public class ActivationService : IActivationService
 {
     private readonly ActivationHandler<LaunchActivatedEventArgs> _defaultHandler;
@@ -25,6 +28,7 @@ public class ActivationService : IActivationService
         _app = app;
     }
 
+    /// <inheritdoc />
     public async Task ActivateAsync(LaunchActivatedEventArgs? activationArgs)
     {
         // Execute tasks before activation.
@@ -61,22 +65,19 @@ public class ActivationService : IActivationService
     private async Task InitializeAsync()
     {
         await _themeSelectorService.InitializeAsync().ConfigureAwait(false);
-        await Task.CompletedTask;
     }
 
     private async Task StartupAsync()
     {
         await _themeSelectorService.SetRequestedThemeAsync();
-        await Task.CompletedTask;
     }
 
+    /// <inheritdoc />
     public async Task StartAsync(CancellationToken cancellationToken)
     {
         await ActivateAsync(_app.Arguments);
     }
 
-    public Task StopAsync(CancellationToken cancellationToken)
-    {
-        return Task.CompletedTask;
-    }
+    /// <inheritdoc />
+    public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
 }
