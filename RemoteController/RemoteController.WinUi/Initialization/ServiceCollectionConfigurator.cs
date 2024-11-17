@@ -60,11 +60,11 @@ internal static class ServiceCollectionConfigurator
         .AddSingleton<ILocalSettingsService, LocalSettingsService>()
         .AddSingleton<IThemeSelectorService, ThemeSelectorService>()
         .AddTransient<INavigationViewService, NavigationViewService>()
-        .AddSingleton<IActivationService, ActivationService>()
         .AddSingleton<IPageService, PageService>()
         .AddSingleton<INavigationService, NavigationService>()
         .AddSingleton<IFileService, FileService>()
-        .AddSingleton<ISoundDevicesService, SoundDevicesService>();
+        .AddSingleton<ISoundDevicesService, SoundDevicesService>()
+        .AddHostedServiceSingleton<IActivationService, ActivationService>();
 
     public static IServiceCollection AddViewModels(this IServiceCollection services) => services
         .AddTransient<SettingsViewModel>()
@@ -91,7 +91,7 @@ internal static class ServiceCollectionConfigurator
             .AddSingleton(s => Factories.HttpServer(s, s.GetRequiredService<IWritableOptions<ServerOptions>>()))
             .AddSingleton<WsServer>(Factories.WsServer)
             .AddSingleton<WsService>(Factories.WsService)
-            .AddHostedService<WebHosting>()
+            .AddHostedServiceSingleton<WebHosting>()
             ;
     }
 
@@ -101,7 +101,7 @@ internal static class ServiceCollectionConfigurator
             .AddSingleton<CommandsInformer>()
             .AddSingleton<SoundInformer>()
             .AddSingleton<InformersManager>(Factories.InformersManager)
-            .AddHostedService<InformersHosting>()
+            .AddHostedServiceSingleton<InformersHosting>()
             ;
     }
 
@@ -112,7 +112,7 @@ internal static class ServiceCollectionConfigurator
             .AddSingleton<InputSimulator>()
             .AddSingleton<FileSystemContext>()
             .AddSingleton<IManipulatorsManager, ManipulatorsManager>()
-            .AddHostedService<ManipulatorsHosting>()
+            .AddHostedServiceSingleton<ManipulatorsHosting>()
             ;
     }
 }

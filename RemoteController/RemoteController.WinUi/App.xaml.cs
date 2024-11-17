@@ -3,7 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 using RemoteController.WinUi.Activation;
 using RemoteController.WinUi.Contracts.Services;
 using RemoteController.WinUi.Initialization;
-using RemoteController.WinUi.Services;
 using Serilog;
 
 namespace RemoteController.WinUi;
@@ -55,9 +54,6 @@ public partial class App
                     .AddSingleton(this)
                     .AddSingleton<Window>(_ => MainWindow)
                     .AddSingleton<WindowEx>(_ => MainWindow)
-
-                    .AddSingleton<IActivationService, ActivationService>()
-                    .AddHostedService<ActivationService>()
 
                     .AddSingleton<WeakReferenceMessenger>()
                     .AddSingleton<IMessenger, WeakReferenceMessenger>(provider => provider.GetRequiredService<WeakReferenceMessenger>())

@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using RemoteController.WinUi.Extensions;
 using RemoteController.WinUi.HotKeys;
 
 namespace RemoteController.WinUi.Initialization;
@@ -22,6 +23,6 @@ internal static class HotkeysServiceCollectionConfigurator
         return services
             .AddSingleton<HotkeyGestureEditorViewModel>()
             .AddSingleton<IHotkeysGestureService, HotkeysGestureService>()
-            .AddHostedService<HotkeysHostedService>();
+            .AddHostedServiceSingleton<HotkeysHostedService>();
     }
 }
