@@ -7,7 +7,7 @@ namespace RemoteController.WinUi.Services;
 /// <summary>
 /// (Hosted service) Service to activate application window.
 /// </summary>
-public class ActivationService : IActivationService
+public class ActivationHostedService : IActivationService, IHostedService
 {
     private readonly ActivationHandler<LaunchActivatedEventArgs> _defaultHandler;
     private readonly IEnumerable<IActivationHandler> _activationHandlers;
@@ -15,7 +15,7 @@ public class ActivationService : IActivationService
     private readonly App _app;
     private UIElement? _shell;
 
-    public ActivationService(
+    public ActivationHostedService(
         ActivationHandler<LaunchActivatedEventArgs> defaultHandler, 
         IEnumerable<IActivationHandler> activationHandlers, 
         IThemeSelectorService themeSelectorService,

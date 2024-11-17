@@ -3,7 +3,7 @@
 /// <summary>
 /// Service to activate application window.
 /// </summary>
-public interface IActivationService : IHostedService
+public interface IActivationService
 {
     /// <summary>
     /// Activates application window and shows to user.
