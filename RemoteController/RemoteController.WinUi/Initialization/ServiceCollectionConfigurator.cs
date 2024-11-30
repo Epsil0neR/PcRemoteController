@@ -64,7 +64,7 @@ internal static class ServiceCollectionConfigurator
         .AddSingleton<INavigationService, NavigationService>()
         .AddSingleton<IFileService, FileService>()
         .AddSingleton<ISoundDevicesService, SoundDevicesService>()
-        .AddHostedServiceSingleton<IActivationService, ActivationService>();
+        .AddHostedServiceSingleton<IActivationService, ActivationHostedService>();
 
     public static IServiceCollection AddViewModels(this IServiceCollection services) => services
         .AddTransient<SettingsViewModel>()
@@ -76,7 +76,7 @@ internal static class ServiceCollectionConfigurator
         .AddTransient<ShellViewModel>();
 
     public static IServiceCollection AddViews(this IServiceCollection services) => services
-        // By default all pages are added as Transient.
+        // By default, all pages are added as Transient.
         .AddSingleton<SettingsPage>()
         .AddSingleton<HotkeysPage>()
         .AddSingleton<SoundDevicesPage>()
