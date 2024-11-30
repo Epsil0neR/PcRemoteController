@@ -11,8 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RemoteController.Informer",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RemoteController.Client", "RemoteController.Client\RemoteController.Client.csproj", "{75AF5556-5F1F-4D31-81E8-B9178AC292E9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RemoteController", "RemoteController\RemoteController.csproj", "{BDC2001C-20AF-4B26-9350-D4FE0E65A717}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Angular", "Angular", "{5D0FCEAA-AF1B-4588-8BD4-785D2916D0BB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RemoteController.Core", "RemoteController.Core\RemoteController.Core.csproj", "{E884C770-6A1D-4429-BDFC-E2A0A95E9FDD}"
@@ -112,22 +110,6 @@ Global
 		{75AF5556-5F1F-4D31-81E8-B9178AC292E9}.Release|x64.Build.0 = Release|Any CPU
 		{75AF5556-5F1F-4D31-81E8-B9178AC292E9}.Release|x86.ActiveCfg = Release|Any CPU
 		{75AF5556-5F1F-4D31-81E8-B9178AC292E9}.Release|x86.Build.0 = Release|Any CPU
-		{BDC2001C-20AF-4B26-9350-D4FE0E65A717}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BDC2001C-20AF-4B26-9350-D4FE0E65A717}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BDC2001C-20AF-4B26-9350-D4FE0E65A717}.Debug|arm64.ActiveCfg = Debug|Any CPU
-		{BDC2001C-20AF-4B26-9350-D4FE0E65A717}.Debug|arm64.Build.0 = Debug|Any CPU
-		{BDC2001C-20AF-4B26-9350-D4FE0E65A717}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{BDC2001C-20AF-4B26-9350-D4FE0E65A717}.Debug|x64.Build.0 = Debug|Any CPU
-		{BDC2001C-20AF-4B26-9350-D4FE0E65A717}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{BDC2001C-20AF-4B26-9350-D4FE0E65A717}.Debug|x86.Build.0 = Debug|Any CPU
-		{BDC2001C-20AF-4B26-9350-D4FE0E65A717}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BDC2001C-20AF-4B26-9350-D4FE0E65A717}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BDC2001C-20AF-4B26-9350-D4FE0E65A717}.Release|arm64.ActiveCfg = Release|Any CPU
-		{BDC2001C-20AF-4B26-9350-D4FE0E65A717}.Release|arm64.Build.0 = Release|Any CPU
-		{BDC2001C-20AF-4B26-9350-D4FE0E65A717}.Release|x64.ActiveCfg = Release|Any CPU
-		{BDC2001C-20AF-4B26-9350-D4FE0E65A717}.Release|x64.Build.0 = Release|Any CPU
-		{BDC2001C-20AF-4B26-9350-D4FE0E65A717}.Release|x86.ActiveCfg = Release|Any CPU
-		{BDC2001C-20AF-4B26-9350-D4FE0E65A717}.Release|x86.Build.0 = Release|Any CPU
 		{E884C770-6A1D-4429-BDFC-E2A0A95E9FDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E884C770-6A1D-4429-BDFC-E2A0A95E9FDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E884C770-6A1D-4429-BDFC-E2A0A95E9FDD}.Debug|arm64.ActiveCfg = Debug|Any CPU
