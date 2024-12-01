@@ -88,9 +88,13 @@ public partial class App
             .UseSerilog((context, services, configuration) =>
             {
                 configuration
+#if DEBUG
                     .MinimumLevel.Verbose()
-                    .WriteTo.File("Logs/All.log")
                     .WriteTo.Debug()
+#else
+                    .MinimumLevel.Information()
+#endif
+                    .WriteTo.File("Logs/All.log")
                     //.ReadFrom.Configuration(context.Configuration)
                     ;
             })
