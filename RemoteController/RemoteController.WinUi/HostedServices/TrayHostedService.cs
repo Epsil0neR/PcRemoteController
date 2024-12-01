@@ -38,6 +38,7 @@ public partial class TrayHostedService : IHostedService
                 NoLeftClickDelay = true,
                 LeftClickCommand = LeftClickCommand,
                 MiddleClickCommand = MiddleClickCommand,
+                ContextMenuMode = ContextMenuMode.SecondWindow,
                 ContextFlyout = new MenuFlyout()
                 {
                     AreOpenCloseAnimationsEnabled = true,
