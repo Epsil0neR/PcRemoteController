@@ -94,7 +94,7 @@ public partial class App
 #else
                     .MinimumLevel.Information()
 #endif
-                    .WriteTo.File("Logs/All.log")
+                    .WriteTo.File("Logs/All.log", fileSizeLimitBytes: 100*1024*1024) //Limit: 100 Mb
                     //.ReadFrom.Configuration(context.Configuration)
                     ;
             })
