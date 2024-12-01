@@ -107,6 +107,9 @@ public sealed partial class HotkeyItemControl
         if (modifiers == VirtualKeyModifiers.None && Key == VirtualKey.None)
             return null;
 
+        if (Key is VirtualKey.None)
+            return null;
+
         return new(Key, modifiers);
     }
 
