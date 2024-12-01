@@ -6,6 +6,7 @@ using System.ComponentModel;
 
 namespace RemoteController.WinUi.HotKeys;
 
+/// <inheritdoc cref="IHotkeysGestureService"/> />
 public class HotkeysGestureService : IHotkeysGestureService
 {
     public IHotkeysService Service { get; }

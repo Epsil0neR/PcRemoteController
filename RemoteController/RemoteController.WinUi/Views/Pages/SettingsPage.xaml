@@ -13,7 +13,24 @@
     <Grid>
         <StackPanel
             x:Name="ContentArea">
-            <TextBlock x:Uid="Settings_Personalization" Style="{ThemeResource SubtitleTextBlockStyle}" />
+
+            <TextBlock 
+                Text="Logs"
+                Style="{ThemeResource SubtitleTextBlockStyle}" />
+
+            <Button 
+                Margin="0 8"
+                Content="Open Logs folder"
+                Command="{x:Bind ViewModel.OpenLogsFolderCommand}"
+                />
+            <Button
+                Content="Open log"
+                Command="{x:Bind ViewModel.OpenLogFileCommand}"
+                />
+
+            <TextBlock 
+                x:Uid="Settings_Personalization" 
+                Style="{ThemeResource SubtitleTextBlockStyle}" />
             <StackPanel Margin="{StaticResource SmallTopBottomMargin}">
                 <TextBlock x:Uid="Settings_Theme" />
 
