@@ -1,6 +1,5 @@
 ﻿using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
-using Epsiloner.WinUi.Configurations;
 using Epsiloner.WinUi.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,7 +9,6 @@ using RemoteController.Manipulator.Contexts;
 using RemoteController.Services;
 using RemoteController.Sound;
 using RemoteController.WebSocket;
-using RemoteController.WinUi.Configuration;
 using RemoteController.WinUi.Contracts.Services;
 using RemoteController.WinUi.Core.Contracts.Services;
 using RemoteController.WinUi.Core.Options;
@@ -52,8 +50,7 @@ internal static class ServiceCollectionConfigurator
 
     public static IServiceCollection AddWinUiCore(this IServiceCollection services) => services
         .AddSingleton<KeyboardHookService>()
-        .AddSingleton<IHotkeysService, HotkeysService>()
-        .AddSingleton<IHotkeyServiceConfiguration, HotkeyServiceConfiguration>();
+        .AddSingleton<IHotkeysService, HotkeysService>();
 
     public static IServiceCollection AddServices(this IServiceCollection services) => services
         .AddSingleton<IAppNotificationService, AppNotificationService>()

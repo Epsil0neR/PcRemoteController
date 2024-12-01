@@ -29,9 +29,11 @@ public class HotkeysGestureService : IHotkeysGestureService
     /// <inheritdoc />
     public void Load()
     {
+        // Load initial gestures from options.
         foreach (var pair in Options.Value.Data)
             Service.Change(pair.Key, pair.Value);
 
+        // Update all hotkeys to match gestures from options.
         foreach (var hotkeyItem in Hotkeys)
         {
             if (Options.Value.Data.TryGetValue(hotkeyItem.CodeName, out var gesture))
@@ -69,6 +71,9 @@ public class HotkeysGestureService : IHotkeysGestureService
             hotkeyItem.PropertyChanged -= HotkeyItemOnPropertyChanged;
     }
 
+    /// <summary>
+    /// Track gesture changes from hotkey and update options.
+    /// </summary>
     private void HotkeyItemOnPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
         if (e.PropertyName != nameof(HotkeyItem.Gesture))
