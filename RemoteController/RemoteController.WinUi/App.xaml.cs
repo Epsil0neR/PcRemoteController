@@ -100,6 +100,7 @@ public partial class App
 
         GetService<IAppNotificationService>().Initialize();
 
+        MainWindow.Closed += MainWindowOnClosed;
         UnhandledException += App_UnhandledException;
     }
 
@@ -120,5 +121,10 @@ public partial class App
         //GetService<IAppNotificationService>().Show(string.Format("AppNotificationSamplePayload".GetLocalized(), AppContext.BaseDirectory));
 
         await Host.StartAsync();
+    }
+
+    private async void MainWindowOnClosed(object sender, WindowEventArgs args)
+    {
+        await Host.StopAsync();
     }
 }
