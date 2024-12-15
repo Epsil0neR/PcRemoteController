@@ -1,32 +1,53 @@
-﻿using Epsiloner.WinUi.Gestures;
-using Epsiloner.WinUi.Services;
-using Windows.System;
+﻿using Epsiloner.WinUi.Services;
+using RemoteController.WinUi.HotKeys;
 
 namespace RemoteController.WinUi.ViewModels.Pages;
 
-public partial class HotkeysViewModel : ObservableObject
+public class GroupedHotkeys : List<HotkeyItem>
 {
-    public IHotkeysService Service { get; }
 
-    public HotkeysViewModel(IHotkeysService service)
+    public GroupedHotkeys(IGrouping<HotkeyGroup, HotkeyItem> items)
+        : base(items)
     {
-        Service = service;
+        Group = items.Key;
     }
 
+    public GroupedHotkeys(IEnumerable<HotkeyItem> items)
+        : base(items)
+    {
+    }
+
+    public HotkeyGroup Group { get; init; }
+}
+
+public partial class HotkeysViewModel : ObservableObject
+{
+
+    public IHotkeysService Service { get; }
+
+    public HotkeysViewModel(IHotkeysService service, IEnumerable<HotkeyItem> hotkeys)
+    {
+        Service = service;
+        Grouped = hotkeys
+            .GroupBy(x => x.Group)
+            .OrderBy(x => x.Key)
+            .Select(x => new GroupedHotkeys(x))
+            .ToList();
+    }
+
+    public List<GroupedHotkeys> Grouped { get; }
+
     [RelayCommand]
-    void RestartHook()
+    private void RestartHook()
     {
         Service.ReattachHooks();
     }
 
-    public MultiKeyGesture TestGestures { get; } = new(new Gesture[]
+    public static RelayCommand<HotkeyItem> ClearHotkeyCommand { get; } = new(hotkey =>
     {
-        new(VirtualKey.A, VirtualKeyModifiers.Control | VirtualKeyModifiers.Menu | VirtualKeyModifiers.Shift | VirtualKeyModifiers.Windows),
-        new(VirtualKey.B, VirtualKeyModifiers.Shift),
-        new(VirtualKey.Left),
-        new(VirtualKey.Up),
-        new(VirtualKey.Right),
-        new(VirtualKey.Down),
-        new(VirtualKey.Back),
+        if (hotkey is null)
+            return;
+
+        hotkey.Gesture = null;
     });
 }

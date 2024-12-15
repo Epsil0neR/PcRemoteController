@@ -4,17 +4,47 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:controls="using:RemoteController.WinUi.Controls"
-    xmlns:system="using:Windows.System"
     xmlns:cc="using:RemoteController.WinUi.Controls.Controls"
+    xmlns:pages="using:RemoteController.WinUi.ViewModels.Pages"
+    xmlns:hotKeys="using:RemoteController.WinUi.HotKeys"
+    xmlns:winUi="using:CommunityToolkit.Labs.WinUI"
+    xmlns:controls="using:RemoteController.WinUi.Controls"
     mc:Ignorable="d">
     <cc:PageWithHeaderContent.Resources>
+        <DataTemplate
+            x:Key="DataTemplate.HotkeyItem"
+            x:DataType="hotKeys:HotkeyItem">
+            <winUi:SettingsCard
+                Header="{x:Bind Title}"
+                Description="{x:Bind Description}">
+                <StackPanel Orientation="Horizontal">
+                    <controls:HotkeyControl 
+                        VerticalAlignment="Center"
+                        HotkeyItem="{x:Bind Mode=OneWay}" />
+                    <Button 
+                        VerticalAlignment="Stretch"
+                        Margin="2 4 0 4"
+                        Command="{x:Bind pages:HotkeysViewModel.ClearHotkeyCommand}"
+                        CommandParameter="{x:Bind Mode=OneWay}"
+                        Content="Clear" />
+                </StackPanel>
+            </winUi:SettingsCard>
+        </DataTemplate>
         <DataTemplate 
-            x:Key="DataTemplate.VirtualKey" 
-            d:DataContext="{d:DesignInstance system:VirtualKey}">
-            <!--<TextBlock Text="{Binding}" />-->
-            <controls:VirtualKeyVisual Key="{Binding}" Style="{StaticResource VirtualKeyVisual.Style.Large}" />
-            <!--<controls:KeyVisual Content="{Binding}" />-->
+            x:Key="DataTemplate.Group"
+            x:DataType="pages:GroupedHotkeys">
+            <StackPanel 
+                Orientation="Vertical"
+                Margin="0 0 0 12">
+                <TextBlock 
+                    Text="{x:Bind Group}"
+                    Style="{ThemeResource SubtitleTextBlockStyle}"
+                    Margin="0 0 0 8"/>
+
+                <ItemsControl
+                    ItemsSource="{x:Bind}"
+                    ItemTemplate="{StaticResource DataTemplate.HotkeyItem}"/>
+            </StackPanel>
         </DataTemplate>
     </cc:PageWithHeaderContent.Resources>
     <cc:PageWithHeaderContent.HeaderContent>
@@ -22,12 +52,10 @@
             Content="Restart hooks"
             Command="{x:Bind ViewModel.RestartHookCommand}" />
     </cc:PageWithHeaderContent.HeaderContent>
-    <StackPanel 
-        x:Name="ContentArea" 
-        Orientation="Vertical">
-
-        <controls:MultiKeyGestureVisual 
-            Style="{StaticResource MultiKeyGestureVisual.Style.Large}"
-            MultiKeyGesture="{x:Bind ViewModel.TestGestures}" />
+    <StackPanel Orientation="Vertical">
+        <ItemsControl
+            ItemsSource="{x:Bind ViewModel.Grouped}"
+            ItemTemplate="{StaticResource DataTemplate.Group}">
+        </ItemsControl>
     </StackPanel>
 </cc:PageWithHeaderContent>
