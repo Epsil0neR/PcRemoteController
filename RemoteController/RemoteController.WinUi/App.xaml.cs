@@ -116,7 +116,7 @@ public partial class App
     }
 
     /// <inheritdoc />
-    protected override async void OnLaunched(LaunchActivatedEventArgs args)
+    protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
         Arguments = args;
         base.OnLaunched(args);
@@ -124,11 +124,11 @@ public partial class App
         //TODO: Uncomment next line to show notification on app launch.
         //GetService<IAppNotificationService>().Show(string.Format("AppNotificationSamplePayload".GetLocalized(), AppContext.BaseDirectory));
 
-        await Host.StartAsync();
+        Host.StartAsync();
     }
 
-    private async void MainWindowOnClosed(object sender, WindowEventArgs args)
+    private void MainWindowOnClosed(object sender, WindowEventArgs args)
     {
-        await Host.StopAsync();
+        Host.StopAsync();
     }
 }
