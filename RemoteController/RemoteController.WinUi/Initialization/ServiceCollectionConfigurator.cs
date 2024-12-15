@@ -120,9 +120,9 @@ internal static class Factories
     public static HttpServer HttpServer(IServiceProvider services, IWritableOptions<ServerOptions> options)
     {
         var logger = services.GetRequiredService<ILogger<HttpServer>>();
-        var cert = new X509Certificate2(
-            Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "RemoteController.pfx"),
-            "{0x719dca02,0xb331,0x45fb,{0xb8,0xd1,0xbb,0x39,0xec,0x5d,0x39,0x8b}}");
+        var certPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "RemoteController.pfx");
+        var certPass = "{0x719dca02,0xb331,0x45fb,{0xb8,0xd1,0xbb,0x39,0xec,0x5d,0x39,0x8b}}";
+        var cert = new X509Certificate2(certPath, certPass);
         var http = new HttpServer(options.Value.Port, true)
         {
             KeepClean = true,
