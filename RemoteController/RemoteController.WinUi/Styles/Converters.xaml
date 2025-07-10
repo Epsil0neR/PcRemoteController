@@ -13,4 +13,6 @@
     <c:SliderTooltipConverter 
         x:Key="Converter.SliderTooltip.Volume" 
         LeftPart="Volume: " />
+    <c:NullToTrueConverter x:Key="Converter.NullToTrue" />
+    <c:NullToFalseConverter x:Key="Converter.NullToFalse" />
 </ResourceDictionary>
