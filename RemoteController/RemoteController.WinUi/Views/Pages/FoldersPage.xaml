@@ -21,7 +21,7 @@
                     <Button
                         Height="32"
                         ToolTipService.ToolTip="Change folder"
-                        ToolTipService.Placement="Bottom"
+                        ToolTipService.Placement="Top"
                         Click="FileSystemPath_OnClickEditPath"
                         CommandParameter="{x:Bind}"
                         Margin="8 0"
@@ -38,7 +38,7 @@
                     <Button
                         Background="{StaticResource Brush.Error.Dark}"
                         ToolTipService.ToolTip="Delete"
-                        ToolTipService.Placement="Bottom"
+                        ToolTipService.Placement="Top"
                         Command="{Binding ElementName=root, Path=ViewModel.DeletePathCommand}"
                         CommandParameter="{x:Bind Name}"
                         Height="32"

@@ -13,14 +13,25 @@
     HeaderIcon="{ui:FontIcon Glyph=&#xE7F5;}"
     >
     <StackPanel Orientation="Horizontal">
+        <ToggleButton
+            IsChecked="{x:Bind ViewModel.LockedVolume, Converter={StaticResource Converter.NullToFalse}, Mode=OneWay}"
+            Command="{x:Bind ViewModel.ToggleLockVolumeCommand}"
+            VerticalAlignment="Stretch"
+            ToolTipService.ToolTip="System won't be able to change volume while locked."
+            ToolTipService.Placement="Top"
+            Margin="2 4 0 4">
+            <FontIcon Glyph="&#xE72E;" />
+        </ToggleButton>
         <Slider 
             Minimum="0"
             Maximum="100"
             StepFrequency="2"
             SmallChange="2"
             Value="{x:Bind ViewModel.Volume, Mode=TwoWay}"
+            IsEnabled="{x:Bind ViewModel.LockedVolume, Converter={StaticResource Converter.NullToTrue}, Mode=OneWay}"
             Margin="8 0"
             Width="200"
+            VerticalAlignment="Center"
             ThumbToolTipValueConverter="{StaticResource Converter.SliderTooltip.Volume}">
             <i:Interaction.Behaviors>
                 <behaviors:ScrollSliderWithMouseWheelBehavior />
