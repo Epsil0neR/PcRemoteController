@@ -67,6 +67,7 @@
         </winUi:SettingsExpander>
 
         <!--TODO: Remove this sample code.-->
+        <!--
         <winUi:SettingsExpander
             Header="Header"
             Description="Description"
@@ -79,7 +80,8 @@
 
             </winUi:SettingsExpander.Items>
         </winUi:SettingsExpander>
-        
+        -->
+
         <!--
         SettingsCard
         ~ Title Informers
