@@ -200,7 +200,7 @@ public sealed class SoundInformer : BaseInformer
 
     public SoundInformer()
     {
-        _cooldown = new(TimeSpan.FromSeconds(5), () =>
+        _cooldown = new(TimeSpan.FromMilliseconds(1000), () =>
         {
             CheckForChanges();
             _cooldown!.Accumulate();
