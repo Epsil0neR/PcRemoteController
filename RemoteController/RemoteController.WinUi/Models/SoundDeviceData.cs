@@ -14,4 +14,9 @@ public class SoundDeviceData
     /// Indicates if it will be used with switch sound device command (output and input has different commands)
     /// </summary>
     public bool SwitchCommand { get; set; }
+
+    /// <summary>
+    /// Indicates if volume for device is locked. Locked volume means that application will always force that volume over any changes.
+    /// </summary>
+    public int? LockedVolume { get; set; }
 }

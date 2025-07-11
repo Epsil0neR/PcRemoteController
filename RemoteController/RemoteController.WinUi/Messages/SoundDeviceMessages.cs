@@ -29,3 +29,9 @@ public class ChangeVolumeForDeviceRequest
 
     public required int Volume { get; init; }
 }
+
+public class LockVolumeForDeviceRequest
+{
+    public required DeviceViewModel Device { get; init; }
+    public required int? LockedVolume { get; init; }
+}

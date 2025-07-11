@@ -3,6 +3,7 @@ using CommunityToolkit.WinUI;
 using Epsiloner.WinUi.Services;
 using RemoteController.Informer;
 using RemoteController.WinUi.Core.Options;
+using RemoteController.WinUi.HostedServices;
 using RemoteController.WinUi.HotKeys.Items;
 using RemoteController.WinUi.Messages;
 using RemoteController.WinUi.Models;
@@ -15,7 +16,8 @@ public partial class SoundDevicesViewModel :
     IDisposable,
     IRecipient<DeviceIsSelectedChanged>,
     IRecipient<SystemDefaultSoundDeviceRequest>,
-    IRecipient<ChangeVolumeForDeviceRequest>
+    IRecipient<ChangeVolumeForDeviceRequest>,
+    IRecipient<LockVolumeForDeviceRequest>
 {
     private readonly DispatcherQueue _dispatcher;
     private readonly ILogger<SoundDevicesViewModel> _logger;
@@ -40,6 +42,7 @@ public partial class SoundDevicesViewModel :
     public IWritableOptions<SoundDevicesOptions> SoundDevicesOptions { get; }
 
     public ISoundDevicesService Service { get; }
+    public LockedSoundDeviceVolumeHostedService LockedSoundDeviceVolumeHostedService { get; }
 
     public IHotkeysService HotkeysService { get; }
 
@@ -55,6 +58,7 @@ public partial class SoundDevicesViewModel :
         IMessenger messenger,
         IWritableOptions<SoundDevicesOptions> soundDevicesOptions,
         ISoundDevicesService service,
+        LockedSoundDeviceVolumeHostedService lockedSoundDeviceVolumeHostedService,
         IHotkeysService hotkeysService,
         SwitchSoundOutputHotkey switchSoundOutputHotkey,
         SwitchSoundInputHotkey switchSoundInputHotkey)
@@ -65,6 +69,7 @@ public partial class SoundDevicesViewModel :
         Messenger = messenger ?? throw new ArgumentNullException(nameof(messenger));
         SoundDevicesOptions = soundDevicesOptions ?? throw new ArgumentNullException(nameof(soundDevicesOptions));
         Service = service ?? throw new ArgumentNullException(nameof(service));
+        LockedSoundDeviceVolumeHostedService = lockedSoundDeviceVolumeHostedService ?? throw new ArgumentNullException(nameof(lockedSoundDeviceVolumeHostedService));
         HotkeysService = hotkeysService ?? throw new ArgumentNullException(nameof(hotkeysService));
         SwitchSoundOutputHotkey = switchSoundOutputHotkey ?? throw new ArgumentNullException(nameof(switchSoundOutputHotkey));
         SwitchSoundInputHotkey = switchSoundInputHotkey ?? throw new ArgumentNullException(nameof(switchSoundInputHotkey));
@@ -107,6 +112,7 @@ public partial class SoundDevicesViewModel :
         var options = isInput
             ? SoundDevicesOptions.Value.Inputs
             : SoundDevicesOptions.Value.Outputs;
+        var option = options.FirstOrDefault(x => x.DeviceName == info.Name);
         var defaultDevice = isInput
             ? SoundInformer.InputDevice
             : SoundInformer.OutputDevice;
@@ -122,9 +128,11 @@ public partial class SoundDevicesViewModel :
             IsInput = isInput,
         };
 
-        device.IsSelected = options.Any(x => x.DeviceName == info.Name && x.SwitchCommand);
+        device.IsSelected = option?.SwitchCommand ?? false;
         device.IsSystemDefault = string.Equals(defaultDevice, info.Name);
         device.Volume = (int)info.Volume;
+        if (option?.LockedVolume is not null)
+            device.LockedVolume = option.LockedVolume;
 
         if (add)
         {
@@ -141,7 +149,7 @@ public partial class SoundDevicesViewModel :
     {
         if (_updatingDevices)
             return;
-
+        
         SoundDevicesOptions.Update(x =>
         {
             UpdateOptions(x.Inputs, InputDevices);
@@ -166,6 +174,11 @@ public partial class SoundDevicesViewModel :
             SoundInformer.ChangeInputVolume(message.Device.Name, message.Volume);
         else
             SoundInformer.ChangeOutputVolume(message.Device.Name, message.Volume);
+    }
+
+    public void Receive(LockVolumeForDeviceRequest message)
+    {
+        LockedSoundDeviceVolumeHostedService.LockVolume(message.Device.Name, message.Device.IsInput, message.LockedVolume);
     }
 
     private void UpdateOptions(List<SoundDeviceData> options, IReadOnlyList<DeviceViewModel> items)

@@ -62,7 +62,9 @@ internal static class ServiceCollectionConfigurator
         .AddSingleton<IFileService, FileService>()
         .AddSingleton<ISoundDevicesService, SoundDevicesService>()
         .AddHostedServiceSingleton<IActivationService, ActivationHostedService>()
-        .AddHostedServiceSingleton<TrayHostedService>();
+        .AddHostedServiceSingleton<TrayHostedService>()
+        .AddHostedServiceSingleton<LockedSoundDeviceVolumeHostedService>()
+    ;
 
     public static IServiceCollection AddViewModels(this IServiceCollection services) => services
         .AddTransient<SettingsViewModel>()

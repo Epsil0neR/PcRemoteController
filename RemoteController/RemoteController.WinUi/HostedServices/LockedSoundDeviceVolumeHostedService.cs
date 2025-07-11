@@ -1,0 +1,177 @@
+﻿using RemoteController.Informer;
+using RemoteController.WinUi.Core.Options;
+using RemoteController.WinUi.Models;
+using RemoteController.WinUi.Services;
+using RemoteController.WinUi.ViewModels.Pages.SoundDevices;
+
+namespace RemoteController.WinUi.HostedServices;
+
+public class LockedSoundDeviceVolumeHostedService : IHostedService
+{
+    private readonly Dictionary<string, int> _inputs = new();
+    private readonly Dictionary<string, int> _outputs = new();
+
+    public ISoundDevicesService Service { get; }
+    public IWritableOptions<SoundDevicesOptions> Options { get; }
+    public InformersManager InformersManager { get; }
+    public SoundInformer SoundInformer { get; }
+
+    public LockedSoundDeviceVolumeHostedService(
+        ISoundDevicesService service,
+        IWritableOptions<SoundDevicesOptions> options,
+        InformersManager informersManager
+        )
+    {
+        Service = service ?? throw new ArgumentNullException(nameof(service));
+        Options = options ?? throw new ArgumentNullException(nameof(options));
+        InformersManager = informersManager ?? throw new ArgumentNullException(nameof(informersManager));
+        SoundInformer = InformersManager.Informer<SoundInformer>() ?? throw new ArgumentException(@"Sound informer is not available in manager.", nameof(informersManager));
+    }
+
+    public async Task StartAsync(CancellationToken cancellationToken)
+    {
+        Initialize(Options.Value);
+        SoundInformer.Changed += SoundInformerOnChanged;
+
+
+        return;//TODO:
+        // Apply volume for all devices.
+        foreach (var (deviceName, volume) in _inputs)
+        {
+            ChangeVolume(deviceName, true, volume);
+        }
+        foreach (var (deviceName, volume) in _outputs)
+        {
+            ChangeVolume(deviceName, false, volume);
+        }
+    }
+
+    public async Task StopAsync(CancellationToken cancellationToken)
+    {
+        SoundInformer.Changed -= SoundInformerOnChanged;
+        UpdateOptions();
+    }
+
+    public void LockVolume(string deviceName, bool isInput, int? volume)
+    {
+        var dict = isInput
+            ? _inputs
+            : _outputs;
+
+        bool modified;
+        if (volume is null)
+        {
+            modified = dict.Remove(deviceName);
+        }
+        else
+        {
+            modified = !dict.TryGetValue(deviceName, out var oldValue) || oldValue != volume.Value;
+            dict[deviceName] = volume.Value;
+        }
+
+        if (!modified)
+            return;
+
+        //TODO: Remove options update on every change. Save only on service Stop.
+        /*Options.Update(options =>
+        {
+            var o = isInput
+                ? options.Inputs
+                : options.Outputs;
+
+            var option = o.Find(x => x.DeviceName == deviceName);
+            if (option is not null)
+            {
+                option.LockedVolume = volume;
+            }
+            else if (volume.HasValue)
+            {
+                option = new SoundDeviceData()
+                {
+                    DeviceName = deviceName,
+                    LockedVolume = volume
+                };
+                o.Add(option);
+            }
+        });*/
+
+        if (volume.HasValue)
+            ChangeVolume(deviceName, isInput, volume.Value);
+    }
+
+    private void Initialize(SoundDevicesOptions options)
+    {
+        foreach (var data in options.Inputs)
+        {
+            if (data.LockedVolume.HasValue)
+                _inputs[data.DeviceName] = data.LockedVolume.Value;
+        }
+        foreach (var data in options.Outputs)
+        {
+            if (data.LockedVolume.HasValue)
+                _outputs[data.DeviceName] = data.LockedVolume.Value;
+        }
+    }
+
+    private void UpdateOptions()
+    {
+        Options.Update(options =>
+        {
+            UpdateOptions(options.Inputs, _inputs);
+            UpdateOptions(options.Outputs, _outputs);
+        });
+    }
+
+    private static void UpdateOptions(List<SoundDeviceData> options, Dictionary<string, int> items)
+    {
+        foreach (var data in options)
+        {
+            data.LockedVolume = null;
+        }
+
+        foreach (var (deviceName, volume) in items)
+        {
+            var data = options.Find(x => x.DeviceName == deviceName);
+            if (data is not null)
+            {
+                data.LockedVolume = volume;
+            }
+            else
+            {
+                data = new SoundDeviceData()
+                {
+                    DeviceName = deviceName,
+                    LockedVolume = volume
+                };
+                options.Add(data);
+            }
+        }
+    }
+
+    private void SoundInformerOnChanged(object? sender, EventArgs e)
+    {
+        foreach (var info in SoundInformer.InputDeviceList)
+        {
+            if (!_inputs.TryGetValue(info.Name, out var volume))
+                continue;
+
+            SoundInformer.ChangeInputVolume(info.Name, volume);
+        }
+
+        foreach (var info in SoundInformer.OutputDeviceList)
+        {
+            if (!_outputs.TryGetValue(info.Name, out var volume))
+                continue;
+
+            SoundInformer.ChangeOutputVolume(info.Name, volume);
+        }
+    }
+
+    private void ChangeVolume(string deviceName, bool isInput, int volume)
+    {
+        if (isInput)
+            SoundInformer.ChangeInputVolume(deviceName, volume);
+        else
+            SoundInformer.ChangeOutputVolume(deviceName, volume);
+    }
+}

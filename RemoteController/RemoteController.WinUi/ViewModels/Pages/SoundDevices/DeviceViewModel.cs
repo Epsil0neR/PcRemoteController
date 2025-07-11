@@ -7,8 +7,6 @@ namespace RemoteController.WinUi.ViewModels.Pages.SoundDevices;
 
 public partial class DeviceViewModel : ObservableObject
 {
-    private readonly EventCooldown _lockedVolumeCooldown;
-
     public IMessenger Messenger { get; set; }
 
     public required string Name { get; init; }
@@ -42,8 +40,6 @@ public partial class DeviceViewModel : ObservableObject
     public DeviceViewModel(IMessenger messenger)
     {
         Messenger = messenger;
-        var delay = TimeSpan.FromMicroseconds(200);
-        _lockedVolumeCooldown = new EventCooldown(delay, ApplyLockedVolume, delay);
     }
 
     partial void OnIsSelectedChanged(bool value)
@@ -58,9 +54,6 @@ public partial class DeviceViewModel : ObservableObject
             Device = this,
             Volume = LockedVolume ?? value
         });
-
-        if (LockedVolume.HasValue && LockedVolume != Volume)
-            _lockedVolumeCooldown.Accumulate();
     }
 
     [RelayCommand]
@@ -75,33 +68,11 @@ public partial class DeviceViewModel : ObservableObject
         LockedVolume = LockedVolume is null
             ? Volume
             : null;
-    }
 
-    private void ApplyLockedVolume()
-    {
-        Task.Run(ApplyLockedVolumeAsync)
-            .GetAwaiter()
-            .GetResult();
-    }
-
-    private async Task ApplyLockedVolumeAsync()
-    {
-        if (LockedVolume is null)
-            return;
-        if (LockedVolume == Volume)
-            return;
-
-        var vol = LockedVolume.Value;
-
-        do
+        Messenger.Send(new LockVolumeForDeviceRequest()
         {
-            Messenger.Send(new ChangeVolumeForDeviceRequest()
-            {
-                Device = this,
-                Volume = vol
-            });
-
-            await Task.Delay(200);
-        } while (Volume != vol);
+            Device = this,
+            LockedVolume = LockedVolume
+        });
     }
 }
