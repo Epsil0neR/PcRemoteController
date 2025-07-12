@@ -1,15 +1,15 @@
-﻿using RemoteController.Informer;
+﻿using System.Collections.Concurrent;
+using RemoteController.Informer;
 using RemoteController.WinUi.Core.Options;
 using RemoteController.WinUi.Models;
 using RemoteController.WinUi.Services;
-using RemoteController.WinUi.ViewModels.Pages.SoundDevices;
 
 namespace RemoteController.WinUi.HostedServices;
 
 public class LockedSoundDeviceVolumeHostedService : IHostedService
 {
-    private readonly Dictionary<string, int> _inputs = new();
-    private readonly Dictionary<string, int> _outputs = new();
+    private readonly ConcurrentDictionary<string, int> _inputs = new();
+    private readonly ConcurrentDictionary<string, int> _outputs = new();
 
     public ISoundDevicesService Service { get; }
     public IWritableOptions<SoundDevicesOptions> Options { get; }
@@ -33,9 +33,6 @@ public class LockedSoundDeviceVolumeHostedService : IHostedService
         Initialize(Options.Value);
         SoundInformer.Changed += SoundInformerOnChanged;
 
-
-        return;//TODO:
-        // Apply volume for all devices.
         foreach (var (deviceName, volume) in _inputs)
         {
             ChangeVolume(deviceName, true, volume);
@@ -58,45 +55,15 @@ public class LockedSoundDeviceVolumeHostedService : IHostedService
             ? _inputs
             : _outputs;
 
-        bool modified;
         if (volume is null)
         {
-            modified = dict.Remove(deviceName);
+            dict.Remove(deviceName, out _);
         }
-        else
+        else if (!dict.TryGetValue(deviceName, out var oldValue) || oldValue != volume.Value)
         {
-            modified = !dict.TryGetValue(deviceName, out var oldValue) || oldValue != volume.Value;
             dict[deviceName] = volume.Value;
-        }
-
-        if (!modified)
-            return;
-
-        //TODO: Remove options update on every change. Save only on service Stop.
-        /*Options.Update(options =>
-        {
-            var o = isInput
-                ? options.Inputs
-                : options.Outputs;
-
-            var option = o.Find(x => x.DeviceName == deviceName);
-            if (option is not null)
-            {
-                option.LockedVolume = volume;
-            }
-            else if (volume.HasValue)
-            {
-                option = new SoundDeviceData()
-                {
-                    DeviceName = deviceName,
-                    LockedVolume = volume
-                };
-                o.Add(option);
-            }
-        });*/
-
-        if (volume.HasValue)
             ChangeVolume(deviceName, isInput, volume.Value);
+        }
     }
 
     private void Initialize(SoundDevicesOptions options)
@@ -122,7 +89,7 @@ public class LockedSoundDeviceVolumeHostedService : IHostedService
         });
     }
 
-    private static void UpdateOptions(List<SoundDeviceData> options, Dictionary<string, int> items)
+    private static void UpdateOptions(List<SoundDeviceData> options, ConcurrentDictionary<string, int> items)
     {
         foreach (var data in options)
         {
