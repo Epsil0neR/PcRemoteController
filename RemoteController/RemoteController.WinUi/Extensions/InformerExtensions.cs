@@ -67,10 +67,11 @@ internal static class InformerExtensions
     /// </summary>
     /// <typeparam name="T">Informer type that should be registered.</typeparam>
     /// <param name="informersManager">Informers manager.</param>
-    public static void Register<T>(this InformersManager informersManager)
+    /// <param name="provider">Services provider.</param>
+    public static void Register<T>(this InformersManager informersManager, IServiceProvider provider)
         where T : BaseInformer
     {
-        var informer = App.GetService<T>();
+        var informer = provider.GetService<T>();
         informersManager.Register(informer);
     }
 }

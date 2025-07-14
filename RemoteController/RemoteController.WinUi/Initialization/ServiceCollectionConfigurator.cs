@@ -176,8 +176,8 @@ internal static class Factories
     public static InformersManager InformersManager(IServiceProvider services)
     {
         var manager = new InformersManager();
-        manager.Register<CommandsInformer>();
-        manager.Register<SoundInformer>();
+        manager.Register<CommandsInformer>(services);
+        manager.Register<SoundInformer>(services);
         return manager;
     }
 

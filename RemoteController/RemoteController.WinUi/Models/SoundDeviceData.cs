@@ -8,7 +8,7 @@ public class SoundDeviceData
     /// <summary>
     /// Device unique name provided by system.
     /// </summary>
-    public required string DeviceName { get;  init; }
+    public required string DeviceName { get; init; }
 
     /// <summary>
     /// Indicates if it will be used with switch sound device command (output and input has different commands)
