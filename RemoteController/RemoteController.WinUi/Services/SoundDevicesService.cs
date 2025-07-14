@@ -27,21 +27,19 @@ public class SoundDevicesService : ISoundDevicesService
 {
     private readonly PolicyConfigClient _policyConfigClient;
 
-    public InformersManager InformersManager { get; }
     public DispatcherQueue DispatcherQueue { get; }
 
     public SoundInformer SoundInformer { get; }
 
     public SoundDevicesService(
-        InformersManager informersManager,
+        SoundInformer soundInformer,
         PolicyConfigClient policyConfigClient,
         DispatcherQueue dispatcherQueue
         )
     {
         _policyConfigClient = policyConfigClient;
-        InformersManager = informersManager ?? throw new ArgumentNullException(nameof(informersManager));
         DispatcherQueue = dispatcherQueue;
-        SoundInformer = InformersManager.Informer<SoundInformer>() ?? throw new ArgumentException(@"Sound informer is not available in manager.", nameof(informersManager));
+        SoundInformer = soundInformer ?? throw new ArgumentNullException(nameof(soundInformer));
     }
 
     /// <inheritdoc />

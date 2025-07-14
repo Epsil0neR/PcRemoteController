@@ -35,8 +35,6 @@ public partial class SoundDevicesViewModel :
     [ObservableProperty]
     private IReadOnlyList<DeviceViewModel> _inputDevices = Array.Empty<DeviceViewModel>();
 
-    public InformersManager InformersManager { get; }
-
     public IMessenger Messenger { get; }
 
     public IWritableOptions<SoundDevicesOptions> SoundDevicesOptions { get; }
@@ -54,7 +52,7 @@ public partial class SoundDevicesViewModel :
 
     public SoundDevicesViewModel(
         ILogger<SoundDevicesViewModel> logger,
-        InformersManager informersManager,
+        SoundInformer soundInformer,
         IMessenger messenger,
         IWritableOptions<SoundDevicesOptions> soundDevicesOptions,
         ISoundDevicesService service,
@@ -65,7 +63,6 @@ public partial class SoundDevicesViewModel :
     {
         _dispatcher = DispatcherQueue.GetForCurrentThread();
         _logger = logger;
-        InformersManager = informersManager ?? throw new ArgumentNullException(nameof(informersManager));
         Messenger = messenger ?? throw new ArgumentNullException(nameof(messenger));
         SoundDevicesOptions = soundDevicesOptions ?? throw new ArgumentNullException(nameof(soundDevicesOptions));
         Service = service ?? throw new ArgumentNullException(nameof(service));
@@ -73,7 +70,7 @@ public partial class SoundDevicesViewModel :
         HotkeysService = hotkeysService ?? throw new ArgumentNullException(nameof(hotkeysService));
         SwitchSoundOutputHotkey = switchSoundOutputHotkey ?? throw new ArgumentNullException(nameof(switchSoundOutputHotkey));
         SwitchSoundInputHotkey = switchSoundInputHotkey ?? throw new ArgumentNullException(nameof(switchSoundInputHotkey));
-        SoundInformer = InformersManager.Informer<SoundInformer>() ?? throw new ArgumentException(@"Sound informer is not available in manager.", nameof(informersManager));
+        SoundInformer = soundInformer ?? throw new ArgumentNullException(nameof(soundInformer));
 
         UpdateDevices();
     }

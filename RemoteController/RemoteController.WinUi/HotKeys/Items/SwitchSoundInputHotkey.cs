@@ -15,11 +15,11 @@ public class SwitchSoundInputHotkey : HotkeyItem
     public SwitchSoundInputHotkey(
         IWritableOptions<SoundDevicesOptions> soundDevicesOptions,
         ISoundDevicesService soundDevicesService,
-        InformersManager informersManager)
+        SoundInformer soundInformer)
     {
         _soundDevicesOptions = soundDevicesOptions ?? throw new ArgumentNullException(nameof(soundDevicesOptions));
         _soundDevicesService = soundDevicesService ?? throw new ArgumentNullException(nameof(soundDevicesService));
-        _soundInformer = informersManager?.Informer<SoundInformer>() ?? throw new ArgumentException(@"Sound informer is not available in manager.", nameof(informersManager));
+        _soundInformer = soundInformer ?? throw new ArgumentNullException(nameof(soundInformer));
     }
 
     public override HotkeyGroup Group => HotkeyGroup.Sound;

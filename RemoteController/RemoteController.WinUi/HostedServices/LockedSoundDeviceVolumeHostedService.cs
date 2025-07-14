@@ -13,19 +13,16 @@ public class LockedSoundDeviceVolumeHostedService : IHostedService
 
     public ISoundDevicesService Service { get; }
     public IWritableOptions<SoundDevicesOptions> Options { get; }
-    public InformersManager InformersManager { get; }
     public SoundInformer SoundInformer { get; }
 
     public LockedSoundDeviceVolumeHostedService(
         ISoundDevicesService service,
         IWritableOptions<SoundDevicesOptions> options,
-        InformersManager informersManager
-        )
+        SoundInformer soundInformer)
     {
         Service = service ?? throw new ArgumentNullException(nameof(service));
         Options = options ?? throw new ArgumentNullException(nameof(options));
-        InformersManager = informersManager ?? throw new ArgumentNullException(nameof(informersManager));
-        SoundInformer = InformersManager.Informer<SoundInformer>() ?? throw new ArgumentException(@"Sound informer is not available in manager.", nameof(informersManager));
+        SoundInformer = soundInformer ?? throw new ArgumentNullException(nameof(soundInformer));
     }
 
     public async Task StartAsync(CancellationToken cancellationToken)
