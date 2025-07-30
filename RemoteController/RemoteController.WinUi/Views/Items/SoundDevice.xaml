@@ -9,9 +9,14 @@
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:behaviors="using:RemoteController.WinUi.Behaviors"
     mc:Ignorable="d"
-    Header="{x:Bind ViewModel.Name, Mode=OneWay}"
     HeaderIcon="{ui:FontIcon Glyph=&#xE7F5;}"
     >
+    <winUi:SettingsCard.Header>
+        <TextBlock Text="{x:Bind ViewModel.Name, Mode=OneWay}" 
+                   MaxLines="3"
+                   TextWrapping="Wrap"
+                   MinWidth="100"/>
+    </winUi:SettingsCard.Header>
     <StackPanel Orientation="Horizontal">
         <ToggleButton
             IsChecked="{x:Bind ViewModel.LockedVolume, Converter={StaticResource Converter.NullToFalse}, Mode=OneWay}"
