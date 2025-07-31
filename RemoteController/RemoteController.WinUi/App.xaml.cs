@@ -44,6 +44,9 @@ public partial class App
     public App()
     {
         InitializeComponent();
+
+        UnhandledException += App_UnhandledException;
+
         Host = Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder()
             .UseContentRoot(AppContext.BaseDirectory)
 #if !IS_NON_PACKAGED
@@ -103,9 +106,6 @@ public partial class App
         _logger = GetService<ILogger<App>>();
 
         GetService<IAppNotificationService>().Initialize();
-
-        MainWindow.Closed += MainWindowOnClosed;
-        UnhandledException += App_UnhandledException;
     }
 
     private void App_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
@@ -118,17 +118,28 @@ public partial class App
     /// <inheritdoc />
     protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
+        MainWindow.Closed += MainWindowOnClosed;
         Arguments = args;
         base.OnLaunched(args);
 
         //TODO: Uncomment next line to show notification on app launch.
         //GetService<IAppNotificationService>().Show(string.Format("AppNotificationSamplePayload".GetLocalized(), AppContext.BaseDirectory));
 
-        Host.StartAsync();
+        Host.StartAsync(CancellationToken.None)
+            .ContinueWith(x =>
+            {
+                if (x.Exception is { } ex)
+                    _logger.LogCritical(ex, "Failed to start services!" + Environment.NewLine +ex.Message);
+            }, TaskContinuationOptions.OnlyOnFaulted);
     }
 
     private void MainWindowOnClosed(object sender, WindowEventArgs args)
     {
-        Host.StopAsync();
+        Host.StopAsync(CancellationToken.None)
+            .ContinueWith(x =>
+            {
+                if (x.Exception is { } ex)
+                    _logger.LogCritical(ex, "Failed to stop services!" + Environment.NewLine + ex.Message);
+            }, TaskContinuationOptions.OnlyOnFaulted);
     }
 }
