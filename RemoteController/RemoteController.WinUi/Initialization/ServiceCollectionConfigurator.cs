@@ -1,5 +1,4 @@
 ﻿using System.Security.Authentication;
-using System.Security.Cryptography.X509Certificates;
 using Epsiloner.WinUi.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,6 +22,8 @@ using RemoteController.WinUi.ViewModels.Pages;
 using RemoteController.WinUi.ViewModels.Pages.SoundDevices;
 using RemoteController.WinUi.Views;
 using RemoteController.WinUi.Views.Pages;
+using System.Security.Cryptography.X509Certificates;
+using WebSocketSharp.Net;
 using WebSocketSharp.Server;
 using WindowsInput;
 
@@ -122,17 +123,9 @@ internal static class Factories
     public static HttpServer HttpServer(IServiceProvider services, IWritableOptions<ServerOptions> options)
     {
         var logger = services.GetRequiredService<ILogger<HttpServer>>();
-        var certPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "RemoteController.pfx");
-        var certPass = "{0x719dca02,0xb331,0x45fb,{0xb8,0xd1,0xbb,0x39,0xec,0x5d,0x39,0x8b}}";
-        var cert = new X509Certificate2(certPath, certPass);
         var http = new HttpServer(options.Value.Port, true)
         {
             KeepClean = true,
-            SslConfiguration =
-            {
-                ServerCertificate = cert,
-                EnabledSslProtocols = SslProtocols.Tls12
-            },
             Log =
             {
                 Output = (data, s) =>
@@ -154,6 +147,14 @@ internal static class Factories
                 }
             }
         };
+        var certPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "RemoteController.pfx");
+        if (File.Exists(certPath))
+        {
+            var certPass = "{0x719dca02,0xb331,0x45fb,{0xb8,0xd1,0xbb,0x39,0xec,0x5d,0x39,0x8b}}";
+            var cert = new X509Certificate2(certPath, certPass);
+            http.SslConfiguration.ServerCertificate = cert;
+            http.SslConfiguration.EnabledSslProtocols = SslProtocols.Tls12;
+        }
 
 #if DEBUG
         http.DocumentRootPath = "../../../../../Web"; // Works with unpackaged.
@@ -201,8 +202,8 @@ internal static class Factories
     /// <returns></returns>
     private static bool AuthenticationCheck(Message msg)
     {
-        var rv = msg.Sender.IsAuthenticated 
-                 || msg.Type != MessageType.Request 
+        var rv = msg.Sender.IsAuthenticated
+                 || msg.Type != MessageType.Request
                  || msg.ActionName.Equals("Auth", StringComparison.CurrentCultureIgnoreCase);
 
         if (!rv)
