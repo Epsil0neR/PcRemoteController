@@ -26,12 +26,31 @@ public class PageService : IPageService
                     Configure(attr.Type, type, attr.Order);
     }
 
+    public bool Contains(string? key)
+    {
+        lock (_records)
+        {
+            return _records.Any(x => x.Key == key);
+        }
+    }
+
     public Type GetPageType(string key)
     {
         lock (_records)
         {
             return _records.FirstOrDefault(x => x.Key == key).Page
                    ?? throw new ArgumentException($"Page not found: {key}. Did you forget to call PageService.Configure?");
+        }
+    }
+
+    public string GetKeyFromPage(Type? pageType)
+    {
+        if (pageType is null) 
+            return string.Empty;
+
+        lock (_records)
+        {
+            return _records.FirstOrDefault(x => x.Page == pageType).Key;
         }
     }
 
