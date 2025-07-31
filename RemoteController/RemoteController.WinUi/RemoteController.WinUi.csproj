@@ -42,9 +42,6 @@
 		<None Update="appsettings.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-		<None Update="RemoteController.pfx">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
 		<Page Update="Controls\**\*.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</Page>
