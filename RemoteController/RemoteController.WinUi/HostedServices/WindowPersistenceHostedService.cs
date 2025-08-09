@@ -4,13 +4,13 @@ using RemoteController.WinUi.Models;
 
 namespace RemoteController.WinUi.HostedServices;
 
-public class DefaultTabHostedService : IHostedService
+public class WindowPersistenceHostedService : IHostedService
 {
     public IWritableOptions<GeneralOptions> Options { get; }
     public INavigationService NavigationService { get; }
     public IPageService PageService { get; }
 
-    public DefaultTabHostedService(
+    public WindowPersistenceHostedService(
         IWritableOptions<GeneralOptions> options,
         INavigationService navigationService,
         IPageService pageService)
@@ -20,14 +20,16 @@ public class DefaultTabHostedService : IHostedService
         PageService = pageService;
     }
 
-    public async Task StartAsync(CancellationToken cancellationToken)
-    {
-    }
+    public Task StartAsync(CancellationToken cancellationToken) => Task.CompletedTask;
 
-    public async Task StopAsync(CancellationToken cancellationToken)
+    public Task StopAsync(CancellationToken cancellationToken)
     {
         var page = NavigationService.Frame?.SourcePageType;
         var key = PageService.GetKeyFromPage(page);
-        Options.Update(x => x.DefaultTab = key);
+
+        if (!string.IsNullOrEmpty(key))
+            Options.Update(x => x.DefaultTab = key);
+
+        return Task.CompletedTask;
     }
 }

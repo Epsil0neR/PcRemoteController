@@ -64,7 +64,7 @@ internal static class ServiceCollectionConfigurator
         .AddHostedServiceSingleton<IActivationService, ActivationHostedService>()
         .AddHostedServiceSingleton<TrayHostedService>()
         .AddHostedServiceSingleton<LockedSoundDeviceVolumeHostedService>()
-        .AddHostedServiceSingleton<DefaultTabHostedService>()
+        .AddHostedServiceSingleton<WindowPersistenceHostedService>()
     ;
 
     public static IServiceCollection AddViewModels(this IServiceCollection services) => services

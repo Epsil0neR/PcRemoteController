@@ -2,7 +2,6 @@ using RemoteController.WinUi.Contracts.Services;
 using RemoteController.WinUi.Core.Options;
 using RemoteController.WinUi.Models;
 using RemoteController.WinUi.ViewModels.Pages;
-using RemoteController.WinUi.ViewModels.Pages.SoundDevices;
 
 namespace RemoteController.WinUi.Activation;
 
