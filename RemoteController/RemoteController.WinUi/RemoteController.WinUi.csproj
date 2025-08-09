@@ -2,6 +2,8 @@
 	<PropertyGroup>
 		<Authors>Veniamin Lytkin @ Epsil0neR</Authors>
 		<Copyright>Copyright © Epsil0neR 2023</Copyright>
+		<Version>2025.07</Version>
+
 		<LangVersion>latest</LangVersion>
 		<OutputType>WinExe</OutputType>
 		<TargetFramework>net9.0-windows10.0.19041.0</TargetFramework>
