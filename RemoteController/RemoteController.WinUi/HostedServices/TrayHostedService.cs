@@ -83,7 +83,11 @@ public partial class TrayHostedService : IHostedService
     private void MiddleClick() => HotkeysService.ReattachHooks();
 
     [RelayCommand]
-    private void ShowApp() => App.MainWindow.Activate();
+    private void ShowApp()
+    {
+        App.MainWindow.Activate();
+        App.MainWindow.BringToFront();
+    }
 
     [RelayCommand]
     private void ExitApp() => App.MainWindow.Close();
