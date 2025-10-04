@@ -80,6 +80,12 @@ public partial class SoundDevicesViewModel :
         Deactivate();
     }
 
+    [RelayCommand]
+    private void ForceCheckChanges()
+    {
+        SoundInformer.CheckForChanges(true);
+    }
+
     private void SoundInformerOnChanged(object? sender, EventArgs e)
     {
         UpdateDevices();

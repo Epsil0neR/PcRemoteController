@@ -1,4 +1,4 @@
-﻿<Page
+﻿<cc:PageWithHeaderContent
     x:Class="RemoteController.WinUi.Views.Pages.SoundDevicesPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -8,8 +8,9 @@
     xmlns:ui="using:CommunityToolkit.WinUI.UI"
     xmlns:controls="using:RemoteController.WinUi.Controls"
     xmlns:items="using:RemoteController.WinUi.Views.Items"
+    xmlns:cc="using:RemoteController.WinUi.Controls.Controls"
     mc:Ignorable="d">
-    <Page.Resources>
+    <cc:PageWithHeaderContent.Resources>
         <DataTemplate x:DataType="viewModels:DeviceViewModel" x:Key="DataTemplate.DeviceViewModel.Output">
             <items:SoundDevice ViewModel="{x:Bind}" />
         </DataTemplate>
@@ -27,7 +28,12 @@
         <Style TargetType="ItemsControl" x:Key="SoundDevices.ItemsControl">
             <Setter Property="Margin" Value="0 8 0 16" />
         </Style>
-    </Page.Resources>
+    </cc:PageWithHeaderContent.Resources>
+    <cc:PageWithHeaderContent.HeaderContent>
+        <Button
+            Content="Force check"
+            Command="{x:Bind ViewModel.ForceCheckChangesCommand}" />
+    </cc:PageWithHeaderContent.HeaderContent>
     <StackPanel Orientation="Vertical">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -81,4 +87,4 @@
             ItemsSource="{x:Bind ViewModel.InputDevices, Mode=OneWay}"
             ItemTemplate="{StaticResource DataTemplate.DeviceViewModel.Input}" />
     </StackPanel>
-</Page>
+</cc:PageWithHeaderContent>
