@@ -78,8 +78,9 @@ public sealed class SoundInformer : BaseInformer
     /// </summary>
     public bool InputIsMuted => _inputIsMuted;
 
+    /// <param name="force"></param>
     /// <inheritdoc />
-    public override bool CheckForChanges()
+    public override bool CheckForChanges(bool force = false)
     {
         var outputList = _deviceEnumerator.EnumerateAudioEndPoints(DataFlow.Render, DeviceState.Active).ToList();
         var output = _deviceEnumerator.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
@@ -100,10 +101,10 @@ public sealed class SoundInformer : BaseInformer
             SetList(ref _inputDeviceList, inputList.Select(ToDevice)),
         };
 
-        if (!changes.Any(x => x))
+        if (!changes.Any(x => x) && !force)
             return false;
 
-        if (changedOutput)
+        if (changedOutput || force)
         {
             if (_output != null)
                 _output.AudioEndpointVolume.OnVolumeNotification -= OutputOnOnVolumeNotification;
@@ -113,7 +114,7 @@ public sealed class SoundInformer : BaseInformer
                 _output.AudioEndpointVolume.OnVolumeNotification += OutputOnOnVolumeNotification;
         }
 
-        if (changedInput)
+        if (changedInput || force)
         {
             if (_input != null)
                 _input.AudioEndpointVolume.OnVolumeNotification -= InputOnOnVolumeNotification;
@@ -200,11 +201,11 @@ public sealed class SoundInformer : BaseInformer
 
     public SoundInformer()
     {
-        _cooldown = new(TimeSpan.FromMilliseconds(1000), () =>
+        _cooldown = new(TimeSpan.FromSeconds(1), () =>
         {
             CheckForChanges();
             _cooldown!.Accumulate();
-        });
+        }, TimeSpan.FromSeconds(2));
         CheckForChanges();
     }
 

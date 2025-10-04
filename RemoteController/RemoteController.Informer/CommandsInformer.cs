@@ -45,7 +45,7 @@ public class CommandsInformer : BaseInformer
             _cooldown.Accumulate();
     }
 
-    public override bool CheckForChanges()
+    public override bool CheckForChanges(bool force = false)
     {
         _cooldown.Cancel();
         return Check();

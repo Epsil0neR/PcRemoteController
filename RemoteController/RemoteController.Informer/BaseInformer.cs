@@ -28,7 +28,8 @@ public abstract class BaseInformer : IDisposable
     /// Checks for changes in system.
     /// NOTE: Not all OS components notifies about changes.
     /// </summary>
-    public abstract bool CheckForChanges();
+    /// <param name="force">Force check.</param>
+    public abstract bool CheckForChanges(bool force = false);
 
     /// <summary>
     /// Start monitoring system for changes.
