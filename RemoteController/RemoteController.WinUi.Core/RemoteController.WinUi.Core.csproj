@@ -4,7 +4,7 @@
 		<Copyright>Copyright © Epsil0neR 2023</Copyright>
 
 		<LangVersion>latest</LangVersion>
-		<TargetFramework>net9.0</TargetFramework>
+		<TargetFramework>net10.0</TargetFramework>
 		<RootNamespace>RemoteController.WinUi.Core</RootNamespace>
 		<Platforms>AnyCPU;x64;x86</Platforms>
 		<Platforms>x86;x64;arm64;AnyCPU</Platforms>
